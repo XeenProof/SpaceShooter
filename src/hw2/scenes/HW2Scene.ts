@@ -538,6 +538,24 @@ export default class HW2Scene extends Scene {
 	 */
 	protected spawnBubble(): void {
 		// TODO spawn bubbles!
+		let bubble: Graphic = this.bubbles.find((bubble: Graphic) => {return !bubble.visible});
+		if(!bubble){return;}
+		//brings bubble to life
+		bubble.visible = true;
+
+		// Extract the size of the viewport
+		let paddedViewportSize = this.viewport.getHalfSize().scaled(2).add(this.worldPadding);
+		let viewportSize = this.viewport.getHalfSize().scaled(2);
+
+		//Loop on position until we're clear of the player
+		bubble.position.copy(RandUtils.randVec(viewportSize.x, paddedViewportSize.x, paddedViewportSize.y - viewportSize.y, viewportSize.y));
+		while(bubble.position.distanceTo(this.player.position) < 100){
+			bubble.position.copy(RandUtils.randVec(paddedViewportSize.x, paddedViewportSize.x, paddedViewportSize.y - viewportSize.y, viewportSize.y));
+		}
+
+		bubble.setAIActive(true, {});
+		//Start the mine spawn timer
+		this.bubbleSpawnTimer.start(100);
 	}
 	/**
 	 * This function takes in a GameNode that may be out of bounds of the viewport and
@@ -737,12 +755,12 @@ export default class HW2Scene extends Scene {
 	public handleBubblePlayerCollisions(): number {
 		let collisions = 0;
 		for (let bubble of this.bubbles){
-			if(bubble.visible && this.player.collisionShape.overlaps(bubble.collisionShape)){
-				//currentAir + 1
-				//make bubble invisible
+			if(bubble.visible && HW2Scene.checkAABBtoCircleCollision(this.player.collisionShape.getBoundingRect(), bubble.collisionShape as Circle)){
+				//Increase air
+				collisions += 1;
 			}
 		}
-        return;
+        return collisions;
 	}
 
 	/**
