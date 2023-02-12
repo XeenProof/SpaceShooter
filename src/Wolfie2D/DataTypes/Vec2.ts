@@ -95,6 +95,7 @@ export default class Vec2 {
 
 	/**
 	 * Divdes x and y by the magnitude to obtain the unit vector in the direction of this vector.
+	 * Makes the hypothenus 1
 	 * @returns This vector as a unit vector.
 	 */
 	normalize(): Vec2 {

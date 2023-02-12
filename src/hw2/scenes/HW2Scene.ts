@@ -735,7 +735,13 @@ export default class HW2Scene extends Scene {
 	 * an AABB and a Circle
 	 */
 	public handleBubblePlayerCollisions(): number {
-		// TODO check for collisions between the player and the bubbles
+		let collisions = 0;
+		for (let bubble of this.bubbles){
+			if(bubble.visible && this.player.collisionShape.overlaps(bubble.collisionShape)){
+				//currentAir + 1
+				//make bubble invisible
+			}
+		}
         return;
 	}
 
@@ -797,6 +803,7 @@ export default class HW2Scene extends Scene {
 		return collisions;
 	}
 
+
 	/**
 	 * This method checks for a collision between an AABB and a circle.
 	 * 
@@ -810,7 +817,19 @@ export default class HW2Scene extends Scene {
 	 */
 	public static checkAABBtoCircleCollision(aabb: AABB, circle: Circle): boolean {
         // TODO implement collision detection for AABBs and Circles
-        return;
+		//UNTESTED
+		let temp = aabb.overlapArea(circle.getBoundingRect());
+		if (temp == 0){return false;}
+		let C_radius = circle.radius;
+		let InnerRadius1 = aabb.halfSize[0]
+		let InnerRadius2 = aabb.halfSize[1]
+		let OuterRadiusSq = ((InnerRadius1^2)+(InnerRadius2^2))
+		let dbc = aabb.center.distanceSqTo(circle.center)
+		if(dbc > OuterRadiusSq + C_radius){return false}
+		if(dbc < Math.min(InnerRadius1, InnerRadius2)){return true}
+		let c1c2Vec = (circle.center.sub(aabb.center)).normalize()
+		let outerPoint = circle.center.add(new Vec2(circle.radius, circle.radius)).mult(c1c2Vec);
+        return aabb.containsPoint(outerPoint);
 	}
 
     /** Methods for locking and wrapping nodes */
