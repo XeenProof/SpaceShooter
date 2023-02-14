@@ -760,6 +760,7 @@ export default class HW2Scene extends Scene {
 		for (let bubble of this.bubbles){
 			if(bubble.visible && HW2Scene.checkAABBtoCircleCollision(this.player.collisionShape.getBoundingRect(), bubble.collisionShape as Circle)){
 				//Increase air
+				console.log("Collided");
 				collisions += 1;
 			}
 		}
@@ -842,12 +843,15 @@ export default class HW2Scene extends Scene {
 		let temp = aabb.overlapArea(circle.getBoundingRect());
 		if (temp == 0){return false;}
 		let C_radius = circle.radius;
-		let InnerRadius1 = aabb.halfSize[0]
-		let InnerRadius2 = aabb.halfSize[1]
-		let OuterRadiusSq = ((InnerRadius1^2)+(InnerRadius2^2))
-		let dbc = aabb.center.distanceSqTo(circle.center)
-		if(dbc > OuterRadiusSq + C_radius){return false}
-		if(dbc < Math.min(InnerRadius1, InnerRadius2)){return true}
+		let InnerRadius1 = aabb.halfSize.x
+		let InnerRadius2 = aabb.halfSize.y
+		let OuterRadiusSq = ((InnerRadius1^2)+(InnerRadius2^2))^(0.5)
+		console.log(OuterRadiusSq, InnerRadius1, InnerRadius2)
+		let dbc = aabb.center.distanceTo(circle.center)
+		if(dbc > OuterRadiusSq + C_radius){
+			return false}
+		if(dbc < Math.min(InnerRadius1, InnerRadius2)){
+			return true}
 		let c1c2Vec = (circle.center.sub(aabb.center)).normalize()
 		let outerPoint = circle.center.add(new Vec2(circle.radius, circle.radius)).mult(c1c2Vec);
         return aabb.containsPoint(outerPoint);
@@ -901,6 +905,8 @@ export default class HW2Scene extends Scene {
 	 */
 	protected wrapPlayer(player: CanvasNode, viewportCenter: Vec2, viewportHalfSize: Vec2): void {
 		// TODO wrap the player around the top/bottom of the screen
+		console.log("Wrap Player Triggered")
+		if(player.position.y<0){}
 	}
 
     /**
