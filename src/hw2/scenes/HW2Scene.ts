@@ -242,7 +242,6 @@ export default class HW2Scene extends Scene {
 				break;
 			}
 			case HW2Events.PLAYER_BUBBLE_COLLISION: {
-				console.log("Player Bubble Collided")
 				break;
 			}
 			case HW2Events.PLAYER_MINE_COLLISION: {
