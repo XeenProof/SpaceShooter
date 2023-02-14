@@ -55,13 +55,16 @@ export default class BubbleBehavior implements AI {
         
     }
 
-    public activate(options: Record<string, any>): void {}
+    public activate(options: Record<string, any>): void {
+        this.receiver.ignoreEvents();
+    }
 
     public handleEvent(event: GameEvent): void {
         console.log("Handle Bubble Event")
         switch(event.type) {
             case HW2Events.PLAYER_BUBBLE_COLLISION: {
-                console.log("event triggered", event)
+                console.log("event triggered")
+                this.handlePlayerBubbleCollision(event);
                 break;
             }
             default: {
@@ -71,6 +74,9 @@ export default class BubbleBehavior implements AI {
     }
 
     public update(deltaT: number): void {   
+        while (this.receiver.hasNextEvent()) {
+            this.handleEvent(this.receiver.getNextEvent());
+        }
         // Only update the bubble if it's visible
         if (this.owner.visible) {
             // Increment the speeds
@@ -82,6 +88,15 @@ export default class BubbleBehavior implements AI {
 
             // Update position of the bubble - I'm scaling the Vec2.UP and Vec2.LEFT vectors to move the bubble up and to the left
             this.owner.position.add(Vec2.UP.scale(this.currentYSpeed * deltaT)).add(Vec2.LEFT.scale(this.currentXSpeed* deltaT));
+        }
+    }
+
+    protected handlePlayerBubbleCollision(event: GameEvent): void {
+        console.log("handler triggered")
+        let id = event.data.get("id");
+        if(this.owner.id == id){
+            this.owner.position.copy(Vec2.ZERO);
+            this.owner.visible = false;
         }
     }
     

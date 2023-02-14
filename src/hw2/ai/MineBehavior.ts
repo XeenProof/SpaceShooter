@@ -48,11 +48,8 @@ export default class MineBehavior implements AI {
      * @see {AI.handleEvent}
      */
     handleEvent(event: GameEvent): void { 
-        console.log("Handling event from Behavior")
         switch(event.type) {
             case HW2Events.LASER_MINE_COLLISION: {
-                console.log("Handling Mine event from Behavior: Laser")
-                console.log(event)
                 this.handleLaserMineCollision(event);
                 break;
             }
@@ -61,7 +58,6 @@ export default class MineBehavior implements AI {
                 break;
             }
             case HW2Events.MINE_EXPLODED: {
-                console.log("Mine Exploding")
                 this.handleMineExploded(event);
                 break;
             }

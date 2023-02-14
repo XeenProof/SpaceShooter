@@ -246,7 +246,6 @@ export default class HW2Scene extends Scene {
 				break;
 			}
 			case HW2Events.PLAYER_MINE_COLLISION: {
-				console.log("Player Mine Collided")
 				break;
 			}
 			default: {
