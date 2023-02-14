@@ -3,6 +3,9 @@ import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
 import GameEvent from "../../Wolfie2D/Events/GameEvent";
 import Graphic from "../../Wolfie2D/Nodes/Graphic";
 import MathUtils from "../../Wolfie2D/Utils/MathUtils";
+//STUDENT ADDED
+import { HW2Events } from "../HW2Events";
+import Receiver from "../../Wolfie2D/Events/Receiver";
 
 /**
  * A class that represents the behavior of the bubbles in the HW2Scene
@@ -11,6 +14,7 @@ import MathUtils from "../../Wolfie2D/Utils/MathUtils";
 export default class BubbleBehavior implements AI {
     // The GameNode that owns this behavior
     private owner: Graphic;
+    private receiver: Receiver;
 
     // The current horizontal and vertical speed of the bubble
     private currentXSpeed: number;
@@ -41,6 +45,9 @@ export default class BubbleBehavior implements AI {
         this.minYSpeed = 50;
         this.maxYSpeed = 50;
 
+        this.receiver = new Receiver();
+        this.receiver.subscribe(HW2Events.PLAYER_BUBBLE_COLLISION)
+
         this.activate(options);
     }
 
@@ -51,7 +58,12 @@ export default class BubbleBehavior implements AI {
     public activate(options: Record<string, any>): void {}
 
     public handleEvent(event: GameEvent): void {
+        console.log("Handle Bubble Event")
         switch(event.type) {
+            case HW2Events.PLAYER_BUBBLE_COLLISION: {
+                console.log("event triggered", event)
+                break;
+            }
             default: {
                 throw new Error("Unhandled event caught in BubbleBehavior! Event type: " + event.type);
             }

@@ -169,6 +169,12 @@ export default class HW2Scene extends Scene {
 
 		// Subscribe to laser events
 		this.receiver.subscribe(HW2Events.FIRING_LASER);
+
+		// Subscribe to bubble events
+		//this.receiver.subscribe(HW2Events.PLAYER_BUBBLE_COLLISION)
+
+		//Subscribe to mine events
+		this.receiver.subscribe(HW2Events.PLAYER_MINE_COLLISION)
 	}
 	/**
 	 * @see Scene.updateScene 
@@ -212,6 +218,7 @@ export default class HW2Scene extends Scene {
 
 	/**
 	 * This method helps with handling events. 
+	 * Student Edited
 	 * 
 	 * @param event the event to be handled
 	 * @see GameEvent
@@ -232,6 +239,14 @@ export default class HW2Scene extends Scene {
 			}
 			case HW2Events.FIRING_LASER: {
 				this.minesDestroyed += this.handleMineLaserCollisions(event.data.get("laser"), this.mines);
+				break;
+			}
+			case HW2Events.PLAYER_BUBBLE_COLLISION: {
+				console.log("Player Bubble Collided")
+				break;
+			}
+			case HW2Events.PLAYER_MINE_COLLISION: {
+				console.log("Player Mine Collided")
 				break;
 			}
 			default: {
@@ -599,6 +614,8 @@ export default class HW2Scene extends Scene {
 	 * 							X THIS IS OUT OF BOUNDS
 	 * 
 	 * It may be helpful to make your own drawings while figuring out the math for this part.
+	 * 
+	 * I literally just despawned then when the center of the Node hits 0
 	 */
 	public handleScreenDespawn(node: CanvasNode): void {
         // TODO - despawn the game nodes when they move out of the padded viewport
@@ -760,7 +777,7 @@ export default class HW2Scene extends Scene {
 		for (let bubble of this.bubbles){
 			if(bubble.visible && HW2Scene.checkAABBtoCircleCollision(this.player.collisionShape.getBoundingRect(), bubble.collisionShape as Circle)){
 				//Increase air
-				console.log("Collided");
+				this.emitter.fireEvent(HW2Events.PLAYER_BUBBLE_COLLISION, {id: bubble.id});
 				collisions += 1;
 			}
 		}
@@ -846,7 +863,6 @@ export default class HW2Scene extends Scene {
 		let InnerRadius1 = aabb.halfSize.x
 		let InnerRadius2 = aabb.halfSize.y
 		let OuterRadiusSq = ((InnerRadius1^2)+(InnerRadius2^2))^(0.5)
-		console.log(OuterRadiusSq, InnerRadius1, InnerRadius2)
 		let dbc = aabb.center.distanceTo(circle.center)
 		if(dbc > OuterRadiusSq + C_radius){
 			return false}
