@@ -233,6 +233,7 @@ export default class HW2Scene extends Scene {
 				break;
 			}
 			case HW2Events.DEAD: {
+				console.log("Player has died")
 				this.gameOverTimer.start();
 				break;
 			}

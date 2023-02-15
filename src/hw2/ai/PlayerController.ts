@@ -28,6 +28,7 @@ export default class PlayerController implements AI {
     private currentHealth: number;
     private maxHealth: number;
     private minHealth: number;
+	private deathFired: boolean;
 
     private currentAir: number;
     private maxAir: number;
@@ -82,6 +83,7 @@ export default class PlayerController implements AI {
         // Set upper and lower bounds on the player's health
         this.minHealth = 0;
         this.maxHealth = 10;
+		this.deathFired = false;
 
         // Set the player's current air
         this.currentAir = 20;
@@ -127,7 +129,11 @@ export default class PlayerController implements AI {
 
         // If the player is out of hp - play the death animation
 		if (this.currentHealth <= this.minHealth) { 
-            this.emitter.fireEvent(HW2Events.DEAD);
+            if(!this.deathFired){
+				this.emitter.fireEvent(HW2Events.DEAD);
+				this.destroy();
+				this.deathFired = true;
+			}
             return;
         }
 
@@ -228,8 +234,7 @@ export default class PlayerController implements AI {
 	protected handlePlayerMineCollision = () => {
 		if(this.iframe){return;}
 		this.iframe = true;
-		this.currentHealth = Math.max(this.currentHealth-1, 0);
-		if(this.currentHealth == 0){this.emitter.fireEvent(HW2Events.DEAD, {})}
+		this.currentHealth = this.currentHealth-1;
 		this.owner.animation.playIfNotAlready(PlayerAnimations.HIT);
 		this.damageTimer.start();
 	}
