@@ -215,7 +215,6 @@ export default class PlayerController implements AI {
 		this.iframe = true;
 		this.damageTimer.start();
 		this.currentHealth = this.currentHealth-1;
-		console.log(this.currentHealth)
 	}
 
 	protected handlePlayerBubbleCollision = () => {
@@ -223,7 +222,6 @@ export default class PlayerController implements AI {
 		this.currentAir = Math.min(this.currentAir + 2, 20);
 		this.airframe = true;
 		this.bubbleTimer.start();
-		console.log(this.currentHealth)
 	}
 
 } 
