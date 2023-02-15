@@ -156,7 +156,7 @@ export default class PlayerController implements AI {
 		this.currentAir = MathUtils.clamp(this.currentAir - deltaT, this.minAir, this.maxAir);
 
 		// If the player is out of air - start subtracting from the player's health
-		this.currentHealth = this.currentAir <= this.minAir ? MathUtils.clamp(this.currentHealth - deltaT*2, this.minHealth, this.maxHealth) : MathUtils.clamp(this.currentHealth + deltaT*2, this.minHealth, this.maxHealth);
+		this.currentHealth = this.currentAir <= this.minAir ? MathUtils.clamp(this.currentHealth - deltaT*2, this.minHealth, this.maxHealth) : this.currentHealth;
 		this.emitter.fireEvent(HW2Events.UPDATE_GUI, {currentHealth: this.currentHealth, maxHealth: this.maxHealth, currentAir: this.currentAir, maxAir: this.maxAir})
 	}
 	/**
