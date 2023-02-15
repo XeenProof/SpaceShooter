@@ -40,7 +40,11 @@ export default class PlayerController implements AI {
     private minCharge: number;
 
 	/** A timer for charging the player's laser cannon thing */
+	private iframe: boolean;
+	private airframe: boolean;
 	private laserTimer: Timer;
+	private damageTimer: Timer;
+	private bubbleTimer: Timer;
 
 	// A receiver and emitter to hook into the event queue
 	private receiver: Receiver;
@@ -58,9 +62,15 @@ export default class PlayerController implements AI {
 		this.receiver = new Receiver();
 		this.emitter = new Emitter();
 
+		this.iframe = false;
+		this.airframe = false
 		this.laserTimer = new Timer(2500, this.handleLaserTimerEnd, false);
+		this.damageTimer = new Timer(100, ()=>{this.iframe = false}, false);
+		this.bubbleTimer = new Timer(100, ()=>{this.airframe = false}, false);
 		
 		this.receiver.subscribe(HW2Events.SHOOT_LASER);
+		this.receiver.subscribe(HW2Events.PLAYER_MINE_COLLISION);
+		this.receiver.subscribe(HW2Events.PLAYER_BUBBLE_COLLISION);
 
 		this.activate(options);
 	}
@@ -139,7 +149,8 @@ export default class PlayerController implements AI {
 		this.currentAir = MathUtils.clamp(this.currentAir - deltaT, this.minAir, this.maxAir);
 
 		// If the player is out of air - start subtracting from the player's health
-		this.currentHealth = this.currentAir <= this.minAir ? MathUtils.clamp(this.currentHealth - deltaT*2, this.minHealth, this.maxHealth) : this.currentHealth;
+		this.currentHealth = this.currentAir <= this.minAir ? MathUtils.clamp(this.currentHealth - deltaT*2, this.minHealth, this.maxHealth) : MathUtils.clamp(this.currentHealth + deltaT*2, this.minHealth, this.maxHealth);
+		this.emitter.fireEvent(HW2Events.UPDATE_GUI, {currentHealth: this.currentHealth, maxHealth: this.maxHealth, currentAir: this.currentAir, maxAir: this.maxAir})
 	}
 	/**
 	 * This method handles all events that the reciever for the PlayerController is
@@ -153,6 +164,14 @@ export default class PlayerController implements AI {
 		switch(event.type) {
 			case HW2Events.SHOOT_LASER: {
 				this.handleShootLaserEvent(event);
+				break;
+			}
+			case HW2Events.PLAYER_MINE_COLLISION: {
+				this.handlePlayerMineCollision();
+				break;
+			}
+			case HW2Events.PLAYER_BUBBLE_COLLISION: {
+				this.handlePlayerBubbleCollision();
 				break;
 			}
 			default: {
@@ -190,6 +209,21 @@ export default class PlayerController implements AI {
 		if (this.currentCharge < this.maxCharge) {
 			this.laserTimer.start();
 		}
+	}
+	protected handlePlayerMineCollision = () => {
+		if(this.iframe){return;}
+		this.iframe = true;
+		this.damageTimer.start();
+		this.currentHealth = this.currentHealth-1;
+		console.log(this.currentHealth)
+	}
+
+	protected handlePlayerBubbleCollision = () => {
+		if(this.airframe){return;}
+		this.currentAir = Math.min(this.currentAir + 2, 20);
+		this.airframe = true;
+		this.bubbleTimer.start();
+		console.log(this.currentHealth)
 	}
 
 } 

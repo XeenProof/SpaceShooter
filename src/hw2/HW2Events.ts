@@ -48,6 +48,11 @@ export const HW2Events = {
      * 
      * Has data: { id: number }
      */
-    PLAYER_BUBBLE_COLLISION: "PLAYER_BUBBLE_COLLISION"
+    PLAYER_BUBBLE_COLLISION: "PLAYER_BUBBLE_COLLISION",
+
+    /**
+     * data {currentHealth: number, maxHealth: number, currentAir: number, maxAir: number}
+     */
+    UPDATE_GUI: "UPDATE_GUI"
     
 } as const;

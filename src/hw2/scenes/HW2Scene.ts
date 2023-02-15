@@ -166,6 +166,7 @@ export default class HW2Scene extends Scene {
 		this.receiver.subscribe(HW2Events.CHARGE_CHANGE);
 		this.receiver.subscribe(HW2Events.SHOOT_LASER);
 		this.receiver.subscribe(HW2Events.DEAD);
+		this.receiver.subscribe(HW2Events.UPDATE_GUI);
 
 		// Subscribe to laser events
 		this.receiver.subscribe(HW2Events.FIRING_LASER);
@@ -247,6 +248,11 @@ export default class HW2Scene extends Scene {
 				break;
 			}
 			case HW2Events.PLAYER_MINE_COLLISION: {
+				break;
+			}
+			case HW2Events.UPDATE_GUI: {
+				this.handleHealthChange(event.data.get("currentHealth"), event.data.get("maxHealth"))
+				this.handleAirChange(event.data.get("currentAir"), event.data.get("maxAir"))
 				break;
 			}
 			default: {
