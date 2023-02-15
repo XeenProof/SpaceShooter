@@ -65,12 +65,13 @@ export default class PlayerController implements AI {
 		this.iframe = false;
 		this.airframe = false
 		this.laserTimer = new Timer(2500, this.handleLaserTimerEnd, false);
-		this.damageTimer = new Timer(100, ()=>{this.iframe = false}, false);
-		this.bubbleTimer = new Timer(100, ()=>{this.airframe = false}, false);
+		this.damageTimer = new Timer(100, this.handleDamageTimerEnd, false);
+		this.bubbleTimer = new Timer(100, this.handleBubbleTimerEnd, false);
 		
 		this.receiver.subscribe(HW2Events.SHOOT_LASER);
 		this.receiver.subscribe(HW2Events.PLAYER_MINE_COLLISION);
 		this.receiver.subscribe(HW2Events.PLAYER_BUBBLE_COLLISION);
+		this.receiver.subscribe(HW2Events.DEAD);
 
 		this.activate(options);
 	}
@@ -97,7 +98,7 @@ export default class PlayerController implements AI {
         this.currentSpeed = 300
 
         // Play the idle animation by default
-		this.owner.animation.play(PlayerAnimations.IDLE);
+		this.owner.animation.play(PlayerAnimations.IDLE, true);
 	};
 	/**
 	 * Handles updates to the player 
@@ -174,6 +175,10 @@ export default class PlayerController implements AI {
 				this.handlePlayerBubbleCollision();
 				break;
 			}
+			case HW2Events.DEAD:{
+				this.handlePlayerDeath();
+				break;
+			}
 			default: {
 				throw new Error(`Unhandled event of type: ${event.type} caught in PlayerController`);
 			}
@@ -210,11 +215,23 @@ export default class PlayerController implements AI {
 			this.laserTimer.start();
 		}
 	}
+
+	protected handleDamageTimerEnd = () => {
+		this.iframe = false;
+		this.owner.animation.playIfNotAlready(PlayerAnimations.IDLE);
+	}
+
+	protected handleBubbleTimerEnd = () => {
+		this.airframe = false;
+	}
+
 	protected handlePlayerMineCollision = () => {
 		if(this.iframe){return;}
 		this.iframe = true;
+		this.currentHealth = Math.max(this.currentHealth-1, 0);
+		if(this.currentHealth == 0){this.emitter.fireEvent(HW2Events.DEAD, {})}
+		this.owner.animation.playIfNotAlready(PlayerAnimations.HIT);
 		this.damageTimer.start();
-		this.currentHealth = this.currentHealth-1;
 	}
 
 	protected handlePlayerBubbleCollision = () => {
@@ -222,6 +239,10 @@ export default class PlayerController implements AI {
 		this.currentAir = Math.min(this.currentAir + 2, 20);
 		this.airframe = true;
 		this.bubbleTimer.start();
+	}
+
+	protected handlePlayerDeath = () => {
+		this.owner.animation.playIfNotAlready(PlayerAnimations.DEATH, false);
 	}
 
 } 
