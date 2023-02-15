@@ -188,6 +188,8 @@ export default class HW2Scene extends Scene {
 		
 		// Move the backgrounds
 		this.moveBackgrounds(deltaT);
+		this.wrapPlayer(this.player, this.viewport.getCenter(), this.viewport.getHalfSize())
+		this.lockPlayer(this.player, this.viewport.getCenter(), this.viewport.getHalfSize())
 
 		// Handles mine and bubble collisions
 		this.handleMinePlayerCollisions();
@@ -919,8 +921,11 @@ export default class HW2Scene extends Scene {
 	 */
 	protected wrapPlayer(player: CanvasNode, viewportCenter: Vec2, viewportHalfSize: Vec2): void {
 		// TODO wrap the player around the top/bottom of the screen
-		console.log("Wrap Player Triggered")
-		if(player.position.y<0){}
+		let top = viewportCenter.y - viewportHalfSize.y;
+		let bottom = viewportCenter.y +  viewportHalfSize.y;
+		if(player.position.y<top){player.position.y = 900;}
+		if(player.position.y>bottom){player.position.y = 0;}
+		//edit the player CanvasNode's position directly
 	}
 
     /**
@@ -964,6 +969,11 @@ export default class HW2Scene extends Scene {
 	 */
 	protected lockPlayer(player: CanvasNode, viewportCenter: Vec2, viewportHalfSize: Vec2): void {
 		// TODO prevent the player from moving off the left/right side of the screen
+		let left = viewportCenter.x - viewportHalfSize.x;
+		let right = viewportCenter.x +  viewportHalfSize.x;
+		if(player.position.x<left){player.position.x = 0;}
+		if(player.position.x>right){player.position.x = 900;}
+		//edit the player CanvasNode's position directly
 	}
 
 	public handleTimers(): void {
