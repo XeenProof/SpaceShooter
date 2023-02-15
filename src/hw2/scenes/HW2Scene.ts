@@ -64,6 +64,8 @@ export default class HW2Scene extends Scene {
 
     // A flag to indicate whether or not this scene is being recorded
     private recording: boolean;
+	private recorder: BasicRecording;
+	private playback: boolean;
     // The seed that should be set before the game starts
     private seed: string;
 
@@ -114,8 +116,9 @@ export default class HW2Scene extends Scene {
 	 * @see Scene.initScene()
 	 */
 	public override initScene(options: Record<string, any>): void {
-		this.seed = options.seed === undefined ? RandUtils.randomSeed() : options.seed;
+		this.seed = options.seed === undefined ? this.seed : options.seed;
         this.recording = options.recording === undefined ? false : options.recording; 
+		RandUtils.seed = this.seed;
 	}
 	/**
 	 * @see Scene.loadScene()
@@ -161,6 +164,8 @@ export default class HW2Scene extends Scene {
 		this.initUI();
 		// Initialize object pools
 		this.initObjectPools();
+
+		this.initRecorder();
 
 		// Subscribe to player events
 		this.receiver.subscribe(HW2Events.CHARGE_CHANGE);
@@ -234,7 +239,7 @@ export default class HW2Scene extends Scene {
 			}
 			case HW2Events.DEAD: {
 				console.log("Player has died")
-				this.gameOverTimer.start();
+				this.handleDeath();
 				break;
 			}
 			case HW2Events.CHARGE_CHANGE: {
@@ -264,7 +269,12 @@ export default class HW2Scene extends Scene {
 	}
 
 	/** Initialization methods */
-
+	protected initRecorder(): void {
+		if(this.recording){
+			this.recorder = new BasicRecording(HW2Scene, {seed: this.seed})
+			this.emitter.fireEvent(GameEventType.START_RECORDING, {recording: this.recorder});
+		}
+	}
 	/** 
 	 * This method initializes the player.
 	 * 
@@ -994,6 +1004,7 @@ export default class HW2Scene extends Scene {
 		}
 		// If the game-over timer has run, change to the game-over scene
 		if (this.gameOverTimer.hasRun() && this.gameOverTimer.isStopped()) {
+			this.emitter.fireEvent(GameEventType.STOP_RECORDING, {})
 		 	this.sceneManager.changeToScene(GameOver, {
 				bubblesPopped: this.bubblesPopped, 
 				minesDestroyed: this.minesDestroyed,
@@ -1020,6 +1031,10 @@ export default class HW2Scene extends Scene {
 		if (this.bg2.position.x <= edgePos.x){
 			this.bg2.position = this.viewport.getCenter().clone().add(this.bg2.sizeWithZoom.clone().scale(2, 0))
 		}
+	}
+
+	protected handleDeath(): void {
+		this.gameOverTimer.start();
 	}
 
 }

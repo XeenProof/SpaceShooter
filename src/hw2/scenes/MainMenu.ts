@@ -31,6 +31,7 @@ export default class MainMenu extends Scene {
     private mainMenu: Layer;
     private controls: Layer;
     private about: Layer;
+    private seed: string;
 
     public override startScene(){
         const center = this.viewport.getCenter();
@@ -138,7 +139,8 @@ export default class MainMenu extends Scene {
     protected handleEvent(event: GameEvent): void {
         switch(event.type) {
             case MainMenuEvent.PLAY_GAME: {
-                this.sceneManager.changeToScene(Homework1_Scene, {seed: RandUtils.randomSeed(), recording: true});
+                this.seed = RandUtils.randomSeed()
+                this.sceneManager.changeToScene(Homework1_Scene, {seed: this.seed, recording: true});
                 break;
             }
             case MainMenuEvent.CONTROLS: {
@@ -159,6 +161,8 @@ export default class MainMenu extends Scene {
             }
             case MainMenuEvent.PLAY_RECORDING: {
                 // TODO play the recording here
+                //this.sceneManager.changeToScene(Homework1_Scene, {seed: this.seed, recording: false});
+                this.emitter.fireEvent(GameEventType.PLAY_RECORDING, {onEnd: ()=>{this.sceneManager.changeToScene(MainMenu);}})
                 break;
             }
             default: {
