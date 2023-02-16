@@ -580,7 +580,7 @@ export default class HW2Scene extends Scene {
 		let viewportSize = this.viewport.getHalfSize().scaled(2);
 
 		//Loop on position until we're clear of the player
-		bubble.position.copy(RandUtils.randVec(viewportSize.x, paddedViewportSize.x, paddedViewportSize.y - viewportSize.y, viewportSize.y));
+		bubble.position.copy(RandUtils.randVec(viewportSize.x, paddedViewportSize.x - viewportSize.x, paddedViewportSize.y, viewportSize.y));
 		while(bubble.position.distanceTo(this.player.position) < 100){
 			bubble.position.copy(RandUtils.randVec(paddedViewportSize.x, paddedViewportSize.x, paddedViewportSize.y - viewportSize.y, viewportSize.y));
 		}
