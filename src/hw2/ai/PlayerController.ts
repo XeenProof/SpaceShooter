@@ -130,8 +130,7 @@ export default class PlayerController implements AI {
         // If the player is out of hp - play the death animation
 		if (this.currentHealth <= this.minHealth) { 
             if(!this.deathFired){
-				this.emitter.fireEvent(HW2Events.DEAD);
-				this.destroy();
+				this.emitter.fireEvent(HW2Events.DEAD, {});
 				this.deathFired = true;
 			}
             return;
@@ -224,7 +223,7 @@ export default class PlayerController implements AI {
 
 	protected handleDamageTimerEnd = () => {
 		this.iframe = false;
-		this.owner.animation.playIfNotAlready(PlayerAnimations.IDLE);
+		if(!this.deathFired){this.owner.animation.playIfNotAlready(PlayerAnimations.IDLE);}
 	}
 
 	protected handleBubbleTimerEnd = () => {
@@ -247,6 +246,7 @@ export default class PlayerController implements AI {
 	}
 
 	protected handlePlayerDeath = () => {
+		console.log("Handle player death")
 		this.owner.animation.playIfNotAlready(PlayerAnimations.DEATH, false);
 	}
 
