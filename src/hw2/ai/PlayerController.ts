@@ -222,8 +222,11 @@ export default class PlayerController implements AI {
 	}
 
 	protected handleDamageTimerEnd = () => {
-		this.iframe = false;
-		if(!this.deathFired){this.owner.animation.playIfNotAlready(PlayerAnimations.IDLE);}
+		
+		if(!this.deathFired){
+			this.iframe = false;
+			this.owner.animation.playIfNotAlready(PlayerAnimations.IDLE);
+		}
 	}
 
 	protected handleBubbleTimerEnd = () => {
