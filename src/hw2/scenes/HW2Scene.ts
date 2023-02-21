@@ -1004,11 +1004,13 @@ export default class HW2Scene extends Scene {
 		}
 		// If the game-over timer has run, change to the game-over scene
 		if (this.gameOverTimer.hasRun() && this.gameOverTimer.isStopped()) {
-		 	this.sceneManager.changeToScene(GameOver, {
+		 	if(this.recording){
+				this.emitter.fireEvent(GameEventType.STOP_RECORDING, {});
+				this.sceneManager.changeToScene(GameOver, {
 				bubblesPopped: this.bubblesPopped, 
 				minesDestroyed: this.minesDestroyed,
 				timePassed: this.timePassed
-			}, {});
+			}, {})};
 		}
 	}
 
@@ -1034,7 +1036,6 @@ export default class HW2Scene extends Scene {
 
 	protected handleDeath(): void {
 		this.gameOverTimer.start();
-		this.emitter.fireEvent(GameEventType.STOP_RECORDING, {});
 	}
 
 }
