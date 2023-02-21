@@ -988,8 +988,8 @@ export default class HW2Scene extends Scene {
 		// TODO prevent the player from moving off the left/right side of the screen
 		let left = viewportCenter.x - viewportHalfSize.x;
 		let right = viewportCenter.x +  viewportHalfSize.x;
-		if(player.position.x<left){player.position.x = 0;}
-		if(player.position.x>right){player.position.x = 900;}
+		if(player.boundary.center.x-player.boundary.halfSize.x<left){player.position.x = 0+player.boundary.halfSize.x;}
+		if(player.boundary.center.x+player.boundary.halfSize.x>right){player.position.x = 900-player.boundary.halfSize.x;}
 		//edit the player CanvasNode's position directly
 	}
 
