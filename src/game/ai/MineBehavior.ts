@@ -5,7 +5,7 @@ import Receiver from "../../Wolfie2D/Events/Receiver";
 import Graphic from "../../Wolfie2D/Nodes/Graphic";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import Timer from "../../Wolfie2D/Timing/Timer";
-import { HW2Events } from "../HW2Events";
+import { HW2Events } from "../Events";
 
 export const MineAnimations = {
     IDLE: "IDLE",

@@ -8,8 +8,8 @@ import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import Timer from "../../Wolfie2D/Timing/Timer";
 import MathUtils from "../../Wolfie2D/Utils/MathUtils";
 
-import { HW2Events } from "../HW2Events";
-import { HW2Controls } from "../HW2Controls";
+import { HW2Events } from "../Events";
+import { HW2Controls } from "../Controls";
 
 export const PlayerAnimations = {
     IDLE: "IDLE",

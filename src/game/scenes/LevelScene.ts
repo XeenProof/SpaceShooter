@@ -29,7 +29,7 @@ import LaserShaderType from "../shaders/LaserShaderType";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import BasicRecording from "../../Wolfie2D/Playback/BasicRecording";
 
-import { HW2Events } from "../HW2Events";
+import { HW2Events } from "../Events";
 import Layer from "../../Wolfie2D/Scene/Layer";
 
 /**

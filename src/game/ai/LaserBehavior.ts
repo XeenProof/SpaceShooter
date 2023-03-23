@@ -6,7 +6,7 @@ import GameEvent from "../../Wolfie2D/Events/GameEvent";
 import Graphic from "../../Wolfie2D/Nodes/Graphic";
 import MathUtils from "../../Wolfie2D/Utils/MathUtils";
 
-import { HW2Events } from "../HW2Events";
+import { HW2Events } from "../Events";
 
 /**
  * A class representing the behavior for a laser beam

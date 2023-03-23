@@ -4,7 +4,7 @@ import GameEvent from "../../Wolfie2D/Events/GameEvent";
 import Graphic from "../../Wolfie2D/Nodes/Graphic";
 import MathUtils from "../../Wolfie2D/Utils/MathUtils";
 //STUDENT ADDED
-import { HW2Events } from "../HW2Events";
+import { HW2Events } from "../Events";
 import Receiver from "../../Wolfie2D/Events/Receiver";
 
 /**
