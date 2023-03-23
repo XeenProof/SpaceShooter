@@ -9,5 +9,3 @@ dist/*
 !dist/hw2_assets
 
 **/.DS_store
-NoteToSelf
-CompletionStatus
