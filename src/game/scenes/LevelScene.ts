@@ -385,7 +385,7 @@ export default class HW2Scene extends Scene {
 		this.bg2 = this.add.sprite(HW2Scene.BACKGROUND_KEY, HW2Layers.BACKGROUND);
 		this.bg2.scale.set(1.5, 1.5);
 		this.bg2.position = this.bg1.position.clone();
-		this.bg2.position.add(this.bg1.sizeWithZoom.scale(0, 2));
+		this.bg2.position.add(this.bg1.sizeWithZoom.scale(0, -2));
 	}
 	/**
 	 * This method initializes each of the object pools for this scene.
@@ -1020,17 +1020,17 @@ export default class HW2Scene extends Scene {
      * continue the cycle.
 	 */
 	protected moveBackgrounds(deltaT: number): void {
-		let move = new Vec2(0, 150);
+		let move = new Vec2(0, -150);
 		this.bg1.position.sub(move.clone().scaled(deltaT));
 		this.bg2.position.sub(move.clone().scaled(deltaT));
 
-		let edgePos = this.viewport.getCenter().clone().add(this.bg1.sizeWithZoom.clone().scale(0, -2));
+		let edgePos = this.viewport.getCenter().clone().add(this.bg1.sizeWithZoom.clone().scale(0, 2));
 
-		if (this.bg1.position.y <= edgePos.y){
-			this.bg1.position = this.viewport.getCenter().clone().add(this.bg1.sizeWithZoom.clone().scale(0, 2))
+		if (this.bg1.position.y >= edgePos.y){
+			this.bg1.position = this.viewport.getCenter().clone().add(this.bg1.sizeWithZoom.clone().scale(0, -2))
 		}
-		if (this.bg2.position.y <= edgePos.y){
-			this.bg2.position = this.viewport.getCenter().clone().add(this.bg2.sizeWithZoom.clone().scale(0, 2))
+		if (this.bg2.position.y >= edgePos.y){
+			this.bg2.position = this.viewport.getCenter().clone().add(this.bg2.sizeWithZoom.clone().scale(0, -2))
 		}
 	}
 
