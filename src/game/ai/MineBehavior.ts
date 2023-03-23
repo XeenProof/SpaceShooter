@@ -21,13 +21,18 @@ export default class MineBehavior implements AI {
     private speed: number;
     private direction: Vec2;
     private receiver: Receiver;
+    private currentTarget: Vec2;
+    private targets: Vec2[] = [new Vec2(750, 100), new Vec2(750, 800)];
+    private counter = 0;
 
     /**
      * @see {AI.initializeAI}
      */
     initializeAI(owner: AnimatedSprite, options: Record<string, any>): void {
         this.owner = owner;
-        this.direction = Vec2.LEFT;
+        this.direction = new Vec2(-1,0);
+        this.currentTarget = this.targets[0];
+
 
         this.receiver = new Receiver();
         this.receiver.subscribe(HW2Events.LASER_MINE_COLLISION);
@@ -74,9 +79,14 @@ export default class MineBehavior implements AI {
         while (this.receiver.hasNextEvent()) {
             this.handleEvent(this.receiver.getNextEvent());
         }
+        if(this.owner.position.distanceTo(this.currentTarget) <= 10){
+            this.counter++;
+            console.log("activating")
+            this.currentTarget = this.targets[this.counter%this.targets.length]
+        }
         // If the mine is visible - update the position
         if (this.owner.visible) {
-            this.owner.position.add(this.direction.scaled(this.speed * deltaT));
+            this.owner.position.add(this.owner.position.dirTo(this.currentTarget).scaled(this.speed * deltaT));
         }
     }
 

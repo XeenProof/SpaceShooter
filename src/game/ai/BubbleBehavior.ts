@@ -35,9 +35,9 @@ export default class BubbleBehavior implements AI {
     public initializeAI(owner: Graphic, options: Record<string, any>): void {
         this.owner = owner;
 
-        this.currentXSpeed = 50;
+        this.currentXSpeed = 0;
         this.xSpeedIncrement = 0;
-        this.minXSpeed = 50;
+        this.minXSpeed = 0;
         this.maxXSpeed = 50;
 
         this.currentYSpeed = 50;
