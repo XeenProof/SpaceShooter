@@ -1,1 +1,7 @@
 moveOnPath- moves it bit by bit as you call update
+
+Physic Notes:
+-on the grid, 
+-- 0 means they don't collide/ can overlap
+-- 1 means they do collide/ can't overlap
+Set trigger fires an event
