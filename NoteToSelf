@@ -5,3 +5,7 @@ Physic Notes:
 -- 0 means they don't collide/ can overlap
 -- 1 means they do collide/ can't overlap
 Set trigger fires an event
+
+firebase login
+firebase init
+firebase deploy
