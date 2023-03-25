@@ -2,6 +2,8 @@ node_modules
 
 dist/*
 
+/.firebase
+
 !dist/builtin
 
 !dist/demo_assets
