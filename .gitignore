@@ -8,4 +8,8 @@ dist/*
 
 !dist/hw2_assets
 
+!dist/benchmarks
+
 **/.DS_store
+
+.firebase/
