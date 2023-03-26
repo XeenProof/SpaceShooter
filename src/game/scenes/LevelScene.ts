@@ -37,6 +37,7 @@ import RenderingManager from "../../Wolfie2D/Rendering/RenderingManager";
 import { LoadData, LoadType, LoadBackground, LoadPlayer, LoadEnemy } from "../../constants/load";
 import { PhysicGroups, Physics } from "../../constants/physics";
 import { Events } from "../../constants/events";
+import BeamAI from "../ai/BeamBehavior";
 
 
 
@@ -227,6 +228,7 @@ export default class HW2Scene extends Scene {
 		// Handle screen despawning of mines and bubbles
 		for (let mine of this.mines) if (mine.visible) this.handleScreenDespawn(mine);
 		for (let bubble of this.bubbles) if (bubble.visible) this.handleScreenDespawn(bubble);
+		for (let beam of this.beam) if (beam.visible) this.handleScreenDespawn(beam);
 	}
     /**
      * @see Scene.unloadScene()
@@ -244,6 +246,7 @@ export default class HW2Scene extends Scene {
 		switch(event.type) {
 			case HW2Events.SHOOT_LASER: {
 				this.spawnLaser(event.data.get("src"));
+				this.spawnBeam(event.data.get("src"));
 				break;
 			}
 			case HW2Events.DEAD: {
@@ -433,7 +436,7 @@ export default class HW2Scene extends Scene {
 		this.bubbles = new Array(10);
 		for (let i = 0; i < this.bubbles.length; i++) {
 			this.bubbles[i] = this.add.graphic(GraphicType.RECT, HW2Layers.PRIMARY, {position: new Vec2(0, 0), size: new Vec2(50, 50)});
-			console.log(this.bubbles[i])
+			//console.log(this.bubbles[i])
             
             // Give the bubbles a custom shader
 			this.bubbles[i].useCustomShader(BubbleShaderType.KEY);
@@ -484,7 +487,18 @@ export default class HW2Scene extends Scene {
 
 	protected initBeams():void {
 		this.beam = new Array(20);
-		console.log(this.beam)
+		for (let i = 0; i < this.beam.length; i++){
+			this.beam[i] = this.add.graphic(GraphicType.RECT, HW2Layers.PRIMARY, {position: new Vec2(100,100), size: new Vec2(10, 50)})
+
+			this.beam[i].visible = false;
+			this.beam[i].color = Color.RED;
+
+			this.beam[i].addAI(BeamAI, {pos: Vec2.ZERO});
+			this.beam[i].addPhysics();
+			this.beam[i].setGroup(PhysicGroups.PLAYER_WEAPON);
+
+			console.log(this.beam[i].collisionShape.halfSize);
+		}
 	}
 
 	/** Methods for spawing/despawning objects */
@@ -510,6 +524,15 @@ export default class HW2Scene extends Scene {
 			laser.setAIActive(true, {src: src, dst: this.viewport.getHalfSize().scaled(2).add(this.worldPadding.scaled(2))});
 		}
 	}
+
+	protected spawnBeam(src: Vec2): void {
+		let beam: Graphic = this.beam.find((beam: Graphic) => {return !beam.visible;})
+		if(beam){
+			beam.visible = true;
+			beam.setAIActive(true, {pos: src})
+		}
+	}
+
 	/**
 	 * This method handles spawning a mine from the object-pool of mines
 	 * 
