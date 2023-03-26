@@ -233,25 +233,6 @@ export default class CanvasRenderer extends RenderingManager {
     protected renderTilemap(tilemap: Tilemap): void {
         this.tilemapRenderer.renderTilemap(tilemap);
         
-
-        switch(tilemap.constructor) {
-            case OrthogonalTilemap: {
-                console.log("Orthogonal");
-                break;
-            }
-            case IsometricTilemap: {
-                console.log("Isometric");
-                break;
-            }
-            case StaggeredIsometricTilemap: {
-                console.log("Staggered Isometric");
-                break;
-            }
-            default: {
-                throw new Error(`"${tilemap.constructor.name}" is not a valid type of tiliemap.`);
-            }
-
-        }
     }
 
     // @override

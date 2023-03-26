@@ -66,7 +66,7 @@ export default class AABB extends Shape {
 
     // TODO - move these all to the Shape class
     /**
-     * A simple boolean check of whether this AABB contains a point (Includes the BORDER)
+     * A simple boolean check of whether this AABB contains a point
      * @param point The point to check
      * @returns A boolean representing whether this AABB contains the specified point
      */
@@ -76,7 +76,7 @@ export default class AABB extends Shape {
     }
     
     /**
-     * A simple boolean check of whether this AABB contains a point (Exclude the BORDER)
+     * A simple boolean check of whether this AABB contains a point
      * @param point The point to check
      * @returns A boolean representing whether this AABB contains the specified point
      */

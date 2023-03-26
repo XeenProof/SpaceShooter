@@ -142,7 +142,7 @@ export default class PlayerController implements AI {
 
 		// Handle trying to shoot a laser from the submarine
 		if (Input.isMouseJustPressed() && this.currentCharge > 0) {
-			this.currentCharge -= 1;
+			//this.currentCharge -= 1;
 			this.emitter.fireEvent(HW2Events.SHOOT_LASER, {src: this.owner.position});
 			this.emitter.fireEvent(HW2Events.CHARGE_CHANGE, {curchrg: this.currentCharge, maxchrg: this.maxCharge});
 		}
@@ -201,8 +201,8 @@ export default class PlayerController implements AI {
 	 * @param event 
 	 */
 	protected handleShootLaserEvent(event: GameEvent): void {
-		this.laserTimer.reset();
-		this.laserTimer.start();
+		//this.laserTimer.reset();
+		//this.laserTimer.start();
 	}
 
 	/** 

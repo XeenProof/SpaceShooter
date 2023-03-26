@@ -27,7 +27,7 @@ import BubbleShaderType from "../shaders/BubbleShaderType";
 import LaserShaderType from "../shaders/LaserShaderType";
 
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
-import BasicRecording from "../../Wolfie2D/Playback/BasicRecording";
+//import BasicRecording from "../../Wolfie2D/Playback/BasicRecording";
 
 import { HW2Events } from "../Events";
 import Viewport from "../../Wolfie2D/SceneGraph/Viewport";
@@ -37,6 +37,7 @@ import RenderingManager from "../../Wolfie2D/Rendering/RenderingManager";
 import { LoadData, LoadType, LoadBackground, LoadPlayer, LoadEnemy } from "../../constants/load";
 import { PhysicGroups, Physics } from "../../constants/physics";
 import { Events } from "../../constants/events";
+import BeamAI from "../ai/BeamBehavior";
 
 
 
@@ -62,9 +63,9 @@ export const HW2Layers = {
 export default class HW2Scene extends Scene {
 
     // A flag to indicate whether or not this scene is being recorded
-    private recording: boolean;
-	private recorder: BasicRecording;
-	private playback: boolean;
+    // private recording: boolean;
+	// private recorder: BasicRecording;
+	// private playback: boolean;
     // The seed that should be set before the game starts
     private seed: string;
 
@@ -123,7 +124,7 @@ export default class HW2Scene extends Scene {
 	 */
 	public override initScene(options: Record<string, any>): void {
 		this.seed = options.seed === undefined ? this.seed : options.seed;
-        this.recording = options.recording === undefined ? false : options.recording; 
+        //this.recording = options.recording === undefined ? false : options.recording; 
 		RandUtils.seed = this.seed;
 	}
 	/**
@@ -199,9 +200,6 @@ export default class HW2Scene extends Scene {
 		this.receiver.subscribe(HW2Events.FIRING_LASER);
 		this.receiver.subscribe(Events.TEST);
 
-		// Subscribe to bubble events
-		//this.receiver.subscribe(HW2Events.PLAYER_BUBBLE_COLLISION)
-
 		//Subscribe to mine events
 		this.receiver.subscribe(HW2Events.PLAYER_MINE_COLLISION)
 	}
@@ -230,6 +228,7 @@ export default class HW2Scene extends Scene {
 		// Handle screen despawning of mines and bubbles
 		for (let mine of this.mines) if (mine.visible) this.handleScreenDespawn(mine);
 		for (let bubble of this.bubbles) if (bubble.visible) this.handleScreenDespawn(bubble);
+		for (let beam of this.beam) if (beam.visible) this.handleScreenDespawn(beam);
 	}
     /**
      * @see Scene.unloadScene()
@@ -247,6 +246,7 @@ export default class HW2Scene extends Scene {
 		switch(event.type) {
 			case HW2Events.SHOOT_LASER: {
 				this.spawnLaser(event.data.get("src"));
+				this.spawnBeam(event.data.get("src"));
 				break;
 			}
 			case HW2Events.DEAD: {
@@ -286,10 +286,10 @@ export default class HW2Scene extends Scene {
 
 	/** Initialization methods */
 	protected initRecorder(): void {
-		if(this.recording){
-			this.recorder = new BasicRecording(HW2Scene, {seed: this.seed})
-			this.emitter.fireEvent(GameEventType.START_RECORDING, {recording: this.recorder});
-		}
+		// if(this.recording){
+		// 	// this.recorder = new BasicRecording(HW2Scene, {seed: this.seed})
+		// 	// this.emitter.fireEvent(GameEventType.START_RECORDING, {recording: this.recorder});
+		// }
 	}
 	/** 
 	 * This method initializes the player.
@@ -304,7 +304,7 @@ export default class HW2Scene extends Scene {
 	protected initPlayer(): void {
 		// Add in the player as an animated sprite
 		// We give it the key specified in our load function and the name of the layer
-		this.player = this.add.animatedSprite(LoadPlayer.PLAYER.KEY, HW2Layers.PRIMARY);
+		this.player = this.add.animatedSprite(AnimatedSprite, LoadPlayer.PLAYER.KEY, HW2Layers.PRIMARY);
 		
 		// Set the player's position to the middle of the screen, and scale it down
 		this.player.position.set(this.viewport.getCenter().x, this.viewport.getCenter().y);
@@ -436,7 +436,7 @@ export default class HW2Scene extends Scene {
 		this.bubbles = new Array(10);
 		for (let i = 0; i < this.bubbles.length; i++) {
 			this.bubbles[i] = this.add.graphic(GraphicType.RECT, HW2Layers.PRIMARY, {position: new Vec2(0, 0), size: new Vec2(50, 50)});
-			console.log(this.bubbles[i])
+			//console.log(this.bubbles[i])
             
             // Give the bubbles a custom shader
 			this.bubbles[i].useCustomShader(BubbleShaderType.KEY);
@@ -454,7 +454,7 @@ export default class HW2Scene extends Scene {
 		// Init the object pool of mines
 		this.mines = new Array(15);
 		for (let i = 0; i < this.mines.length; i++){
-			this.mines[i] = this.add.animatedSprite(LoadEnemy.MINE.KEY, HW2Layers.PRIMARY);
+			this.mines[i] = this.add.animatedSprite(AnimatedSprite, LoadEnemy.MINE.KEY, HW2Layers.PRIMARY);
 
 			// Make our mine inactive by default
 			this.mines[i].visible = false;
@@ -487,7 +487,18 @@ export default class HW2Scene extends Scene {
 
 	protected initBeams():void {
 		this.beam = new Array(20);
-		console.log(this.beam)
+		for (let i = 0; i < this.beam.length; i++){
+			this.beam[i] = this.add.graphic(GraphicType.RECT, HW2Layers.PRIMARY, {position: new Vec2(100,100), size: new Vec2(10, 50)})
+
+			this.beam[i].visible = false;
+			this.beam[i].color = Color.RED;
+
+			this.beam[i].addAI(BeamAI, {pos: Vec2.ZERO});
+			this.beam[i].addPhysics();
+			this.beam[i].setGroup(PhysicGroups.PLAYER_WEAPON);
+
+			console.log(this.beam[i].collisionShape.halfSize);
+		}
 	}
 
 	/** Methods for spawing/despawning objects */
@@ -513,6 +524,15 @@ export default class HW2Scene extends Scene {
 			laser.setAIActive(true, {src: src, dst: this.viewport.getHalfSize().scaled(2).add(this.worldPadding.scaled(2))});
 		}
 	}
+
+	protected spawnBeam(src: Vec2): void {
+		let beam: Graphic = this.beam.find((beam: Graphic) => {return !beam.visible;})
+		if(beam){
+			beam.visible = true;
+			beam.setAIActive(true, {pos: src})
+		}
+	}
+
 	/**
 	 * This method handles spawning a mine from the object-pool of mines
 	 * 
@@ -1040,13 +1060,13 @@ export default class HW2Scene extends Scene {
 		}
 		// If the game-over timer has run, change to the game-over scene
 		if (this.gameOverTimer.hasRun() && this.gameOverTimer.isStopped()) {
-		 	if(this.recording){
-				this.emitter.fireEvent(GameEventType.STOP_RECORDING, {});
-				this.sceneManager.changeToScene(GameOver, {
-				bubblesPopped: this.bubblesPopped, 
-				minesDestroyed: this.minesDestroyed,
-				timePassed: this.timePassed
-			}, {})};
+		 	// if(this.recording){
+			// 	this.emitter.fireEvent(GameEventType.STOP_RECORDING, {});
+			// 	this.sceneManager.changeToScene(GameOver, {
+			// 	bubblesPopped: this.bubblesPopped, 
+			// 	minesDestroyed: this.minesDestroyed,
+			// 	timePassed: this.timePassed
+			// }, {})};
 		}
 	}
 

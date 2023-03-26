@@ -1,7 +1,7 @@
 import EventQueue from "../Events/EventQueue";
 import Input from "../Input/Input";
 import InputHandler from "../Input/InputHandler";
-import Recorder from "../Playback/BasicRecorder";
+import Recorder from "../Playback/EventRecorder";
 import Debug from "../Debug/Debug";
 import ResourceManager from "../ResourceManager/ResourceManager";
 import Viewport from "../SceneGraph/Viewport";
@@ -20,10 +20,9 @@ import RegistryManager from "../Registry/RegistryManager";
 import WebGLRenderer from "../Rendering/WebGLRenderer";
 import Scene from "../Scene/Scene";
 import RecordingManager from "../Playback/PlaybackManager";
-import InputReplayer from "../Playback/BasicReplayer";
+import InputReplayer from "../Playback/EventReplayer";
 import { TimerState } from "../Timing/Timer";
 import PlaybackManager from "../Playback/PlaybackManager";
-import ShaderRegistry from "../Registry/Registries/ShaderRegistry";
 
 /**
  * The main loop of the game engine.
@@ -151,11 +150,6 @@ export default class Game {
         this.resourceManager.loadResourcesFromQueue(() => {
             // When we're done loading, start the loop
             console.log("Finished Preload - loading first scene");
-            // need to also keep the text shaders.
-            this.resourceManager.keepShader(ShaderRegistry.POINT_SHADER);
-            this.resourceManager.keepShader(ShaderRegistry.LABEL_SHADER);
-            this.resourceManager.keepShader(ShaderRegistry.RECT_SHADER);
-            this.resourceManager.keepShader(ShaderRegistry.SPRITE_SHADER);
             this.sceneManager.changeToScene(InitialScene, {}, options);
             this.loop.start();
         });
