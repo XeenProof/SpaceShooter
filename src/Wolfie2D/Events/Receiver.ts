@@ -1,4 +1,4 @@
-import Queue from "../DataTypes/Collections/ArrayQueue";
+import Queue from "../DataTypes/Collections/Queue";
 import EventQueue from "./EventQueue";
 import GameEvent from "./GameEvent";
 
@@ -12,12 +12,9 @@ export default class Receiver {
 	/** The inbox of the Receiver */
 	private q: Queue<GameEvent>;
 
-	id: string;
-
 	/** Creates a new Receiver */
-	constructor(id: string = "Unknown"){
-		this.MAX_SIZE = 100;
-		this.id = id;
+	constructor(){
+		this.MAX_SIZE = 200;
         this.q = new Queue(this.MAX_SIZE);
 	}
 
@@ -40,15 +37,9 @@ export default class Receiver {
 	 */
 	receive(event: GameEvent): void {
 		try{
-			if (this.id === "Player") {
-				console.log("Event being added: " + event);
-				console.log("Queue: " + this.q);
-			}
 		this.q.enqueue(event);
 		} catch(e){
 			console.warn("Receiver overflow for event " + event.toString());
-			console.log("Reciever id " + this.id);
-			console.log(this.q);
 			throw e;
 		}
 	}

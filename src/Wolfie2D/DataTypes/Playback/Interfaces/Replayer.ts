@@ -1,16 +1,10 @@
-import Updateable from "../Interfaces/Updateable";
+import Updateable from "../../Interfaces/Updateable";
 import LogItem from "./LogItem";
 import Recording from "./Recording";
 
 /**
- * The definition for an abstract Replayer type for an abstract Recording type.
+ * An interface defining a set of methods to be exposed by a Replayer type.
  * @author Peter Walsh
- * 
- * @param T the type of the abstract Recording
- * @param E the type of the abstract LogItems that can be logged to the abstract Recording type (T)
- * 
- * @see Recording
- * @see LogItem
  */
 export default interface Replayer<T extends Recording<E>, E extends LogItem> extends Updateable {
     /**
@@ -29,9 +23,4 @@ export default interface Replayer<T extends Recording<E>, E extends LogItem> ext
      * Tells this Replayer object to stop replaying the recording.
      */
     stop(): void;
-
-    /** 
-     * Destroy this replayer
-     */
-    destroy(): void;
 }

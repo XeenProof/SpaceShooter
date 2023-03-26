@@ -27,7 +27,7 @@ import BubbleShaderType from "../shaders/BubbleShaderType";
 import LaserShaderType from "../shaders/LaserShaderType";
 
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
-import BasicRecording from "../../Wolfie2D/Playback/BasicRecording";
+//import BasicRecording from "../../Wolfie2D/Playback/BasicRecording";
 
 import { HW2Events } from "../Events";
 import Viewport from "../../Wolfie2D/SceneGraph/Viewport";
@@ -62,9 +62,9 @@ export const HW2Layers = {
 export default class HW2Scene extends Scene {
 
     // A flag to indicate whether or not this scene is being recorded
-    private recording: boolean;
-	private recorder: BasicRecording;
-	private playback: boolean;
+    // private recording: boolean;
+	// private recorder: BasicRecording;
+	// private playback: boolean;
     // The seed that should be set before the game starts
     private seed: string;
 
@@ -123,7 +123,7 @@ export default class HW2Scene extends Scene {
 	 */
 	public override initScene(options: Record<string, any>): void {
 		this.seed = options.seed === undefined ? this.seed : options.seed;
-        this.recording = options.recording === undefined ? false : options.recording; 
+        //this.recording = options.recording === undefined ? false : options.recording; 
 		RandUtils.seed = this.seed;
 	}
 	/**
@@ -198,9 +198,6 @@ export default class HW2Scene extends Scene {
 		// Subscribe to laser events
 		this.receiver.subscribe(HW2Events.FIRING_LASER);
 		this.receiver.subscribe(Events.TEST);
-
-		// Subscribe to bubble events
-		//this.receiver.subscribe(HW2Events.PLAYER_BUBBLE_COLLISION)
 
 		//Subscribe to mine events
 		this.receiver.subscribe(HW2Events.PLAYER_MINE_COLLISION)
@@ -286,10 +283,10 @@ export default class HW2Scene extends Scene {
 
 	/** Initialization methods */
 	protected initRecorder(): void {
-		if(this.recording){
-			this.recorder = new BasicRecording(HW2Scene, {seed: this.seed})
-			this.emitter.fireEvent(GameEventType.START_RECORDING, {recording: this.recorder});
-		}
+		// if(this.recording){
+		// 	// this.recorder = new BasicRecording(HW2Scene, {seed: this.seed})
+		// 	// this.emitter.fireEvent(GameEventType.START_RECORDING, {recording: this.recorder});
+		// }
 	}
 	/** 
 	 * This method initializes the player.
@@ -304,7 +301,7 @@ export default class HW2Scene extends Scene {
 	protected initPlayer(): void {
 		// Add in the player as an animated sprite
 		// We give it the key specified in our load function and the name of the layer
-		this.player = this.add.animatedSprite(LoadPlayer.PLAYER.KEY, HW2Layers.PRIMARY);
+		this.player = this.add.animatedSprite(AnimatedSprite, LoadPlayer.PLAYER.KEY, HW2Layers.PRIMARY);
 		
 		// Set the player's position to the middle of the screen, and scale it down
 		this.player.position.set(this.viewport.getCenter().x, this.viewport.getCenter().y);
@@ -454,7 +451,7 @@ export default class HW2Scene extends Scene {
 		// Init the object pool of mines
 		this.mines = new Array(15);
 		for (let i = 0; i < this.mines.length; i++){
-			this.mines[i] = this.add.animatedSprite(LoadEnemy.MINE.KEY, HW2Layers.PRIMARY);
+			this.mines[i] = this.add.animatedSprite(AnimatedSprite, LoadEnemy.MINE.KEY, HW2Layers.PRIMARY);
 
 			// Make our mine inactive by default
 			this.mines[i].visible = false;
@@ -1040,13 +1037,13 @@ export default class HW2Scene extends Scene {
 		}
 		// If the game-over timer has run, change to the game-over scene
 		if (this.gameOverTimer.hasRun() && this.gameOverTimer.isStopped()) {
-		 	if(this.recording){
-				this.emitter.fireEvent(GameEventType.STOP_RECORDING, {});
-				this.sceneManager.changeToScene(GameOver, {
-				bubblesPopped: this.bubblesPopped, 
-				minesDestroyed: this.minesDestroyed,
-				timePassed: this.timePassed
-			}, {})};
+		 	// if(this.recording){
+			// 	this.emitter.fireEvent(GameEventType.STOP_RECORDING, {});
+			// 	this.sceneManager.changeToScene(GameOver, {
+			// 	bubblesPopped: this.bubblesPopped, 
+			// 	minesDestroyed: this.minesDestroyed,
+			// 	timePassed: this.timePassed
+			// }, {})};
 		}
 	}
 

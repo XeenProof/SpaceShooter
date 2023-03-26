@@ -1,42 +1,38 @@
 import EventQueue from "../Events/EventQueue";
 import { GameEventType } from "../Events/GameEventType";
+import Updateable from "../DataTypes/Interfaces/Updateable";
+import Recording from "./EventRecording";
 import Emitter from "../Events/Emitter";
 import { InputHandlers } from "../Input/InputHandler";
-import Replayer from "../DataTypes/Playback/Replayer";
+import RandUtils from "../Utils/RandUtils";
+import Replayer from "../DataTypes/Playback/Interfaces/Replayer";
+import EventRecording from "./EventRecording";
+import AbstractReplayer from "../DataTypes/Playback/Abstract/AbstractReplayer";
+import EventLogItem from "./EventLogItem";
 
-
-import BasicRecording from "./BasicRecording";
-import BasicLogItem from "./BasicLogItem";
-import NullFunc from "../DataTypes/Functions/NullFunc";
-
-
-export default class BasicReplayer implements Replayer<BasicRecording, BasicLogItem> {
+export default class EventReplayer extends AbstractReplayer<EventRecording, EventLogItem> {
     private eventQueue: EventQueue;
     private emitter: Emitter;
 
-    private _active: boolean;
     private _frame: number;
     private _count: number;
 
-    private recording: BasicRecording;
+    private recording: Recording;
     private onEnd: () => void;
 
     public constructor() {
+        super();
         this.eventQueue = EventQueue.getInstance();
         this.emitter = new Emitter();
+        
         this._frame = 0;
         this._count = 0;
-        this._active = false;
     }
 
-    public active(): boolean {
-        return this._active;
-    }
-
-    public update(deltaT: number): void {
+    public override update(deltaT: number): void {
         if (this._active) {
 
-            while(this._count < this.recording.getSize() && this.recording.peekNext().frame * this.recording.peekNext().deltaT < this._frame * deltaT){
+            while(this._count < this.recording.size() && this.recording.peek().frame * this.recording.peek().deltaT < this._frame * deltaT){
                 let logItem = this.recording.dequeue();
                 // Add the LogItem event to the EventQueue
                 this.eventQueue.addEvent(logItem.event);
@@ -45,7 +41,7 @@ export default class BasicReplayer implements Replayer<BasicRecording, BasicLogI
             }
     
             // If we've iterated through the entire recording - end the replay
-            if (this._count >= this.recording.getSize()) {
+            if (this._count >= this.recording.size()) {
                 this.stop();
             }
 
@@ -53,13 +49,7 @@ export default class BasicReplayer implements Replayer<BasicRecording, BasicLogI
         }
     }
 
-    /**
-     * Starts replaying the HW3Scene.
-     * 
-     * @param recording the HW3Recording to start replaying
-     * @param onEnd an optional callback function that gets called when the replay stops
-     */
-    public start(recording: BasicRecording, onEnd: () => void = NullFunc): void {
+    public override start(recording: EventRecording, onEnd: () => void = null): void {
         // Clear any info about previous replay
         this._frame = 0;
         this._count = 0;
@@ -78,10 +68,8 @@ export default class BasicReplayer implements Replayer<BasicRecording, BasicLogI
         this.emitter.fireEvent(GameEventType.CHANGE_SCENE, {scene: this.recording.scene(), init: this.recording.init()});
     
     }
-    /**
-     * @see BasicReplayer.stop()
-     */
-    public stop(): void {
+    
+    public override stop(): void {
         this._active = false;
         this.onEnd();
         this.emitter.fireEvent(GameEventType.ENABLE_USER_INPUT, {inputs: [
@@ -89,10 +77,5 @@ export default class BasicReplayer implements Replayer<BasicRecording, BasicLogI
             InputHandlers.MOUSE_MOVE, InputHandlers.KEY_DOWN, InputHandlers.KEY_UP, 
             InputHandlers.ON_BLUR, InputHandlers.ON_WHEEL
         ]});
-        this.emitter.fireEvent(GameEventType.CANVAS_BLUR);
     }
-    /**
-     * @see Replayer.destroy()
-     */
-    public destroy(): void {}
 }
