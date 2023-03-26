@@ -35,7 +35,7 @@ import Viewport from "../../Wolfie2D/SceneGraph/Viewport";
 import SceneManager from "../../Wolfie2D/Scene/SceneManager";
 import RenderingManager from "../../Wolfie2D/Rendering/RenderingManager";
 
-import { LoadData, LoadType, LoadBackground, LoadPlayer, LoadEnemy } from "../../constants/loadData/load";
+import { LoadData, LoadType, LoadBackground, LoadPlayer, LoadEnemy } from "../../constants/load";
 import { PhysicGroups, Physics } from "../../constants/physics";
 import { Events } from "../../constants/events";
 
@@ -166,7 +166,7 @@ export default class HW2Scene extends Scene {
 	 * @see Scene.startScene()
 	 */
 	public override startScene(){
-		this.worldPadding = new Vec2(64, 64);
+		this.worldPadding = new Vec2(64, 64);//-----------------------------------------------------
 
 		// Create a background layer
 		this.addLayer(HW2Layers.BACKGROUND, 0);
@@ -558,6 +558,7 @@ export default class HW2Scene extends Scene {
 			// Extract the size of the viewport
 			let paddedViewportSize = this.viewport.getHalfSize().scaled(2).add(this.worldPadding);
 			let viewportSize = this.viewport.getHalfSize().scaled(2);
+			console.log(viewportSize.x, paddedViewportSize.x, paddedViewportSize.y - viewportSize.y, viewportSize.y)
 
 			// Loop on position until we're clear of the player
 			mine.position.copy(RandUtils.randVec(viewportSize.x, paddedViewportSize.x, paddedViewportSize.y - viewportSize.y, viewportSize.y));
