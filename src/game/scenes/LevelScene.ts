@@ -31,8 +31,15 @@ import BasicRecording from "../../Wolfie2D/Playback/BasicRecording";
 
 import { HW2Events } from "../Events";
 import Layer from "../../Wolfie2D/Scene/Layer";
+import Viewport from "../../Wolfie2D/SceneGraph/Viewport";
+import SceneManager from "../../Wolfie2D/Scene/SceneManager";
+import RenderingManager from "../../Wolfie2D/Rendering/RenderingManager";
 
 import { LoadData, LoadType, LoadBackground, LoadPlayer, LoadEnemy } from "../../constants/loadData/load";
+import { PhysicGroups, Physics } from "../../constants/physics";
+import { Events } from "../../constants/events";
+
+
 
 /**
  * A type for layers in the HW3Scene. It seems natural to want to use some kind of enum type to
@@ -103,8 +110,11 @@ export default class HW2Scene extends Scene {
 	// The padding of the world
 	private worldPadding: Vec2;
 
-	/** Scene lifecycle methods */
+	public constructor(viewport: Viewport, sceneManager: SceneManager, renderingManager: RenderingManager, options: Record<string, any>) {
+        super(viewport, sceneManager, renderingManager, {...options, physics: Physics});
+    }
 
+	/** Scene lifecycle methods */
 	/**
 	 * @see Scene.initScene()
 	 */
@@ -184,6 +194,7 @@ export default class HW2Scene extends Scene {
 
 		// Subscribe to laser events
 		this.receiver.subscribe(HW2Events.FIRING_LASER);
+		this.receiver.subscribe(Events.TEST);
 
 		// Subscribe to bubble events
 		//this.receiver.subscribe(HW2Events.PLAYER_BUBBLE_COLLISION)
@@ -268,6 +279,10 @@ export default class HW2Scene extends Scene {
 				this.handleAirChange(event.data.get("currentAir"), event.data.get("maxAir"))
 				break;
 			}
+			case Events.TEST:{
+				console.log(event)
+				break;
+			}
 			default: {
 				throw new Error(`Unhandled event with type ${event.type} caught in ${this.constructor.name}`);
 			}
@@ -302,11 +317,18 @@ export default class HW2Scene extends Scene {
 		this.player.scale.set(0.4, 0.4);
 
 		// Give the player a smaller hitbox
-		let playerCollider = new AABB(Vec2.ZERO, this.player.sizeWithZoom);
-		this.player.setCollisionShape(playerCollider)
+		//let playerCollider = new AABB(Vec2.ZERO, this.player.sizeWithZoom);
+		//this.player.setCollisionShape(playerCollider)
 
 		// Add a playerController to the player
 		this.player.addAI(PlayerController);
+
+		//Add physics to player
+		let center = this.player.position.clone();
+		let halfSize = this.player.boundary.getHalfSize().clone();
+		this.player.addPhysics(new AABB(center, halfSize));
+		this.player.setGroup(PhysicGroups.PLAYER)
+		this.player.setTrigger(PhysicGroups.ENEMY, Events.TEST, null);
 	}
 	/**
 	 * Initializes the UI for the HW3-Scene.
@@ -447,8 +469,13 @@ export default class HW2Scene extends Scene {
 			this.mines[i].scale.set(0.3, 0.3);
 
 			// Give them a collision shape
-			let collider = new AABB(Vec2.ZERO, this.mines[i].sizeWithZoom);
-			this.mines[i].setCollisionShape(collider);
+			//let collider = new AABB(Vec2.ZERO, this.mines[i].sizeWithZoom);
+			//this.mines[i].setCollisionShape(collider);
+
+			let center = this.mines[i].position.clone();
+			let halfSize = this.mines[i].boundary.getHalfSize().clone();
+			this.mines[i].addPhysics(new AABB(center, halfSize));
+			this.mines[i].setGroup(PhysicGroups.ENEMY)
 		}
 
 		// Init the object pool of lasers

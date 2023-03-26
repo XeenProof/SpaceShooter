@@ -149,10 +149,10 @@ export default class PlayerController implements AI {
 
 		// Move the player
 		let movement = Vec2.UP.scaled(forwardAxis * this.currentSpeed).add(new Vec2(horizontalAxis * this.currentSpeed, 0));
-		this.owner.position.add(movement.scaled(deltaT));
+		this.owner.move(movement.scaled(deltaT));
 
 		// Player looses a little bit of air each frame
-		this.currentAir = MathUtils.clamp(this.currentAir - deltaT, this.minAir, this.maxAir);
+		//this.currentAir = MathUtils.clamp(this.currentAir - deltaT, this.minAir, this.maxAir);
 
 		// If the player is out of air - start subtracting from the player's health
 		this.currentHealth = this.currentAir <= this.minAir ? MathUtils.clamp(this.currentHealth - deltaT*2, this.minHealth, this.maxHealth) : this.currentHealth;
@@ -173,7 +173,7 @@ export default class PlayerController implements AI {
 				break;
 			}
 			case HW2Events.PLAYER_MINE_COLLISION: {
-				this.handlePlayerMineCollision();
+				//this.handlePlayerMineCollision();
 				break;
 			}
 			case HW2Events.PLAYER_BUBBLE_COLLISION: {

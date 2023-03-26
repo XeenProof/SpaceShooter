@@ -59,7 +59,7 @@ export default class MineBehavior implements AI {
                 break;
             }
             case HW2Events.PLAYER_MINE_COLLISION: {
-                this.handlePlayerMineCollision(event);
+                //this.handlePlayerMineCollision(event);
                 break;
             }
             case HW2Events.MINE_EXPLODED: {
@@ -81,12 +81,11 @@ export default class MineBehavior implements AI {
         }
         if(this.owner.position.distanceTo(this.currentTarget) <= 10){
             this.counter++;
-            console.log("activating")
             this.currentTarget = this.targets[this.counter%this.targets.length]
         }
         // If the mine is visible - update the position
         if (this.owner.visible) {
-            this.owner.position.add(this.owner.position.dirTo(this.currentTarget).scaled(this.speed * deltaT));
+            this.owner.move(this.owner.position.dirTo(this.currentTarget).scaled(this.speed * deltaT));
         }
     }
 
