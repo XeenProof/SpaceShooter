@@ -1,11 +1,9 @@
 import Game from "./Wolfie2D/Loop/Game";
 import MainMenu from "./game/scenes/MainMenu";
 import RegistryManager from "./Wolfie2D/Registry/RegistryManager";
-
-import { HW2Controls } from "./game/Controls";
-
 import BubbleShaderType from "./game/shaders/BubbleShaderType";
 import LaserShaderType from "./game/shaders/LaserShaderType";
+import { Inputs } from "./constants/gameoptions";
 
 // The main function is your entrypoint into Wolfie2D. Specify your first scene and any options here.
 (function main(){
@@ -14,12 +12,7 @@ import LaserShaderType from "./game/shaders/LaserShaderType";
     let options = {
         canvasSize: {x: 900, y: 900},          // The size of the game
         clearColor: {r: 0.1, g: 0.1, b: 0.1},   // The color the game clears to
-        inputs: [
-            { name: HW2Controls.MOVE_UP, keys: ["w"] },   // Forward is assigned to w
-            { name: HW2Controls.MOVE_DOWN, keys: ["s"] },  // and so on...
-            { name: HW2Controls.MOVE_LEFT, keys: ["a"] },
-            { name: HW2Controls.MOVE_RIGHT, keys: ["d"] },
-        ],
+        inputs: Inputs,
         useWebGL: true,                        // Tell the game we want to use webgl
         showDebug: false                       // Whether to show debug messages. You can change this to true if you want
     }

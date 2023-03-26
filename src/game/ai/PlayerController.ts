@@ -9,7 +9,7 @@ import Timer from "../../Wolfie2D/Timing/Timer";
 import MathUtils from "../../Wolfie2D/Utils/MathUtils";
 
 import { HW2Events } from "../Events";
-import { HW2Controls } from "../Controls";
+import { Controls } from "../../constants/gameoptions";
 
 export const PlayerAnimations = {
     IDLE: "IDLE",
@@ -137,8 +137,8 @@ export default class PlayerController implements AI {
         }
 
 		// Get the player's input direction 
-		let forwardAxis = (Input.isPressed(HW2Controls.MOVE_UP) ? 1 : 0) + (Input.isPressed(HW2Controls.MOVE_DOWN) ? -1 : 0);
-		let horizontalAxis = (Input.isPressed(HW2Controls.MOVE_LEFT) ? -1 : 0) + (Input.isPressed(HW2Controls.MOVE_RIGHT) ? 1 : 0);
+		let forwardAxis = (Input.isPressed(Controls.MOVE_UP) ? 1 : 0) + (Input.isPressed(Controls.MOVE_DOWN) ? -1 : 0);
+		let horizontalAxis = (Input.isPressed(Controls.MOVE_LEFT) ? -1 : 0) + (Input.isPressed(Controls.MOVE_RIGHT) ? 1 : 0);
 
 		// Handle trying to shoot a laser from the submarine
 		if (Input.isMouseJustPressed() && this.currentCharge > 0) {
