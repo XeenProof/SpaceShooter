@@ -12,7 +12,7 @@ export interface LoadData{
 
 export const LoadBackground = {
     UNDERWATER: {KEY: "UNDERWATER", TYPE: LoadType.IMAGE, PATH: "hw2_assets/sprites/WavyBlueLines.png"},
-    SPACE: {KEY: "SPACE", TYPE: LoadType.IMAGE, PATH: "hw2_assets/sprites/space_5.png"}
+    SPACE: {KEY: "SPACE", TYPE: LoadType.IMAGE, PATH: "assets/sprites/space_5.png"}
 } as const
 
 export const LoadPlayer = {

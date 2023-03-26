@@ -30,7 +30,6 @@ import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import BasicRecording from "../../Wolfie2D/Playback/BasicRecording";
 
 import { HW2Events } from "../Events";
-import Layer from "../../Wolfie2D/Scene/Layer";
 import Viewport from "../../Wolfie2D/SceneGraph/Viewport";
 import SceneManager from "../../Wolfie2D/Scene/SceneManager";
 import RenderingManager from "../../Wolfie2D/Rendering/RenderingManager";
@@ -82,6 +81,10 @@ export default class HW2Scene extends Scene {
 	private mines: Array<AnimatedSprite>;
 	// Object pool for bubbles
 	private bubbles: Array<Graphic>;
+
+	// Object pool for miniLasers
+	private beam: Array<Graphic>;
+
 
 	// Laser/Charge labels
 	private chrgLabel: Label;
@@ -231,16 +234,7 @@ export default class HW2Scene extends Scene {
     /**
      * @see Scene.unloadScene()
      */
-    public override unloadScene(): void {
-		// keep all resources.
-		// this.load.keepSpritesheet(HW2Scene.PLAYER_KEY);
-        // this.load.keepImage(HW2Scene.BACKGROUND_KEY);
-        // this.load.keepSpritesheet(HW2Scene.MINE_KEY);
-		// this.load.keepShader(BubbleShaderType.KEY);
-		// this.load.keepShader(LaserShaderType.KEY);
-	}
-
-
+    public override unloadScene(): void {}
 
 	/**
 	 * This method helps with handling events. 
@@ -436,11 +430,13 @@ export default class HW2Scene extends Scene {
 	 * @see {@link https://gameprogrammingpatterns.com/object-pool.html Object-Pools} 
 	 */
 	protected initObjectPools(): void {
+		this.initBeams()
 		
 		// Init bubble object pool
 		this.bubbles = new Array(10);
 		for (let i = 0; i < this.bubbles.length; i++) {
 			this.bubbles[i] = this.add.graphic(GraphicType.RECT, HW2Layers.PRIMARY, {position: new Vec2(0, 0), size: new Vec2(50, 50)});
+			console.log(this.bubbles[i])
             
             // Give the bubbles a custom shader
 			this.bubbles[i].useCustomShader(BubbleShaderType.KEY);
@@ -487,6 +483,11 @@ export default class HW2Scene extends Scene {
 			this.lasers[i].visible = false;
 			this.lasers[i].addAI(LaserBehavior, {src: Vec2.ZERO, dst: Vec2.ZERO});
 		}
+	}
+
+	protected initBeams():void {
+		this.beam = new Array(20);
+		console.log(this.beam)
 	}
 
 	/** Methods for spawing/despawning objects */
