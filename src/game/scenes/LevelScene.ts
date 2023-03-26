@@ -32,6 +32,8 @@ import BasicRecording from "../../Wolfie2D/Playback/BasicRecording";
 import { HW2Events } from "../Events";
 import Layer from "../../Wolfie2D/Scene/Layer";
 
+import { LoadData, LoadType, LoadBackground, LoadPlayer, LoadEnemy } from "../../constants/loadData/load";
+
 /**
  * A type for layers in the HW3Scene. It seems natural to want to use some kind of enum type to
  * represent the different layers in the HW3Scene, however, it is generally bad practice to use
@@ -52,15 +54,6 @@ export const HW2Layers = {
  * @see Scene for more information about the Scene class and Scenes in Wolfie2D
  */
 export default class HW2Scene extends Scene {
-    // The key and path to the player's spritesheet json data
-    public static PLAYER_KEY: string = "PLAYER";
-    public static PLAYER_PATH = "hw2_assets/spritesheets/AYellowBarrelWithWindows.json"
-    // The key and path to the mine sprite
-    public static MINE_KEY = "MINE"
-    public static MINE_PATH = "hw2_assets/spritesheets/SpikyMineThing.json"
-    // The key and path to the background sprite
-	public static BACKGROUND_KEY = "BACKGROUND"
-    public static BACKGROUND_PATH = "hw2_assets/sprites/WavyBlueLines.png"
 
     // A flag to indicate whether or not this scene is being recorded
     private recording: boolean;
@@ -125,11 +118,11 @@ export default class HW2Scene extends Scene {
 	 */
 	public override loadScene(){
 		// Load in the submarine
-		this.load.spritesheet(HW2Scene.PLAYER_KEY, HW2Scene.PLAYER_PATH);
+		this.autoloader(LoadPlayer.PLAYER);
 		// Load in the background image
-		this.load.image(HW2Scene.BACKGROUND_KEY, HW2Scene.BACKGROUND_PATH);
+		this.autoloader(LoadBackground.SPACE);
 		// Load in the naval mine
-		this.load.spritesheet(HW2Scene.MINE_KEY, HW2Scene.MINE_PATH);
+		this.autoloader(LoadEnemy.MINE);
 		// Load in the shader for bubble.
 		this.load.shader(
 			BubbleShaderType.KEY,
@@ -143,6 +136,22 @@ export default class HW2Scene extends Scene {
 			LaserShaderType.FSHADER
     	);
 	}
+
+	protected autoloader (data: LoadData) {
+		let {KEY, TYPE, PATH } = data;
+		switch(TYPE){
+			case LoadType.IMAGE:
+				this.load.image(KEY, PATH);
+				break;
+			case LoadType.AUDIO:
+				this.load.audio(KEY, PATH);
+				break;
+			case LoadType.SPRITESHEET:
+				this.load.spritesheet(KEY, PATH);
+				break;
+		}
+	}
+
 	/**
 	 * @see Scene.startScene()
 	 */
@@ -203,8 +212,6 @@ export default class HW2Scene extends Scene {
 
 		// Handle timers
 		this.handleTimers();
-
-        // TODO Remove despawning of mines and bubbles here
 
 		// Handle screen despawning of mines and bubbles
 		for (let mine of this.mines) if (mine.visible) this.handleScreenDespawn(mine);
@@ -288,7 +295,7 @@ export default class HW2Scene extends Scene {
 	protected initPlayer(): void {
 		// Add in the player as an animated sprite
 		// We give it the key specified in our load function and the name of the layer
-		this.player = this.add.animatedSprite(HW2Scene.PLAYER_KEY, HW2Layers.PRIMARY);
+		this.player = this.add.animatedSprite(LoadPlayer.PLAYER.KEY, HW2Layers.PRIMARY);
 		
 		// Set the player's position to the middle of the screen, and scale it down
 		this.player.position.set(this.viewport.getCenter().x, this.viewport.getCenter().y);
@@ -378,12 +385,12 @@ export default class HW2Scene extends Scene {
 	 * Initializes the background image sprites for the game.
 	 */
 	protected initBackground(): void {
-		this.bg1 = this.add.sprite(HW2Scene.BACKGROUND_KEY, HW2Layers.BACKGROUND);
-		this.bg1.scale.set(1.5, 1.5);
+		this.bg1 = this.add.sprite(LoadBackground.SPACE.KEY, HW2Layers.BACKGROUND);
+		this.bg1.scale.set(.75, .75);
 		this.bg1.position.copy(this.viewport.getCenter());
 
-		this.bg2 = this.add.sprite(HW2Scene.BACKGROUND_KEY, HW2Layers.BACKGROUND);
-		this.bg2.scale.set(1.5, 1.5);
+		this.bg2 = this.add.sprite(LoadBackground.SPACE.KEY, HW2Layers.BACKGROUND);
+		this.bg2.scale.set(.75, .75);
 		this.bg2.position = this.bg1.position.clone();
 		this.bg2.position.add(this.bg1.sizeWithZoom.scale(0, -2));
 	}
@@ -429,7 +436,7 @@ export default class HW2Scene extends Scene {
 		// Init the object pool of mines
 		this.mines = new Array(15);
 		for (let i = 0; i < this.mines.length; i++){
-			this.mines[i] = this.add.animatedSprite(HW2Scene.MINE_KEY, HW2Layers.PRIMARY);
+			this.mines[i] = this.add.animatedSprite(LoadEnemy.MINE.KEY, HW2Layers.PRIMARY);
 
 			// Make our mine inactive by default
 			this.mines[i].visible = false;
