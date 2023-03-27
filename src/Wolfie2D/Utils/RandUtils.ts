@@ -100,8 +100,10 @@ export default class RandUtils {
         return new Color(r, g, b);
     }
 
-    static randVec(minX: number, maxX: number, minY: number, maxY: number): Vec2 {
-        return new Vec2(this.randFloat(minX, maxX), this.randFloat(minY, maxY));
+    static randVec(minX: number, maxX: number, minY: number, maxY: number, memory: Vec2 = Vec2.ZERO): Vec2 {
+        memory.x = this.randFloat(minX, maxX);
+        memory.y = this.randFloat(minY, maxY);
+        return memory;
     }
 
     /** A noise generator */
