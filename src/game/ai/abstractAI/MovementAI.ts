@@ -21,18 +21,19 @@ export default abstract class MovementAI implements AI {
 
     abstract initializeAI(owner: GameNode, options: Record<string, any>): void
 
-    activate(options: Record<string, any>): void {
-        throw new Error("Method not implemented.");
-    }
+    abstract activate(options: Record<string, any>): void
+
     update(deltaT: number): void {
         this.updateData();
-        this.owner.move(this.dir.clone().scale(this.speed*deltaT));
+        if(this.dir != null){
+            this.owner.move(this.dir.clone().scale(this.speed*deltaT));
+        }
     }
     abstract handleEvent(event: GameEvent): void
 
     protected updateData(): void{
-        if(this.path == null || this.path.peek() == null){return;}
-        if(this.currDest == null || this.owner.position.distanceSqTo(this.currDest) <= this._threshold){
+        if(this.path === null || this.path.peek() === null){return;}
+        if(this.currDest === null || this.owner.position.distanceSqTo(this.currDest) <= this.threshold){
             this.updateFields(this.path.dequeue())
         }
     }
@@ -40,10 +41,14 @@ export default abstract class MovementAI implements AI {
     private updateFields(node: PathNode):void{
         if(node == null){
             this.currDest = null;
+            this.speed = 0;
             return
         }
         this.currDest = node.position;
         this.dir = this.owner.position.dirTo(this.currDest)
+        console.log(this.currDest.x, this.currDest.y)
+        console.log(this.path)
+        console.log(node)
         this._speed = (node.speed > 0)?node.speed:this.speed;
         this._threshold = (node.distanceThreshold > 0)?node.distanceThreshold:this.threshold;
     }

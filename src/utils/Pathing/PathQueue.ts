@@ -40,8 +40,8 @@ export default class PathQueue{
         return queue
     }
 
-    public peek(){
-        this.pullFrom.peekNext();
+    public peek(): PathNode{
+        return (this.pullFrom)?this.pullFrom.peekNext():null;
     }
 
     private getFittingQueue(extraSpace: number){

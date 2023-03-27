@@ -38,6 +38,8 @@ import { LoadData, LoadType, LoadBackground, LoadPlayer, LoadEnemy } from "../..
 import { PhysicGroups, Physics } from "../../constants/physics";
 import { Events } from "../../constants/events";
 import BeamAI from "../ai/BeamBehavior";
+import MookActor from "../actors/MookActor";
+import MookBehavior from "../ai/enemyAI/MookBehavior";
 
 
 
@@ -77,15 +79,16 @@ export default class BaseScene extends Scene {
 	// Here we define member variables of our game, and object pools for adding in game objects
 	protected player: AnimatedSprite;
 
-	// Object pool for lasers
+	// Old opject Pools
 	protected lasers: Array<Graphic>;
-	// Object pool for rocks
 	protected mines: Array<AnimatedSprite>;
-	// Object pool for bubbles
 	protected bubbles: Array<Graphic>;
 
-	// Object pool for miniLasers
+	// Object pool for weapons
 	protected beam: Array<Graphic>;
+
+	// Object pool for enemies
+	protected Commom_Mook: Array<AnimatedSprite>;
 
 
 	// Laser/Charge labels
@@ -138,6 +141,7 @@ export default class BaseScene extends Scene {
 		this.autoloader(LoadBackground.SPACE);
 		// Load in the naval mine
 		this.autoloader(LoadEnemy.MINE);
+		this.autoloader(LoadEnemy.COMMON_MOOK);
 		// Load in the shader for bubble.
 		this.load.shader(
 			BubbleShaderType.KEY,
@@ -186,8 +190,12 @@ export default class BaseScene extends Scene {
 		this.initTimers();
 		// Initialize the UI
 		this.initUI();
+
 		// Initialize object pools
 		this.initObjectPools();
+
+		// Initialize object pools
+		this.initObjectPools_old();
 
 		this.initRecorder();
 
@@ -409,6 +417,40 @@ export default class BaseScene extends Scene {
 		this.bg2.position = this.bg1.position.clone();
 		this.bg2.position.add(this.bg1.sizeWithZoom.scale(0, -2));
 	}
+
+	protected initObjectPools(): void {
+		this.initBeams();
+		this.initMooks();
+	}
+
+	protected initBeams():void {
+		this.beam = new Array(20);
+		for (let i = 0; i < this.beam.length; i++){
+			this.beam[i] = this.add.graphic(GraphicType.RECT, HW2Layers.PRIMARY, {position: new Vec2(100,100), size: new Vec2(10, 50)})
+
+			this.beam[i].visible = false;
+			this.beam[i].color = Color.RED;
+
+			this.beam[i].addAI(BeamAI, {pos: Vec2.ZERO});
+			this.beam[i].addPhysics();
+			this.beam[i].setGroup(PhysicGroups.PLAYER_WEAPON);
+		}
+	}
+
+	protected initMooks():void {
+		this.Commom_Mook = new Array(1);
+		for(let i = 0; i < this.Commom_Mook.length; i++){
+			this.Commom_Mook[i] = this.add.animatedSprite(MookActor, LoadEnemy.COMMON_MOOK.KEY, HW2Layers.PRIMARY)
+			this.Commom_Mook[i].visible = false;
+
+			this.Commom_Mook[i].scale.set(0.3, 0.3);
+
+			this.Commom_Mook[i].addAI(MookBehavior, {})
+			this.Commom_Mook[i].addPhysics();
+			this.Commom_Mook[i].setGroup(PhysicGroups.ENEMY);
+		}
+	}
+
 	/**
 	 * This method initializes each of the object pools for this scene.
 	 * 
@@ -428,8 +470,8 @@ export default class BaseScene extends Scene {
 	 * 
 	 * @see {@link https://gameprogrammingpatterns.com/object-pool.html Object-Pools} 
 	 */
-	protected initObjectPools(): void {
-		this.initBeams()
+	protected initObjectPools_old(): void {
+		
 		
 		// Init bubble object pool
 		this.bubbles = new Array(10);
@@ -484,19 +526,7 @@ export default class BaseScene extends Scene {
 		}
 	}
 
-	protected initBeams():void {
-		this.beam = new Array(20);
-		for (let i = 0; i < this.beam.length; i++){
-			this.beam[i] = this.add.graphic(GraphicType.RECT, HW2Layers.PRIMARY, {position: new Vec2(100,100), size: new Vec2(10, 50)})
 
-			this.beam[i].visible = false;
-			this.beam[i].color = Color.RED;
-
-			this.beam[i].addAI(BeamAI, {pos: Vec2.ZERO});
-			this.beam[i].addPhysics();
-			this.beam[i].setGroup(PhysicGroups.PLAYER_WEAPON);
-		}
-	}
 
 	/** Methods for spawing/despawning objects */
 
@@ -519,67 +549,6 @@ export default class BaseScene extends Scene {
 		if (laser) {
 			laser.visible = true;
 			laser.setAIActive(true, {src: src, dst: this.viewport.getHalfSize().scaled(2).add(this.worldPadding.scaled(2))});
-		}
-	}
-
-	/**
-	 * This method handles spawning a mine from the object-pool of mines
-	 * 
-	 * @remark
-	 * 
-	 * If there are no mines in the object-pool, then a mine shouldn't be spawned and 
-	 * the mine-spawn timer should not be reset. Otherwise a mine should be spawned
-	 * and the mine-spawn timer should be reset.
-	 * 
-	 * Mines should randomly spawn inside of the padded area of the viewport on the 
-	 * right side of the screen. In addition, mines should not spawn within a
-	 * a certain distance of the player (ie. we don't want mines spawning on top
-	 * of the player).
-	 * 
-	 * A visualization of the padded viewport is shown below. o's represent valid mine
-	 * spawnn locations. X's represent invalid locations.
-	 * 
-	 * 
-	 * 					 X	 THIS IS OUT OF BOUNDS
-	 * 			 _______________________________________________
-	 * 			|	 THIS IS THE PADDED REGION (OFF SCREEN)		|
-	 * 			|						X					X	|
-	 * 			|		 _______________________________		|
-	 * 			|		|								|		|
-	 * 			|		|								|	o	|
-	 *	 		|		|	  THIS IS THE VISIBLE		|		|
-	 * 		X	|	X	|			 REGION				|	o	|   X 
-	 * 			|		|								|		|
-	 * 			|		|		X						|	o	|
-	 * 			|		|_______________________________|		|
-	 * 			|							X				X	|
-	 * 			|_______________________________________________|
-	 * 
-	 * 							X THIS IS OUT OF BOUNDS
-	 */
-	protected spawnMine(): void {
-		// Find the first visible mine
-		let mine: Sprite = this.mines.find((mine: Sprite) => { return !mine.visible });
-
-		if (mine){
-			// Bring this mine to life
-			mine.visible = true;
-
-			// Extract the size of the viewport
-			let paddedViewportSize = this.viewport.getHalfSize().scaled(2).add(this.worldPadding);
-			let viewportSize = this.viewport.getHalfSize().scaled(2);
-			console.log(viewportSize.x, paddedViewportSize.x, paddedViewportSize.y - viewportSize.y, viewportSize.y)
-
-			// Loop on position until we're clear of the player
-			mine.position.copy(RandUtils.randVec(viewportSize.x, paddedViewportSize.x, paddedViewportSize.y - viewportSize.y, viewportSize.y));
-			while(mine.position.distanceTo(this.player.position) < 100){
-				mine.position.copy(RandUtils.randVec(paddedViewportSize.x, paddedViewportSize.x, paddedViewportSize.y - viewportSize.y, viewportSize.y));
-			}
-
-			mine.setAIActive(true, {});
-			// Start the mine spawn timer - spawn a mine every half a second I think
-			this.mineSpawnTimer.start(100);
-
 		}
 	}
     /**
@@ -1039,10 +1008,6 @@ export default class BaseScene extends Scene {
 	}
 
 	public handleTimers(): void {
-		// If the mine timer is stopped, try to spawn a mine
-		if (this.mineSpawnTimer.isStopped()) {
-			this.spawnMine();
-		}
 		// If the bubble timer is stopped, try to spawn a bubble
 		if (this.bubbleSpawnTimer.isStopped()) {
 			this.spawnBubble();

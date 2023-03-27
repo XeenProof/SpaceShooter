@@ -8,7 +8,7 @@ export default class PathNode {
     private _distanceThreshold: number; /** The distance a node must be to a point to consider it as having arrived */
     
     
-    constructor(position: Vec2 = Vec2.ZERO, repeatCount:number = 0, speed:number = -1, distanceThreshold: number = -1){
+    constructor(position: Vec2 = Vec2.ZERO, repeatCount:number = 0, speed:number = -1, distanceThreshold: number = 20){
         this._position = position;
         this._repeatCount = repeatCount;
         this._speed = speed;

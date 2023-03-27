@@ -39,6 +39,9 @@ import { PhysicGroups, Physics } from "../../constants/physics";
 import { Events } from "../../constants/events";
 import BeamAI from "../ai/BeamBehavior";
 import BaseScene from "./BaseScene";
+import PathNode from "../../utils/Pathing/PathNode";
+import { recRoute } from "../../constants/formations/RectangleForm";
+import { generatePathFromList } from "../../utils/Pathing/CreatePaths";
 
 
 
@@ -68,6 +71,7 @@ export default class LevelScene extends BaseScene {
 	 */
 	public override updateScene(deltaT: number){
 		super.updateScene(deltaT)
+		this.spawnCommomMook(generatePathFromList(recRoute, 300));
 		for (let beam of this.beam) if (beam.visible) this.handleScreenDespawn(beam);
 	}
 
@@ -108,6 +112,14 @@ export default class LevelScene extends BaseScene {
 		if(beam){
 			beam.visible = true;
 			beam.setAIActive(true, {pos: src})
+		}
+	}
+
+	protected spawnCommomMook(path: PathNode[]): void {
+		let mook:AnimatedSprite = this.Commom_Mook.find((mook: AnimatedSprite)=>{return !mook.visible})
+		if(mook){
+			mook.visible = true;
+			mook.setAIActive(true, {path: path})
 		}
 	}
 
