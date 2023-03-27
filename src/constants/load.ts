@@ -1,3 +1,5 @@
+import { enemyKeys } from "./enemies/enemies"
+
 export const LoadType = {
     IMAGE: "IMAGE",
     SPRITESHEET: "SPRITESHEET",
@@ -20,5 +22,6 @@ export const LoadPlayer = {
 } as const
 
 export const LoadEnemy = {
-    MINE: {KEY: "MINE", TYPE: LoadType.SPRITESHEET, PATH: "hw2_assets/spritesheets/SpikyMineThing.json"}
-} as const
+    MINE: {KEY: "MINE", TYPE: LoadType.SPRITESHEET, PATH: "hw2_assets/spritesheets/SpikyMineThing.json"},
+    COMMON_MOOK: {KEY: enemyKeys.COMMON_MOOK, TYPE: LoadType.SPRITESHEET, PATH: "hw2_assets/spritesheets/SpikyMineThing.json"}
+}
