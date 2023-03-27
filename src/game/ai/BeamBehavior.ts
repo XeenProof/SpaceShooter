@@ -1,31 +1,24 @@
-import AI from "../../Wolfie2D/DataTypes/Interfaces/AI";
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
 import GameEvent from "../../Wolfie2D/Events/GameEvent";
 import Receiver from "../../Wolfie2D/Events/Receiver";
-import GameNode from "../../Wolfie2D/Nodes/GameNode";
 import Graphic from "../../Wolfie2D/Nodes/Graphic";
+import MovementAI from "./abstractAI/MovementAI";
 
-export default class BeamBehavior implements AI {
-    private owner: Graphic;
+export default class BeamBehavior extends MovementAI {
+    protected override owner: Graphic;
     private receiver: Receiver;
-
-    private ySpeed: number;
-    private dir: Vec2;
 
     public initializeAI(owner: Graphic, options: Record<string, any>): void {
         this.owner = owner;
-
+        this.speed = 500;
         this.dir = Vec2.UP;
-        this.ySpeed = 500;
         this.receiver = new Receiver();
-
         this.activate(options);
     }
     
     public activate(options: Record<string, any>): void {
         this.owner.position.copy(options.pos)
-        console.log(options.pos)
-        this.ySpeed = options.speed?options.speed:this.ySpeed;
+        this.speed = options.speed?options.speed:this.speed;
         this.receiver.ignoreEvents();
     }
     public handleEvent(event: GameEvent): void {
@@ -36,9 +29,9 @@ export default class BeamBehavior implements AI {
             this.handleEvent(this.receiver.getNextEvent());
         }
         if (this.owner.visible){
-            this.owner.move(this.dir.clone().scale(this.ySpeed*deltaT));
+            super.update(deltaT)
         }
     }
 
-    public destroy(): void {}
+    //public updateData(): void {}
 }
