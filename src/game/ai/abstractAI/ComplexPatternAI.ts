@@ -15,13 +15,20 @@ export default abstract class ComplexPatternAI extends MovementAI {
     /**The current Target of the owner*/
     protected currDest: Vec2 = null;
 
+    private _waitTime: number = 0;
+    private _wait: boolean = false;
+    private waitTimer: Timer;
+    
+
     abstract initializeAI(owner: GameNode, options: Record<string, any>): void
 
     abstract activate(options: Record<string, any>): void
 
     update(deltaT: number): void {
         this.updateData();
-        super.update(deltaT);
+        if(!this.wait){
+            super.update(deltaT);
+        }
     }
     abstract handleEvent(event: GameEvent): void
 
@@ -33,6 +40,11 @@ export default abstract class ComplexPatternAI extends MovementAI {
     }
 
     private updateFields(node: PathNode):void{
+        if(this.waitTime > 0){
+            this.wait = true;
+            this.waitTimer = new Timer(this.waitTime, ()=>{this.wait = false})
+            this.waitTimer.start()
+        }
         if(node == null){
             this.currDest = null;
             this.speed = 0;
@@ -42,7 +54,14 @@ export default abstract class ComplexPatternAI extends MovementAI {
         this.dir = this.owner.position.dirTo(this.currDest)
         this.speed = (node.speed > 0)?node.speed:this.speed;
         this.threshold = (node.distanceThreshold > 0)?node.distanceThreshold:this.threshold;
+        this.waitTime = (node.wait)?node.wait:0
     }
+
+    protected get wait(): boolean {return this._wait;}
+    protected set wait(value: boolean) {this._wait = value;}
+
+    public get waitTime(): number {return this._waitTime;}
+    public set waitTime(value: number) {this._waitTime = value;}
 
     destroy(): void {}
 }

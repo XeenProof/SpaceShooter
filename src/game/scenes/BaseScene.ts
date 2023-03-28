@@ -265,7 +265,7 @@ export default class BaseScene extends Scene {
 	protected handleEvent(event: GameEvent){
 		switch(event.type) {
 			case HW2Events.SHOOT_LASER: {
-				this.spawnLaser(event.data.get("src"));
+				//this.spawnLaser(event.data.get("src"));
 				break;
 			}
 			case HW2Events.DEAD: {
