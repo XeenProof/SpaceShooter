@@ -82,6 +82,10 @@ export default class LevelScene extends BaseScene {
 				this.spawnBeam(event.data.get("src"));
 				break;
 			}
+			case Events.ENEMY_SHOOTS: {
+				console.log("is catiching")
+				this.spawnEnemyBeam(event.data.get("src"), event.data.get("dir"))
+			}
 			case HW2Events.DEAD: {
 				break;
 			}
@@ -112,6 +116,14 @@ export default class LevelScene extends BaseScene {
 		if(beam){
 			beam.visible = true;
 			beam.setAIActive(true, {pos: src})
+		}
+	}
+
+	protected spawnEnemyBeam(src: Vec2, dir?: Vec2):void{
+		let ebeam: AnimatedSprite = this.enemybeam.find((beam: AnimatedSprite) => {return !beam.visible})
+		if(ebeam){
+			ebeam.visible = true;
+			ebeam.setAIActive(true, {pos:src, dir: dir})
 		}
 	}
 

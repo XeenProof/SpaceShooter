@@ -10,7 +10,7 @@ import PathQueue from "../../../utils/Pathing/PathQueue";
 export default abstract class MovementAI implements AI {
     protected owner: GameNode;
     /**The direction the target is moving in */
-    protected dir: Vec2 = null;
+    private _dir: Vec2 = null;
     /**The speed the target is moving in */
     private _speed: number;
     /**The distance from target when considered arrived*/
@@ -29,6 +29,9 @@ export default abstract class MovementAI implements AI {
 
     protected get speed(){return this._speed}
     protected get threshold(){return this._threshold}
+
+    protected get dir(): Vec2 {return this._dir;}
+    protected set dir(value: Vec2) {this._dir = value;}
     
     protected set speed(value: number) {this._speed = value;}
     protected set threshold(value: number) {this._threshold = value;}

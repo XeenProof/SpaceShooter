@@ -43,5 +43,9 @@ export default class HPActor extends AnimatedSprite implements Battler {
     getTargeting(): TargetingEntity[] {return this.targetable.getTargeting()}
     addTargeting(targeting: TargetingEntity): void {this.targetable.addTargeting(targeting);}
     removeTargeting(targeting: TargetingEntity): void {this.targetable.removeTargeting(targeting);}
+
+    fireEvent(type:string, data:Record<string, any>){
+        this.emitter.fireEvent(type, data)
+    }
     
 }

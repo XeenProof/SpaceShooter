@@ -40,9 +40,6 @@ export default abstract class ComplexPatternAI extends MovementAI {
         }
         this.currDest = node.position;
         this.dir = this.owner.position.dirTo(this.currDest)
-        console.log(this.currDest.x, this.currDest.y)
-        console.log(this.path)
-        console.log(node)
         this.speed = (node.speed > 0)?node.speed:this.speed;
         this.threshold = (node.distanceThreshold > 0)?node.distanceThreshold:this.threshold;
     }

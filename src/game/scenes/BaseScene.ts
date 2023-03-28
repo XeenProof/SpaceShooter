@@ -85,6 +85,7 @@ export default class BaseScene extends Scene {
 
 	// Object pool for weapons
 	protected beam: Array<AnimatedSprite>;
+	protected enemybeam: Array<AnimatedSprite>;
 
 	// Object pool for enemies
 	protected Commom_Mook: Array<AnimatedSprite>;
@@ -216,6 +217,7 @@ export default class BaseScene extends Scene {
 
 		// Subscribe to laser events
 		this.receiver.subscribe(HW2Events.FIRING_LASER);
+		this.receiver.subscribe(Events.ENEMY_SHOOTS);
 
 		//Subscribe to mine events
 		this.receiver.subscribe(HW2Events.PLAYER_MINE_COLLISION)
@@ -293,9 +295,7 @@ export default class BaseScene extends Scene {
 				console.log(event)
 				break;
 			}
-			default: {
-				throw new Error(`Unhandled event with type ${event.type} caught in ${this.constructor.name}`);
-			}
+			default: {}
 		}
 
 	}
@@ -430,11 +430,24 @@ export default class BaseScene extends Scene {
 
 	protected initObjectPools(): void {
 		this.initBeams();
-		this.initMooks();
+		this.initMooks(1);
+		this.initEnemyBeam();
 	}
 
-	protected initBeams():void {
-		this.beam = new Array(20);
+	protected initEnemyBeam(c:number = 20):void{
+		this.enemybeam = new Array(c)
+		for(let i = 0; i < this.enemybeam.length; i++){
+			this.enemybeam[i] = this.add.animatedSprite(BeamActor, LoadProjectiles.BEAM.KEY, HW2Layers.PRIMARY)
+			this.enemybeam[i].visible = false;
+
+			this.enemybeam[i].addAI(BeamAI, {pos: Vec2.ZERO, dir: Vec2.DOWN})
+			this.enemybeam[i].addPhysics();
+			this.enemybeam[i].setGroup(PhysicGroups.ENEMY_WEAPON)
+		}
+	}
+
+	protected initBeams(c:number = 20):void {
+		this.beam = new Array(c);
 		for (let i = 0; i < this.beam.length; i++){
 			this.beam[i] = this.add.animatedSprite(BeamActor, LoadProjectiles.BEAM.KEY, HW2Layers.PRIMARY)
 
@@ -447,8 +460,8 @@ export default class BaseScene extends Scene {
 		}
 	}
 
-	protected initMooks():void {
-		this.Commom_Mook = new Array(1);
+	protected initMooks(c:number = 20):void {
+		this.Commom_Mook = new Array(c);
 		for(let i = 0; i < this.Commom_Mook.length; i++){
 			this.Commom_Mook[i] = this.add.animatedSprite(MookActor, LoadEnemy.COMMON_MOOK.KEY, HW2Layers.PRIMARY)
 			this.Commom_Mook[i].visible = false;
@@ -663,6 +676,7 @@ export default class BaseScene extends Scene {
 		// let paddedViewportSize = this.viewport.getHalfSize().scaled(2).add(this.worldPadding);
 		// let viewportSize = this.viewport.getHalfSize().scaled(2);
 		if(node.position.y<0 || node.position.x<0){node.visible = false}
+		if(node.position.y>900 || node.position.x>900){node.visible = false}
 	}
 
 	/** Methods for updating the UI */

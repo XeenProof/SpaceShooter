@@ -28,5 +28,9 @@ export const LoadEnemy = {
 }
 
 export const LoadProjectiles = {
-    BEAM: {KEY: "BEAM", TYPE: LoadType.SPRITESHEET, PATH: "demo_assets/spritesheets/platformer/player.json", SCALE: {X:1, Y:1}}
+    BEAM: {KEY: "BEAM", TYPE: LoadType.SPRITESHEET, PATH: "demo_assets/spritesheets/platformer/player.json", SCALE: {X:1, Y:1}},
+}
+
+export const LoadEnemyProjectile = {
+    ENEMY_BEAM: {KEY: "ENEMY_BEAM", TYPE: LoadType.SPRITESHEET, PATH: "demo_assets/spritesheets/platformer/player.json", SCALE: {X:1, Y:1}}
 }
