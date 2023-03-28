@@ -42,6 +42,8 @@ import BaseScene from "./BaseScene";
 import PathNode from "../../utils/Pathing/PathNode";
 import { recRoute } from "../../constants/formations/RectangleForm";
 import { generatePathFromList } from "../../utils/Pathing/CreatePaths";
+import { AllProjectileKeys } from "../../constants/projectiles/projectileData";
+import { AllEnemyData, AllEnemyKeys } from "../../constants/enemies/enemyData";
 
 
 
@@ -72,7 +74,6 @@ export default class LevelScene extends BaseScene {
 	public override updateScene(deltaT: number){
 		super.updateScene(deltaT)
 		this.spawnCommomMook(generatePathFromList(recRoute, 300));
-		for (let beam of this.beam) if (beam.visible) this.handleScreenDespawn(beam);
 	}
 
 	protected handleEvent(event: GameEvent){
@@ -111,7 +112,7 @@ export default class LevelScene extends BaseScene {
 	}
 
 	protected spawnBeam(src: Vec2): void {
-		let beam: AnimatedSprite = this.beam.find((beam: AnimatedSprite) => {return !beam.visible;})
+		let beam: CanvasNode = this.entities.getEntity(AllProjectileKeys.BEAM);
 		if(beam){
 			beam.visible = true;
 			beam.setAIActive(true, {pos: src})
@@ -119,7 +120,7 @@ export default class LevelScene extends BaseScene {
 	}
 
 	protected spawnEnemyBeam(src: Vec2, dir?: Vec2):void{
-		let ebeam: AnimatedSprite = this.enemybeam.find((beam: AnimatedSprite) => {return !beam.visible})
+		let ebeam: CanvasNode = this.entities.getEntity(AllProjectileKeys.ENEMY_BEAM);
 		if(ebeam){
 			ebeam.visible = true;
 			ebeam.setAIActive(true, {pos:src, dir: dir})
@@ -127,7 +128,7 @@ export default class LevelScene extends BaseScene {
 	}
 
 	protected spawnCommomMook(path: PathNode[]): void {
-		let mook:AnimatedSprite = this.Commom_Mook.find((mook: AnimatedSprite)=>{return !mook.visible})
+		let mook:CanvasNode = this.entities.getEntity(AllEnemyKeys.COMMON_MOOK)
 		if(mook){
 			mook.visible = true;
 			mook.setAIActive(true, {path: path})
