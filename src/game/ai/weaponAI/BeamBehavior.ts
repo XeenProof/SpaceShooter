@@ -1,8 +1,8 @@
-import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
-import GameEvent from "../../Wolfie2D/Events/GameEvent";
-import Receiver from "../../Wolfie2D/Events/Receiver";
-import Graphic from "../../Wolfie2D/Nodes/Graphic";
-import MovementAI from "./abstractAI/MovementAI";
+import Vec2 from "../../../Wolfie2D/DataTypes/Vec2";
+import GameEvent from "../../../Wolfie2D/Events/GameEvent";
+import Receiver from "../../../Wolfie2D/Events/Receiver";
+import Graphic from "../../../Wolfie2D/Nodes/Graphic";
+import MovementAI from "../abstractAI/MovementAI";
 
 export default class BeamBehavior extends MovementAI {
     protected override owner: Graphic;

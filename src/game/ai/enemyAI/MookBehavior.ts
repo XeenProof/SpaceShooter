@@ -4,11 +4,11 @@ import GameNode from "../../../Wolfie2D/Nodes/GameNode";
 import AnimatedSprite from "../../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import PathQueue from "../../../utils/Pathing/PathQueue";
 import MookActor from "../../actors/MookActor";
-import MovementAI from "../abstractAI/MovementAI";
+import ComplexPatternAI from "../abstractAI/ComplexPatternAI";
 
 
 
-export default class MookBehavior extends MovementAI{
+export default class MookBehavior extends ComplexPatternAI{
     public override owner: MookActor
 
     public initializeAI(owner: MookActor, options: Record<string, any>): void {

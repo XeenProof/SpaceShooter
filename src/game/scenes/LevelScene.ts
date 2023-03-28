@@ -37,7 +37,7 @@ import RenderingManager from "../../Wolfie2D/Rendering/RenderingManager";
 import { LoadData, LoadType, LoadBackground, LoadPlayer, LoadEnemy } from "../../constants/load";
 import { PhysicGroups, Physics } from "../../constants/physics";
 import { Events } from "../../constants/events";
-import BeamAI from "../ai/BeamBehavior";
+import BeamAI from "../ai/weaponAI/BeamBehavior";
 import BaseScene from "./BaseScene";
 import PathNode from "../../utils/Pathing/PathNode";
 import { recRoute } from "../../constants/formations/RectangleForm";

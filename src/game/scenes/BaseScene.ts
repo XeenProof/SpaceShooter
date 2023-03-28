@@ -37,7 +37,7 @@ import RenderingManager from "../../Wolfie2D/Rendering/RenderingManager";
 import { LoadData, LoadType, LoadBackground, LoadPlayer, LoadEnemy } from "../../constants/load";
 import { PhysicGroups, Physics } from "../../constants/physics";
 import { Events } from "../../constants/events";
-import BeamAI from "../ai/BeamBehavior";
+import BeamAI from "../ai/weaponAI/BeamBehavior";
 import MookActor from "../actors/MookActor";
 import MookBehavior from "../ai/enemyAI/MookBehavior";
 
@@ -64,13 +64,8 @@ export const HW2Layers = {
  * @see Scene for more information about the Scene class and Scenes in Wolfie2D
  */
 export default class BaseScene extends Scene {
-
-    // A flag to indicate whether or not this scene is being recorded
-    // protected recording: boolean;
-	// protected recorder: BasicRecording;
-	// protected playback: boolean;
-    // The seed that should be set before the game starts
-    protected seed: string;
+	protected BACKGROUND: LoadData;
+	protected PLAYER: LoadData;
 
 	// Sprites for the background images
 	protected bg1: Sprite;
@@ -89,7 +84,6 @@ export default class BaseScene extends Scene {
 
 	// Object pool for enemies
 	protected Commom_Mook: Array<AnimatedSprite>;
-
 
 	// Laser/Charge labels
 	protected chrgLabel: Label;
@@ -127,18 +121,18 @@ export default class BaseScene extends Scene {
 	 * @see Scene.initScene()
 	 */
 	public override initScene(options: Record<string, any>): void {
-		this.seed = options.seed === undefined ? this.seed : options.seed;
+		//this.seed = options.seed === undefined ? this.seed : options.seed;
         //this.recording = options.recording === undefined ? false : options.recording; 
-		RandUtils.seed = this.seed;
+		//RandUtils.seed = this.seed;
 	}
 	/**
 	 * @see Scene.loadScene()
 	 */
 	public override loadScene(){
 		// Load in the submarine
-		this.autoloader(LoadPlayer.PLAYER);
+		this.loadPlayer(LoadPlayer.PLAYER);
 		// Load in the background image
-		this.autoloader(LoadBackground.SPACE);
+		this.loadBackground(LoadBackground.SPACE);
 		// Load in the naval mine
 		this.autoloader(LoadEnemy.MINE);
 		this.autoloader(LoadEnemy.COMMON_MOOK);
@@ -154,6 +148,15 @@ export default class BaseScene extends Scene {
 			LaserShaderType.VSHADER, 
 			LaserShaderType.FSHADER
     	);
+	}
+	protected loadBackground(data: LoadData){
+		this.autoloader(data)
+		this.BACKGROUND = data;
+	}
+
+	protected loadPlayer(data: LoadData){
+		this.autoloader(data)
+		this.PLAYER = data
 	}
 
 	protected autoloader (data: LoadData) {
@@ -311,11 +314,11 @@ export default class BaseScene extends Scene {
 	protected initPlayer(): void {
 		// Add in the player as an animated sprite
 		// We give it the key specified in our load function and the name of the layer
-		this.player = this.add.animatedSprite(AnimatedSprite, LoadPlayer.PLAYER.KEY, HW2Layers.PRIMARY);
+		this.player = this.add.animatedSprite(AnimatedSprite, this.PLAYER.KEY, HW2Layers.PRIMARY);
 		
 		// Set the player's position to the middle of the screen, and scale it down
 		this.player.position.set(this.viewport.getCenter().x, this.viewport.getCenter().y);
-		this.player.scale.set(0.4, 0.4);
+		this.player.scale.set(this.PLAYER.SCALE.X, this.PLAYER.SCALE.Y);
 
 		// Give the player a smaller hitbox
 		//let playerCollider = new AABB(Vec2.ZERO, this.player.sizeWithZoom);
@@ -331,6 +334,7 @@ export default class BaseScene extends Scene {
 		this.player.setGroup(PhysicGroups.PLAYER)
 		this.player.setTrigger(PhysicGroups.ENEMY, Events.TEST, null);
 	}
+
 	/**
 	 * Initializes the UI for the HW3-Scene.
 	 * 
@@ -408,12 +412,12 @@ export default class BaseScene extends Scene {
 	 * Initializes the background image sprites for the game.
 	 */
 	protected initBackground(): void {
-		this.bg1 = this.add.sprite(LoadBackground.SPACE.KEY, HW2Layers.BACKGROUND);
-		this.bg1.scale.set(.75, .75);
+		this.bg1 = this.add.sprite(this.BACKGROUND.KEY, HW2Layers.BACKGROUND);
+		this.bg1.scale.set(this.BACKGROUND.SCALE.X, this.BACKGROUND.SCALE.Y);
 		this.bg1.position.copy(this.viewport.getCenter());
 
-		this.bg2 = this.add.sprite(LoadBackground.SPACE.KEY, HW2Layers.BACKGROUND);
-		this.bg2.scale.set(.75, .75);
+		this.bg2 = this.add.sprite(this.BACKGROUND.KEY, HW2Layers.BACKGROUND);
+		this.bg2.scale.set(this.BACKGROUND.SCALE.X, this.BACKGROUND.SCALE.Y);
 		this.bg2.position = this.bg1.position.clone();
 		this.bg2.position.add(this.bg1.sizeWithZoom.scale(0, -2));
 	}

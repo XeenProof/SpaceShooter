@@ -11,7 +11,9 @@ const defaults = {
     mindist: 300,
     repeating: 0,
     speed: -1,
-    threshold: 5
+    threshold: 5,
+    minWait: 0,
+    maxWait: 0
 }
 
 export interface Positions{
@@ -19,7 +21,8 @@ export interface Positions{
     y: number,
     repeat?: number,
     speed?: number,
-    thresh?: number
+    thresh?: number,
+    wait?: number
 }
 
 export function generateRandomPathList(setList: Record<string, any>[]): PathNode[]{
@@ -30,11 +33,12 @@ export function generateRandomPathList(setList: Record<string, any>[]): PathNode
 
 export function generatePathFromList(list: Array<Positions>, default_speed: number): PathNode[]{
     return list.map((pos) => {
-        let { x, y, repeat, speed, thresh} = pos;
+        let { x, y, repeat, speed, thresh, wait} = pos;
         let r = (repeat)?repeat:0;
         let s = (speed)?speed:default_speed;
         let t = (thresh)?thresh:defaults.threshold
-        return new PathNode(new Vec2(x,y), r, s, t)
+        let w = (wait)?wait:defaults.minWait
+        return new PathNode(new Vec2(x,y), r, s, t, w)
     })
 }
 
@@ -62,4 +66,8 @@ function getNextCoord(settings: Record<string, any>, previous: Vec2 = null){
         nextVec = RandUtils.randVec(xmin, xmax, ymin, ymax, nextVec)
     }
     return nextVec;
+}
+
+function generateWaitTime(min: number, max:number){
+    return RandUtils.randInt(min, max);
 }

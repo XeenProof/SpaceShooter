@@ -27,6 +27,10 @@ export default class Timer implements Updateable {
         // Register this timer
         TimerManager.getInstance().addTimer(this);
         
+        this.reinit(time, onEnd, loop);
+    }
+
+    reinit(time: number, onEnd: Function = this.onEnd, loop: boolean = this.loop){
         this.totalTime = time;
         this.timeLeft = 0;
         this.onEnd = onEnd;
