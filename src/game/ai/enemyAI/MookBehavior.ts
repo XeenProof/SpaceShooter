@@ -16,19 +16,15 @@ import ComplexPatternAI from "../abstractAI/ComplexPatternAI";
 export default class MookBehavior extends ComplexPatternAI{
     protected override owner: MookActor
 
-    public emitter: Emitter
-
     //for targeting
     protected target: TargetableEntity;
     protected weaponCooldown: Timer;
 
     public initializeAI(owner: MookActor, options: Record<string, any>): void {
         this.owner = owner
-        this.emitter = new Emitter()
 
         this.target = options.target
         this.weaponCooldown = new Timer(1000, ()=>{this.firePattern()}, true);
-        console.log(this.emitter);
 
         this.path = new PathQueue(30)
     }
@@ -41,7 +37,7 @@ export default class MookBehavior extends ComplexPatternAI{
     }
 
     protected firePattern():void{
-        this.owner.fireEvent(Events.ENEMY_SHOOTS, {src: this.owner.position, dir: Vec2.DOWN, id: this.owner.id, type: bulletType.ENEMY_BEAM})
+        this.owner.fireEvent(Events.ENEMY_SHOOTS, {src: this.owner.position, dir: null, id: this.owner.id, type: bulletType.ENEMY_BEAM})
     }
 
 
