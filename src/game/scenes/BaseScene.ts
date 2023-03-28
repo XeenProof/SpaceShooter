@@ -34,12 +34,14 @@ import Viewport from "../../Wolfie2D/SceneGraph/Viewport";
 import SceneManager from "../../Wolfie2D/Scene/SceneManager";
 import RenderingManager from "../../Wolfie2D/Rendering/RenderingManager";
 
-import { LoadData, LoadType, LoadBackground, LoadPlayer, LoadEnemy } from "../../constants/load";
+import { LoadData, LoadType, LoadBackground, LoadPlayer, LoadEnemy, LoadProjectiles } from "../../constants/load";
 import { PhysicGroups, Physics } from "../../constants/physics";
 import { Events } from "../../constants/events";
 import BeamAI from "../ai/weaponAI/BeamBehavior";
 import MookActor from "../actors/MookActor";
 import MookBehavior from "../ai/enemyAI/MookBehavior";
+import BasicTargetable from "../../utils/Targeting/BasicTargetable";
+import Position from "../../utils/Targeting/Position";
 
 
 
@@ -80,7 +82,7 @@ export default class BaseScene extends Scene {
 	protected bubbles: Array<Graphic>;
 
 	// Object pool for weapons
-	protected beam: Array<Graphic>;
+	protected beam: Array<AnimatedSprite>;
 
 	// Object pool for enemies
 	protected Commom_Mook: Array<AnimatedSprite>;
@@ -136,6 +138,8 @@ export default class BaseScene extends Scene {
 		// Load in the naval mine
 		this.autoloader(LoadEnemy.MINE);
 		this.autoloader(LoadEnemy.COMMON_MOOK);
+
+		this.autoloader(LoadProjectiles.BEAM);
 		// Load in the shader for bubble.
 		this.load.shader(
 			BubbleShaderType.KEY,
@@ -430,10 +434,10 @@ export default class BaseScene extends Scene {
 	protected initBeams():void {
 		this.beam = new Array(20);
 		for (let i = 0; i < this.beam.length; i++){
-			this.beam[i] = this.add.graphic(GraphicType.RECT, HW2Layers.PRIMARY, {position: new Vec2(100,100), size: new Vec2(10, 50)})
+			this.beam[i] = this.add.animatedSprite(AnimatedSprite, LoadProjectiles.BEAM.KEY, HW2Layers.PRIMARY)
 
 			this.beam[i].visible = false;
-			this.beam[i].color = Color.RED;
+			//this.beam[i].color = Color.RED;
 
 			this.beam[i].addAI(BeamAI, {pos: Vec2.ZERO});
 			this.beam[i].addPhysics();
@@ -449,7 +453,7 @@ export default class BaseScene extends Scene {
 
 			this.Commom_Mook[i].scale.set(0.3, 0.3);
 
-			this.Commom_Mook[i].addAI(MookBehavior, {})
+			this.Commom_Mook[i].addAI(MookBehavior, {target: new BasicTargetable(new Position(0,0))})
 			this.Commom_Mook[i].addPhysics();
 			this.Commom_Mook[i].setGroup(PhysicGroups.ENEMY);
 		}

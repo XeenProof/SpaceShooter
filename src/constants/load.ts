@@ -26,3 +26,7 @@ export const LoadEnemy = {
     MINE: {KEY: "MINE", TYPE: LoadType.SPRITESHEET, PATH: "hw2_assets/spritesheets/SpikyMineThing.json", SCALE:{X:0.3, Y:0.3}},
     COMMON_MOOK: {KEY: enemyKeys.COMMON_MOOK, TYPE: LoadType.SPRITESHEET, PATH: "hw2_assets/spritesheets/SpikyMineThing.json", SCALE:{X:0.3, Y:0.3}}
 }
+
+export const LoadProjectiles = {
+    BEAM: {KEY: "BEAM", TYPE: LoadType.SPRITESHEET, PATH: "demo_assets/spritesheets/platformer/player.json", SCALE: {X:1, Y:1}}
+}

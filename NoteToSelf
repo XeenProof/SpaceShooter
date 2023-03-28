@@ -9,3 +9,6 @@ Set trigger fires an event
 firebase login
 firebase init
 firebase deploy
+
+Questions to ask:
+-Figure out how targetable/targeting works

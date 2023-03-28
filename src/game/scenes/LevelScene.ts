@@ -108,7 +108,7 @@ export default class LevelScene extends BaseScene {
 	}
 
 	protected spawnBeam(src: Vec2): void {
-		let beam: Graphic = this.beam.find((beam: Graphic) => {return !beam.visible;})
+		let beam: AnimatedSprite = this.beam.find((beam: AnimatedSprite) => {return !beam.visible;})
 		if(beam){
 			beam.visible = true;
 			beam.setAIActive(true, {pos: src})

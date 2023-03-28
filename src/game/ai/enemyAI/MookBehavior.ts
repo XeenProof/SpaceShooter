@@ -3,16 +3,23 @@ import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 import GameNode from "../../../Wolfie2D/Nodes/GameNode";
 import AnimatedSprite from "../../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import PathQueue from "../../../utils/Pathing/PathQueue";
+import { TargetableEntity } from "../../../utils/Targeting/TargetableEntity";
 import MookActor from "../../actors/MookActor";
 import ComplexPatternAI from "../abstractAI/ComplexPatternAI";
 
 
 
 export default class MookBehavior extends ComplexPatternAI{
-    public override owner: MookActor
+    protected override owner: MookActor
+
+    //for targeting
+    protected target: TargetableEntity;
 
     public initializeAI(owner: MookActor, options: Record<string, any>): void {
         this.owner = owner
+
+        this.target = options.target
+
         this.path = new PathQueue(30)
     }
 
