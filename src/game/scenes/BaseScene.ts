@@ -248,6 +248,7 @@ export default class BaseScene extends Scene {
 		for (let mine of this.mines) if (mine.visible) this.handleScreenDespawn(mine);
 		for (let bubble of this.bubbles) if (bubble.visible) this.handleScreenDespawn(bubble);
 		for (let beam of this.beam) if (beam.visible) this.handleScreenDespawn(beam);
+		for (let ebeam of this.enemybeam) if (ebeam.visible) this.handleScreenDespawn(ebeam);
 	}
     /**
      * @see Scene.unloadScene()
@@ -466,7 +467,7 @@ export default class BaseScene extends Scene {
 			this.Commom_Mook[i] = this.add.animatedSprite(MookActor, LoadEnemy.COMMON_MOOK.KEY, HW2Layers.PRIMARY)
 			this.Commom_Mook[i].visible = false;
 
-			this.Commom_Mook[i].scale.set(0.3, 0.3);
+			this.Commom_Mook[i].scale.set(LoadEnemy.COMMON_MOOK.SCALE.X, LoadEnemy.COMMON_MOOK.SCALE.Y);
 
 			this.Commom_Mook[i].addAI(MookBehavior, {target: new BasicTargetable(new Position(0,0))})
 			this.Commom_Mook[i].addPhysics();

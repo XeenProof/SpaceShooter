@@ -27,7 +27,7 @@ export default class MookBehavior extends ComplexPatternAI{
         this.emitter = new Emitter()
 
         this.target = options.target
-        this.weaponCooldown = new Timer(3, ()=>{}, true);
+        this.weaponCooldown = new Timer(1000, ()=>{this.firePattern()}, true);
         console.log(this.emitter);
 
         this.path = new PathQueue(30)
@@ -35,9 +35,9 @@ export default class MookBehavior extends ComplexPatternAI{
 
     public activate(options: Record<string, any>): void {
         console.log(options.path);
-        this.weaponCooldown.start()
         this.path = this.path.enqueueArray((options.path)?options.path:[]);
         this.owner.position.copy((this.path.peek())?this.path.peek().position: Vec2.ZERO)
+        this.weaponCooldown.start()
     }
 
     protected firePattern():void{
@@ -47,7 +47,7 @@ export default class MookBehavior extends ComplexPatternAI{
 
     public update(deltaT: number){
         super.update(deltaT)
-        this.firePattern()
+        //this.firePattern()
     }
     public handleEvent(event: GameEvent): void {
         throw new Error("Method not implemented.");

@@ -83,7 +83,6 @@ export default class LevelScene extends BaseScene {
 				break;
 			}
 			case Events.ENEMY_SHOOTS: {
-				console.log("is catiching")
 				this.spawnEnemyBeam(event.data.get("src"), event.data.get("dir"))
 			}
 			case HW2Events.DEAD: {
