@@ -42,6 +42,8 @@ import MookActor from "../actors/MookActor";
 import MookBehavior from "../ai/enemyAI/MookBehavior";
 import BasicTargetable from "../../utils/Targeting/BasicTargetable";
 import Position from "../../utils/Targeting/Position";
+import BeamActor from "../actors/BeamActor";
+import PlayerActor from "../actors/PlayerActor";
 
 
 
@@ -318,7 +320,7 @@ export default class BaseScene extends Scene {
 	protected initPlayer(): void {
 		// Add in the player as an animated sprite
 		// We give it the key specified in our load function and the name of the layer
-		this.player = this.add.animatedSprite(AnimatedSprite, this.PLAYER.KEY, HW2Layers.PRIMARY);
+		this.player = this.add.animatedSprite(PlayerActor, this.PLAYER.KEY, HW2Layers.PRIMARY);
 		
 		// Set the player's position to the middle of the screen, and scale it down
 		this.player.position.set(this.viewport.getCenter().x, this.viewport.getCenter().y);
@@ -434,7 +436,7 @@ export default class BaseScene extends Scene {
 	protected initBeams():void {
 		this.beam = new Array(20);
 		for (let i = 0; i < this.beam.length; i++){
-			this.beam[i] = this.add.animatedSprite(AnimatedSprite, LoadProjectiles.BEAM.KEY, HW2Layers.PRIMARY)
+			this.beam[i] = this.add.animatedSprite(BeamActor, LoadProjectiles.BEAM.KEY, HW2Layers.PRIMARY)
 
 			this.beam[i].visible = false;
 			//this.beam[i].color = Color.RED;

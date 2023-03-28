@@ -2,13 +2,14 @@ import Vec2 from "../../../Wolfie2D/DataTypes/Vec2";
 import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 import Receiver from "../../../Wolfie2D/Events/Receiver";
 import Graphic from "../../../Wolfie2D/Nodes/Graphic";
+import BeamActor from "../../actors/BeamActor";
 import MovementAI from "../abstractAI/MovementAI";
 
 export default class BeamBehavior extends MovementAI {
-    protected override owner: Graphic;
+    protected override owner: BeamActor;
     private receiver: Receiver;
 
-    public initializeAI(owner: Graphic, options: Record<string, any>): void {
+    public initializeAI(owner: BeamActor, options: Record<string, any>): void {
         this.owner = owner;
         this.speed = 500;
         this.dir = Vec2.UP;

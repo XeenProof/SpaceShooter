@@ -10,6 +10,7 @@ import MathUtils from "../../Wolfie2D/Utils/MathUtils";
 
 import { HW2Events } from "../Events";
 import { Controls } from "../../constants/gameoptions";
+import PlayerActor from "../actors/PlayerActor";
 
 export const PlayerAnimations = {
     IDLE: "IDLE",
@@ -23,7 +24,7 @@ export const PlayerAnimations = {
  */
 export default class PlayerController implements AI {
 	/** The GameNode that owns this PlayerController AI */
-	private owner: AnimatedSprite;
+	private owner: PlayerActor;
 
     private currentHealth: number;
     private maxHealth: number;
@@ -57,7 +58,7 @@ export default class PlayerController implements AI {
 	 * @param owner The owner of this AI - i.e. the player
 	 * @param options The list of options for ai initialization
 	 */
-	public initializeAI(owner: AnimatedSprite, options: Record<string,any>): void {
+	public initializeAI(owner: PlayerActor, options: Record<string,any>): void {
 		this.owner = owner;
 
 		this.receiver = new Receiver();

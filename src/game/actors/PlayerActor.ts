@@ -8,17 +8,10 @@ import BaseScene from "../scenes/BaseScene";
 import HPActor from "./HPActor";
 
 
-export default class MookActor extends HPActor{
+export default class PlayerActor extends HPActor{
     protected scene: BaseScene
-
 
     public constructor(sheet: Spritesheet){
         super(sheet)
-        //this.targetable = new BasicTargetable(this)
     }
-
-    //Targetable Interface Functions
-    // public getTargeting(): TargetingEntity[] {return this.targetable.getTargeting();}
-    // public addTargeting(targeting: TargetingEntity): void {this.targetable.addTargeting(targeting);}
-    // public removeTargeting(targeting: TargetingEntity): void {this.targetable.removeTargeting(targeting);}
 }
