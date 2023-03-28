@@ -1,3 +1,4 @@
+import StateMachineAI from "../../../Wolfie2D/AI/StateMachineAI";
 import AI from "../../../Wolfie2D/DataTypes/Interfaces/AI";
 import Vec2 from "../../../Wolfie2D/DataTypes/Vec2";
 import GameEvent from "../../../Wolfie2D/Events/GameEvent";
@@ -7,7 +8,7 @@ import PathNode from "../../../utils/Pathing/PathNode";
 import PathQueue from "../../../utils/Pathing/PathQueue";
 
 
-export default abstract class MovementAI implements AI {
+export default abstract class MovementAI extends StateMachineAI {
     protected owner: GameNode;
     /**The direction the target is moving in */
     private _dir: Vec2 = null;

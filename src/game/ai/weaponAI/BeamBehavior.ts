@@ -7,7 +7,6 @@ import MovementAI from "../abstractAI/MovementAI";
 
 export default class BeamBehavior extends MovementAI {
     protected override owner: BeamActor;
-    private receiver: Receiver;
 
     public initializeAI(owner: BeamActor, options: Record<string, any>): void {
         this.owner = owner;
