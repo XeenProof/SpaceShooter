@@ -3,7 +3,7 @@ import { PhysicGroups } from "../physics";
 import { STATS } from "./enemieStats";
 
 export const AllEnemyKeys = {
-    COMMON_MOOK: "COMMON.MOOK"
+    COMMON_MOOK: "COMMON_MOOK"
 }
 
 export const AllEnemyData = {
