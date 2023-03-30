@@ -45,6 +45,7 @@ import { generatePathFromList } from "../../utils/Pathing/CreatePaths";
 import { AllProjectileKeys } from "../../constants/projectiles/projectileData";
 import { AllEnemyData, AllEnemyKeys } from "../../constants/enemies/enemyData";
 import Spawnable from "../../utils/Interface/Spawnable";
+import BeamActor from "../actors/BeamActor";
 
 
 
@@ -114,23 +115,17 @@ export default class LevelScene extends BaseScene {
 
 	protected spawnBeam(src: Vec2): void {
 		let beam: Spawnable = this.entities.getEntity(AllProjectileKeys.BEAM);
-		if(beam){
-			beam.spawn({pos: src})
-		}
+		if(beam){beam.spawn({pos: src})}
 	}
 
 	protected spawnEnemyBeam(src: Vec2, dir?: Vec2):void{
 		let ebeam: Spawnable = this.entities.getEntity(AllProjectileKeys.ENEMY_BEAM);
-		if(ebeam){
-			ebeam.spawn({pos:src, dir: dir})
-		}
+		if(ebeam){ebeam.spawn({pos:src, dir: dir})}
 	}
 
 	protected spawnCommomMook(path: PathNode[]): void {
 		let mook:Spawnable = this.entities.getEntity(AllEnemyKeys.COMMON_MOOK)
-		if(mook){
-			mook.spawn({path: path})
-		}
+		if(mook){mook.spawn({path: path})}
 	}
 
 	protected handleDeath(): void {
