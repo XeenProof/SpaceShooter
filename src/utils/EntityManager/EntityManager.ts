@@ -4,22 +4,22 @@ import Spawnable from "../Interface/Spawnable";
 
 
 /**Key would equate the type of enemy */
-export default class EntityManager{
+export default class EntityManager<T extends CanvasNode>{
     private entityKeys:Array<string>
-    private entities:Map<string, Array<CanvasNode & Spawnable>>
-    private initFuncs:Map<string, ()=>CanvasNode & Spawnable>
+    private entities:Map<string, Array<T>>
+    private initFuncs:Map<string, ()=>T>
     private comparables:Map<string, Record<string, any>>
 
     constructor(){
         this.entityKeys = new Array<string>()
-        this.entities = new Map<string,Array<CanvasNode & Spawnable>>()
-        this.initFuncs = new Map<string, ()=>CanvasNode & Spawnable>();
+        this.entities = new Map<string,Array<T>>()
+        this.initFuncs = new Map<string, ()=>T>();
         this.comparables = new Map<string, Record<string, any>>()
     }
 
-    public initEntity(key: string, total:number, func: ()=>CanvasNode & Spawnable = this.getinitFunc(key), comparable:Record<string, any> = {}):void{
+    public initEntity(key: string, total:number, func: ()=>T = this.getinitFunc(key), comparable:Record<string, any> = {}):T{
         if(!func){console.log("can't initiate"); return}
-        let array = new Array<CanvasNode & Spawnable>(total)
+        let array = new Array<T>(total)
         for(let i = 0; i < array.length; i++){array[i] = func();}
         let original = this.getComparable(key)?this.getComparable(key):{}
         this.entities.set(key, array)
@@ -34,18 +34,18 @@ export default class EntityManager{
         return list.find((x)=>{return !x.visible})
     }
 
-    public findEntity(entityFilter: (value?: any, index?: number) => boolean = ()=>{return true;}, keyFilter: (value?: any, index?: number) => boolean = ()=>{return true;}):(CanvasNode & Spawnable)[]{
+    public findEntity(entityFilter: (value?: any, index?: number) => boolean = ()=>{return true;}, keyFilter: (value?: any, index?: number) => boolean = ()=>{return true;}):(T)[]{
         let filteredKeys = this.entityKeys.filter((x, i) => {return keyFilter(this.getComparable(x), i)});
         let foundEntities = filteredKeys.map((x) => {return this.getEntityList(x)}).reduce((x,y)=>{return [...x, ...y]}, []).filter(entityFilter)
         return foundEntities
     }
 
-    public findOneEntity(entityFilter: (value?: any, index?: number) => boolean = ()=>{return true;}, keyFilter: (value?: any, index?: number) => boolean = ()=>{return true;}):(CanvasNode & Spawnable){
+    public findOneEntity(entityFilter: (value?: any, index?: number) => boolean = ()=>{return true;}, keyFilter: (value?: any, index?: number) => boolean = ()=>{return true;}):(T){
         let foundEntities = this.findEntity(entityFilter, keyFilter)
         return (foundEntities.length > 0)?foundEntities[0]:null
     }
 
-    public getEntityById(id: number, physicsGroup?: string):(CanvasNode & Spawnable){
+    public getEntityById(id: number, physicsGroup?: string):(T){
         let idFinder = (value: CanvasNode, index: number) => {return value.id == id}
         let groupFinder = (physicsGroup)?(value: any, index: number) => {return value.PHYSICS == physicsGroup}:()=>{return true}
         let found = this.findEntity(idFinder, groupFinder);

@@ -47,6 +47,8 @@ import PlayerActor from "../actors/PlayerActor";
 import EntityManager from "../../utils/EntityManager/EntityManager";
 import { AllEnemyData } from "../../constants/enemies/enemyData";
 import { AllProjectileData } from "../../constants/projectiles/projectileData";
+import { AllPlayerData } from "../../constants/player/playerStats";
+import Spawnable from "../../utils/Interface/Spawnable";
 
 
 
@@ -78,10 +80,10 @@ export default class BaseScene extends Scene {
 	protected bg1: Sprite;
 	protected bg2: Sprite;
 
-	protected entities: EntityManager;
+	protected entities: EntityManager<CanvasNode & Spawnable>;
 
 	// Here we define member variables of our game, and object pools for adding in game objects
-	protected player: AnimatedSprite;
+	protected player: CanvasNode;
 
 	// Old opject Pools
 	protected lasers: Array<Graphic>;
@@ -124,7 +126,7 @@ export default class BaseScene extends Scene {
 
 	public constructor(viewport: Viewport, sceneManager: SceneManager, renderingManager: RenderingManager, options: Record<string, any>) {
         super(viewport, sceneManager, renderingManager, {...options, physics: Physics});
-		this.entities = new EntityManager();
+		this.entities = new EntityManager<CanvasNode & Spawnable>();
     }
 
 	/** Scene lifecycle methods */
@@ -314,39 +316,7 @@ export default class BaseScene extends Scene {
 		// 	// this.emitter.fireEvent(GameEventType.START_RECORDING, {recording: this.recorder});
 		// }
 	}
-	/** 
-	 * This method initializes the player.
-	 * 
-	 * @remarks 
-	 * 
-	 * This method should add the player to the scene as an animated sprite. The player
-	 * should be added to the primary layer of the scene. The player's position should 
-	 * initially be set to the center of the viewport. The player should also be given
-	 * a collision shape and PlayerController AI.
-	 */ 
-	protected initPlayer(): void {
-		// Add in the player as an animated sprite
-		// We give it the key specified in our load function and the name of the layer
-		this.player = this.add.animatedSprite(PlayerActor, this.PLAYER.KEY, HW2Layers.PRIMARY);
-		
-		// Set the player's position to the middle of the screen, and scale it down
-		this.player.position.set(this.viewport.getCenter().x, this.viewport.getCenter().y);
-		this.player.scale.set(this.PLAYER.SCALE.X, this.PLAYER.SCALE.Y);
-
-		// Give the player a smaller hitbox
-		//let playerCollider = new AABB(Vec2.ZERO, this.player.sizeWithZoom);
-		//this.player.setCollisionShape(playerCollider)
-
-		// Add a playerController to the player
-		this.player.addAI(PlayerController);
-
-		//Add physics to player
-		let center = this.player.position.clone();
-		let halfSize = this.player.boundary.getHalfSize().clone();
-		this.player.addPhysics(new AABB(center, halfSize));
-		this.player.setGroup(PhysicGroups.PLAYER)
-		this.player.setTrigger(PhysicGroups.ENEMY, Events.TEST, null);
-	}
+	
 
 	/**
 	 * Initializes the UI for the HW3-Scene.
@@ -439,6 +409,37 @@ export default class BaseScene extends Scene {
 		this.initBeams(1);
 		this.initMooks(1);
 		this.initEnemyBeam();
+	}
+
+	/** 
+	 * This method initializes the player.
+	 * 
+	 * @remarks 
+	 * 
+	 * This method should add the player to the scene as an animated sprite. The player
+	 * should be added to the primary layer of the scene. The player's position should 
+	 * initially be set to the center of the viewport. The player should also be given
+	 * a collision shape and PlayerController AI.
+	 */ 
+	protected initPlayer(): void {
+		let info = AllPlayerData.PLAYER_V1
+		let func = () => {
+			let player = this.add.animatedSprite(PlayerActor, info.LOAD.KEY, HW2Layers.PRIMARY);
+
+			player.position.set(this.viewport.getCenter().x, this.viewport.getCenter().y);
+			player.scale.set(info.LOAD.SCALE.X, info.LOAD.SCALE.Y);
+
+			player.addAI(PlayerController);
+
+			let center = player.position.clone();
+			let halfSize = player.boundary.getHalfSize().clone();
+			player.addPhysics(new AABB(center, halfSize));
+			player.setGroup(PhysicGroups.PLAYER)
+
+			return player
+		}
+		this.entities.initEntity(info.KEY, 1, func, info)
+		this.player = this.entities.findOneEntity(()=>{return true}, (value: any) => {return value.PHYSICS == PhysicGroups.PLAYER})
 	}
 
 	protected initEnemyBeam(c:number = 20):void{
