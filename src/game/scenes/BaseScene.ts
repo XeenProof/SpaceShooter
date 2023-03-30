@@ -436,7 +436,7 @@ export default class BaseScene extends Scene {
 	}
 
 	protected initObjectPools(): void {
-		this.initBeams();
+		this.initBeams(1);
 		this.initMooks(1);
 		this.initEnemyBeam();
 	}

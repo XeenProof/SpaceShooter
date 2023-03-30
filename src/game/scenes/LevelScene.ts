@@ -44,6 +44,7 @@ import { recRoute } from "../../constants/formations/RectangleForm";
 import { generatePathFromList } from "../../utils/Pathing/CreatePaths";
 import { AllProjectileKeys } from "../../constants/projectiles/projectileData";
 import { AllEnemyData, AllEnemyKeys } from "../../constants/enemies/enemyData";
+import Spawnable from "../../utils/Interface/Spawnable";
 
 
 
@@ -112,26 +113,23 @@ export default class LevelScene extends BaseScene {
 	}
 
 	protected spawnBeam(src: Vec2): void {
-		let beam: CanvasNode = this.entities.getEntity(AllProjectileKeys.BEAM);
+		let beam: Spawnable = this.entities.getEntity(AllProjectileKeys.BEAM);
 		if(beam){
-			beam.visible = true;
-			beam.setAIActive(true, {pos: src})
+			beam.spawn({pos: src})
 		}
 	}
 
 	protected spawnEnemyBeam(src: Vec2, dir?: Vec2):void{
-		let ebeam: CanvasNode = this.entities.getEntity(AllProjectileKeys.ENEMY_BEAM);
+		let ebeam: Spawnable = this.entities.getEntity(AllProjectileKeys.ENEMY_BEAM);
 		if(ebeam){
-			ebeam.visible = true;
-			ebeam.setAIActive(true, {pos:src, dir: dir})
+			ebeam.spawn({pos:src, dir: dir})
 		}
 	}
 
 	protected spawnCommomMook(path: PathNode[]): void {
-		let mook:CanvasNode = this.entities.getEntity(AllEnemyKeys.COMMON_MOOK)
+		let mook:Spawnable = this.entities.getEntity(AllEnemyKeys.COMMON_MOOK)
 		if(mook){
-			mook.visible = true;
-			mook.setAIActive(true, {path: path})
+			mook.spawn({path: path})
 		}
 	}
 

@@ -5,9 +5,10 @@ import Battler from "../../utils/BattleSystem/Battler";
 import BasicTargetable from "../../utils/Targeting/BasicTargetable";
 import { TargetableEntity } from "../../utils/Targeting/TargetableEntity";
 import { TargetingEntity } from "../../utils/Targeting/TargetingEntity";
+import SpawnableActor from "./SpawnableActor";
 
 
-export default class HPActor extends AnimatedSprite implements Battler {
+export default class HPActor extends SpawnableActor implements Battler {
 
     /** Give the player a battler compoonent */
     protected battler: Battler;
@@ -44,8 +45,10 @@ export default class HPActor extends AnimatedSprite implements Battler {
     addTargeting(targeting: TargetingEntity): void {this.targetable.addTargeting(targeting);}
     removeTargeting(targeting: TargetingEntity): void {this.targetable.removeTargeting(targeting);}
 
-    fireEvent(type:string, data:Record<string, any>){
-        this.emitter.fireEvent(type, data)
+    fireEvent(type:string, data:Record<string, any>){this.emitter.fireEvent(type, data)}
+
+    despawnConditions(options: Record<string, any>): boolean {
+        if(this.health < 0){return true;}
     }
     
 }

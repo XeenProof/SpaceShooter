@@ -1,23 +1,24 @@
 import CanvasNode from "../../Wolfie2D/Nodes/CanvasNode";
+import Spawnable from "../Interface/Spawnable";
 
 
 /**Key would equate the type of enemy */
 export default class EntityManager{
     private entityKeys:Array<string>
-    private entities:Map<string, Array<CanvasNode>>
-    private initFuncs:Map<string, ()=>CanvasNode>
+    private entities:Map<string, Array<CanvasNode & Spawnable>>
+    private initFuncs:Map<string, ()=>CanvasNode & Spawnable>
     private comparables:Map<string, Record<string, any>>
 
     constructor(){
         this.entityKeys = new Array<string>()
-        this.entities = new Map<string,Array<CanvasNode>>()
-        this.initFuncs = new Map<string, ()=>CanvasNode>();
+        this.entities = new Map<string,Array<CanvasNode & Spawnable>>()
+        this.initFuncs = new Map<string, ()=>CanvasNode & Spawnable>();
         this.comparables = new Map<string, Record<string, any>>()
     }
 
-    public initEntity(key: string, total:number, func: ()=>CanvasNode = this.getinitFunc(key), comparable:Record<string, any> = {}):void{
+    public initEntity(key: string, total:number, func: ()=>CanvasNode & Spawnable = this.getinitFunc(key), comparable:Record<string, any> = {}):void{
         if(!func){console.log("can't initiate"); return}
-        let array = new Array<CanvasNode>(total)
+        let array = new Array<CanvasNode & Spawnable>(total)
         for(let i = 0; i < array.length; i++){array[i] = func();}
         let original = this.getComparable(key)?this.getComparable(key):{}
         this.entities.set(key, array)

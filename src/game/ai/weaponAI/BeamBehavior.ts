@@ -26,13 +26,12 @@ export default class BeamBehavior extends MovementAI {
         console.log("handle events")
     }
     public update(deltaT: number): void {
-        while (this.receiver.hasNextEvent()) {
+        if(!this.owner.visible){return;}
+        this.owner.attemptDespawn();
+        while(this.receiver.hasNextEvent()){
             this.handleEvent(this.receiver.getNextEvent());
         }
-        if (this.owner.visible){
-            super.update(deltaT)
-        }
+        
+        super.update(deltaT)
     }
-
-    //public updateData(): void {}
 }
