@@ -74,7 +74,6 @@ export const HW2Layers = {
  */
 export default class BaseScene extends Scene {
 	protected BACKGROUND: LoadData;
-	protected PLAYER: LoadData;
 
 	// Sprites for the background images
 	protected bg1: Sprite;
@@ -171,7 +170,6 @@ export default class BaseScene extends Scene {
 
 	protected loadPlayer(data: LoadData){
 		this.autoloader(data)
-		this.PLAYER = data
 	}
 
 	protected autoloader (data: LoadData) {
