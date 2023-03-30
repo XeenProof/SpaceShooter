@@ -48,7 +48,6 @@ export default class MookBehavior extends ComplexPatternAI{
             this.destroy();
         }
         super.update(deltaT)
-        //console.log(this.dir)
     }
 
     public destroy(): void {
