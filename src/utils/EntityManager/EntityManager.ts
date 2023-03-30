@@ -34,13 +34,13 @@ export default class EntityManager{
         return list.find((x)=>{return !x.visible})
     }
 
-    public findEntity(entityFilter: (value: any, index: number) => boolean = ()=>{return true;}, keyFilter: (value: any, index: number) => boolean = ()=>{return true;}):(CanvasNode & Spawnable)[]{
+    public findEntity(entityFilter: (value?: any, index?: number) => boolean = ()=>{return true;}, keyFilter: (value?: any, index?: number) => boolean = ()=>{return true;}):(CanvasNode & Spawnable)[]{
         let filteredKeys = this.entityKeys.filter((x, i) => {return keyFilter(this.getComparable(x), i)});
         let foundEntities = filteredKeys.map((x) => {return this.getEntityList(x)}).reduce((x,y)=>{return [...x, ...y]}, []).filter(entityFilter)
         return foundEntities
     }
 
-    public findOneEntity(entityFilter: (value: any, index: number) => boolean = ()=>{return true;}, keyFilter: (value: any, index: number) => boolean = ()=>{return true;}):(CanvasNode & Spawnable){
+    public findOneEntity(entityFilter: (value?: any, index?: number) => boolean = ()=>{return true;}, keyFilter: (value?: any, index?: number) => boolean = ()=>{return true;}):(CanvasNode & Spawnable){
         let foundEntities = this.findEntity(entityFilter, keyFilter)
         return (foundEntities.length > 0)?foundEntities[0]:null
     }
