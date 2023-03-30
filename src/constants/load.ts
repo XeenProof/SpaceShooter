@@ -11,7 +11,7 @@ export interface LoadData{
     SCALE?: {X:number, Y:number}
 }
 
-export const Loads = {
+const Loads = {
     UNDERWATER: {KEY: "UNDERWATER", TYPE: LoadType.IMAGE, PATH: "hw2_assets/sprites/WavyBlueLines.png"},
     SPACE: {KEY: "SPACE", TYPE: LoadType.IMAGE, PATH: "assets/sprites/space_5.png"},
 
