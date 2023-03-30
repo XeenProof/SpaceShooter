@@ -4,20 +4,21 @@ import Vec2 from "../../../Wolfie2D/DataTypes/Vec2";
 import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 import GameNode from "../../../Wolfie2D/Nodes/GameNode";
 import Timer from "../../../Wolfie2D/Timing/Timer";
+import Spawnable from "../../../utils/Interface/Spawnable";
 import PathNode from "../../../utils/Pathing/PathNode";
 import PathQueue from "../../../utils/Pathing/PathQueue";
+import SpawnableActor from "../../actors/SpawnableActor";
+import DespawnAI from "./DespawnAI";
 
 
-export default abstract class MovementAI extends StateMachineAI {
-    protected owner: GameNode;
+export default abstract class MovementAI extends DespawnAI {
+    protected owner: GameNode & Spawnable;
     /**The direction the target is moving in */
     private _dir: Vec2 = null;
     /**The speed the target is moving in */
     private _speed: number;
     /**The distance from target when considered arrived*/
     private _threshold: number;
-
-    abstract initializeAI(owner: GameNode, options: Record<string, any>): void
 
     abstract activate(options: Record<string, any>): void
 

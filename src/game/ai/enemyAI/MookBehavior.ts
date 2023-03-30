@@ -30,7 +30,7 @@ export default class MookBehavior extends ComplexPatternAI{
     }
 
     public activate(options: Record<string, any>): void {
-        console.log(options.path);
+        this.currDest = null;
         this.path = this.path.enqueueArray((options.path)?options.path:[]);
         this.owner.position.copy((this.path.peek())?this.path.peek().position: Vec2.ZERO)
         this.weaponCooldown.start()
@@ -42,9 +42,25 @@ export default class MookBehavior extends ComplexPatternAI{
 
 
     public update(deltaT: number){
+        if(!this.owner.visible){return;}
+        if(this.owner.despawnConditions({}) && this.owner.canDespawn){
+            this.owner.despawn();
+            this.destroy();
+        }
         super.update(deltaT)
-        //this.firePattern()
+        //console.log(this.dir)
     }
+
+    public destroy(): void {
+        this.dir = null;
+        this.weaponCooldown.reset();
+    }
+
+    protected updateData(): void {
+        if(this.owner.onScreen && !this.owner.canDespawn){this.owner.canDespawn = true}
+        super.updateData()
+    }
+
     public handleEvent(event: GameEvent): void {
         throw new Error("Method not implemented.");
     }

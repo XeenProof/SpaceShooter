@@ -2,13 +2,14 @@ import Vec2 from "../../../Wolfie2D/DataTypes/Vec2";
 import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 import GameNode from "../../../Wolfie2D/Nodes/GameNode";
 import Timer from "../../../Wolfie2D/Timing/Timer";
+import Spawnable from "../../../utils/Interface/Spawnable";
 import PathNode from "../../../utils/Pathing/PathNode";
 import PathQueue from "../../../utils/Pathing/PathQueue";
 import MovementAI from "./MovementAI";
 
 
 export default abstract class ComplexPatternAI extends MovementAI {
-    protected owner: GameNode;
+    protected owner: GameNode & Spawnable;
     /**The path/movement pattern of the owner*/
     protected path: PathQueue = null;
     /**The current Target of the owner*/
@@ -17,9 +18,6 @@ export default abstract class ComplexPatternAI extends MovementAI {
     private _waitTime: number = 0;
     private _wait: boolean = false;
     private waitTimer: Timer;
-    
-
-    abstract initializeAI(owner: GameNode, options: Record<string, any>): void
 
     abstract activate(options: Record<string, any>): void
 
@@ -33,7 +31,7 @@ export default abstract class ComplexPatternAI extends MovementAI {
 
     protected updateData(): void{
         if(this.path === null || this.path.peek() === null){return;}
-        if(this.currDest === null || this.owner.position.distanceSqTo(this.currDest) <= this.threshold){
+        if(this.currDest == null || this.owner.position.distanceSqTo(this.currDest) <= this.threshold){
             this.updateFields(this.path.dequeue())
         }
     }

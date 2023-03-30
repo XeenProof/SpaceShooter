@@ -44,6 +44,9 @@ import BasicTargetable from "../../utils/Targeting/BasicTargetable";
 import Position from "../../utils/Targeting/Position";
 import BeamActor from "../actors/BeamActor";
 import PlayerActor from "../actors/PlayerActor";
+import EntityManager from "../../utils/EntityManager/EntityManager";
+import { AllEnemyData } from "../../constants/enemies/enemyData";
+import { AllProjectileData } from "../../constants/projectiles/projectileData";
 
 
 
@@ -74,6 +77,8 @@ export default class BaseScene extends Scene {
 	// Sprites for the background images
 	protected bg1: Sprite;
 	protected bg2: Sprite;
+
+	protected entities: EntityManager;
 
 	// Here we define member variables of our game, and object pools for adding in game objects
 	protected player: AnimatedSprite;
@@ -119,6 +124,7 @@ export default class BaseScene extends Scene {
 
 	public constructor(viewport: Viewport, sceneManager: SceneManager, renderingManager: RenderingManager, options: Record<string, any>) {
         super(viewport, sceneManager, renderingManager, {...options, physics: Physics});
+		this.entities = new EntityManager();
     }
 
 	/** Scene lifecycle methods */
@@ -134,15 +140,14 @@ export default class BaseScene extends Scene {
 	 * @see Scene.loadScene()
 	 */
 	public override loadScene(){
-		// Load in the submarine
+		// These Loaders are fine
 		this.loadPlayer(LoadPlayer.PLAYER);
-		// Load in the background image
 		this.loadBackground(LoadBackground.SPACE);
-		// Load in the naval mine
 		this.autoloader(LoadEnemy.MINE);
 		this.autoloader(LoadEnemy.COMMON_MOOK);
-
 		this.autoloader(LoadProjectiles.BEAM);
+
+		/**removeable */
 		// Load in the shader for bubble.
 		this.load.shader(
 			BubbleShaderType.KEY,
@@ -155,6 +160,7 @@ export default class BaseScene extends Scene {
 			LaserShaderType.VSHADER, 
 			LaserShaderType.FSHADER
     	);
+		/**removeable ends*/
 	}
 	protected loadBackground(data: LoadData){
 		this.autoloader(data)
@@ -247,8 +253,8 @@ export default class BaseScene extends Scene {
 		// Handle screen despawning of mines and bubbles
 		for (let mine of this.mines) if (mine.visible) this.handleScreenDespawn(mine);
 		for (let bubble of this.bubbles) if (bubble.visible) this.handleScreenDespawn(bubble);
-		for (let beam of this.beam) if (beam.visible) this.handleScreenDespawn(beam);
-		for (let ebeam of this.enemybeam) if (ebeam.visible) this.handleScreenDespawn(ebeam);
+		//for (let beam of this.beam) if (beam.visible) this.handleScreenDespawn(beam);
+		//for (let ebeam of this.enemybeam) if (ebeam.visible) this.handleScreenDespawn(ebeam);
 	}
     /**
      * @see Scene.unloadScene()
@@ -430,49 +436,52 @@ export default class BaseScene extends Scene {
 	}
 
 	protected initObjectPools(): void {
-		this.initBeams();
+		this.initBeams(1);
 		this.initMooks(1);
 		this.initEnemyBeam();
 	}
 
 	protected initEnemyBeam(c:number = 20):void{
-		this.enemybeam = new Array(c)
-		for(let i = 0; i < this.enemybeam.length; i++){
-			this.enemybeam[i] = this.add.animatedSprite(BeamActor, LoadProjectiles.BEAM.KEY, HW2Layers.PRIMARY)
-			this.enemybeam[i].visible = false;
+		let info = AllProjectileData.ENEMY_BEAM
+		let func = () => {
+			let entity = this.add.animatedSprite(BeamActor, info.LOAD.KEY, HW2Layers.PRIMARY)
+			entity.visible = false;
 
-			this.enemybeam[i].addAI(BeamAI, {pos: Vec2.ZERO, dir: Vec2.DOWN})
-			this.enemybeam[i].addPhysics();
-			this.enemybeam[i].setGroup(PhysicGroups.ENEMY_WEAPON)
+			entity.addAI(BeamAI, {pos: Vec2.ZERO, dir: Vec2.DOWN})
+			entity.addPhysics();
+			entity.setGroup(PhysicGroups.ENEMY_WEAPON)
+			return entity;
 		}
+		this.entities.initEntity(info.KEY, c, func, info)
 	}
 
 	protected initBeams(c:number = 20):void {
-		this.beam = new Array(c);
-		for (let i = 0; i < this.beam.length; i++){
-			this.beam[i] = this.add.animatedSprite(BeamActor, LoadProjectiles.BEAM.KEY, HW2Layers.PRIMARY)
-
-			this.beam[i].visible = false;
-			//this.beam[i].color = Color.RED;
-
-			this.beam[i].addAI(BeamAI, {pos: Vec2.ZERO});
-			this.beam[i].addPhysics();
-			this.beam[i].setGroup(PhysicGroups.PLAYER_WEAPON);
+		let info = AllProjectileData.BEAM
+		let func = () => {
+			let entity = this.add.animatedSprite(BeamActor, info.LOAD.KEY, HW2Layers.PRIMARY)
+			entity.visible = false;
+			entity.addAI(BeamAI, {pos: Vec2.ZERO})
+			entity.addPhysics();
+			entity.setGroup(PhysicGroups.PLAYER_WEAPON)
+			return entity;
 		}
+		this.entities.initEntity(info.KEY, c, func, info)
 	}
 
 	protected initMooks(c:number = 20):void {
-		this.Commom_Mook = new Array(c);
-		for(let i = 0; i < this.Commom_Mook.length; i++){
-			this.Commom_Mook[i] = this.add.animatedSprite(MookActor, LoadEnemy.COMMON_MOOK.KEY, HW2Layers.PRIMARY)
-			this.Commom_Mook[i].visible = false;
+		let info = AllEnemyData.COMMON_MOOK
+		let {X, Y} = info.LOAD.SCALE
+		let func = () => {
+			let entity = this.add.animatedSprite(MookActor, info.LOAD.KEY, HW2Layers.PRIMARY)
+			entity.visible = false;
+			entity.scale.set(X, Y);
 
-			this.Commom_Mook[i].scale.set(LoadEnemy.COMMON_MOOK.SCALE.X, LoadEnemy.COMMON_MOOK.SCALE.Y);
-
-			this.Commom_Mook[i].addAI(MookBehavior, {target: new BasicTargetable(new Position(0,0))})
-			this.Commom_Mook[i].addPhysics();
-			this.Commom_Mook[i].setGroup(PhysicGroups.ENEMY);
+			entity.addAI(MookBehavior, {target: new BasicTargetable(new Position(0,0))})
+			entity.addPhysics();
+			entity.setGroup(PhysicGroups.ENEMY);
+			return entity;
 		}
+		this.entities.initEntity(info.KEY, c, func, info)
 	}
 
 	/**

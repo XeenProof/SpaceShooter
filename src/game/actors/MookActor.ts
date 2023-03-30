@@ -17,6 +17,23 @@ export default class MookActor extends HPActor{
         //this.targetable = new BasicTargetable(this)
     }
 
+    spawn(options: Record<string, any>): void {
+        console.log("Mook Spawned")
+        this.canDespawn = false;
+        super.spawn(options);
+    }
+
+    despawnConditions(options: Record<string, any>): boolean {
+        if(this.offScreen){return true;}
+        return super.despawnConditions(options);
+    }
+
+    despawn(): void {
+        console.log("Mook despawned")
+        super.despawn()
+
+    }
+
     //Targetable Interface Functions
     // public getTargeting(): TargetingEntity[] {return this.targetable.getTargeting();}
     // public addTargeting(targeting: TargetingEntity): void {this.targetable.addTargeting(targeting);}

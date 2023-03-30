@@ -5,12 +5,18 @@ import BasicTargetable from "../../utils/Targeting/BasicTargetable";
 import { TargetableEntity } from "../../utils/Targeting/TargetableEntity";
 import { TargetingEntity } from "../../utils/Targeting/TargetingEntity";
 import BaseScene from "../scenes/BaseScene";
+import SpawnableActor from "./SpawnableActor";
 
 
-export default class BeamActor extends AnimatedSprite{
+export default class BeamActor extends SpawnableActor{
+    
     protected scene: BaseScene
 
     public constructor(sheet: Spritesheet){
         super(sheet)
+    }
+
+    despawnConditions(options: Record<string, any>): boolean {
+        return this.offScreenDown || this.offScreenUp
     }
 }
