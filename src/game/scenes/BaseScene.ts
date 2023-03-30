@@ -243,11 +243,7 @@ export default class BaseScene extends Scene {
 		// Handle timers
 		this.handleTimers();
 
-		// Handle screen despawning of mines and bubbles
-		//for (let mine of this.mines) if (mine.visible) this.handleScreenDespawn(mine);
-		//for (let bubble of this.bubbles) if (bubble.visible) this.handleScreenDespawn(bubble);
-		//for (let beam of this.beam) if (beam.visible) this.handleScreenDespawn(beam);
-		//for (let ebeam of this.enemybeam) if (ebeam.visible) this.handleScreenDespawn(ebeam);
+		//console.log(this.entities.countInUse((value: any) => {return value.PHYSICS == PhysicGroups.PLAYER_WEAPON}))
 	}
     /**
      * @see Scene.unloadScene()
@@ -420,7 +416,7 @@ export default class BaseScene extends Scene {
 			player.position.set(this.viewport.getCenter().x, this.viewport.getCenter().y);
 			player.scale.set(info.LOAD.SCALE.X, info.LOAD.SCALE.Y);
 
-			player.addAI(PlayerController);
+			player.addAI(PlayerController, {stats: info.STATS});
 
 			let center = player.position.clone();
 			let halfSize = player.boundary.getHalfSize().clone();

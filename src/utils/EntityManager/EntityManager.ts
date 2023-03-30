@@ -53,6 +53,11 @@ export default class EntityManager<T extends CanvasNode>{
         return null;
     }
 
+    public countInUse(keyFilter: (value?: any, index?: number) => boolean = ()=>{return true;}):number{
+        let found = this.findEntity((value: CanvasNode) => {return value.visible}, keyFilter)
+        return found.length
+    }
+
     protected getinitFunc(key:string){return this.initFuncs.get(key)}
     protected getEntityList(key:string){return this.entities.get(key);}
     protected getComparable(key:string){return this.comparables.get(key)}
