@@ -85,9 +85,9 @@ export default class BaseScene extends Scene {
 	protected player: CanvasNode;
 
 	// Old opject Pools
-	protected lasers: Array<Graphic>;
-	protected mines: Array<AnimatedSprite>;
-	protected bubbles: Array<Graphic>;
+	//protected lasers: Array<Graphic>;
+	//protected mines: Array<AnimatedSprite>;
+	//protected bubbles: Array<Graphic>;
 
 	// Object pool for weapons
 	protected beam: Array<AnimatedSprite>;
@@ -210,9 +210,6 @@ export default class BaseScene extends Scene {
 		// Initialize object pools
 		this.initObjectPools();
 
-		// Initialize object pools
-		this.initObjectPools_old();
-
 		this.initRecorder();
 
 		// Subscribe to player events
@@ -243,16 +240,12 @@ export default class BaseScene extends Scene {
 		this.wrapPlayer(this.player, this.viewport.getCenter(), this.viewport.getHalfSize())
 		this.lockPlayer(this.player, this.viewport.getCenter(), this.viewport.getHalfSize())
 
-		// Handles mine and bubble collisions
-		this.handleMinePlayerCollisions();
-		this.bubblesPopped += this.handleBubblePlayerCollisions();
-
 		// Handle timers
 		this.handleTimers();
 
 		// Handle screen despawning of mines and bubbles
-		for (let mine of this.mines) if (mine.visible) this.handleScreenDespawn(mine);
-		for (let bubble of this.bubbles) if (bubble.visible) this.handleScreenDespawn(bubble);
+		//for (let mine of this.mines) if (mine.visible) this.handleScreenDespawn(mine);
+		//for (let bubble of this.bubbles) if (bubble.visible) this.handleScreenDespawn(bubble);
 		//for (let beam of this.beam) if (beam.visible) this.handleScreenDespawn(beam);
 		//for (let ebeam of this.enemybeam) if (ebeam.visible) this.handleScreenDespawn(ebeam);
 	}
@@ -284,7 +277,7 @@ export default class BaseScene extends Scene {
 				break;
 			}
 			case HW2Events.FIRING_LASER: {
-				this.minesDestroyed += this.handleMineLaserCollisions(event.data.get("laser"), this.mines);
+				//this.minesDestroyed += this.handleMineLaserCollisions(event.data.get("laser"), this.mines);
 				break;
 			}
 			case HW2Events.PLAYER_BUBBLE_COLLISION: {
@@ -482,212 +475,6 @@ export default class BaseScene extends Scene {
 		}
 		this.entities.initEntity(info.KEY, c, func, info)
 	}
-
-	/**
-	 * This method initializes each of the object pools for this scene.
-	 * 
-	 * @remarks
-	 * 
-	 * There are three object pools that need to be initialized before the scene 
-	 * can start running. They are as follows:
-	 * 
-	 * 1. The bubble object-pool
-	 * 2. The mine object-pool
-	 * 3. The laseer object-pool
-	 * 
-	 * For each object-pool, if an object is not currently in use, it's visible
-	 * flag will be set to false. If an object is in use, then it's visible flag
-	 * will be set to true. This makes returning objects to their respective pools
-	 * as simple as just setting a flag.
-	 * 
-	 * @see {@link https://gameprogrammingpatterns.com/object-pool.html Object-Pools} 
-	 */
-	protected initObjectPools_old(): void {
-		
-		
-		// Init bubble object pool
-		this.bubbles = new Array(10);
-		for (let i = 0; i < this.bubbles.length; i++) {
-			this.bubbles[i] = this.add.graphic(GraphicType.RECT, HW2Layers.PRIMARY, {position: new Vec2(0, 0), size: new Vec2(50, 50)});
-			//console.log(this.bubbles[i])
-            
-            // Give the bubbles a custom shader
-			this.bubbles[i].useCustomShader(BubbleShaderType.KEY);
-			this.bubbles[i].visible = false;
-			this.bubbles[i].color = Color.BLUE;
-
-            // Give the bubbles AI
-			this.bubbles[i].addAI(BubbleAI);
-
-            // Give the bubbles a collider
-			let collider = new Circle(Vec2.ZERO, 25);
-			this.bubbles[i].setCollisionShape(collider);
-		}
-
-		// Init the object pool of mines
-		this.mines = new Array(15);
-		for (let i = 0; i < this.mines.length; i++){
-			this.mines[i] = this.add.animatedSprite(AnimatedSprite, LoadEnemy.MINE.KEY, HW2Layers.PRIMARY);
-
-			// Make our mine inactive by default
-			this.mines[i].visible = false;
-
-			// Assign them mine ai
-			this.mines[i].addAI(MineBehavior);
-
-			this.mines[i].scale.set(0.3, 0.3);
-
-			// Give them a collision shape
-			//let collider = new AABB(Vec2.ZERO, this.mines[i].sizeWithZoom);
-			//this.mines[i].setCollisionShape(collider);
-
-			let center = this.mines[i].position.clone();
-			let halfSize = this.mines[i].boundary.getHalfSize().clone();
-			this.mines[i].addPhysics(new AABB(center, halfSize));
-			this.mines[i].setGroup(PhysicGroups.ENEMY)
-		}
-
-		// Init the object pool of lasers
-		this.lasers = new Array(4);
-		for (let i = 0; i < this.lasers.length; i++) {
-			this.lasers[i] = this.add.graphic(GraphicType.RECT, HW2Layers.PRIMARY, {position: Vec2.ZERO, size: Vec2.ZERO})
-			this.lasers[i].useCustomShader(LaserShaderType.KEY);
-			this.lasers[i].color = Color.RED;
-			this.lasers[i].visible = false;
-			this.lasers[i].addAI(LaserBehavior, {src: Vec2.ZERO, dst: Vec2.ZERO});
-		}
-	}
-
-
-
-	/** Methods for spawing/despawning objects */
-
-	/**
-	 * This method attempts spawns a laser starting at the specified position
-	 * 
-	 * @param src - the specified starting position of the laser
-	 * 
-	 * @remarks
-	 * 
-	 * This method should attempt to retrieve a laser object from the object-pool
-	 * of lasers and spawn it, starting at the specified position. 
-	 * 
-	 * If there are no lasers in the object pool, then a laser should not be spawned. 
-	 * Otherwise the laser should be spawned starting at the specified position and 
-	 * go all the way to the edge of the padded viewport.
-	 */
-	protected spawnLaser(src: Vec2): void {
-		let laser: Graphic = this.lasers.find((laser: Graphic) => { return !laser.visible; });
-		if (laser) {
-			laser.visible = true;
-			laser.setAIActive(true, {src: src, dst: this.viewport.getHalfSize().scaled(2).add(this.worldPadding.scaled(2))});
-		}
-	}
-    /**
-	 * This method handles spawning a bubble from the object-pool of bubbles
-	 * 
-	 * @remark
-	 * 
-	 * If there are no bubbles in the object-pool, then a bubble shouldn't be spawned and 
-	 * the bubble-spawn timer should not be reset. Otherwise a bubble should be spawned
-	 * and the bubble-spawn timer should be reset.
-	 * 
-	 * Bubbles should randomly spawn inside of the padded area of the viewport just below
-	 * the visible region of the viewport. A visualization of the padded viewport is shown 
-     * below. o's represent valid bubble spawn locations. X's represent invalid locations.
-	 * 
-	 * 
-	 * 					 X	 THIS IS OUT OF BOUNDS
-	 * 			 _______________________________________________
-	 * 			|	 THIS IS THE PADDED REGION (OFF SCREEN)		|
-	 * 			|						X					X	|
-	 * 			|		 _______________________________		|
-	 * 			|		|								|		|
-	 * 			|		|								|		|
-	 *	 		|		|	  THIS IS THE VISIBLE		|		|
-	 * 		X	|	X	|			 REGION				|	X	|   X 
-	 * 			|		|								|		|
-	 * 			|		|		X						|		|
-	 * 			|		|_______________________________|		|
-	 * 			|			o			o			o		X	|
-	 * 			|_______________________________________________|
-	 * 
-	 * 							X THIS IS OUT OF BOUNDS
-	 */
-	protected spawnBubble(): void {
-		// TODO spawn bubbles!
-		let bubble: Graphic = this.bubbles.find((bubble: Graphic) => {return !bubble.visible});
-		if(!bubble){return;}
-		//brings bubble to life
-		bubble.visible = true;
-
-		// Extract the size of the viewport
-		let paddedViewportSize = this.viewport.getHalfSize().scaled(2).add(this.worldPadding);
-		let viewportSize = this.viewport.getHalfSize().scaled(2);
-
-		//Loop on position until we're clear of the player
-		bubble.position.copy(RandUtils.randVec(viewportSize.x, paddedViewportSize.x - viewportSize.x, paddedViewportSize.y, viewportSize.y));
-		while(bubble.position.distanceTo(this.player.position) < 100){
-			bubble.position.copy(RandUtils.randVec(paddedViewportSize.x, paddedViewportSize.x, paddedViewportSize.y - viewportSize.y, viewportSize.y));
-		}
-
-		bubble.setAIActive(true, {});
-		//Start the mine spawn timer
-		this.bubbleSpawnTimer.start(100);
-	}
-	/**
-	 * This function takes in a GameNode that may be out of bounds of the viewport and
-	 * "kills" it as if it was destroyed through usual collision. This is done so that
-	 * the object pools are refreshed. Once an object is off the screen, it's no longer 
-	 * in use.
-	 * 
-	 * @param node The node to wrap around the screen
-	 * @param viewportCenter The center of the viewport
-	 * @param paddedViewportSize The size of the viewport with padding
-	 * 
-	 * @remarks
-	 * 
-	 * You'll notice that if you play the game without changing any of the code, miness will 
-	 * suddenly stop coming. This is because all of those objects are still active in the scene,
-     * just out of sight, so to our object pools we've used up all valid objects.
-	 * 
-	 * Keep in mind that the despawn area in this case is padded, meaning that a GameNode can 
-	 * go off the side of the viewport by the padding amount in any direction before it will be 
-	 * despawned. 
-	 * 
-	 * A visualization of the padded viewport is shown below. o's represent valid locations for 
-	 * GameNodes, X's represent invalid locations.
-	 * 
-	 * 
-	 * 					 X	 THIS IS OUT OF BOUNDS
-	 * 			 _______________________________________________
-	 * 			|	 THIS IS THE PADDED REGION (OFF SCREEN)		|
-	 * 			|						o						|
-	 * 			|		 _______________________________		|
-	 * 			|		|								|		|
-	 * 			|		|								|		|
-	 *	 		|		|	  THIS IS THE VISIBLE		|		|
-	 * 		X	|	o	|			 REGION				|	o	|   X 
-	 * 			|		|								|		|
-	 * 			|		|		o						|		|
-	 * 			|		|_______________________________|		|
-	 * 			|							o					|
-	 * 			|_______________________________________________|
-	 * 
-	 * 							X THIS IS OUT OF BOUNDS
-	 * 
-	 * It may be helpful to make your own drawings while figuring out the math for this part.
-	 * 
-	 * I literally just despawned then when the center of the Node hits 0
-	 */
-	public handleScreenDespawn(node: CanvasNode): void {
-        // TODO - despawn the game nodes when they move out of the padded viewport
-		// let paddedViewportSize = this.viewport.getHalfSize().scaled(2).add(this.worldPadding);
-		// let viewportSize = this.viewport.getHalfSize().scaled(2);
-		if(node.position.y<0 || node.position.x<0){node.visible = false}
-		if(node.position.y>900 || node.position.x>900){node.visible = false}
-	}
-
 	/** Methods for updating the UI */
 
 	/**
@@ -816,127 +603,6 @@ export default class BaseScene extends Scene {
 			this.chrgBarLabels[i].backgroundColor = Color.RED;
 		}
 	}
-
-	/** Methods for collision Detection */
-
-	/**
-	 * Handles collisions between the bubbles and the player.
-	 *  
-	 * @return the number of collisions between the player and the bubbles in a given frame.
-	 * 
-	 * @remarks
-	 * 
-	 * The collision type is AABB to Circle. Detecting these collisions should be done using the 
-	 * checkAABBtoCircleCollision() method in the HW3Scene.
-	 * 
-	 * Collisions between the player and bubbles should be checked during each frame. If a collision 
-	 * is detected between the player and a bubble, the player should get back some air (+1) and the
-     * bubble should be made invisible and returned to it's object pool.
-	 * 
-	 * @see HW2Scene.checkAABBtoCircleCollision the method to be used to check for a collision between
-	 * an AABB and a Circle
-	 */
-	public handleBubblePlayerCollisions(): number {
-		let collisions = 0;
-		for (let bubble of this.bubbles){
-			if(bubble.visible && BaseScene.checkAABBtoCircleCollision(this.player.collisionShape.getBoundingRect(), bubble.collisionShape as Circle)){
-				//Increase air
-				this.emitter.fireEvent(HW2Events.PLAYER_BUBBLE_COLLISION, {id: bubble.id});
-				collisions += 1;
-			}
-		}
-        return collisions;
-	}
-
-	/**
-	 * Handles collisions between the mines and the player. 
-	 * 
-	 * @return the number of collisions between mines and the players
-	 * 
-	 * @remarks 
-	 * 
-	 * The collision type is an AABB to AABB collision. Collisions between the player and the mines 
-	 * need to be checked each frame.
-	 * 
-	 * If a collision is detected between the player and a mine, the player should be notified
-	 * of the collision, and the mine should be made invisible. This returns the mine to it's
-	 * respective object-pool.
-	 * 
-	 * @see HW2Events.PLAYER_MINE_COLLISION the event to be fired when a collision is detected
-	 * between a mine and the player
-	 */
-	public handleMinePlayerCollisions(): number {
-		let collisions = 0;
-		for (let mine of this.mines) {
-			if (mine.visible && this.player.collisionShape.overlaps(mine.collisionShape)) {
-				this.emitter.fireEvent(HW2Events.PLAYER_MINE_COLLISION, {id: mine.id});
-				collisions += 1;
-			}
-		}	
-		return collisions;
-	}
-
-	/**
-	 * Handles collisions between a laser and the mines. 
-	 * 
-	 * @param laser the laser Graphic
-	 * @param mines the object-pool of mines
-	 * @return the number of collisions between the laser and the mines
-	 * 
-	 * @remarks
-	 * 
-	 * The collision type is an AABB to AABB, collision. Collisions between a laser and the mines only 
-	 * need to be checked immediatly after the laser has been fired. 
-	 * 
-	 * A single laser will collide with all mines in it's path. 
-	 * 
-	 * If a collision is detected between a laser and a mine, the mine should
-	 * be returned to it's respective object-pool. The laser should be unaffected. 
-	 */
-	public handleMineLaserCollisions(laser: Graphic, mines: Array<Sprite>): number {
-		let collisions = 0;
-		if (laser.visible) {
-			for (let mine of mines) {
-				if (mine.collisionShape.overlaps(laser.collisionShape)) {
-					this.emitter.fireEvent(HW2Events.LASER_MINE_COLLISION, { mineId: mine.id, laserId: laser.id });
-					collisions += 1;
-				}
-			}
-		}
-		return collisions;
-	}
-
-
-	/**
-	 * This method checks for a collision between an AABB and a circle.
-	 * 
-	 * @param aabb the AABB
-	 * @param circle the Circle
-	 * @return true if the AABB is colliding with the circle; false otherwise. 
-	 * 
-	 * @see AABB for more information about AABBs
-	 * @see Circle for more information about Circles
-	 * @see MathUtils for more information about MathUtil functions
-	 */
-	public static checkAABBtoCircleCollision(aabb: AABB, circle: Circle): boolean {
-        // TODO implement collision detection for AABBs and Circles
-		//UNTESTED
-		let temp = aabb.overlapArea(circle.getBoundingRect());
-		if (temp == 0){return false;}
-		let C_radius = circle.radius;
-		let InnerRadius1 = aabb.halfSize.x
-		let InnerRadius2 = aabb.halfSize.y
-		let OuterRadiusSq = ((InnerRadius1^2)+(InnerRadius2^2))^(0.5)
-		let dbc = aabb.center.distanceTo(circle.center)
-		if(dbc > OuterRadiusSq + C_radius){
-			return false}
-		if(dbc < Math.min(InnerRadius1, InnerRadius2)){
-			return true}
-		let c1c2Vec = (circle.center.sub(aabb.center)).normalize()
-		let outerPoint = circle.center.add(new Vec2(circle.radius, circle.radius)).mult(c1c2Vec);
-        return aabb.containsPoint(outerPoint);
-	}
-
     /** Methods for locking and wrapping nodes */
 
     /**
@@ -1042,19 +708,19 @@ export default class BaseScene extends Scene {
 
 	public handleTimers(): void {
 		// If the bubble timer is stopped, try to spawn a bubble
-		if (this.bubbleSpawnTimer.isStopped()) {
-			this.spawnBubble();
-		}
-		// If the game-over timer has run, change to the game-over scene
-		if (this.gameOverTimer.hasRun() && this.gameOverTimer.isStopped()) {
-		 	// if(this.recording){
-			// 	this.emitter.fireEvent(GameEventType.STOP_RECORDING, {});
-			// 	this.sceneManager.changeToScene(GameOver, {
-			// 	bubblesPopped: this.bubblesPopped, 
-			// 	minesDestroyed: this.minesDestroyed,
-			// 	timePassed: this.timePassed
-			// }, {})};
-		}
+		// if (this.bubbleSpawnTimer.isStopped()) {
+		// 	this.spawnBubble();
+		// }
+		// // If the game-over timer has run, change to the game-over scene
+		// if (this.gameOverTimer.hasRun() && this.gameOverTimer.isStopped()) {
+		//  	// if(this.recording){
+		// 	// 	this.emitter.fireEvent(GameEventType.STOP_RECORDING, {});
+		// 	// 	this.sceneManager.changeToScene(GameOver, {
+		// 	// 	bubblesPopped: this.bubblesPopped, 
+		// 	// 	minesDestroyed: this.minesDestroyed,
+		// 	// 	timePassed: this.timePassed
+		// 	// }, {})};
+		// }
 	}
 
 	/**
