@@ -1,6 +1,6 @@
-import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
-import { GAMEPLAY_DIMENTIONS } from "../../constants/dimenstions";
-import Spawnable from "../../utils/Interface/Spawnable";
+import AnimatedSprite from "../../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
+import { GAMEPLAY_DIMENTIONS } from "../../../constants/dimenstions";
+import Spawnable from "../../../utils/Interface/Spawnable";
 
 
 export default abstract class SpawnableActor extends AnimatedSprite implements Spawnable{

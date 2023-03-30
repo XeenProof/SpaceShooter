@@ -1,10 +1,10 @@
-import Spritesheet from "../../Wolfie2D/DataTypes/Spritesheet";
-import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
-import BasicBattler from "../../utils/BattleSystem/BasicBattler";
-import Battler from "../../utils/BattleSystem/Battler";
-import BasicTargetable from "../../utils/Targeting/BasicTargetable";
-import { TargetableEntity } from "../../utils/Targeting/TargetableEntity";
-import { TargetingEntity } from "../../utils/Targeting/TargetingEntity";
+import Spritesheet from "../../../Wolfie2D/DataTypes/Spritesheet";
+import AnimatedSprite from "../../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
+import BasicBattler from "../../../utils/BattleSystem/BasicBattler";
+import Battler from "../../../utils/BattleSystem/Battler";
+import BasicTargetable from "../../../utils/Targeting/BasicTargetable";
+import { TargetableEntity } from "../../../utils/Targeting/TargetableEntity";
+import { TargetingEntity } from "../../../utils/Targeting/TargetingEntity";
 import SpawnableActor from "./SpawnableActor";
 
 

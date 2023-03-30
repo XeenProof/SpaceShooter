@@ -7,7 +7,7 @@ import Timer from "../../../Wolfie2D/Timing/Timer";
 import Spawnable from "../../../utils/Interface/Spawnable";
 import PathNode from "../../../utils/Pathing/PathNode";
 import PathQueue from "../../../utils/Pathing/PathQueue";
-import SpawnableActor from "../../actors/SpawnableActor";
+import SpawnableActor from "../../actors/abastractActors/SpawnableActor";
 import DespawnAI from "./DespawnAI";
 
 
