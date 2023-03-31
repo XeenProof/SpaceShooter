@@ -9,6 +9,7 @@ import { Events } from "../../../constants/events";
 import PathQueue from "../../../utils/Pathing/PathQueue";
 import { TargetableEntity } from "../../../utils/Targeting/TargetableEntity";
 import MookActor from "../../actors/MookActor";
+import PlayerActor from "../../actors/PlayerActor";
 import ComplexPatternAI from "../abstractAI/ComplexPatternAI";
 
 
@@ -16,14 +17,12 @@ import ComplexPatternAI from "../abstractAI/ComplexPatternAI";
 export default class MookBehavior extends ComplexPatternAI{
     protected override owner: MookActor
 
-    //for targeting
-    protected target: TargetableEntity;
+    protected target: PlayerActor;
     protected weaponCooldown: Timer;
 
     public initializeAI(owner: MookActor, options: Record<string, any>): void {
         this.owner = owner
 
-        this.target = options.target
         this.weaponCooldown = new Timer(1000, ()=>{this.firePattern()}, true);
 
         this.receiver.subscribe(Events.PLAYER_ENEMY_COLLISION);
@@ -32,10 +31,8 @@ export default class MookBehavior extends ComplexPatternAI{
     }
 
     public activate(options: Record<string, any>): void {
-        this.currDest = null;
-        this.path.clear()
-        this.path = this.path.enqueueArray((options.path)?options.path:[]);
-        this.owner.position.copy((this.path.peek())?this.path.peek().position: Vec2.ZERO)
+        super.activate(options)
+        this.target = this.owner.getScene().player
         this.weaponCooldown.start()
 
         let hp = options.hp?options.hp:10;
@@ -61,12 +58,16 @@ export default class MookBehavior extends ComplexPatternAI{
     }
 
     public destroy(): void {
-        this.dir = null;
-        this.weaponCooldown.reset();
     }
 
     protected updateData(): void {
         if(this.owner.onScreen && !this.owner.canDespawn){this.owner.canDespawn = true}
+        if(this.pathCompleted && this.target){
+            this.dir = this.owner.position.dirTo(this.target.position)
+            this.speed = 500;
+            this.target = null;
+            return
+        }
         super.updateData()
     }
 

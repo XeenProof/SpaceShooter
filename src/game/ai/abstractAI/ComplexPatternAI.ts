@@ -15,11 +15,19 @@ export default abstract class ComplexPatternAI extends MovementAI {
     /**The current Target of the owner*/
     protected currDest: Vec2 = null;
 
+    protected pathCompleted: boolean = false;
+
     private _waitTime: number = 0;
     private _wait: boolean = false;
     private waitTimer: Timer;
 
-    abstract activate(options: Record<string, any>): void
+    activate(options: Record<string, any>): void {
+        this.currDest = null;
+        this.path.clear()
+        this.path = this.path.enqueueArray((options.path)?options.path:[]);
+        this.pathCompleted = false;
+        this.owner.position.copy((this.path.peek())?this.path.peek().position: Vec2.ZERO)
+    }
 
     update(deltaT: number): void {
         this.updateData();
@@ -30,7 +38,7 @@ export default abstract class ComplexPatternAI extends MovementAI {
     abstract handleEvent(event: GameEvent): void
 
     protected updateData(): void{
-        if(this.path === null || this.path.peek() === null){return;}
+        if(this.path === null || this.pathCompleted){return;}
         if(this.currDest == null || this.owner.position.distanceSqTo(this.currDest) <= this.threshold){
             this.updateFields(this.path.dequeue())
         }
@@ -43,6 +51,7 @@ export default abstract class ComplexPatternAI extends MovementAI {
             this.waitTimer.start()
         }
         if(node == null){
+            this.pathCompleted = true;
             this.currDest = null;
             this.speed = 0;
             return
