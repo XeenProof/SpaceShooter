@@ -7,4 +7,11 @@ export const Events = {
      * id: id of shooter
      * type: the type of bullet shot
      * } */
+
+    /**Set Trigger Calls */
+    PLAYER_ENEMY_COLLISION: "PLAYER_ENEMY_COLLISION"
+    /**
+     * node: target id
+     * other: self id
+     */
 }

@@ -11,6 +11,7 @@ import MathUtils from "../../Wolfie2D/Utils/MathUtils";
 import { HW2Events } from "../Events";
 import { Controls } from "../../constants/gameoptions";
 import PlayerActor from "../actors/PlayerActor";
+import { Events } from "../../constants/events";
 
 export const PlayerAnimations = {
     IDLE: "IDLE",
@@ -45,15 +46,15 @@ export default class PlayerController implements AI {
 		this.emitter = new Emitter();
 		
 		this.receiver.subscribe(HW2Events.SHOOT_LASER);
-		this.receiver.subscribe(HW2Events.PLAYER_MINE_COLLISION);
-		this.receiver.subscribe(HW2Events.PLAYER_BUBBLE_COLLISION);
-		this.receiver.subscribe(HW2Events.DEAD);
+		this.receiver.subscribe(HW2Events.DEAD)
+
+		this.receiver.subscribe(Events.PLAYER_ENEMY_COLLISION)
 
 		this.activate(options);
 	}
 	public activate(options: Record<string,any>): void {
 		//sets a player's health
-		let hp = options.hp?options.hp:10;
+		let hp = options.hp?options.hp:30;
 		this.owner.maxHealth = hp;
         this.owner.health = hp;
 
@@ -115,14 +116,12 @@ export default class PlayerController implements AI {
 			case HW2Events.SHOOT_LASER: {
 				break;
 			}
-			case HW2Events.PLAYER_MINE_COLLISION: {
-				break;
-			}
-			case HW2Events.PLAYER_BUBBLE_COLLISION: {
-				break;
-			}
 			case HW2Events.DEAD:{
 				this.handlePlayerDeath();
+				break;
+			}
+			case Events.PLAYER_ENEMY_COLLISION:{
+				this.handleRamDamage(event.data.get("node"));
 				break;
 			}
 			default: {
@@ -143,6 +142,13 @@ export default class PlayerController implements AI {
 		this.owner.animation.playIfNotAlready(PlayerAnimations.DEATH, false);
 	}
 
+	protected handleRamDamage(enemyId):void {
+		console.log(enemyId)
+		let enemy = this.owner.getScene().getEnemy(enemyId)
+		let player = this.owner
+		let damage = Math.min(enemy.ramDamage, player.ramDamage)
+		this.owner.takeDamage(damage)
+    }
 } 
 
 

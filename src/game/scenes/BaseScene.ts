@@ -49,6 +49,8 @@ import { AllEnemyData } from "../../constants/enemies/enemyData";
 import { AllProjectileData } from "../../constants/projectiles/projectileData";
 import { AllPlayerData } from "../../constants/player/playerStats";
 import Spawnable from "../../utils/Interface/Spawnable";
+import ActorScene from "./ActorScene";
+import HPActor from "../actors/abstractActors/HPActor";
 
 
 
@@ -72,7 +74,7 @@ export const HW2Layers = {
  * It handles all the initializations 
  * @see Scene for more information about the Scene class and Scenes in Wolfie2D
  */
-export default class BaseScene extends Scene {
+export default class BaseScene extends ActorScene {
 	protected BACKGROUND: LoadData;
 
 	// Sprites for the background images
@@ -82,12 +84,7 @@ export default class BaseScene extends Scene {
 	protected entities: EntityManager<CanvasNode & Spawnable>;
 
 	// Here we define member variables of our game, and object pools for adding in game objects
-	protected player: CanvasNode;
-
-	// Old opject Pools
-	//protected lasers: Array<Graphic>;
-	//protected mines: Array<AnimatedSprite>;
-	//protected bubbles: Array<Graphic>;
+	private _player: PlayerActor;
 
 	// Object pool for weapons
 	protected beam: Array<AnimatedSprite>;
@@ -133,9 +130,7 @@ export default class BaseScene extends Scene {
 	 * @see Scene.initScene()
 	 */
 	public override initScene(options: Record<string, any>): void {
-		//this.seed = options.seed === undefined ? this.seed : options.seed;
-        //this.recording = options.recording === undefined ? false : options.recording; 
-		//RandUtils.seed = this.seed;
+
 	}
 	/**
 	 * @see Scene.loadScene()
@@ -293,7 +288,6 @@ export default class BaseScene extends Scene {
 			}
 			default: {}
 		}
-
 	}
 
 	/** Initialization methods */
@@ -412,6 +406,7 @@ export default class BaseScene extends Scene {
 		let info = AllPlayerData.PLAYER_V1
 		let func = () => {
 			let player = this.add.animatedSprite(PlayerActor, info.LOAD.KEY, HW2Layers.PRIMARY);
+			player.setScene(this)
 
 			player.position.set(this.viewport.getCenter().x, this.viewport.getCenter().y);
 			player.scale.set(info.LOAD.SCALE.X, info.LOAD.SCALE.Y);
@@ -422,17 +417,19 @@ export default class BaseScene extends Scene {
 			let halfSize = player.boundary.getHalfSize().clone();
 			player.addPhysics(new AABB(center, halfSize));
 			player.setGroup(PhysicGroups.PLAYER)
+			player.setTrigger(PhysicGroups.ENEMY, Events.PLAYER_ENEMY_COLLISION, null)
 
 			return player
 		}
 		this.entities.initEntity(info.KEY, 1, func, info)
-		this.player = this.entities.findOneEntity(()=>{return true}, (value: any) => {return value.PHYSICS == PhysicGroups.PLAYER})
+		this.player = <PlayerActor>this.entities.findOneEntity(()=>{return true}, (value: any) => {return value.PHYSICS == PhysicGroups.PLAYER})
 	}
 
 	protected initEnemyBeam(c:number = 20):void{
 		let info = AllProjectileData.ENEMY_BEAM
 		let func = () => {
 			let entity = this.add.animatedSprite(BeamActor, info.LOAD.KEY, HW2Layers.PRIMARY)
+			entity.setScene(this)
 			entity.visible = false;
 
 			entity.addAI(BeamAI, {pos: Vec2.ZERO, dir: Vec2.DOWN})
@@ -447,6 +444,7 @@ export default class BaseScene extends Scene {
 		let info = AllProjectileData.BEAM
 		let func = () => {
 			let entity = this.add.animatedSprite(BeamActor, info.LOAD.KEY, HW2Layers.PRIMARY)
+			entity.setScene(this)
 			entity.visible = false;
 			entity.addAI(BeamAI, {pos: Vec2.ZERO})
 			entity.addPhysics();
@@ -461,6 +459,8 @@ export default class BaseScene extends Scene {
 		let {X, Y} = info.LOAD.SCALE
 		let func = () => {
 			let entity = this.add.animatedSprite(MookActor, info.LOAD.KEY, HW2Layers.PRIMARY)
+			entity.setScene(this)
+
 			entity.visible = false;
 			entity.scale.set(X, Y);
 
@@ -743,4 +743,9 @@ export default class BaseScene extends Scene {
 		this.gameOverTimer.start();
 	}
 
+	public set player(value: PlayerActor) {this._player = value;}
+
+	/**Abstracted */
+	public get player(): PlayerActor {return this._player;}
+	public getEnemy(id: number): HPActor {return <HPActor>this.entities.getEntityById(id, PhysicGroups.ENEMY)}
 }

@@ -5,12 +5,10 @@ import BasicTargetable from "../../utils/Targeting/BasicTargetable";
 import { TargetableEntity } from "../../utils/Targeting/TargetableEntity";
 import { TargetingEntity } from "../../utils/Targeting/TargetingEntity";
 import BaseScene from "../scenes/BaseScene";
-import HPActor from "./abastractActors/HPActor";
+import HPActor from "./abstractActors/HPActor";
 
 
 export default class MookActor extends HPActor{
-    protected scene: BaseScene
-
 
     public constructor(sheet: Spritesheet){
         super(sheet)
@@ -18,7 +16,7 @@ export default class MookActor extends HPActor{
     }
 
     spawn(options: Record<string, any>): void {
-        console.log("Mook Spawned")
+        console.log("Mook Spawned", this.id)
         this.canDespawn = false;
         super.spawn(options);
     }
@@ -32,6 +30,11 @@ export default class MookActor extends HPActor{
         console.log("Mook despawned")
         super.despawn()
 
+    }
+
+    takeDamage(damage: number): void {
+        super.takeDamage(damage)
+        console.log("mook hp", this.health, damage)
     }
 
     //Targetable Interface Functions

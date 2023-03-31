@@ -48,7 +48,10 @@ export default class HPActor extends SpawnableActor implements Battler {
     fireEvent(type:string, data:Record<string, any>){this.emitter.fireEvent(type, data)}
 
     despawnConditions(options: Record<string, any>): boolean {
-        if(this.health < 0){return true;}
+        if(this.health <= 0){return true;}
     }
+
+    get ramDamage(): number {return this.health}
+    takeDamage(damage: number): void{this.health-=damage}
     
 }
