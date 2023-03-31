@@ -7,6 +7,10 @@ import { TargetingEntity } from "../../utils/Targeting/TargetingEntity";
 import BaseScene from "../scenes/BaseScene";
 import HPActor from "./abstractActors/HPActor";
 
+const animations = {
+    IDLE: "IDLE",
+    TAKING_DAMAGE: "TAKING_DAMAGE"
+}
 
 export default class MookActor extends HPActor{
 
@@ -19,6 +23,7 @@ export default class MookActor extends HPActor{
         console.log("Mook Spawned", this.id)
         this.canDespawn = false;
         super.spawn(options);
+        this.animation.playIfNotAlready(animations.IDLE, true)
     }
 
     despawnConditions(options: Record<string, any>): boolean {
@@ -33,6 +38,7 @@ export default class MookActor extends HPActor{
     }
 
     takeDamage(damage: number): void {
+        this.animation.playIfNotAlready(animations.TAKING_DAMAGE, false)
         super.takeDamage(damage)
         console.log("mook hp", this.health, damage)
     }
