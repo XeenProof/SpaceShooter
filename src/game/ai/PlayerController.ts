@@ -27,7 +27,8 @@ export default class PlayerController implements AI {
 	/** The GameNode that owns this PlayerController AI */
 	private owner: PlayerActor;
 
-    private currentSpeed: number;
+	public get currentSpeed(): number {return this.owner.currentSpeed;}
+	public set currentSpeed(value: number) {this.owner.currentSpeed = value;}
 
 	// A receiver and emitter to hook into the event queue
 	private receiver: Receiver;
@@ -143,7 +144,6 @@ export default class PlayerController implements AI {
 	}
 
 	protected handleRamDamage(enemyId):void {
-		console.log(enemyId)
 		let enemy = this.owner.getScene().getEnemy(enemyId)
 		let player = this.owner
 		let damage = Math.min(enemy.ramDamage, player.ramDamage)

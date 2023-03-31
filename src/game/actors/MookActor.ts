@@ -20,7 +20,6 @@ export default class MookActor extends HPActor{
     }
 
     spawn(options: Record<string, any>): void {
-        console.log("Mook Spawned", this.id)
         this.canDespawn = false;
         super.spawn(options);
         this.animation.playIfNotAlready(animations.IDLE, true)
@@ -40,7 +39,6 @@ export default class MookActor extends HPActor{
     takeDamage(damage: number): void {
         this.animation.playIfNotAlready(animations.TAKING_DAMAGE, false)
         super.takeDamage(damage)
-        console.log("mook hp", this.health, damage)
     }
 
     //Targetable Interface Functions

@@ -138,7 +138,10 @@ export default class BaseScene extends ActorScene {
 	public override loadScene(){
 		// These Loaders are fine
 		this.loadPlayer(LoadPlayer.PLAYER);
+		this.autoloader(LoadPlayer.FLAMES);
+
 		this.loadBackground(LoadBackground.SPACE);
+
 		this.autoloader(LoadEnemy.MINE);
 		this.autoloader(LoadEnemy.COMMON_MOOK);
 		this.autoloader(LoadProjectiles.BEAM);
@@ -191,7 +194,7 @@ export default class BaseScene extends ActorScene {
 		// Create a background layer
 		this.addLayer(HW2Layers.BACKGROUND, 0);
 		this.initBackground();
-
+		this.initUI();
 		// Create a layer to serve as our main game - Feel free to use this for your own assets
 		// It is given a depth of 5 to be above our background
 		this.addLayer(HW2Layers.PRIMARY, 5);
@@ -200,7 +203,7 @@ export default class BaseScene extends ActorScene {
 		// Initialize the Timers
 		this.initTimers();
 		// Initialize the UI
-		this.initUI();
+		
 
 		// Initialize object pools
 		this.initObjectPools();
@@ -404,12 +407,19 @@ export default class BaseScene extends ActorScene {
 	 */ 
 	protected initPlayer(): void {
 		let info = AllPlayerData.PLAYER_V1
+		let flameInfo = LoadPlayer.FLAMES
 		let func = () => {
 			let player = this.add.animatedSprite(PlayerActor, info.LOAD.KEY, HW2Layers.PRIMARY);
 			player.setScene(this)
 
 			player.position.set(this.viewport.getCenter().x, this.viewport.getCenter().y);
 			player.scale.set(info.LOAD.SCALE.X, info.LOAD.SCALE.Y);
+
+			let booster = this.add.animatedSprite(AnimatedSprite, flameInfo.KEY, HW2Layers.PRIMARY);
+			booster.position.copy(player.position)
+			booster.scale.set(flameInfo.SCALE.X, flameInfo.SCALE.Y);
+			player.booster = booster
+			console.log(booster)
 
 			player.addAI(PlayerController, {stats: info.STATS});
 

@@ -21,6 +21,7 @@ const Loads = {
     PLACEHOLDER: {KEY: "PLACEHOLDER", TYPE: LoadType.SPRITESHEET, PATH: "demo_assets/spritesheets/platformer/player.json", SCALE:{X:1, Y:1}},
 
     PLANE: {KEY: "PLANE", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Plane/Plane.json", SCALE:{X:1, Y:1}},
+    FLAME: {KEY: "FLAME", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/flame/flame.json", SCALE: {X:1, Y:1}},
     
     ENEMY_1: {KEY: "ENEMY_1", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Enemy_First/Enemy_First.json", SCALE:{X:1, Y:1}},
     ENEMY_2: {KEY: "ENEMY_2", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Enemy_Second/Enemy_Second.json", SCALE:{X:1, Y:1}},
@@ -33,7 +34,8 @@ export const LoadBackground = {
 } as const
 
 export const LoadPlayer = {
-    PLAYER: {...Loads.PLANE, SCALE:{X:1.5, Y:1.5}}
+    PLAYER: {...Loads.PLANE, SCALE:{X:1.5, Y:1.5}},
+    FLAMES: {...Loads.FLAME, SCALE:{X:1.5, Y:1.5}}
 } as const
 
 export const LoadEnemy = {

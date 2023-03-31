@@ -8,7 +8,7 @@
     "topBuffer":0,
     "bottomBuffer":0,
     "columns":2,
-    "rows":3,
+    "rows":2,
     "animations":[
         {"name":"LOW","repeat":true,
             "frames":
