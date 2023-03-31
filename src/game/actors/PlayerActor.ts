@@ -25,8 +25,8 @@ export default class PlayerActor extends HPActor{
         console.log("player ", this.id)
     }
 
-    spawn(options: Record<string, any>): void {
-        super.spawn(options)
+    spawn(options: Record<string, any> = {}): void {
+        //super.spawn(options)
         this.animation.playIfNotAlready(animations.IDLE, true)
     }
 

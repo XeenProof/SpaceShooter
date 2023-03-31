@@ -423,6 +423,7 @@ export default class BaseScene extends ActorScene {
 		}
 		this.entities.initEntity(info.KEY, 1, func, info)
 		this.player = <PlayerActor>this.entities.findOneEntity(()=>{return true}, (value: any) => {return value.PHYSICS == PhysicGroups.PLAYER})
+		this.player.spawn({})
 	}
 
 	protected initEnemyBeam(c:number = 20):void{
@@ -465,7 +466,10 @@ export default class BaseScene extends ActorScene {
 			entity.scale.set(X, Y);
 
 			entity.addAI(MookBehavior, {target: new BasicTargetable(new Position(0,0))})
-			entity.addPhysics();
+
+			let center = entity.position.clone()
+			let halfSize = entity.boundary.getHalfSize().clone().scale(0.9,0.6);
+			entity.addPhysics(new AABB(center, halfSize));
 			entity.setGroup(PhysicGroups.ENEMY);
 			return entity;
 		}
