@@ -34,6 +34,10 @@ export default class MookBehavior extends ComplexPatternAI{
         this.path = this.path.enqueueArray((options.path)?options.path:[]);
         this.owner.position.copy((this.path.peek())?this.path.peek().position: Vec2.ZERO)
         this.weaponCooldown.start()
+
+        let hp = options.hp?options.hp:10;
+        this.owner.maxHealth = hp;
+        this.owner.health = hp;
     }
 
     protected firePattern():void{

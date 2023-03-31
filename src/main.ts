@@ -10,7 +10,7 @@ import { Inputs } from "./constants/gameoptions";
     
     // Set up options for our game
     let options = {
-        canvasSize: {x: 900, y: 900},          // The size of the game
+        canvasSize: {x: 1200, y: 900},          // The size of the game
         clearColor: {r: 0.1, g: 0.1, b: 0.1},   // The color the game clears to
         inputs: Inputs,
         useWebGL: true,                        // Tell the game we want to use webgl

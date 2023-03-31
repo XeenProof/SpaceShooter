@@ -26,27 +26,7 @@ export default class PlayerController implements AI {
 	/** The GameNode that owns this PlayerController AI */
 	private owner: PlayerActor;
 
-    private currentHealth: number;
-    private maxHealth: number;
-    private minHealth: number;
-	private deathFired: boolean;
-
-    private currentAir: number;
-    private maxAir: number;
-    private minAir: number;
-
     private currentSpeed: number;
-
-    private currentCharge: number;
-    private maxCharge: number;
-    private minCharge: number;
-
-	/** A timer for charging the player's laser cannon thing */
-	private iframe: boolean;
-	private airframe: boolean;
-	private laserTimer: Timer;
-	private damageTimer: Timer;
-	private bubbleTimer: Timer;
 
 	// A receiver and emitter to hook into the event queue
 	private receiver: Receiver;
@@ -63,12 +43,6 @@ export default class PlayerController implements AI {
 
 		this.receiver = new Receiver();
 		this.emitter = new Emitter();
-
-		this.iframe = false;
-		this.airframe = false
-		this.laserTimer = new Timer(2500, this.handleLaserTimerEnd, false);
-		this.damageTimer = new Timer(100, this.handleDamageTimerEnd, false);
-		this.bubbleTimer = new Timer(100, this.handleBubbleTimerEnd, false);
 		
 		this.receiver.subscribe(HW2Events.SHOOT_LASER);
 		this.receiver.subscribe(HW2Events.PLAYER_MINE_COLLISION);
@@ -78,24 +52,10 @@ export default class PlayerController implements AI {
 		this.activate(options);
 	}
 	public activate(options: Record<string,any>): void {
-		// Set the player's current health
-        this.currentHealth = 10;
-
-        // Set upper and lower bounds on the player's health
-        this.minHealth = 0;
-        this.maxHealth = 10;
-		this.deathFired = false;
-
-        // Set the player's current air
-        this.currentAir = 20;
-
-        // Set upper and lower bounds on the player's air
-        this.minAir = 0;
-        this.maxAir = 20;
-
-        this.currentCharge = 4;
-        this.minCharge = 0;
-        this.maxCharge = 4;
+		//sets a player's health
+		let hp = options.hp?options.hp:10;
+		this.owner.maxHealth = hp;
+        this.owner.health = hp;
 
         // Set the player's movement speed
         this.currentSpeed = 300
@@ -128,36 +88,19 @@ export default class PlayerController implements AI {
 			this.handleEvent(this.receiver.getNextEvent());
 		}
 
-        // If the player is out of hp - play the death animation
-		if (this.currentHealth <= this.minHealth) { 
-            if(!this.deathFired){
-				this.emitter.fireEvent(HW2Events.DEAD, {});
-				this.deathFired = true;
-			}
-            return;
-        }
-
 		// Get the player's input direction 
 		let forwardAxis = (Input.isPressed(Controls.MOVE_UP) ? 1 : 0) + (Input.isPressed(Controls.MOVE_DOWN) ? -1 : 0);
 		let horizontalAxis = (Input.isPressed(Controls.MOVE_LEFT) ? -1 : 0) + (Input.isPressed(Controls.MOVE_RIGHT) ? 1 : 0);
 
 		// Handle trying to shoot a laser from the submarine
-		if (Input.isMouseJustPressed() && this.currentCharge > 0) {
+		if (Input.isMouseJustPressed()) {
 			//this.currentCharge -= 1;
 			this.emitter.fireEvent(HW2Events.SHOOT_LASER, {src: this.owner.position});
-			this.emitter.fireEvent(HW2Events.CHARGE_CHANGE, {curchrg: this.currentCharge, maxchrg: this.maxCharge});
 		}
 
 		// Move the player
 		let movement = Vec2.UP.scaled(forwardAxis * this.currentSpeed).add(new Vec2(horizontalAxis * this.currentSpeed, 0));
 		this.owner.move(movement.scaled(deltaT));
-
-		// Player looses a little bit of air each frame
-		//this.currentAir = MathUtils.clamp(this.currentAir - deltaT, this.minAir, this.maxAir);
-
-		// If the player is out of air - start subtracting from the player's health
-		this.currentHealth = this.currentAir <= this.minAir ? MathUtils.clamp(this.currentHealth - deltaT*2, this.minHealth, this.maxHealth) : this.currentHealth;
-		this.emitter.fireEvent(HW2Events.UPDATE_GUI, {currentHealth: this.currentHealth, maxHealth: this.maxHealth, currentAir: this.currentAir, maxAir: this.maxAir})
 	}
 	/**
 	 * This method handles all events that the reciever for the PlayerController is
@@ -170,15 +113,12 @@ export default class PlayerController implements AI {
 	public handleEvent(event: GameEvent): void {
 		switch(event.type) {
 			case HW2Events.SHOOT_LASER: {
-				this.handleShootLaserEvent(event);
 				break;
 			}
 			case HW2Events.PLAYER_MINE_COLLISION: {
-				//this.handlePlayerMineCollision();
 				break;
 			}
 			case HW2Events.PLAYER_BUBBLE_COLLISION: {
-				this.handlePlayerBubbleCollision();
 				break;
 			}
 			case HW2Events.DEAD:{
@@ -197,57 +137,6 @@ export default class PlayerController implements AI {
 		this.receiver.destroy()
 	}
 
-	/**
-	 * This function handles when the player successfully shoots a laser.
-	 * @param event 
-	 */
-	protected handleShootLaserEvent(event: GameEvent): void {
-		//this.laserTimer.reset();
-		//this.laserTimer.start();
-	}
-
-	/** 
-	 * A callback function that increments the number of charges the player's laser cannon has.
-	 * 
-	 * @remarks 
-	 * 
-	 * This function 
-	 * updates the total number of charges the player's laser cannon has
-	 */
-	protected handleLaserTimerEnd = () => {
-		this.currentCharge = MathUtils.clamp(this.currentCharge + 1, this.minCharge, this.maxCharge);
-		this.emitter.fireEvent(HW2Events.CHARGE_CHANGE, {curchrg: this.currentCharge, maxchrg: this.maxCharge});
-		if (this.currentCharge < this.maxCharge) {
-			this.laserTimer.start();
-		}
-	}
-
-	protected handleDamageTimerEnd = () => {
-		
-		if(!this.deathFired){
-			this.iframe = false;
-			this.owner.animation.playIfNotAlready(PlayerAnimations.IDLE);
-		}
-	}
-
-	protected handleBubbleTimerEnd = () => {
-		this.airframe = false;
-	}
-
-	protected handlePlayerMineCollision = () => {
-		if(this.iframe){return;}
-		this.iframe = true;
-		this.currentHealth = this.currentHealth-1;
-		this.owner.animation.playIfNotAlready(PlayerAnimations.HIT);
-		this.damageTimer.start();
-	}
-
-	protected handlePlayerBubbleCollision = () => {
-		if(this.airframe){return;}
-		this.currentAir = Math.min(this.currentAir + 2, 20);
-		this.airframe = true;
-		this.bubbleTimer.start();
-	}
 
 	protected handlePlayerDeath = () => {
 		console.log("Handle player death")
