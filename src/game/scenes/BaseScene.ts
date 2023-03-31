@@ -426,6 +426,7 @@ export default class BaseScene extends ActorScene {
 			let shield = this.add.sprite(SHIELD.KEY, HW2Layers.PRIMARY);
 			shield.position.copy(player.position)
 			shield.scale.set(SHIELD.SCALE.X, SHIELD.SCALE.Y)
+			shield.visible = false
 			player.shield = shield
 
 			player.addAI(PlayerController, {stats: info.STATS});

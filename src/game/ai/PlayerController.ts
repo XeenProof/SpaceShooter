@@ -99,6 +99,12 @@ export default class PlayerController implements AI {
 			//this.currentCharge -= 1;
 			this.emitter.fireEvent(HW2Events.SHOOT_LASER, {src: this.owner.position});
 		}
+		if(Input.isJustPressed(Controls.SHIELD)){
+			this.owner.activateShield()
+		}
+		if(Input.isJustPressed(Controls.BOOST)){
+			this.owner.activateBoost()
+		}
 
 		// Move the player
 		let movement = Vec2.UP.scaled(forwardAxis * this.currentSpeed).add(new Vec2(horizontalAxis * this.currentSpeed, 0));

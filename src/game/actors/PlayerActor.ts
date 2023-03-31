@@ -27,18 +27,22 @@ export default class PlayerActor extends HPActor{
     private iTimer:Timer = new Timer(500, ()=>{this.handleIframeEnds()}, false);
 
     private _booster: AnimatedSprite;
+    private _boosted: boolean = false;
+    private boostTimer: Timer;
     public get booster(): AnimatedSprite {return this._booster;}
     public set booster(value: AnimatedSprite) {this._booster = value;}
+    public get boosted(): boolean {return this._boosted;}
+    private set boosted(value: boolean) {this._boosted = value;}
 
     private _shield: Sprite;
+    private shieldTimer: Timer;
     public get shield(): Sprite {return this._shield;}
     public set shield(value: Sprite) {this._shield = value;}
-    
+    public get shielded(): boolean {return (this.shield)?this.shield.visible:false}
 
     private _currentSpeed: number;
-    public get currentSpeed(): number {return this._currentSpeed;}
+    public get currentSpeed(): number {return this._currentSpeed*((this.boosted)?2:1);}
     public set currentSpeed(value: number) {this._currentSpeed = value;}
-    
 
     public constructor(sheet: Spritesheet){
         super(sheet)
@@ -50,9 +54,11 @@ export default class PlayerActor extends HPActor{
         this.animation.playIfNotAlready(animations.IDLE, true)
         this.booster.animation.playIfNotAlready(booster_animations.LOW, true)
         this.booster.visible = true;
+        this.boostTimer = new Timer(2000, ()=>{this.deactivateBooster()});
+        this.shieldTimer = new Timer(2000, ()=>{this.deactivateShield()});
     }
 
-    takeDamage(damage: number): void {
+    takeDamage(damage: number, options:Record<string, any> = {}): void {
         //if(this.iframe){return;}
         super.takeDamage(0)
         //this.iframe = true
@@ -60,6 +66,24 @@ export default class PlayerActor extends HPActor{
         this.iTimer.reset()
         this.iTimer.start()
         console.log("player hp", this.health, damage)
+    }
+
+    activateShield(){
+        this.shield.visible = true;
+        this.shieldTimer.reset();
+        this.shieldTimer.start();
+    }
+    private deactivateShield(){this.shield.visible = false}
+
+    activateBoost(){
+        this.booster.animation.playIfNotAlready(booster_animations.HIGH, true)
+        this.boosted = true
+        this.boostTimer.reset()
+        this.boostTimer.start()
+    }
+    private deactivateBooster(){
+        this.booster.animation.playIfNotAlready(booster_animations.LOW, true)
+        this.boosted = false
     }
 
     move(velocity: Vec2): void {
