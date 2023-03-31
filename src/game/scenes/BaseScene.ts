@@ -47,7 +47,7 @@ import PlayerActor from "../actors/PlayerActor";
 import EntityManager from "../../utils/EntityManager/EntityManager";
 import { AllEnemyData } from "../../constants/enemies/enemyData";
 import { AllProjectileData } from "../../constants/projectiles/projectileData";
-import { AllPlayerData } from "../../constants/player/playerStats";
+import { AllPlayerData } from "../../constants/player/playerData";
 import Spawnable from "../../utils/Interface/Spawnable";
 import ActorScene from "./ActorScene";
 import HPActor from "../actors/abstractActors/HPActor";
@@ -139,6 +139,7 @@ export default class BaseScene extends ActorScene {
 		// These Loaders are fine
 		this.loadPlayer(LoadPlayer.PLAYER);
 		this.autoloader(LoadPlayer.FLAMES);
+		this.autoloader(LoadPlayer.SHIELD)
 
 		this.loadBackground(LoadBackground.SPACE);
 
@@ -408,18 +409,24 @@ export default class BaseScene extends ActorScene {
 	protected initPlayer(): void {
 		let info = AllPlayerData.PLAYER_V1
 		let flameInfo = LoadPlayer.FLAMES
+		let {PLAYER, FLAMES, SHIELD} = info.LOAD
 		let func = () => {
-			let player = this.add.animatedSprite(PlayerActor, info.LOAD.KEY, HW2Layers.PRIMARY);
+			let player = this.add.animatedSprite(PlayerActor, PLAYER.KEY, HW2Layers.PRIMARY);
 			player.setScene(this)
 
 			player.position.set(this.viewport.getCenter().x, this.viewport.getCenter().y);
-			player.scale.set(info.LOAD.SCALE.X, info.LOAD.SCALE.Y);
+			player.scale.set(PLAYER.SCALE.X, PLAYER.SCALE.Y);
 
-			let booster = this.add.animatedSprite(AnimatedSprite, flameInfo.KEY, HW2Layers.PRIMARY);
+			let booster = this.add.animatedSprite(AnimatedSprite, FLAMES.KEY, HW2Layers.PRIMARY);
 			booster.position.copy(player.position)
-			booster.scale.set(flameInfo.SCALE.X, flameInfo.SCALE.Y);
+			booster.scale.set(FLAMES.SCALE.X, FLAMES.SCALE.Y);
 			player.booster = booster
 			console.log(booster)
+
+			let shield = this.add.sprite(SHIELD.KEY, HW2Layers.PRIMARY);
+			shield.position.copy(player.position)
+			shield.scale.set(SHIELD.SCALE.X, SHIELD.SCALE.Y)
+			player.shield = shield
 
 			player.addAI(PlayerController, {stats: info.STATS});
 

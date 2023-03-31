@@ -1,6 +1,7 @@
 import Spritesheet from "../../Wolfie2D/DataTypes/Spritesheet";
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
+import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
 import Scene from "../../Wolfie2D/Scene/Scene";
 import Timer from "../../Wolfie2D/Timing/Timer";
 import BasicTargetable from "../../utils/Targeting/BasicTargetable";
@@ -28,6 +29,11 @@ export default class PlayerActor extends HPActor{
     private _booster: AnimatedSprite;
     public get booster(): AnimatedSprite {return this._booster;}
     public set booster(value: AnimatedSprite) {this._booster = value;}
+
+    private _shield: Sprite;
+    public get shield(): Sprite {return this._shield;}
+    public set shield(value: Sprite) {this._shield = value;}
+    
 
     private _currentSpeed: number;
     public get currentSpeed(): number {return this._currentSpeed;}
@@ -59,6 +65,7 @@ export default class PlayerActor extends HPActor{
     move(velocity: Vec2): void {
         super.move(velocity)
         this.booster.position.copy(this.position)
+        if(this.shield.visible){this.shield.position.copy(this.position)}
     }
 
     public handleIframeEnds(): void {

@@ -1,10 +1,21 @@
+import { LoadPlayer } from "../load"
+import { PhysicGroups } from "../physics"
+import { PLAYER_STATS } from "./playerStats"
 
-const PLAYER_V1 = {
-    hp: 30,
-    speed: 300,
-    attack: 2
+
+export const AllPlayerKeys = {
+    PLAYER_V1: "PLAYER_V1"
 }
 
-export const PLAYER_STATS = {
-    PLAYER_V1: PLAYER_V1
+export const AllPlayerData = {
+    PLAYER_V1: {
+        KEY: AllPlayerKeys.PLAYER_V1,
+        STATS:PLAYER_STATS.PLAYER_V1,
+        LOAD: {
+            PLAYER: LoadPlayer.PLAYER,
+            SHIELD: LoadPlayer.SHIELD,
+            FLAMES: LoadPlayer.FLAMES
+        },
+        PHYSICS: PhysicGroups.PLAYER
+    }
 }
