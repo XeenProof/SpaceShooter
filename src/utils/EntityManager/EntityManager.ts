@@ -20,9 +20,10 @@ export default class EntityManager<T extends CanvasNode>{
     public initEntity(key: string, total:number, func: ()=>T = this.getinitFunc(key), comparable:Record<string, any> = {}):T{
         if(!func){console.log("can't initiate"); return}
         let array = new Array<T>(total)
+        let old = this.getEntityList(key)?this.getEntityList(key):[]
         for(let i = 0; i < array.length; i++){array[i] = func();}
         let original = this.getComparable(key)?this.getComparable(key):{}
-        this.entities.set(key, array)
+        this.entities.set(key, [...old, ...array])
         this.initFuncs.set(key, func)
         this.comparables.set(key, {...original, ...comparable})
         this.entityKeys.push(key)
