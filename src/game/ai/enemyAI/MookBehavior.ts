@@ -26,6 +26,7 @@ export default class MookBehavior extends ComplexPatternAI{
         this.weaponCooldown = new Timer(1000, ()=>{this.firePattern()}, true);
 
         this.receiver.subscribe(Events.PLAYER_ENEMY_COLLISION);
+        this.receiver.subscribe(Events.WEAPON_ENEMY_COLLISION);
 
         this.path = new PathQueue(30)
     }
@@ -46,10 +47,10 @@ export default class MookBehavior extends ComplexPatternAI{
 
 
     public update(deltaT: number){
-        if(!this.owner.visible){return;}
         while(this.receiver.hasNextEvent()){
 			this.handleEvent(this.receiver.getNextEvent());
 		}
+        if(!this.owner.visible){return;}
         if(this.owner.despawnConditions({}) && this.owner.canDespawn){
             this.owner.despawn();
             this.destroy();
@@ -77,6 +78,10 @@ export default class MookBehavior extends ComplexPatternAI{
                 this.handleRamDamage(event.data.get("node"));
                 break;
             }
+            case Events.WEAPON_ENEMY_COLLISION:{
+                this.handleDamage(event.data.get("node"), event.data.get("other"))
+                break;
+            }
         }
     }
 
@@ -85,6 +90,15 @@ export default class MookBehavior extends ComplexPatternAI{
         let enemy = this.owner
         let player = this.owner.getScene().player
         let damage = Math.min(enemy.ramDamage, player.ramDamage)
+        this.owner.takeDamage(damage)
+    }
+
+    protected handleDamage(enemyId, shotid):void{
+        if(enemyId != this.owner.id){return;}
+        let bullet = this.owner.getScene().getShot(shotid)
+        //if(!bullet.visible){return;}
+        let damage = this.owner.getScene().getDamage(bullet.damage_key)
+        console.log(damage)
         this.owner.takeDamage(damage)
     }
     

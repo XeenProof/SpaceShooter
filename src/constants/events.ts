@@ -9,7 +9,12 @@ export const Events = {
      * } */
 
     /**Set Trigger Calls */
-    PLAYER_ENEMY_COLLISION: "PLAYER_ENEMY_COLLISION"
+    PLAYER_ENEMY_COLLISION: "PLAYER_ENEMY_COLLISION",
+    /**
+     * node: target id
+     * other: self id
+     */
+    WEAPON_ENEMY_COLLISION: "WEAPON_ENEMY_COLLISION"
     /**
      * node: target id
      * other: self id

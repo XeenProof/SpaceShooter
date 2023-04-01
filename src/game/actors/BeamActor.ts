@@ -5,10 +5,11 @@ import BasicTargetable from "../../utils/Targeting/BasicTargetable";
 import { TargetableEntity } from "../../utils/Targeting/TargetableEntity";
 import { TargetingEntity } from "../../utils/Targeting/TargetingEntity";
 import BaseScene from "../scenes/BaseScene";
+import DamageActor from "./abstractActors/DamageActor";
 import SpawnableActor from "./abstractActors/SpawnableActor";
 
 
-export default class BeamActor extends SpawnableActor{
+export default class BeamActor extends DamageActor{
 
     public constructor(sheet: Spritesheet){
         super(sheet)

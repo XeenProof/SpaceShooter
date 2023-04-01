@@ -3,7 +3,6 @@ import { GAMEPLAY_DIMENTIONS } from "../../../constants/dimenstions";
 import Spawnable from "../../../utils/Interface/Spawnable";
 import BaseScene from "../../scenes/BaseScene";
 
-
 export default abstract class SpawnableActor extends AnimatedSprite implements Spawnable{
 
     protected scene: BaseScene;

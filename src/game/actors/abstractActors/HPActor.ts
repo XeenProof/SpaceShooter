@@ -8,7 +8,7 @@ import { TargetingEntity } from "../../../utils/Targeting/TargetingEntity";
 import SpawnableActor from "./SpawnableActor";
 
 
-export default class HPActor extends SpawnableActor implements Battler {
+export default abstract class HPActor extends SpawnableActor implements Battler {
 
     /** Give the player a battler compoonent */
     protected battler: Battler;

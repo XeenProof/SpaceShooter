@@ -82,6 +82,7 @@ export default class BaseScene extends ActorScene {
 	protected bg2: Sprite;
 
 	protected entities: EntityManager<CanvasNode & Spawnable>;
+	protected damages: Map<String, number>;
 
 	// Here we define member variables of our game, and object pools for adding in game objects
 	private _player: PlayerActor;
@@ -123,6 +124,7 @@ export default class BaseScene extends ActorScene {
 	public constructor(viewport: Viewport, sceneManager: SceneManager, renderingManager: RenderingManager, options: Record<string, any>) {
         super(viewport, sceneManager, renderingManager, {...options, physics: Physics});
 		this.entities = new EntityManager<CanvasNode & Spawnable>();
+		this.damages = new Map<String, number>();
     }
 
 	/** Scene lifecycle methods */
@@ -391,7 +393,7 @@ export default class BaseScene extends ActorScene {
 	}
 
 	protected initObjectPools(): void {
-		this.initBeams(1);
+		this.initBeams();
 		this.initMooks(1);
 		this.initEnemyBeam();
 	}
@@ -446,8 +448,10 @@ export default class BaseScene extends ActorScene {
 
 	protected initEnemyBeam(c:number = 20):void{
 		let info = AllProjectileData.ENEMY_BEAM
+		this.damages.set(info.KEY, info.DAMAGE)
 		let func = () => {
 			let entity = this.add.animatedSprite(BeamActor, info.LOAD.KEY, HW2Layers.PRIMARY)
+			entity.damage_key = info.KEY
 			entity.setScene(this)
 			entity.visible = false;
 
@@ -461,13 +465,16 @@ export default class BaseScene extends ActorScene {
 
 	protected initBeams(c:number = 20):void {
 		let info = AllProjectileData.BEAM
+		this.damages.set(info.KEY, info.DAMAGE)
 		let func = () => {
 			let entity = this.add.animatedSprite(BeamActor, info.LOAD.KEY, HW2Layers.PRIMARY)
+			entity.damage_key = info.KEY
 			entity.setScene(this)
 			entity.visible = false;
 			entity.addAI(BeamAI, {pos: Vec2.ZERO})
 			entity.addPhysics();
 			entity.setGroup(PhysicGroups.PLAYER_WEAPON)
+			entity.setTrigger(PhysicGroups.ENEMY, Events.WEAPON_ENEMY_COLLISION, null)
 			return entity;
 		}
 		this.entities.initEntity(info.KEY, c, func, info)
@@ -770,4 +777,6 @@ export default class BaseScene extends ActorScene {
 	/**Abstracted */
 	public get player(): PlayerActor {return this._player;}
 	public getEnemy(id: number): HPActor {return <HPActor>this.entities.getEntityById(id, PhysicGroups.ENEMY)}
+	public getShot(id: number): BeamActor {return <BeamActor>this.entities.getEntityById(id, PhysicGroups.PLAYER_WEAPON)}
+	public getDamage(key: String): number{return this.damages.get(key)}
 }
