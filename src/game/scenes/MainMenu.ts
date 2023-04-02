@@ -6,7 +6,8 @@ import Color from "../../Wolfie2D/Utils/Color";
 import Homework1_Scene from "./LevelScene";
 import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 import GameEvent from "../../Wolfie2D/Events/GameEvent";
-
+import { LoadData, LoadType, LoadBackground, LoadPlayer, LoadEnemy, LoadProjectiles,LoadWelcome } from "../../constants/load";
+import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
 import RandUtils from "../../Wolfie2D/Utils/RandUtils";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 
@@ -14,7 +15,7 @@ import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 const MainMenuLayer = {
     MAIN_MENU: "MAIN_MENU", 
     CONTROLS: "CONTROLS",
-    ABOUT: "ABOUT"
+    ABOUT: "ABOUT",
 } as const
 
 // Events triggered in the main menu
@@ -32,12 +33,20 @@ export default class MainMenu extends Scene {
     private controls: Layer;
     private about: Layer;
     private seed: string;
+    
+    protected BACKGROUND: LoadData;
+    // Sprites for the background images
+	protected bg1: Sprite;
+	protected bg2: Sprite;
 
     public override startScene(){
         const center = this.viewport.getCenter();
 
         // Main menu screen
-        this.mainMenu = this.addUILayer(MainMenuLayer.MAIN_MENU);
+        this.mainMenu = this.addLayer(MainMenuLayer.MAIN_MENU,0);
+        this.loadBackground(LoadWelcome.WELCOME);
+        console.log(LoadWelcome.WELCOME);
+		this.initBackground();
 
         // Controls screen
         this.controls = this.addUILayer(MainMenuLayer.CONTROLS);
@@ -135,6 +144,39 @@ export default class MainMenu extends Scene {
             this.handleEvent(this.receiver.getNextEvent());
         }
     }
+
+    protected loadBackground(data: LoadData){
+		this.autoloader(data)
+		this.BACKGROUND = data;
+        console.log(this.BACKGROUND)
+	}
+
+    protected autoloader (data: LoadData) {
+		let {KEY, TYPE, PATH } = data;
+		switch(TYPE){
+			case LoadType.IMAGE:
+				this.load.image(KEY, PATH);
+                console.log("What happen??")
+				break;
+			case LoadType.AUDIO:
+				this.load.audio(KEY, PATH);
+				break;
+			case LoadType.SPRITESHEET:
+				this.load.spritesheet(KEY, PATH);
+				break;
+		}
+	}
+
+    protected initBackground(): void {
+		this.bg1 = this.add.sprite(this.BACKGROUND.KEY, MainMenuLayer.MAIN_MENU);
+		this.bg1.scale.set(this.BACKGROUND.SCALE.X, this.BACKGROUND.SCALE.Y);
+		this.bg1.position.copy(this.viewport.getCenter());
+
+		this.bg2 = this.add.sprite(this.BACKGROUND.KEY, MainMenuLayer.MAIN_MENU);
+		this.bg2.scale.set(this.BACKGROUND.SCALE.X, this.BACKGROUND.SCALE.Y);
+		this.bg2.position = this.bg1.position.clone();
+		this.bg2.position.add(this.bg1.sizeWithZoom.scale(0, -2));
+	}
 
     protected handleEvent(event: GameEvent): void {
         switch(event.type) {
