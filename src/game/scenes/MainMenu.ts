@@ -39,12 +39,16 @@ export default class MainMenu extends Scene {
 	protected bg1: Sprite;
 	protected bg2: Sprite;
 
+    public override loadScene(){
+        this.loadBackground(LoadWelcome.WELCOME);
+    }
+    
     public override startScene(){
         const center = this.viewport.getCenter();
 
         // Main menu screen
         this.mainMenu = this.addLayer(MainMenuLayer.MAIN_MENU,0);
-        this.loadBackground(LoadWelcome.WELCOME);
+        // this.loadBackground(LoadWelcome.WELCOME);
         console.log(LoadWelcome.WELCOME);
 		this.initBackground();
 
