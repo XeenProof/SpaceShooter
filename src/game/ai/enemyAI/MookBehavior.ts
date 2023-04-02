@@ -12,7 +12,10 @@ import MookActor from "../../actors/MookActor";
 import PlayerActor from "../../actors/PlayerActor";
 import ComplexPatternAI from "../abstractAI/ComplexPatternAI";
 
-
+const animations = {
+    IDLE: "IDLE",
+    TAKING_DAMAGE: "TAKING_DAMAGE"
+}
 
 export default class MookBehavior extends ComplexPatternAI{
     protected override owner: MookActor

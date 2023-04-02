@@ -11,5 +11,4 @@ export default abstract class DamageActor extends SpawnableActor{
     private _damage_key: String;
     public get damage_key(): String {return this._damage_key;}
     public set damage_key(value: String) {this._damage_key = value;}
-    
 }

@@ -50,6 +50,7 @@ export default class PlayerController implements AI {
 		this.receiver.subscribe(HW2Events.DEAD)
 
 		this.receiver.subscribe(Events.PLAYER_ENEMY_COLLISION)
+		this.receiver.subscribe(Events.WEAPON_PLAYER_COLLISION)
 
 		this.activate(options);
 	}
@@ -131,6 +132,10 @@ export default class PlayerController implements AI {
 				this.handleRamDamage(event.data.get("node"));
 				break;
 			}
+			case Events.WEAPON_PLAYER_COLLISION:{
+				this.handleDamage(event.data.get("other"))
+				break;
+			}
 			default: {
 				throw new Error(`Unhandled event of type: ${event.type} caught in PlayerController`);
 			}
@@ -149,12 +154,19 @@ export default class PlayerController implements AI {
 		this.owner.animation.playIfNotAlready(PlayerAnimations.DEATH, false);
 	}
 
-	protected handleRamDamage(enemyId):void {
+	protected handleRamDamage(enemyId:number):void {
 		let enemy = this.owner.getScene().getEnemy(enemyId)
 		let player = this.owner
 		let damage = Math.min(enemy.ramDamage, player.ramDamage)
 		this.owner.takeDamage(damage)
     }
+
+	protected handleDamage(shotid:number):void {
+		let bullet = this.owner.getScene().getEnemyShot(shotid)
+        //if(!bullet.visible){return;}
+        let damage = this.owner.getScene().getDamage(bullet.damage_key)
+		this.owner.takeDamage(damage)
+	}
 } 
 
 

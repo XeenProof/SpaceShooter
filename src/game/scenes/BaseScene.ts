@@ -51,6 +51,7 @@ import { AllPlayerData } from "../../constants/player/playerData";
 import Spawnable from "../../utils/Interface/Spawnable";
 import ActorScene from "./ActorScene";
 import HPActor from "../actors/abstractActors/HPActor";
+import DamageActor from "../actors/abstractActors/DamageActor";
 
 
 
@@ -410,7 +411,6 @@ export default class BaseScene extends ActorScene {
 	 */ 
 	protected initPlayer(): void {
 		let info = AllPlayerData.PLAYER_V1
-		let flameInfo = LoadPlayer.FLAMES
 		let {PLAYER, FLAMES, SHIELD} = info.LOAD
 		let func = () => {
 			let player = this.add.animatedSprite(PlayerActor, PLAYER.KEY, HW2Layers.PRIMARY);
@@ -458,6 +458,7 @@ export default class BaseScene extends ActorScene {
 			entity.addAI(BeamAI, {pos: Vec2.ZERO, dir: Vec2.DOWN})
 			entity.addPhysics();
 			entity.setGroup(PhysicGroups.ENEMY_WEAPON)
+			entity.setTrigger(PhysicGroups.PLAYER, Events.WEAPON_PLAYER_COLLISION, null)
 			return entity;
 		}
 		this.entities.initEntity(info.KEY, c, func, info)
@@ -777,6 +778,7 @@ export default class BaseScene extends ActorScene {
 	/**Abstracted */
 	public get player(): PlayerActor {return this._player;}
 	public getEnemy(id: number): HPActor {return <HPActor>this.entities.getEntityById(id, PhysicGroups.ENEMY)}
-	public getShot(id: number): BeamActor {return <BeamActor>this.entities.getEntityById(id, PhysicGroups.PLAYER_WEAPON)}
+	public getShot(id: number): DamageActor {return <DamageActor>this.entities.getEntityById(id, PhysicGroups.PLAYER_WEAPON)}
+	public getEnemyShot(id: number): DamageActor {return <DamageActor>this.entities.getEntityById(id, PhysicGroups.ENEMY_WEAPON)}
 	public getDamage(key: String): number{return this.damages.get(key)}
 }

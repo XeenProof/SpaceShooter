@@ -1,5 +1,6 @@
 import Spritesheet from "../../../Wolfie2D/DataTypes/Spritesheet";
 import AnimatedSprite from "../../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
+import Timer from "../../../Wolfie2D/Timing/Timer";
 import BasicBattler from "../../../utils/BattleSystem/BasicBattler";
 import Battler from "../../../utils/BattleSystem/Battler";
 import BasicTargetable from "../../../utils/Targeting/BasicTargetable";
@@ -13,6 +14,8 @@ export default abstract class HPActor extends SpawnableActor implements Battler 
     /** Give the player a battler compoonent */
     protected battler: Battler;
     protected targetable: TargetableEntity;
+
+    private _DamageTimer: Timer;
 
     constructor(sheet: Spritesheet){
         super(sheet);
@@ -40,6 +43,9 @@ export default abstract class HPActor extends SpawnableActor implements Battler 
 
     get battlerActive(): boolean {return this.battler.battlerActive}
     set battlerActive(value: boolean) {this.battler.battlerActive = value}
+
+    public get DamageTimer(): Timer {return this._DamageTimer;}
+    public set DamageTimer(value: Timer) {this._DamageTimer = value;}
 
     getTargeting(): TargetingEntity[] {return this.targetable.getTargeting()}
     addTargeting(targeting: TargetingEntity): void {this.targetable.addTargeting(targeting);}

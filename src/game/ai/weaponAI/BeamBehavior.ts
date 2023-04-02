@@ -17,6 +17,7 @@ export default class BeamBehavior extends MovementAI {
         this.activate(options);
 
         this.receiver.subscribe(Events.WEAPON_ENEMY_COLLISION)
+        this.receiver.subscribe(Events.WEAPON_PLAYER_COLLISION)
     }
     
     public activate(options: Record<string, any>): void {
@@ -29,8 +30,9 @@ export default class BeamBehavior extends MovementAI {
     public handleEvent(event: GameEvent): void {
         // console.log(event, this.owner.id)
         switch(event.type){
+            case Events.WEAPON_PLAYER_COLLISION:
             case Events.WEAPON_ENEMY_COLLISION:{
-                this.handleWeaponEnemyCollision(event.data.get("other"))
+                this.handleWeaponCollision(event.data.get("other"))
                 break;
             }
         }
@@ -44,7 +46,7 @@ export default class BeamBehavior extends MovementAI {
         super.update(deltaT)
     }
 
-    protected handleWeaponEnemyCollision(id: number):void{
+    protected handleWeaponCollision(id: number):void{
         if(this.owner.id != id){return;}
         this.owner.despawn()
     }

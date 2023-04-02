@@ -14,7 +14,12 @@ export const Events = {
      * node: target id
      * other: self id
      */
-    WEAPON_ENEMY_COLLISION: "WEAPON_ENEMY_COLLISION"
+    WEAPON_ENEMY_COLLISION: "WEAPON_ENEMY_COLLISION",
+    /**
+     * node: target id
+     * other: self id
+     */
+    WEAPON_PLAYER_COLLISION: "WEAPON_PLAYER_COLLISION"
     /**
      * node: target id
      * other: self id
