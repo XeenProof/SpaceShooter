@@ -75,7 +75,7 @@ export default class LevelScene extends BaseScene {
 	 */
 	public override updateScene(deltaT: number){
 		super.updateScene(deltaT)
-		this.spawnCommomMook(generatePathFromList(recRoute, 300));
+		this.spawnCommomMook(generatePathFromList(recRoute.NORMAL, 300));
 	}
 
 	protected handleEvent(event: GameEvent){
