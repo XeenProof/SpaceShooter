@@ -1,8 +1,8 @@
-import { AllEnemyKeys } from "../enemies/enemyData";
+import { AllEnemyKeys, AllEnemyData} from "../enemies/enemyData";
 import { recRoute } from "../formations/RectangleForm";
 import { LoadBackground } from "../load";
 import { AllPlayerData } from "../player/playerData";
-import { AllProjectileKeys } from "../projectiles/projectileData";
+import { AllProjectileKeys, AllProjectileData} from "../projectiles/projectileData";
 import { generateRoundRobinScriptPart } from "./scriptGenerator";
 
 export const level1 = {
@@ -11,10 +11,10 @@ export const level1 = {
         BACKGROUND: LoadBackground.SPACE,
         PLAYER: AllPlayerData.PLAYER_V1.LOAD,
         OTHERS: [
-            {KEY: AllProjectileKeys.ENEMY_BEAM, AMMOUNT: 20},
-            {KEY: AllProjectileKeys.BEAM, AMMOUNT: 20},
+            {DATA: AllProjectileData.ENEMY_BEAM, AMMOUNT: 20},
+            {DATA: AllProjectileData.BEAM, AMMOUNT: 20},
 
-            {KEY: AllEnemyKeys.COMMON_MOOK, AMMOUNT: 20}
+            {DATA: AllEnemyData.COMMON_MOOK, AMMOUNT: 20}
         ]
     },
     SCRIPT: [
