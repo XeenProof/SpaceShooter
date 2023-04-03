@@ -40,7 +40,7 @@ export default class MainMenu extends Scene {
 	protected bg2: Sprite;
 
     public override loadScene(){
-        this.loadBackground(LoadWelcome.WELCOME);
+        this.loadBackground(LoadBackground.SPACE);
     }
     
     public override startScene(){
@@ -48,8 +48,6 @@ export default class MainMenu extends Scene {
 
         // Main menu screen
         this.mainMenu = this.addLayer(MainMenuLayer.MAIN_MENU,0);
-        // this.loadBackground(LoadWelcome.WELCOME);
-        console.log(LoadWelcome.WELCOME);
 		this.initBackground();
 
         // Controls screen
@@ -85,12 +83,12 @@ export default class MainMenu extends Scene {
         about.onClickEventId = MainMenuEvent.ABOUT;
 
         // Add play recording button
-        const playRecording = this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.MAIN_MENU, {position: new Vec2(center.x, center.y + 200), text: "Play Recording"});
-        playRecording.size.set(200, 50);
-        playRecording.borderWidth = 2;
-        playRecording.borderColor = Color.WHITE;
-        playRecording.backgroundColor = Color.TRANSPARENT;
-        playRecording.onClickEventId = MainMenuEvent.PLAY_RECORDING;
+        // const playRecording = this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.MAIN_MENU, {position: new Vec2(center.x, center.y + 200), text: "Play Recording"});
+        // playRecording.size.set(200, 50);
+        // playRecording.borderWidth = 2;
+        // playRecording.borderColor = Color.WHITE;
+        // playRecording.backgroundColor = Color.TRANSPARENT;
+        // playRecording.onClickEventId = MainMenuEvent.PLAY_RECORDING;
 
         const header = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.CONTROLS, {position: new Vec2(center.x, center.y - 250), text: "Controls"});
         header.textColor = Color.WHITE;
@@ -160,7 +158,6 @@ export default class MainMenu extends Scene {
 		switch(TYPE){
 			case LoadType.IMAGE:
 				this.load.image(KEY, PATH);
-                console.log("What happen??")
 				break;
 			case LoadType.AUDIO:
 				this.load.audio(KEY, PATH);

@@ -31,7 +31,7 @@ const Loads = {
     ENEMY_5: {KEY: "ENEMY_5", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Enemy_Fifth/Enemy_Fifth.json", SCALE:{X:1, Y:1}},
     SPACE_THIEF: {KEY: "SPACE_THIEF", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Space_Thief/Space_Thief.json", SCALE:{X:1, Y:1}},
 
-    WELCOME: {KEY: "WELCOME", TYPE: LoadType.IMAGE, PATH: "assets/sprites/space.png", SCALE:{X:1, Y:1}},
+    WELCOME: {KEY: "WELCOME", TYPE: LoadType.IMAGE, PATH: "assets/sprites/welcome.png", SCALE:{X:1, Y:1}},
    
 }
 
@@ -41,7 +41,7 @@ export const LoadBackground = {
 } as const
 
 export const LoadWelcome = {
-    WELCOME: {...Loads.WELCOME, SCALE:{X:0.75, Y:0.75}}
+    WELCOME: {...Loads.WELCOME, SCALE:{X:1, Y:1}}
 } as const
 
 export const LoadPlayer = {

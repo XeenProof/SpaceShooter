@@ -1,5 +1,6 @@
 import Game from "./Wolfie2D/Loop/Game";
 import MainMenu from "./game/scenes/MainMenu";
+import WelcomeScence from "./game/scenes/WelcomeScence";
 import RegistryManager from "./Wolfie2D/Registry/RegistryManager";
 import BubbleShaderType from "./game/shaders/BubbleShaderType";
 import LaserShaderType from "./game/shaders/LaserShaderType";
@@ -37,5 +38,5 @@ import { Inputs } from "./constants/gameoptions";
     const game = new Game(options);
 
     // Start our game
-    game.start(MainMenu, {});
+    game.start(WelcomeScence, {});
 })();
