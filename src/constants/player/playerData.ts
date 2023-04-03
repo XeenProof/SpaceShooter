@@ -12,7 +12,7 @@ export const AllPlayerData = {
         KEY: AllPlayerKeys.PLAYER_V1,
         STATS:PLAYER_STATS.PLAYER_V1,
         LOAD: {
-            PLAYER: LoadPlayer.PLAYER,
+            SHIP: LoadPlayer.PLAYER,
             SHIELD: LoadPlayer.SHIELD,
             FLAMES: LoadPlayer.FLAMES
         },
