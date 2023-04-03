@@ -9,6 +9,8 @@ import GameEvent from "../../Wolfie2D/Events/GameEvent";
 
 import RandUtils from "../../Wolfie2D/Utils/RandUtils";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
+import ScriptScene from "./ScriptScene";
+import { level1 } from "../../constants/scripts/level1script";
 
 // Layers in the main menu
 const MainMenuLayer = {
@@ -140,7 +142,8 @@ export default class MainMenu extends Scene {
         switch(event.type) {
             case MainMenuEvent.PLAY_GAME: {
                 this.seed = RandUtils.randomSeed()
-                this.sceneManager.changeToScene(Homework1_Scene, {seed: this.seed, recording: true});
+                //this.sceneManager.changeToScene(Homework1_Scene, {seed: this.seed, recording: true});
+                this.sceneManager.changeToScene(ScriptScene, {levelData: level1})
                 break;
             }
             case MainMenuEvent.CONTROLS: {

@@ -54,16 +54,6 @@ import HPActor from "../actors/abstractActors/HPActor";
 import DamageActor from "../actors/abstractActors/DamageActor";
 
 
-
-/**
- * A type for layers in the HW3Scene. It seems natural to want to use some kind of enum type to
- * represent the different layers in the HW3Scene, however, it is generally bad practice to use
- * Typescripts enums. As an alternative, I'm using a const object.
- * 
- * @author PeteyLumpkins
- * 
- * {@link https://www.typescriptlang.org/docs/handbook/enums.html#objects-vs-enums}
- */
 export const HW2Layers = {
 	PRIMARY: "PRIMARY",
 	BACKGROUND: "BACKGROUND", 
@@ -73,10 +63,12 @@ export const HW2Layers = {
 /**
  * This is the base scene for our game.
  * It handles all the initializations 
- * @see Scene for more information about the Scene class and Scenes in Wolfie2D
  */
 export default class BaseScene extends ActorScene {
 	protected BACKGROUND: LoadData;
+	protected PLAYER: LoadData;
+
+	protected _player: PlayerActor;
 
 	// Sprites for the background images
 	protected bg1: Sprite;
@@ -85,15 +77,7 @@ export default class BaseScene extends ActorScene {
 	protected entities: EntityManager<CanvasNode & Spawnable>;
 	protected damages: Map<String, number>;
 
-	// Here we define member variables of our game, and object pools for adding in game objects
-	private _player: PlayerActor;
-
-	// Object pool for weapons
-	protected beam: Array<AnimatedSprite>;
-	protected enemybeam: Array<AnimatedSprite>;
-
-	// Object pool for enemies
-	protected Commom_Mook: Array<AnimatedSprite>;
+	
 
 	// Laser/Charge labels
 	protected chrgLabel: Label;
@@ -149,22 +133,12 @@ export default class BaseScene extends ActorScene {
 		this.autoloader(LoadEnemy.MINE);
 		this.autoloader(LoadEnemy.COMMON_MOOK);
 		this.autoloader(LoadProjectiles.BEAM);
-
-		/**removeable */
-		// Load in the shader for bubble.
-		this.load.shader(
-			BubbleShaderType.KEY,
-			BubbleShaderType.VSHADER,
-			BubbleShaderType.FSHADER
-		);
-		// Load in the shader for laser.
-    	this.load.shader(
-			LaserShaderType.KEY,
-			LaserShaderType.VSHADER, 
-			LaserShaderType.FSHADER
-    	);
-		/**removeable ends*/
 	}
+
+	protected loadList(list:LoadData[]){
+		for(let data of list){this.autoloader(data);}
+	}
+
 	protected loadBackground(data: LoadData){
 		this.autoloader(data)
 		this.BACKGROUND = data;
@@ -241,11 +215,6 @@ export default class BaseScene extends ActorScene {
 		this.moveBackgrounds(deltaT);
 		this.wrapPlayer(this.player, this.viewport.getCenter(), this.viewport.getHalfSize())
 		this.lockPlayer(this.player, this.viewport.getCenter(), this.viewport.getHalfSize())
-
-		// Handle timers
-		this.handleTimers();
-
-		//console.log(this.entities.countInUse((value: any) => {return value.PHYSICS == PhysicGroups.PLAYER_WEAPON}))
 	}
     /**
      * @see Scene.unloadScene()
@@ -730,23 +699,6 @@ export default class BaseScene extends ActorScene {
 		if(player.boundary.center.x-player.boundary.halfSize.x<left){player.position.x = 0+player.boundary.halfSize.x;}
 		if(player.boundary.center.x+player.boundary.halfSize.x>right){player.position.x = 900-player.boundary.halfSize.x;}
 		//edit the player CanvasNode's position directly
-	}
-
-	public handleTimers(): void {
-		// If the bubble timer is stopped, try to spawn a bubble
-		// if (this.bubbleSpawnTimer.isStopped()) {
-		// 	this.spawnBubble();
-		// }
-		// // If the game-over timer has run, change to the game-over scene
-		// if (this.gameOverTimer.hasRun() && this.gameOverTimer.isStopped()) {
-		//  	// if(this.recording){
-		// 	// 	this.emitter.fireEvent(GameEventType.STOP_RECORDING, {});
-		// 	// 	this.sceneManager.changeToScene(GameOver, {
-		// 	// 	bubblesPopped: this.bubblesPopped, 
-		// 	// 	minesDestroyed: this.minesDestroyed,
-		// 	// 	timePassed: this.timePassed
-		// 	// }, {})};
-		// }
 	}
 
 	/**

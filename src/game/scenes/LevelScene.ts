@@ -49,15 +49,6 @@ import BeamActor from "../actors/BeamActor";
 
 
 
-/**
- * A type for layers in the HW3Scene. It seems natural to want to use some kind of enum type to
- * represent the different layers in the HW3Scene, however, it is generally bad practice to use
- * Typescripts enums. As an alternative, I'm using a const object.
- * 
- * @author PeteyLumpkins
- * 
- * {@link https://www.typescriptlang.org/docs/handbook/enums.html#objects-vs-enums}
- */
 export const HW2Layers = {
 	PRIMARY: "PRIMARY",
 	BACKGROUND: "BACKGROUND", 
@@ -65,8 +56,8 @@ export const HW2Layers = {
 } as const;
 
 /**
- * This is the main scene for our game. 
- * @see Scene for more information about the Scene class and Scenes in Wolfie2D
+ * This is the level scene for our game
+ * It handles all the interactions
  */
 export default class LevelScene extends BaseScene {
 
