@@ -63,10 +63,13 @@ export default class BaseScene extends ActorScene{
 	protected PLAYER: LoadData;
 
 	protected _player: PlayerActor;
+	protected backgroundSpeed:Vec2;
 
 	// Sprites for the background images
 	protected bg1: Sprite;
 	protected bg2: Sprite;
+	protected bg3: Sprite;
+	protected bg4: Sprite;
 
 	protected entities: EntityManager<CanvasNode & Spawnable>;
 	protected damages: Map<String, number>;
@@ -105,6 +108,7 @@ export default class BaseScene extends ActorScene{
         super(viewport, sceneManager, renderingManager, {...options, physics: Physics});
 		this.entities = new EntityManager<CanvasNode & Spawnable>();
 		this.damages = new Map<String, number>();
+		this.backgroundSpeed = new Vec2(0, -150);
     }
 
 	/** Scene lifecycle methods */
@@ -352,6 +356,26 @@ export default class BaseScene extends ActorScene{
 		this.bg2.position = this.bg1.position.clone();
 		this.bg2.position.add(this.bg1.sizeWithZoom.scale(0, -2));
 	}
+
+	/**
+	 * To create the illusion of an endless background, we maintain two identical background sprites and move them as the game 
+     * progresses. When one background is moved completely offscreen at the bottom, it will get moved back to the top to 
+     * continue the cycle.
+	 */
+		protected moveBackgrounds(deltaT: number): void {
+			let move = this.backgroundSpeed;
+			this.bg1.position.sub(move.clone().scaled(deltaT));
+			this.bg2.position.sub(move.clone().scaled(deltaT));
+	
+			let edgePos = this.viewport.getCenter().clone().add(this.bg1.sizeWithZoom.clone().scale(0, 2));
+	
+			if (this.bg1.position.y >= edgePos.y){
+				this.bg1.position = this.viewport.getCenter().clone().add(this.bg1.sizeWithZoom.clone().scale(0, -2))
+			}
+			if (this.bg2.position.y >= edgePos.y){
+				this.bg2.position = this.viewport.getCenter().clone().add(this.bg2.sizeWithZoom.clone().scale(0, -2))
+			}
+		}
 
 	/** 
 	 * This method initializes the player.
@@ -690,26 +714,6 @@ export default class BaseScene extends ActorScene{
 		if(player.boundary.center.x-player.boundary.halfSize.x<left){player.position.x = 0+player.boundary.halfSize.x;}
 		if(player.boundary.center.x+player.boundary.halfSize.x>right){player.position.x = 900-player.boundary.halfSize.x;}
 		//edit the player CanvasNode's position directly
-	}
-
-	/**
-	 * To create the illusion of an endless background, we maintain two identical background sprites and move them as the game 
-     * progresses. When one background is moved completely offscreen at the bottom, it will get moved back to the top to 
-     * continue the cycle.
-	 */
-	protected moveBackgrounds(deltaT: number): void {
-		let move = new Vec2(0, -150);
-		this.bg1.position.sub(move.clone().scaled(deltaT));
-		this.bg2.position.sub(move.clone().scaled(deltaT));
-
-		let edgePos = this.viewport.getCenter().clone().add(this.bg1.sizeWithZoom.clone().scale(0, 2));
-
-		if (this.bg1.position.y >= edgePos.y){
-			this.bg1.position = this.viewport.getCenter().clone().add(this.bg1.sizeWithZoom.clone().scale(0, -2))
-		}
-		if (this.bg2.position.y >= edgePos.y){
-			this.bg2.position = this.viewport.getCenter().clone().add(this.bg2.sizeWithZoom.clone().scale(0, -2))
-		}
 	}
 
 	protected handleDeath(): void {

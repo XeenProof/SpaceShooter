@@ -12,6 +12,8 @@ import MookBehavior from "./ai/enemyAI/MookBehavior"
 import BeamBehavior from "./ai/weaponAI/BeamBehavior"
 import ActorScene from "./scenes/ActorScene"
 
+const inactivePos = new Vec2(1200, 1200)
+
 export const initfuncs = {
     BEAM: initBeamFunc,
     ENEMY_BEAM: initEnemyBeamFunc,
@@ -24,7 +26,7 @@ function initEnemyBeamFunc(add: FactoryManager, scene:ActorScene):BeamActor{
     entity.damage_key = info.KEY
     entity.setScene(scene)
     entity.visible = false;
-    entity.addAI(BeamBehavior, {pos: Vec2.ZERO, dir: Vec2.DOWN})
+    entity.addAI(BeamBehavior, {src: inactivePos, dir: Vec2.DOWN})
     entity.addPhysics();
     entity.setGroup(PhysicGroups.ENEMY_WEAPON)
     entity.setTrigger(PhysicGroups.PLAYER, Events.WEAPON_PLAYER_COLLISION, null)
@@ -37,7 +39,7 @@ function initBeamFunc(add: FactoryManager, scene:ActorScene):BeamActor{
     entity.damage_key = info.KEY
     entity.setScene(scene)
     entity.visible = false;
-    entity.addAI(BeamBehavior, {pos: Vec2.ZERO})
+    entity.addAI(BeamBehavior, {src: inactivePos})
     entity.addPhysics();
     entity.setGroup(PhysicGroups.PLAYER_WEAPON)
     entity.setTrigger(PhysicGroups.ENEMY, Events.WEAPON_ENEMY_COLLISION, null)

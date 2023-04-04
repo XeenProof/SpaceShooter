@@ -23,6 +23,9 @@ export const Script_Type = {
      */
     UPDATE_TRAVEL_SPEED: "UPDATE_TRAVEL_SPEED"
     /**
-     * options: {bg_speed: the rate that the background moves}
+     * options: {
+     *  x: speed of x movement
+     *  y: speed of y movement
+     * }
      */
 }

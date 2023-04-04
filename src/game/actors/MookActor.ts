@@ -37,10 +37,8 @@ export default class MookActor extends HPActor{
     }
 
     takeDamage(damage: number): void {
-        console.log("ran")
         this.animation.playIfNotAlready(animations.TAKING_DAMAGE, false)
         super.takeDamage(damage)
-        console.log(this.health)
     }
 
     //Targetable Interface Functions

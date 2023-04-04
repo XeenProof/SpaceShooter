@@ -46,6 +46,7 @@ import { AllProjectileKeys } from "../../constants/projectiles/projectileData";
 import { AllEnemyData, AllEnemyKeys } from "../../constants/enemies/enemyData";
 import Spawnable from "../../utils/Interface/Spawnable";
 import BeamActor from "../actors/BeamActor";
+import { initfuncs } from "../initfuncs";
 
 
 
@@ -66,7 +67,7 @@ export default class LevelScene extends BaseScene {
 	 */
 	public override updateScene(deltaT: number){
 		super.updateScene(deltaT)
-		this.spawnCommomMook(generatePathFromList(recRoute.NORMAL, 300));
+		//this.spawnCommomMook(generatePathFromList(recRoute.NORMAL, 300));
 	}
 
 	protected handleEvent(event: GameEvent){
@@ -104,14 +105,28 @@ export default class LevelScene extends BaseScene {
 
 	}
 
+	protected initEntities(initlist:(Record<string, any>)[]): void {
+        initlist.forEach((x)=>{this.initfunc(x)})
+    }
+
+    protected initfunc(initdata: Record<string, any>): void {
+        let {DATA, AMMOUNT} = initdata
+        let KEY = DATA.KEY
+        let func = ()=>{return initfuncs[KEY](this.add, this)}
+        if(DATA.PHYSICS == PhysicGroups.PLAYER_WEAPON || DATA.PHYSICS == PhysicGroups.ENEMY_WEAPON){
+            this.damages.set(KEY, DATA.DAMAGE)
+        }
+        this.entities.initEntity(KEY, AMMOUNT, func, DATA)
+    }
+
 	protected spawnBeam(src: Vec2): void {
 		let beam: Spawnable = this.entities.getEntity(AllProjectileKeys.BEAM);
-		if(beam){beam.spawn({pos: src})}
+		if(beam){beam.spawn({src: src})}
 	}
 
 	protected spawnEnemyBeam(src: Vec2, dir?: Vec2):void{
 		let ebeam: Spawnable = this.entities.getEntity(AllProjectileKeys.ENEMY_BEAM);
-		if(ebeam){ebeam.spawn({pos:src, dir: dir})}
+		if(ebeam){ebeam.spawn({src:src, dir: dir})}
 	}
 
 	protected spawnCommomMook(path: PathNode[]): void {

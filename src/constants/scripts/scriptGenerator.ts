@@ -11,7 +11,7 @@ export function generateRoundRobinScriptPart(enemyKeys:string[], pathKeys:Positi
             path: pathKeys[i%pathKeys.length]
         }
         script.push({type: Script_Type.SPAWN, options:options})
-        if(waitactions != null && waitBetween > 0){
+        if(waitactions != null && i%(waitBetween) == 0 && i != 0){
             script.push(waitactions)
         }
     }

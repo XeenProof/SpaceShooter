@@ -15,13 +15,14 @@ export default class BeamBehavior extends MovementAI {
         this.dir = (options.dir)?options.dir:Vec2.UP;
         this.receiver = new Receiver();
         this.activate(options);
+        
 
         this.receiver.subscribe(Events.WEAPON_ENEMY_COLLISION)
         this.receiver.subscribe(Events.WEAPON_PLAYER_COLLISION)
     }
     
     public activate(options: Record<string, any>): void {
-        this.owner.position.copy(options.pos)
+        this.owner.position.copy(options.src)
         this.dir = (options.dir)?options.dir:this.dir;
         this.owner.rotation = Vec2.UP.angleToCCW(this.dir)
         this.speed = options.speed?options.speed:this.speed;

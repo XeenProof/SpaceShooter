@@ -50,13 +50,12 @@ export default class MookBehavior extends ComplexPatternAI{
 
 
     public update(deltaT: number){
+        if(!this.owner.visible){return;}
         while(this.receiver.hasNextEvent()){
 			this.handleEvent(this.receiver.getNextEvent());
 		}
-        if(!this.owner.visible){return;}
         if(this.owner.despawnConditions({}) && this.owner.canDespawn){
-            this.owner.despawn();
-            this.destroy();
+            this.despawn();
         }
         super.update(deltaT)
     }
@@ -101,8 +100,13 @@ export default class MookBehavior extends ComplexPatternAI{
         let bullet = this.owner.getScene().getShot(shotid)
         //if(!bullet.visible){return;}
         let damage = this.owner.getScene().getDamage(bullet.damage_key)
-        console.log(damage)
         this.owner.takeDamage(damage)
+    }
+
+    protected despawn(){
+        this.owner.despawn();
+        this.weaponCooldown.pause()
+        this.weaponCooldown.reset()
     }
     
 }

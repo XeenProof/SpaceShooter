@@ -1,7 +1,9 @@
 import Timer from "../../Wolfie2D/Timing/Timer";
 import { LoadData } from "../../constants/load";
 import { PhysicGroups } from "../../constants/physics";
-import { scriptFormat } from "../../constants/scripts/scriptTypes";
+import { Script_Type, scriptFormat } from "../../constants/scripts/scriptTypes";
+import { generatePathFromList } from "../../utils/Pathing/CreatePaths";
+import ScriptNode from "../../utils/ScriptQueue/ScriptNode";
 import ScriptQueue, { generateScriptQueue } from "../../utils/ScriptQueue/ScriptQueue";
 import { initfuncs } from "../initfuncs";
 import LevelScene from "./LevelScene";
@@ -30,7 +32,7 @@ export default class ScriptScene extends LevelScene{
         this.scriptQueue = generateScriptQueue(SCRIPT)
         console.log(this.levelData)
 
-        this.timer = new Timer(1000, ()=>{this.wait = false})
+        this.timer = new Timer(1000, ()=>{this.stopWaiting()})
         this.wait = false
     }
 
@@ -40,7 +42,6 @@ export default class ScriptScene extends LevelScene{
         let {SHIP, FLAMES, SHIELD} = PLAYER
         let otherlist = OTHERS.map((x)=>{return x.DATA.LOAD})
         let list:LoadData[] = [SHIP, FLAMES, SHIELD, ...otherlist]
-        console.log(list)
         this.loadList(list)
     }
 
@@ -52,19 +53,61 @@ export default class ScriptScene extends LevelScene{
         this.initEntities(this.LOAD.OTHERS)
     }
 
-    protected initEntities(initlist:(Record<string, any>)[]): void {
-        initlist.forEach((x)=>{this.initfunc(x)})
-    }
-
-    /**Move to base scene later */
-    protected initfunc(initdata: Record<string, any>): void {
-        let {DATA, AMMOUNT} = initdata
-        let KEY = DATA.KEY
-        let func = ()=>{return initfuncs[KEY](this.add, this)}
-        if(DATA.PHYSICS == PhysicGroups.PLAYER_WEAPON || DATA.PHYSICS == PhysicGroups.ENEMY_WEAPON){
-            this.damages.set(KEY, DATA.DAMAGE)
+    public updateScene(deltaT: number): void {
+        super.updateScene(deltaT)
+        if(this.isScreenCleared && this.timer.isActive()){
+            console.log("stopped waiting by force")
+            this.stopWaiting();
         }
-        this.entities.initEntity(KEY, AMMOUNT, func, DATA)
+        while(!this.wait && this.scriptQueue.hasNextNode){
+            let node:ScriptNode = this.scriptQueue.getNextNode();
+            if(node){this.handleScript(node)}
+        }
     }
 
+    protected handleScript(node: ScriptNode){
+        //console.log(node, this.timePassed)
+        switch(node.type){
+            case Script_Type.UPDATE_TRAVEL_SPEED:{
+                this.handleBackgroundSpeedUpdate(node.options)
+                break;
+            }
+            case Script_Type.SPAWN:{
+                //console.log("spawned")
+                let path = generatePathFromList(node.options.path, 200);
+                this.spawnCommomMook(path)
+                break;
+            }
+            case Script_Type.WAIT:{
+                console.log("wait")
+                this.handleWait(node.options)
+                break;
+            }
+        }
+    }
+
+    protected handleBackgroundSpeedUpdate(options: Record<string, number>){
+        let {X, Y} = options
+        this.backgroundSpeed.x = (X != undefined)?X:this.backgroundSpeed.x;
+        this.backgroundSpeed.y = (Y != undefined)?Y:this.backgroundSpeed.y;
+    }
+
+    protected handleWait(options: Record<string, number>){
+        console.log(options)
+        let {wait_time} = options
+        this.wait = true;
+        if(this.timer.isActive()){this.timer.pause()}
+        if(wait_time == -1){return;}
+        this.timer.reset()
+        this.timer.reinit(wait_time, ()=>{this.stopWaiting()})
+        this.timer.start()
+    }
+
+    protected stopWaiting(){
+        this.wait = false;
+        if(this.timer.isActive()){
+            this.timer.pause();
+        }
+        this.timer.reset()
+    }
 }
