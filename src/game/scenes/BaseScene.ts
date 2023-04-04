@@ -52,48 +52,30 @@ import Spawnable from "../../utils/Interface/Spawnable";
 import ActorScene from "./ActorScene";
 import HPActor from "../actors/abstractActors/HPActor";
 import DamageActor from "../actors/abstractActors/DamageActor";
-
-
-
-/**
- * A type for layers in the HW3Scene. It seems natural to want to use some kind of enum type to
- * represent the different layers in the HW3Scene, however, it is generally bad practice to use
- * Typescripts enums. As an alternative, I'm using a const object.
- * 
- * @author PeteyLumpkins
- * 
- * {@link https://www.typescriptlang.org/docs/handbook/enums.html#objects-vs-enums}
- */
-export const HW2Layers = {
-	PRIMARY: "PRIMARY",
-	BACKGROUND: "BACKGROUND", 
-	UI: "UI"
-} as const;
+import { Layers } from "../../constants/layers";
 
 /**
  * This is the base scene for our game.
  * It handles all the initializations 
- * @see Scene for more information about the Scene class and Scenes in Wolfie2D
  */
-export default class BaseScene extends ActorScene {
+export default class BaseScene extends ActorScene{
 	protected BACKGROUND: LoadData;
+	protected PLAYER: LoadData;
+
+	protected _player: PlayerActor;
+	protected backgroundSpeed:Vec2;
 
 	// Sprites for the background images
 	protected bg1: Sprite;
 	protected bg2: Sprite;
+	protected bg3: Sprite;
+	protected bg4: Sprite;
 
 	protected entities: EntityManager<CanvasNode & Spawnable>;
 	protected damages: Map<String, number>;
+	protected cheatcodes: Record<string, number>
 
-	// Here we define member variables of our game, and object pools for adding in game objects
-	private _player: PlayerActor;
-
-	// Object pool for weapons
-	protected beam: Array<AnimatedSprite>;
-	protected enemybeam: Array<AnimatedSprite>;
-
-	// Object pool for enemies
-	protected Commom_Mook: Array<AnimatedSprite>;
+	
 
 	// Laser/Charge labels
 	protected chrgLabel: Label;
@@ -126,6 +108,7 @@ export default class BaseScene extends ActorScene {
         super(viewport, sceneManager, renderingManager, {...options, physics: Physics});
 		this.entities = new EntityManager<CanvasNode & Spawnable>();
 		this.damages = new Map<String, number>();
+		this.backgroundSpeed = new Vec2(0, -150);
     }
 
 	/** Scene lifecycle methods */
@@ -149,22 +132,12 @@ export default class BaseScene extends ActorScene {
 		this.autoloader(LoadEnemy.MINE);
 		this.autoloader(LoadEnemy.COMMON_MOOK);
 		this.autoloader(LoadProjectiles.BEAM);
-
-		/**removeable */
-		// Load in the shader for bubble.
-		this.load.shader(
-			BubbleShaderType.KEY,
-			BubbleShaderType.VSHADER,
-			BubbleShaderType.FSHADER
-		);
-		// Load in the shader for laser.
-    	this.load.shader(
-			LaserShaderType.KEY,
-			LaserShaderType.VSHADER, 
-			LaserShaderType.FSHADER
-    	);
-		/**removeable ends*/
 	}
+
+	protected loadList(list:LoadData[]){
+		for(let data of list){this.autoloader(data);}
+	}
+
 	protected loadBackground(data: LoadData){
 		this.autoloader(data)
 		this.BACKGROUND = data;
@@ -196,23 +169,21 @@ export default class BaseScene extends ActorScene {
 		this.worldPadding = new Vec2(64, 64);//-----------------------------------------------------
 
 		// Create a background layer
-		this.addLayer(HW2Layers.BACKGROUND, 0);
-		this.initBackground();
+		this.initLayers();
+		//this.initBackground();
 		this.initUI();
 		// Create a layer to serve as our main game - Feel free to use this for your own assets
 		// It is given a depth of 5 to be above our background
-		this.addLayer(HW2Layers.PRIMARY, 5);
+		
 		// Initialize the player
-		this.initPlayer();
+		//this.initPlayer();
 		// Initialize the Timers
-		this.initTimers();
+		//this.initTimers();
 		// Initialize the UI
 		
 
 		// Initialize object pools
-		this.initObjectPools();
-
-		this.initRecorder();
+		//this.initObjectPools();
 
 		// Subscribe to player events
 		this.receiver.subscribe(HW2Events.CHARGE_CHANGE);
@@ -241,11 +212,6 @@ export default class BaseScene extends ActorScene {
 		this.moveBackgrounds(deltaT);
 		this.wrapPlayer(this.player, this.viewport.getCenter(), this.viewport.getHalfSize())
 		this.lockPlayer(this.player, this.viewport.getCenter(), this.viewport.getHalfSize())
-
-		// Handle timers
-		this.handleTimers();
-
-		//console.log(this.entities.countInUse((value: any) => {return value.PHYSICS == PhysicGroups.PLAYER_WEAPON}))
 	}
     /**
      * @see Scene.unloadScene()
@@ -297,12 +263,10 @@ export default class BaseScene extends ActorScene {
 		}
 	}
 
-	/** Initialization methods */
-	protected initRecorder(): void {
-		// if(this.recording){
-		// 	// this.recorder = new BasicRecording(HW2Scene, {seed: this.seed})
-		// 	// this.emitter.fireEvent(GameEventType.START_RECORDING, {recording: this.recorder});
-		// }
+	protected initLayers():void{
+		this.addLayer(Layers.BACKGROUND, 0);
+		this.addLayer(Layers.PRIMARY, 5);
+		this.addUILayer(Layers.UI);
 	}
 	
 
@@ -316,22 +280,22 @@ export default class BaseScene extends ActorScene {
 	 */
 	protected initUI(): void {
 		// UILayer stuff
-		this.addUILayer(HW2Layers.UI);
+		
 
 		// HP Label
-		this.healthLabel = <Label>this.add.uiElement(UIElementType.LABEL, HW2Layers.UI, {position: new Vec2(50, 50), text: "HP "});
+		this.healthLabel = <Label>this.add.uiElement(UIElementType.LABEL, Layers.UI, {position: new Vec2(50, 50), text: "HP "});
 		this.healthLabel.size.set(300, 30);
 		this.healthLabel.fontSize = 24;
 		this.healthLabel.font = "Courier";
 
 		// Air Label
-		this.airLabel = <Label>this.add.uiElement(UIElementType.LABEL, HW2Layers.UI, {position: new Vec2(50, 100), text: "Air"});
+		this.airLabel = <Label>this.add.uiElement(UIElementType.LABEL, Layers.UI, {position: new Vec2(50, 100), text: "Air"});
 		this.airLabel.size.set(300, 30);
 		this.airLabel.fontSize = 24;
 		this.airLabel.font = "Courier";
 
 		// Charge Label
-		this.chrgLabel = <Label>this.add.uiElement(UIElementType.LABEL, HW2Layers.UI, {position: new Vec2(475, 50), text: "Lasers"});
+		this.chrgLabel = <Label>this.add.uiElement(UIElementType.LABEL, Layers.UI, {position: new Vec2(475, 50), text: "Lasers"});
 		this.chrgLabel.size.set(300, 30);
 		this.chrgLabel.fontSize = 24;
 		this.chrgLabel.font = "Courier";
@@ -340,29 +304,29 @@ export default class BaseScene extends ActorScene {
 		this.chrgBarLabels = new Array(4);
 		for (let i = 0; i < this.chrgBarLabels.length; i++) {
 			let pos = new Vec2(500 + (i + 1)*(300 / this.chrgBarLabels.length), 50)
-			this.chrgBarLabels[i] = <Label>this.add.uiElement(UIElementType.LABEL, HW2Layers.UI, {position: pos, text: ""});
+			this.chrgBarLabels[i] = <Label>this.add.uiElement(UIElementType.LABEL, Layers.UI, {position: pos, text: ""});
 			this.chrgBarLabels[i].size = new Vec2(300 / this.chrgBarLabels.length, 25);
 			this.chrgBarLabels[i].backgroundColor = Color.GREEN;
 			this.chrgBarLabels[i].borderColor = Color.BLACK;
 		}
 
 		// HealthBar
-		this.healthBar = <Label>this.add.uiElement(UIElementType.LABEL, HW2Layers.UI, {position: new Vec2(225, 50), text: ""});
+		this.healthBar = <Label>this.add.uiElement(UIElementType.LABEL, Layers.UI, {position: new Vec2(225, 50), text: ""});
 		this.healthBar.size = new Vec2(300, 25);
 		this.healthBar.backgroundColor = Color.GREEN;
 
 		// AirBar
-		this.airBar = <Label>this.add.uiElement(UIElementType.LABEL, HW2Layers.UI, {position: new Vec2(225, 100), text: ""});
+		this.airBar = <Label>this.add.uiElement(UIElementType.LABEL, Layers.UI, {position: new Vec2(225, 100), text: ""});
 		this.airBar.size = new Vec2(300, 25);
 		this.airBar.backgroundColor = Color.CYAN;
 
 		// HealthBar Border
-		this.healthBarBg = <Label>this.add.uiElement(UIElementType.LABEL, HW2Layers.UI, {position: new Vec2(225, 50), text: ""});
+		this.healthBarBg = <Label>this.add.uiElement(UIElementType.LABEL, Layers.UI, {position: new Vec2(225, 50), text: ""});
 		this.healthBarBg.size = new Vec2(300, 25);
 		this.healthBarBg.borderColor = Color.BLACK;
 
 		// AirBar Border
-		this.airBarBg = <Label>this.add.uiElement(UIElementType.LABEL, HW2Layers.UI, {position: new Vec2(225, 100), text: ""});
+		this.airBarBg = <Label>this.add.uiElement(UIElementType.LABEL, Layers.UI, {position: new Vec2(225, 100), text: ""});
 		this.airBarBg.size = new Vec2(300, 25);
 		this.airBarBg.borderColor = Color.BLACK;
 
@@ -383,21 +347,35 @@ export default class BaseScene extends ActorScene {
 	 * Initializes the background image sprites for the game.
 	 */
 	protected initBackground(): void {
-		this.bg1 = this.add.sprite(this.BACKGROUND.KEY, HW2Layers.BACKGROUND);
+		this.bg1 = this.add.sprite(this.BACKGROUND.KEY, Layers.BACKGROUND);
 		this.bg1.scale.set(this.BACKGROUND.SCALE.X, this.BACKGROUND.SCALE.Y);
 		this.bg1.position.copy(this.viewport.getCenter());
 
-		this.bg2 = this.add.sprite(this.BACKGROUND.KEY, HW2Layers.BACKGROUND);
+		this.bg2 = this.add.sprite(this.BACKGROUND.KEY, Layers.BACKGROUND);
 		this.bg2.scale.set(this.BACKGROUND.SCALE.X, this.BACKGROUND.SCALE.Y);
 		this.bg2.position = this.bg1.position.clone();
 		this.bg2.position.add(this.bg1.sizeWithZoom.scale(0, -2));
 	}
 
-	protected initObjectPools(): void {
-		this.initBeams();
-		this.initMooks(1);
-		this.initEnemyBeam();
-	}
+	/**
+	 * To create the illusion of an endless background, we maintain two identical background sprites and move them as the game 
+     * progresses. When one background is moved completely offscreen at the bottom, it will get moved back to the top to 
+     * continue the cycle.
+	 */
+		protected moveBackgrounds(deltaT: number): void {
+			let move = this.backgroundSpeed;
+			this.bg1.position.sub(move.clone().scaled(deltaT));
+			this.bg2.position.sub(move.clone().scaled(deltaT));
+	
+			let edgePos = this.viewport.getCenter().clone().add(this.bg1.sizeWithZoom.clone().scale(0, 2));
+	
+			if (this.bg1.position.y >= edgePos.y){
+				this.bg1.position = this.viewport.getCenter().clone().add(this.bg1.sizeWithZoom.clone().scale(0, -2))
+			}
+			if (this.bg2.position.y >= edgePos.y){
+				this.bg2.position = this.viewport.getCenter().clone().add(this.bg2.sizeWithZoom.clone().scale(0, -2))
+			}
+		}
 
 	/** 
 	 * This method initializes the player.
@@ -411,21 +389,21 @@ export default class BaseScene extends ActorScene {
 	 */ 
 	protected initPlayer(): void {
 		let info = AllPlayerData.PLAYER_V1
-		let {PLAYER, FLAMES, SHIELD} = info.LOAD
+		let {SHIP, FLAMES, SHIELD} = info.LOAD
 		let func = () => {
-			let player = this.add.animatedSprite(PlayerActor, PLAYER.KEY, HW2Layers.PRIMARY);
+			let player = this.add.animatedSprite(PlayerActor, SHIP.KEY, Layers.PRIMARY);
 			player.setScene(this)
 
 			player.position.set(this.viewport.getCenter().x, this.viewport.getCenter().y);
-			player.scale.set(PLAYER.SCALE.X, PLAYER.SCALE.Y);
+			player.scale.set(SHIP.SCALE.X, SHIP.SCALE.Y);
 
-			let booster = this.add.animatedSprite(AnimatedSprite, FLAMES.KEY, HW2Layers.PRIMARY);
+			let booster = this.add.animatedSprite(AnimatedSprite, FLAMES.KEY, Layers.PRIMARY);
 			booster.position.copy(player.position)
 			booster.scale.set(FLAMES.SCALE.X, FLAMES.SCALE.Y);
 			player.booster = booster
 			console.log(booster)
 
-			let shield = this.add.sprite(SHIELD.KEY, HW2Layers.PRIMARY);
+			let shield = this.add.sprite(SHIELD.KEY, Layers.PRIMARY);
 			shield.position.copy(player.position)
 			shield.scale.set(SHIELD.SCALE.X, SHIELD.SCALE.Y)
 			shield.visible = false
@@ -446,11 +424,17 @@ export default class BaseScene extends ActorScene {
 		this.player.spawn({})
 	}
 
+	protected initObjectPools(): void {
+		this.initBeams();
+		this.initMooks(1);
+		this.initEnemyBeam();
+	}
+
 	protected initEnemyBeam(c:number = 20):void{
 		let info = AllProjectileData.ENEMY_BEAM
 		this.damages.set(info.KEY, info.DAMAGE)
 		let func = () => {
-			let entity = this.add.animatedSprite(BeamActor, info.LOAD.KEY, HW2Layers.PRIMARY)
+			let entity = this.add.animatedSprite(BeamActor, info.LOAD.KEY, Layers.PRIMARY)
 			entity.damage_key = info.KEY
 			entity.setScene(this)
 			entity.visible = false;
@@ -468,7 +452,7 @@ export default class BaseScene extends ActorScene {
 		let info = AllProjectileData.BEAM
 		this.damages.set(info.KEY, info.DAMAGE)
 		let func = () => {
-			let entity = this.add.animatedSprite(BeamActor, info.LOAD.KEY, HW2Layers.PRIMARY)
+			let entity = this.add.animatedSprite(BeamActor, info.LOAD.KEY, Layers.PRIMARY)
 			entity.damage_key = info.KEY
 			entity.setScene(this)
 			entity.visible = false;
@@ -485,7 +469,7 @@ export default class BaseScene extends ActorScene {
 		let info = AllEnemyData.COMMON_MOOK
 		let {X, Y} = info.LOAD.SCALE
 		let func = () => {
-			let entity = this.add.animatedSprite(MookActor, info.LOAD.KEY, HW2Layers.PRIMARY)
+			let entity = this.add.animatedSprite(MookActor, info.LOAD.KEY, Layers.PRIMARY)
 			entity.setScene(this)
 
 			entity.visible = false;
@@ -732,43 +716,6 @@ export default class BaseScene extends ActorScene {
 		//edit the player CanvasNode's position directly
 	}
 
-	public handleTimers(): void {
-		// If the bubble timer is stopped, try to spawn a bubble
-		// if (this.bubbleSpawnTimer.isStopped()) {
-		// 	this.spawnBubble();
-		// }
-		// // If the game-over timer has run, change to the game-over scene
-		// if (this.gameOverTimer.hasRun() && this.gameOverTimer.isStopped()) {
-		//  	// if(this.recording){
-		// 	// 	this.emitter.fireEvent(GameEventType.STOP_RECORDING, {});
-		// 	// 	this.sceneManager.changeToScene(GameOver, {
-		// 	// 	bubblesPopped: this.bubblesPopped, 
-		// 	// 	minesDestroyed: this.minesDestroyed,
-		// 	// 	timePassed: this.timePassed
-		// 	// }, {})};
-		// }
-	}
-
-	/**
-	 * To create the illusion of an endless background, we maintain two identical background sprites and move them as the game 
-     * progresses. When one background is moved completely offscreen at the bottom, it will get moved back to the top to 
-     * continue the cycle.
-	 */
-	protected moveBackgrounds(deltaT: number): void {
-		let move = new Vec2(0, -150);
-		this.bg1.position.sub(move.clone().scaled(deltaT));
-		this.bg2.position.sub(move.clone().scaled(deltaT));
-
-		let edgePos = this.viewport.getCenter().clone().add(this.bg1.sizeWithZoom.clone().scale(0, 2));
-
-		if (this.bg1.position.y >= edgePos.y){
-			this.bg1.position = this.viewport.getCenter().clone().add(this.bg1.sizeWithZoom.clone().scale(0, -2))
-		}
-		if (this.bg2.position.y >= edgePos.y){
-			this.bg2.position = this.viewport.getCenter().clone().add(this.bg2.sizeWithZoom.clone().scale(0, -2))
-		}
-	}
-
 	protected handleDeath(): void {
 		this.gameOverTimer.start();
 	}
@@ -777,6 +724,7 @@ export default class BaseScene extends ActorScene {
 
 	/**Abstracted */
 	public get player(): PlayerActor {return this._player;}
+	public get isScreenCleared(): boolean {return this.entities.countInUse((x)=>{return x.PHYSICS == PhysicGroups.ENEMY}) <= 0}
 	public getEnemy(id: number): HPActor {return <HPActor>this.entities.getEntityById(id, PhysicGroups.ENEMY)}
 	public getShot(id: number): DamageActor {return <DamageActor>this.entities.getEntityById(id, PhysicGroups.PLAYER_WEAPON)}
 	public getEnemyShot(id: number): DamageActor {return <DamageActor>this.entities.getEntityById(id, PhysicGroups.ENEMY_WEAPON)}

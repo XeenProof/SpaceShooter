@@ -4,9 +4,22 @@ import ScriptNode from "./ScriptNode";
 
 
 export default class ScriptQueue extends Queue<ScriptNode>{
+
     constructor(nodes: ScriptNode[]){
-        super(nodes.length);
+        super(nodes.length+3);
         nodes.forEach((x)=>{this.enqueue(x)})
+    }
+
+    get hasNextNode():boolean {
+        return this.hasItems()
+    }
+
+    getNextNode():ScriptNode{
+        return (this.hasNextNode)?this.dequeue():null
+    }
+
+    peekNextNode():ScriptNode{
+        return (this.hasNextNode)?this.peekNext():null
     }
 }
 

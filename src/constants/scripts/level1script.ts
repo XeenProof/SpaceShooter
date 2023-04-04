@@ -4,6 +4,7 @@ import { LoadBackground } from "../load";
 import { AllPlayerData } from "../player/playerData";
 import { AllProjectileKeys, AllProjectileData} from "../projectiles/projectileData";
 import { generateRoundRobinScriptPart } from "./scriptGenerator";
+import { Script_Type } from "./scriptTypes";
 
 export const level1 = {
     NAME: "Level 1",
@@ -18,6 +19,7 @@ export const level1 = {
         ]
     },
     SCRIPT: [
-        ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK], [recRoute.NORMAL, recRoute.REVERSE], 100, 2, 10)
+        {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-300}},
+        ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK], [recRoute.NORMAL, recRoute.REVERSE], 300, 2, 10),
     ]
 }

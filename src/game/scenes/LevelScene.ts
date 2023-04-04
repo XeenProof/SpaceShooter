@@ -46,18 +46,10 @@ import { AllProjectileKeys } from "../../constants/projectiles/projectileData";
 import { AllEnemyData, AllEnemyKeys } from "../../constants/enemies/enemyData";
 import Spawnable from "../../utils/Interface/Spawnable";
 import BeamActor from "../actors/BeamActor";
+import { initfuncs } from "../initfuncs";
 
 
 
-/**
- * A type for layers in the HW3Scene. It seems natural to want to use some kind of enum type to
- * represent the different layers in the HW3Scene, however, it is generally bad practice to use
- * Typescripts enums. As an alternative, I'm using a const object.
- * 
- * @author PeteyLumpkins
- * 
- * {@link https://www.typescriptlang.org/docs/handbook/enums.html#objects-vs-enums}
- */
 export const HW2Layers = {
 	PRIMARY: "PRIMARY",
 	BACKGROUND: "BACKGROUND", 
@@ -65,8 +57,8 @@ export const HW2Layers = {
 } as const;
 
 /**
- * This is the main scene for our game. 
- * @see Scene for more information about the Scene class and Scenes in Wolfie2D
+ * This is the level scene for our game
+ * It handles all the interactions
  */
 export default class LevelScene extends BaseScene {
 
@@ -75,7 +67,7 @@ export default class LevelScene extends BaseScene {
 	 */
 	public override updateScene(deltaT: number){
 		super.updateScene(deltaT)
-		this.spawnCommomMook(generatePathFromList(recRoute.NORMAL, 300));
+		//this.spawnCommomMook(generatePathFromList(recRoute.NORMAL, 300));
 	}
 
 	protected handleEvent(event: GameEvent){
@@ -113,14 +105,28 @@ export default class LevelScene extends BaseScene {
 
 	}
 
+	protected initEntities(initlist:(Record<string, any>)[]): void {
+        initlist.forEach((x)=>{this.initfunc(x)})
+    }
+
+    protected initfunc(initdata: Record<string, any>): void {
+        let {DATA, AMMOUNT} = initdata
+        let KEY = DATA.KEY
+        let func = ()=>{return initfuncs[KEY](this.add, this)}
+        if(DATA.PHYSICS == PhysicGroups.PLAYER_WEAPON || DATA.PHYSICS == PhysicGroups.ENEMY_WEAPON){
+            this.damages.set(KEY, DATA.DAMAGE)
+        }
+        this.entities.initEntity(KEY, AMMOUNT, func, DATA)
+    }
+
 	protected spawnBeam(src: Vec2): void {
 		let beam: Spawnable = this.entities.getEntity(AllProjectileKeys.BEAM);
-		if(beam){beam.spawn({pos: src})}
+		if(beam){beam.spawn({src: src})}
 	}
 
 	protected spawnEnemyBeam(src: Vec2, dir?: Vec2):void{
 		let ebeam: Spawnable = this.entities.getEntity(AllProjectileKeys.ENEMY_BEAM);
-		if(ebeam){ebeam.spawn({pos:src, dir: dir})}
+		if(ebeam){ebeam.spawn({src:src, dir: dir})}
 	}
 
 	protected spawnCommomMook(path: PathNode[]): void {
