@@ -20,6 +20,6 @@ export const level1 = {
     },
     SCRIPT: [
         {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-300}},
-        ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK], [recRoute.NORMAL, recRoute.REVERSE], 10000, 2, 10),
+        ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK], [recRoute.NORMAL, recRoute.REVERSE], 300, 2, 10),
     ]
 }
