@@ -45,7 +45,7 @@ import { generatePathFromList } from "../../utils/Pathing/CreatePaths";
 import { AllProjectileKeys } from "../../constants/projectiles/projectileData";
 import { AllEnemyData, AllEnemyKeys } from "../../constants/enemies/enemyData";
 import Spawnable from "../../utils/Interface/Spawnable";
-import BeamActor from "../actors/BeamActor";
+import BeamActor from "../actors/WeaponActors/BeamActor";
 import { initfuncs } from "../initfuncs";
 
 

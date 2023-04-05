@@ -73,7 +73,11 @@ export default class PlayerActor extends HPActor{
         this.shieldTimer.reset();
         this.shieldTimer.start();
     }
-    private deactivateShield(){this.shield.visible = false}
+    public deactivateShield(){
+        this.shield.visible = false
+        this.shieldTimer.pause();
+        this.shieldTimer.reset();
+    }
 
     activateBoost(){
         this.booster.animation.playIfNotAlready(booster_animations.HIGH, true)

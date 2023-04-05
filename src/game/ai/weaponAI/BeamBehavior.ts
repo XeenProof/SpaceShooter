@@ -3,7 +3,7 @@ import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 import Receiver from "../../../Wolfie2D/Events/Receiver";
 import Graphic from "../../../Wolfie2D/Nodes/Graphic";
 import { Events } from "../../../constants/events";
-import BeamActor from "../../actors/BeamActor";
+import BeamActor from "../../actors/WeaponActors/BeamActor";
 import MovementAI from "../abstractAI/MovementAI";
 
 export default class BeamBehavior extends MovementAI {

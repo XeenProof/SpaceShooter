@@ -158,10 +158,12 @@ export default class PlayerController implements AI {
 		let enemy = this.owner.getScene().getEnemy(enemyId)
 		let player = this.owner
 		let damage = Math.min(enemy.ramDamage, player.ramDamage)
-		this.owner.takeDamage(damage)
+		this.owner.takeDamage((this.owner.shielded)?damage:damage/2);
+		if(this.owner.shielded){this.owner.deactivateShield()}
     }
 
 	protected handleDamage(shotid:number):void {
+		if(this.owner.shielded){return;}
 		let bullet = this.owner.getScene().getEnemyShot(shotid)
         //if(!bullet.visible){return;}
         let damage = this.owner.getScene().getDamage(bullet.damage_key)

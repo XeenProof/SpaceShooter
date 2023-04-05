@@ -38,11 +38,11 @@ import { LoadData, LoadType, LoadBackground, LoadPlayer, LoadEnemy, LoadProjecti
 import { PhysicGroups, Physics } from "../../constants/physics";
 import { Events } from "../../constants/events";
 import BeamAI from "../ai/weaponAI/BeamBehavior";
-import MookActor from "../actors/MookActor";
+import MookActor from "../actors/EnemyActors/MookActor";
 import MookBehavior from "../ai/enemyAI/MookBehavior";
 import BasicTargetable from "../../utils/Targeting/BasicTargetable";
 import Position from "../../utils/Targeting/Position";
-import BeamActor from "../actors/BeamActor";
+import BeamActor from "../actors/WeaponActors/BeamActor";
 import PlayerActor from "../actors/PlayerActor";
 import EntityManager from "../../utils/EntityManager/EntityManager";
 import { AllEnemyData } from "../../constants/enemies/enemyData";

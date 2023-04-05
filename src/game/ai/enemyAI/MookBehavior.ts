@@ -8,7 +8,7 @@ import { bulletType } from "../../../constants/bulletTypes";
 import { Events } from "../../../constants/events";
 import PathQueue from "../../../utils/Pathing/PathQueue";
 import { TargetableEntity } from "../../../utils/Targeting/TargetableEntity";
-import MookActor from "../../actors/MookActor";
+import MookActor from "../../actors/EnemyActors/MookActor";
 import PlayerActor from "../../actors/PlayerActor";
 import ComplexPatternAI from "../abstractAI/ComplexPatternAI";
 
