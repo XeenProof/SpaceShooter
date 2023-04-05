@@ -37,6 +37,7 @@ export default class MookBehavior extends ComplexPatternAI{
 
     public activate(options: Record<string, any>): void {
         super.activate(options)
+        this.owner.animation.playIfNotAlready(animations.IDLE, true)
         this.owner.canDespawn = false;
         this.target = this.owner.getScene().player
         this.weaponCooldown.start()
@@ -47,7 +48,7 @@ export default class MookBehavior extends ComplexPatternAI{
     }
 
     protected firePattern():void{
-        this.owner.fireEvent(Events.ENEMY_SHOOTS, {src: this.owner.position, dir: null, id: this.owner.id, type: bulletType.ENEMY_BEAM})
+        this.owner.fireEvent(Events.ENEMY_SHOOTS, {src: this.owner.position, dir: Vec2.DOWN, id: this.owner.id, type: bulletType.ENEMY_BEAM})
     }
 
 

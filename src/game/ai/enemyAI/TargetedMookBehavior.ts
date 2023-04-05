@@ -8,6 +8,10 @@ import PlayerActor from "../../actors/PlayerActor";
 import TargetedMookActor from "../../actors/EnemyActors/TargetedMookActor";
 import ComplexPatternAI from "../abstractAI/ComplexPatternAI";
 
+const animations = {
+    IDLE: "IDLE",
+    TAKING_DAMAGE: "TAKING_DAMAGE"
+}
 
 export default class TargetedMookBehavior extends ComplexPatternAI {
     protected override owner: TargetedMookActor
@@ -29,6 +33,7 @@ export default class TargetedMookBehavior extends ComplexPatternAI {
 
     public activate(options: Record<string, any>): void {
         super.activate(options)
+        this.owner.animation.playIfNotAlready(animations.IDLE, true)
         this.owner.canDespawn = false;
         this.target = this.owner.getScene().player
         this.weaponCooldown.start()
