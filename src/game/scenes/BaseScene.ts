@@ -34,7 +34,7 @@ import Viewport from "../../Wolfie2D/SceneGraph/Viewport";
 import SceneManager from "../../Wolfie2D/Scene/SceneManager";
 import RenderingManager from "../../Wolfie2D/Rendering/RenderingManager";
 
-import { LoadData, LoadType, LoadBackground, LoadPlayer, LoadEnemy, LoadProjectiles } from "../../constants/load";
+import { LoadData, LoadType, LoadBackground, LoadPlayer, LoadEnemy, LoadProjectiles, LoadEnemyProjectile } from "../../constants/load";
 import { PhysicGroups, Physics } from "../../constants/physics";
 import { Events } from "../../constants/events";
 import BeamAI from "../ai/weaponAI/BeamBehavior";
@@ -132,6 +132,7 @@ export default class BaseScene extends ActorScene{
 		this.autoloader(LoadEnemy.MINE);
 		this.autoloader(LoadEnemy.COMMON_MOOK);
 		this.autoloader(LoadProjectiles.BEAM);
+		this.autoloader(LoadEnemyProjectile.ENEMY_BEAM);
 	}
 
 	protected loadList(list:LoadData[]){

@@ -1,4 +1,5 @@
 import { LoadProjectiles } from "../load";
+import { LoadEnemyProjectile } from "../load";
 import { PhysicGroups } from "../physics";
 
 export const AllProjectileKeys = {
@@ -16,7 +17,7 @@ export const AllProjectileData = {
     ENEMY_BEAM:{
         KEY: AllProjectileKeys.ENEMY_BEAM,
         DAMAGE: 2,
-        LOAD:LoadProjectiles.BEAM,
+        LOAD:LoadEnemyProjectile.ENEMY_BEAM,
         PHYSICS: PhysicGroups.ENEMY_WEAPON
     }
 }
