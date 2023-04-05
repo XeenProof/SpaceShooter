@@ -27,7 +27,7 @@ export default class MookBehavior extends ComplexPatternAI{
         this.owner = owner
         this.owner.canDespawn = false;
 
-        this.weaponCooldown = new Timer(1000, ()=>{this.firePattern()}, true);
+        this.weaponCooldown = new Timer(1000, ()=>{this.actionPattern()}, true);
 
         this.receiver.subscribe(Events.PLAYER_ENEMY_COLLISION);
         this.receiver.subscribe(Events.WEAPON_ENEMY_COLLISION);
@@ -48,7 +48,7 @@ export default class MookBehavior extends ComplexPatternAI{
         this.owner.health = hp;
     }
 
-    protected firePattern():void{
+    protected actionPattern():void{
         this.owner.fireEvent(Events.ENEMY_SHOOTS, {src: this.owner.position, dir: Vec2.DOWN, id: this.owner.id, type: bulletType.ENEMY_BEAM})
     }
 
