@@ -33,6 +33,7 @@ export default class TargetedMookBehavior extends ComplexPatternAI {
 
     public activate(options: Record<string, any>): void {
         super.activate(options)
+        this.owner.healthBar.visible = this.owner.visible
         this.owner.animation.playIfNotAlready(animations.IDLE, true)
         this.owner.canDespawn = false;
         this.target = this.owner.getScene().player
@@ -53,6 +54,7 @@ export default class TargetedMookBehavior extends ComplexPatternAI {
         while(this.receiver.hasNextEvent()){
 			this.handleEvent(this.receiver.getNextEvent());
 		}
+        this.owner.healthBar.update(deltaT)
         if(this.owner.despawnConditions({}) && this.owner.canDespawn){
             this.despawn();
         }

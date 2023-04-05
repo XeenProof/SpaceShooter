@@ -17,7 +17,9 @@ export default abstract class CanvasNode extends GameNode implements Region {
 	private _alpha: number;
 
 	/** A flag for whether or not the CanvasNode is visible */
-	visible: boolean = true;
+	private _visible: boolean = true;
+	public get visible(): boolean {return this._visible;}
+	public set visible(value: boolean) {this._visible = value;}
 	
 	constructor(){
 		super();

@@ -3,6 +3,7 @@ import AnimatedSprite from "../../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import Timer from "../../../Wolfie2D/Timing/Timer";
 import BasicBattler from "../../../utils/BattleSystem/BasicBattler";
 import Battler from "../../../utils/BattleSystem/Battler";
+import HealthbarHUD from "../../../utils/HUD/HealthbarHUD";
 import BasicTargetable from "../../../utils/Targeting/BasicTargetable";
 import { TargetableEntity } from "../../../utils/Targeting/TargetableEntity";
 import { TargetingEntity } from "../../../utils/Targeting/TargetingEntity";
@@ -14,6 +15,7 @@ export default abstract class HPActor extends SpawnableActor implements Battler 
     /** Give the player a battler compoonent */
     protected battler: Battler;
     protected targetable: TargetableEntity;
+    private _healthBar: HealthbarHUD;
 
     private _DamageTimer: Timer;
 
@@ -44,6 +46,9 @@ export default abstract class HPActor extends SpawnableActor implements Battler 
     get battlerActive(): boolean {return this.battler.battlerActive}
     set battlerActive(value: boolean) {this.battler.battlerActive = value}
 
+    get healthBar(): HealthbarHUD {return this._healthBar;}
+    set healthBar(value: HealthbarHUD) {this._healthBar = value;}
+
     public get DamageTimer(): Timer {return this._DamageTimer;}
     public set DamageTimer(value: Timer) {this._DamageTimer = value;}
 
@@ -57,7 +62,11 @@ export default abstract class HPActor extends SpawnableActor implements Battler 
         if(this.health <= 0){return true;}
     }
 
+    despawn(): void {
+        super.despawn()
+        this.healthBar.visible = false;
+    }
+
     get ramDamage(): number {return this.health}
     takeDamage(damage: number): void{this.health-=damage}
-    
 }
