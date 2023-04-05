@@ -9,7 +9,7 @@ import MovementAI from "./MovementAI";
 
 
 export default abstract class ComplexPatternAI extends MovementAI {
-    protected owner: GameNode & Spawnable;
+    protected owner: GameNode;
     /**The path/movement pattern of the owner*/
     protected path: PathQueue = null;
     /**The current Target of the owner*/

@@ -19,12 +19,6 @@ export default class MookActor extends HPActor{
         //this.targetable = new BasicTargetable(this)
     }
 
-    spawn(options: Record<string, any>): void {
-        this.canDespawn = false;
-        super.spawn(options);
-        this.animation.playIfNotAlready(animations.IDLE, true)
-    }
-
     despawnConditions(options: Record<string, any>): boolean {
         if(this.offScreen){return true;}
         return super.despawnConditions(options);

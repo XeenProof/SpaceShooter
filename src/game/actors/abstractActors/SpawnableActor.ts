@@ -14,10 +14,6 @@ export default abstract class SpawnableActor extends AnimatedSprite{
     public get canDespawn() {return this._canDespawn;}
     public set canDespawn(value) {this._canDespawn = value;}
 
-    spawn(options: Record<string, any>): void {
-        this.visible = true;
-        this.setAIActive(true, options)
-    }
     attemptDespawn(options: Record<string, any> = {}):void{if(this.despawnConditions(options) && this.canDespawn){this.despawn()}}
     
     despawn(): void {
