@@ -120,18 +120,32 @@ export default class LevelScene extends BaseScene {
     }
 
 	protected spawnBeam(src: Vec2): void {
-		let beam: Spawnable = this.entities.getEntity(AllProjectileKeys.BEAM);
-		if(beam){beam.spawn({src: src})}
+		let beam: CanvasNode = this.entities.getEntity(AllProjectileKeys.BEAM);
+		if(beam){
+			beam.visible = true;
+			beam.setAIActive(true, {src: src})}
 	}
 
 	protected spawnEnemyBeam(src: Vec2, dir?: Vec2):void{
-		let ebeam: Spawnable = this.entities.getEntity(AllProjectileKeys.ENEMY_BEAM);
-		if(ebeam){ebeam.spawn({src:src, dir: dir})}
+		let ebeam: CanvasNode = this.entities.getEntity(AllProjectileKeys.ENEMY_BEAM);
+		if(ebeam){
+			ebeam.visible = true;
+			ebeam.setAIActive(true, {src:src, dir: dir})
+		}
 	}
 
 	protected spawnCommomMook(path: PathNode[]): void {
-		let mook:Spawnable = this.entities.getEntity(AllEnemyKeys.COMMON_MOOK)
-		if(mook){mook.spawn({path: path})}
+		let mook:CanvasNode = this.entities.getEntity(AllEnemyKeys.COMMON_MOOK)
+		if(mook){
+			mook.visible = true;
+			mook.setAIActive(true, {path: path})}
+	}
+
+	protected spawnTargetedMook(path: PathNode[]):void{
+		let mook:CanvasNode = this.entities.getEntity(AllEnemyKeys.TARGETED_MOOK)
+		if(mook){
+			mook.visible = true;
+			mook.setAIActive(true, {path: path})}
 	}
 
 	protected handleDeath(): void {

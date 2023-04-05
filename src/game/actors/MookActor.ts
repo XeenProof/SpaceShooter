@@ -16,13 +16,6 @@ export default class MookActor extends HPActor{
 
     public constructor(sheet: Spritesheet){
         super(sheet)
-        //this.targetable = new BasicTargetable(this)
-    }
-
-    spawn(options: Record<string, any>): void {
-        this.canDespawn = false;
-        super.spawn(options);
-        this.animation.playIfNotAlready(animations.IDLE, true)
     }
 
     despawnConditions(options: Record<string, any>): boolean {

@@ -5,13 +5,13 @@ export function generateRoundRobinScriptPart(enemyKeys:string[], pathKeys:Positi
     if (enemyKeys.length == 0 || pathKeys.length == 0){return []}
     let waitactions = (waittime <= 0)?null:{type: Script_Type.WAIT, options: {wait_time: waittime}}
     let script:scriptFormat[] = []
-    for(let i = 0; i < ammount; i++){
+    for(let i = 1; i <= ammount; i++){
         let options = {
             enemyType: enemyKeys[i%enemyKeys.length],
             path: pathKeys[i%pathKeys.length]
         }
         script.push({type: Script_Type.SPAWN, options:options})
-        if(waitactions != null && i%(waitBetween) == 0 && i != 0){
+        if(waitactions != null && i%(waitBetween) == 0){
             script.push(waitactions)
         }
     }

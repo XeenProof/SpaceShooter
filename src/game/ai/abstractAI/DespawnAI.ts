@@ -4,9 +4,9 @@ import Spawnable from "../../../utils/Interface/Spawnable";
 
 
 export default abstract class DespawnAI extends StateMachineAI{
-    protected owner: GameNode & Spawnable
+    protected owner: GameNode
 
-    abstract initializeAI(owner: GameNode & Spawnable, options: Record<string, any>): void
+    abstract initializeAI(owner: GameNode, options: Record<string, any>): void
 
     // update(deltaT: number): void {
     //     this.owner.attemptDespawn({});

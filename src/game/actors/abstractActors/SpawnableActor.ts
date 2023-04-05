@@ -4,7 +4,7 @@ import Spawnable from "../../../utils/Interface/Spawnable";
 import ActorScene from "../../scenes/ActorScene";
 import BaseScene from "../../scenes/BaseScene";
 
-export default abstract class SpawnableActor extends AnimatedSprite implements Spawnable{
+export default abstract class SpawnableActor extends AnimatedSprite{
 
     protected scene: ActorScene;
     public override getScene() {return this.scene;}
@@ -14,10 +14,6 @@ export default abstract class SpawnableActor extends AnimatedSprite implements S
     public get canDespawn() {return this._canDespawn;}
     public set canDespawn(value) {this._canDespawn = value;}
 
-    spawn(options: Record<string, any>): void {
-        this.visible = true;
-        this.setAIActive(true, options)
-    }
     attemptDespawn(options: Record<string, any> = {}):void{if(this.despawnConditions(options) && this.canDespawn){this.despawn()}}
     
     despawn(): void {
