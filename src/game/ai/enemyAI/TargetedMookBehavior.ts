@@ -33,7 +33,7 @@ export default class TargetedMookBehavior extends ComplexPatternAI {
         this.target = this.owner.getScene().player
         this.weaponCooldown.start()
 
-        let hp = options.hp?options.hp:10;
+        let hp = options.stats?options.stats.hp:1;
         this.owner.maxHealth = hp;
         this.owner.health = hp;
     }

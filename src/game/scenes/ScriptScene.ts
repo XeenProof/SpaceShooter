@@ -1,5 +1,6 @@
 import CanvasNode from "../../Wolfie2D/Nodes/CanvasNode";
 import Timer from "../../Wolfie2D/Timing/Timer";
+import { AllEnemyData } from "../../constants/enemies/enemyData";
 import { LoadData } from "../../constants/load";
 import { PhysicGroups } from "../../constants/physics";
 import { Script_Type, scriptFormat } from "../../constants/scripts/scriptTypes";
@@ -92,7 +93,7 @@ export default class ScriptScene extends LevelScene{
         let mook:CanvasNode = this.entities.getEntity(options.enemyType)
 		if(mook){
 			mook.visible = true;
-			mook.setAIActive(true, {...options, path: generatePathFromList(options.path)})}
+			mook.setAIActive(true, {...options, path: generatePathFromList(options.path), stats: AllEnemyData[options.enemyType].STATS})}
     }
 
     protected handleBackgroundSpeedUpdate(options: Record<string, number>){
