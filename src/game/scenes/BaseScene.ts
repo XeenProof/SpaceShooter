@@ -71,7 +71,7 @@ export default class BaseScene extends ActorScene{
 	protected bg3: Sprite;
 	protected bg4: Sprite;
 
-	protected entities: EntityManager<CanvasNode & Spawnable>;
+	protected entities: EntityManager<CanvasNode>;
 	protected damages: Map<String, number>;
 	protected cheatcodes: Record<string, number>
 
@@ -106,7 +106,7 @@ export default class BaseScene extends ActorScene{
 
 	public constructor(viewport: Viewport, sceneManager: SceneManager, renderingManager: RenderingManager, options: Record<string, any>) {
         super(viewport, sceneManager, renderingManager, {...options, physics: Physics});
-		this.entities = new EntityManager<CanvasNode & Spawnable>();
+		this.entities = new EntityManager<CanvasNode>();
 		this.damages = new Map<String, number>();
 		this.backgroundSpeed = new Vec2(0, -150);
     }

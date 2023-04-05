@@ -8,7 +8,9 @@ import { PhysicGroups } from "../constants/physics"
 import { AllProjectileData } from "../constants/projectiles/projectileData"
 import BeamActor from "./actors/BeamActor"
 import MookActor from "./actors/MookActor"
+import TargetedMookActor from "./actors/TargetedMookActor"
 import MookBehavior from "./ai/enemyAI/MookBehavior"
+import TargetedMookBehavior from "./ai/enemyAI/TargetedMookBehavior"
 import BeamBehavior from "./ai/weaponAI/BeamBehavior"
 import ActorScene from "./scenes/ActorScene"
 
@@ -17,7 +19,8 @@ const inactivePos = new Vec2(1200, 1200)
 export const initfuncs = {
     BEAM: initBeamFunc,
     ENEMY_BEAM: initEnemyBeamFunc,
-    COMMON_MOOK: initCommomMookFunc
+    COMMON_MOOK: initCommomMookFunc,
+    TARGETED_MOOK: initTargetedMookFunc
 }
 
 function initEnemyBeamFunc(add: FactoryManager, scene:ActorScene):BeamActor{
@@ -54,6 +57,21 @@ function initCommomMookFunc(add: FactoryManager, scene: ActorScene):MookActor{
     entity.visible = false;
     entity.scale.set(X, Y);
     entity.addAI(MookBehavior)
+    let center = entity.position.clone()
+    let halfSize = entity.boundary.getHalfSize().clone().scale(0.9,0.6);
+    entity.addPhysics(new AABB(center, halfSize));
+    entity.setGroup(PhysicGroups.ENEMY);
+    return entity;
+}
+
+function initTargetedMookFunc(add: FactoryManager, scene: ActorScene):TargetedMookActor{
+    let info = AllEnemyData.TARGETED_MOOK
+    let {X, Y} = info.LOAD.SCALE
+    let entity = add.animatedSprite(TargetedMookActor, info.LOAD.KEY, Layers.PRIMARY)
+    entity.setScene(scene)
+    entity.visible = false;
+    entity.scale.set(X, Y);
+    entity.addAI(TargetedMookBehavior)
     let center = entity.position.clone()
     let halfSize = entity.boundary.getHalfSize().clone().scale(0.9,0.6);
     entity.addPhysics(new AABB(center, halfSize));

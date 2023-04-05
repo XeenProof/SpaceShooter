@@ -75,7 +75,7 @@ export default class ScriptScene extends LevelScene{
             case Script_Type.SPAWN:{
                 //console.log("spawned")
                 let path = generatePathFromList(node.options.path, 200);
-                this.spawnCommomMook(path)
+                this.spawnTargetedMook(path)
                 break;
             }
             case Script_Type.WAIT:{
