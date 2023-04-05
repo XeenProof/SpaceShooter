@@ -137,6 +137,7 @@ export default class LevelScene extends BaseScene {
 	protected spawnCommomMook(path: PathNode[]): void {
 		let mook:CanvasNode = this.entities.getEntity(AllEnemyKeys.COMMON_MOOK)
 		if(mook){
+			console.log("is this working2")
 			mook.visible = true;
 			mook.setAIActive(true, {path: path})}
 	}

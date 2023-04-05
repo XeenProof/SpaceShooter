@@ -25,6 +25,7 @@ export default class MookBehavior extends ComplexPatternAI{
 
     public initializeAI(owner: MookActor, options: Record<string, any>): void {
         this.owner = owner
+        this.owner.canDespawn = false;
 
         this.weaponCooldown = new Timer(1000, ()=>{this.firePattern()}, true);
 
@@ -36,6 +37,7 @@ export default class MookBehavior extends ComplexPatternAI{
 
     public activate(options: Record<string, any>): void {
         super.activate(options)
+        this.owner.canDespawn = false;
         this.target = this.owner.getScene().player
         this.weaponCooldown.start()
 
