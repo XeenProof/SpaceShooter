@@ -4,7 +4,7 @@ import Spawnable from "../../../utils/Interface/Spawnable";
 import ActorScene from "../../scenes/ActorScene";
 import BaseScene from "../../scenes/BaseScene";
 
-export default abstract class SpawnableActor extends AnimatedSprite implements Spawnable{
+export default abstract class SpawnableActor extends AnimatedSprite{
 
     protected scene: ActorScene;
     public override getScene() {return this.scene;}
