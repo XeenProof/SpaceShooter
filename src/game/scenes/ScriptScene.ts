@@ -1,3 +1,4 @@
+import CanvasNode from "../../Wolfie2D/Nodes/CanvasNode";
 import Timer from "../../Wolfie2D/Timing/Timer";
 import { LoadData } from "../../constants/load";
 import { PhysicGroups } from "../../constants/physics";
@@ -75,7 +76,7 @@ export default class ScriptScene extends LevelScene{
             case Script_Type.SPAWN:{
                 //console.log("spawned")
                 let path = generatePathFromList(node.options.path, 200);
-                this.spawnTargetedMook(path)
+                this.handleSpawnEnemy(node.options)
                 break;
             }
             case Script_Type.WAIT:{
@@ -84,6 +85,14 @@ export default class ScriptScene extends LevelScene{
                 break;
             }
         }
+    }
+
+    protected handleSpawnEnemy(options: Record<string, any>):void{
+        console.log(options)
+        let mook:CanvasNode = this.entities.getEntity(options.enemyType)
+		if(mook){
+			mook.visible = true;
+			mook.setAIActive(true, {...options, path: generatePathFromList(options.path)})}
     }
 
     protected handleBackgroundSpeedUpdate(options: Record<string, number>){
