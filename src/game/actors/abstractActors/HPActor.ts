@@ -59,7 +59,7 @@ export default abstract class HPActor extends SpawnableActor implements Battler 
     fireEvent(type:string, data:Record<string, any>){this.emitter.fireEvent(type, data)}
 
     despawnConditions(options: Record<string, any>): boolean {
-        if(this.health <= 0){return true;}
+        return false;
     }
 
     despawn(): void {
@@ -67,6 +67,16 @@ export default abstract class HPActor extends SpawnableActor implements Battler 
         this.healthBar.visible = false;
     }
 
+    dying(): void{
+        console.log("dying")
+        this.despawn()
+    }
+
     get ramDamage(): number {return this.health}
-    takeDamage(damage: number): void{this.health-=damage}
+    takeDamage(damage: number): void{
+        this.health-=damage
+        if(this.health <= 0){
+            this.dying()
+        }
+    }
 }

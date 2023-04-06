@@ -22,7 +22,7 @@ export default class MookActor extends HPActor{
 
     despawnConditions(options: Record<string, any>): boolean {
         if(this.offScreen){return true;}
-        return super.despawnConditions(options);
+        return false//super.despawnConditions(options);
     }
 
     despawn(): void {
