@@ -7,6 +7,10 @@ import PathQueue from "../../../utils/Pathing/PathQueue";
 import PlayerActor from "../../actors/PlayerActor";
 import TargetedMookActor from "../../actors/EnemyActors/TargetedMookActor";
 import ComplexPatternAI from "../abstractAI/ComplexPatternAI";
+import { enemyStates } from "../../../constants/enemies/enemyAnimations";
+import Idle from "../States/EnemyStates/Idle";
+import TakingDamage from "../States/EnemyStates/TakingDamage";
+import Dying from "../States/EnemyStates/Dying";
 
 const animations = {
     IDLE: "IDLE",
@@ -25,6 +29,10 @@ export default class TargetedMookBehavior extends ComplexPatternAI {
 
         this.weaponCooldown = new Timer(1500, ()=>{this.actionPattern()}, true);
 
+        this.addState(enemyStates.IDLE, new Idle(this.owner, this))
+        this.addState(enemyStates.TAKING_DAMAGE, new TakingDamage(this.owner, this))
+        this.addState(enemyStates.DEAD, new Dying(this.owner, this))
+
         this.receiver.subscribe(Events.PLAYER_ENEMY_COLLISION);
         this.receiver.subscribe(Events.WEAPON_ENEMY_COLLISION);
 
@@ -33,6 +41,7 @@ export default class TargetedMookBehavior extends ComplexPatternAI {
 
     public activate(options: Record<string, any>): void {
         super.activate(options)
+        this.initialize(enemyStates.IDLE)
         this.owner.healthBar.visible = this.owner.visible
         this.owner.animation.playIfNotAlready(animations.IDLE, true)
         this.owner.canDespawn = false;
@@ -109,6 +118,9 @@ export default class TargetedMookBehavior extends ComplexPatternAI {
 
     protected OwnerTakeDamage(damage:number){
         this.owner.takeDamage(damage)
+        if(damage > 0){
+            this.changeState(enemyStates.TAKING_DAMAGE)
+        }
         if(this.owner.health <= 0){
             this.dying()
         }

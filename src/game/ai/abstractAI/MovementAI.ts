@@ -26,6 +26,7 @@ export default abstract class MovementAI extends DespawnAI {
         if(this.dir != null){
             this.owner.move(this.dir.clone().scale(this.speed*deltaT));
         }
+        super.update(deltaT);
     }
     abstract handleEvent(event: GameEvent): void
 

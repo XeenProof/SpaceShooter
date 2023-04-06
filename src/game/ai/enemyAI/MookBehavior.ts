@@ -5,11 +5,15 @@ import GameNode from "../../../Wolfie2D/Nodes/GameNode";
 import AnimatedSprite from "../../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import Timer from "../../../Wolfie2D/Timing/Timer";
 import { bulletType } from "../../../constants/bulletTypes";
+import { enemyStates } from "../../../constants/enemies/enemyAnimations";
 import { Events } from "../../../constants/events";
 import PathQueue from "../../../utils/Pathing/PathQueue";
 import { TargetableEntity } from "../../../utils/Targeting/TargetableEntity";
 import MookActor from "../../actors/EnemyActors/MookActor";
 import PlayerActor from "../../actors/PlayerActor";
+import Dying from "../States/EnemyStates/Dying";
+import Idle from "../States/EnemyStates/Idle";
+import TakingDamage from "../States/EnemyStates/TakingDamage";
 import ComplexPatternAI from "../abstractAI/ComplexPatternAI";
 
 const animations = {
@@ -29,6 +33,10 @@ export default class MookBehavior extends ComplexPatternAI{
 
         this.weaponCooldown = new Timer(1000, ()=>{this.actionPattern()}, true);
 
+        this.addState(enemyStates.IDLE, new Idle(this.owner, this))
+        this.addState(enemyStates.TAKING_DAMAGE, new TakingDamage(this.owner, this))
+        this.addState(enemyStates.DEAD, new Dying(this.owner, this))
+
         this.receiver.subscribe(Events.PLAYER_ENEMY_COLLISION);
         this.receiver.subscribe(Events.WEAPON_ENEMY_COLLISION);
 
@@ -37,6 +45,7 @@ export default class MookBehavior extends ComplexPatternAI{
 
     public activate(options: Record<string, any>): void {
         super.activate(options)
+        this.initialize(enemyStates.IDLE)
         this.owner.healthBar.visible = this.owner.visible
         this.owner.animation.playIfNotAlready(animations.IDLE, true)
         this.owner.canDespawn = false;
@@ -111,6 +120,7 @@ export default class MookBehavior extends ComplexPatternAI{
 
     protected OwnerTakeDamage(damage:number){
         this.owner.takeDamage(damage)
+        if(damage > 0){this.changeState(enemyStates.TAKING_DAMAGE)}
         if(this.owner.health <= 0){
             this.dying()
         }

@@ -2,8 +2,10 @@ import Vec2 from "../../../Wolfie2D/DataTypes/Vec2";
 import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 import Receiver from "../../../Wolfie2D/Events/Receiver";
 import Graphic from "../../../Wolfie2D/Nodes/Graphic";
+import { enemyStates } from "../../../constants/enemies/enemyAnimations";
 import { Events } from "../../../constants/events";
 import BeamActor from "../../actors/WeaponActors/BeamActor";
+import Attack from "../States/AttackingState";
 import MovementAI from "../abstractAI/MovementAI";
 
 export default class BeamBehavior extends MovementAI {
@@ -14,6 +16,8 @@ export default class BeamBehavior extends MovementAI {
         this.speed = options.speed?options.speed:500;
         this.dir = (options.dir)?options.dir:Vec2.UP;
         this.receiver = new Receiver();
+        
+        this.addState(enemyStates.IDLE, new Attack(this.owner, this))
         this.activate(options);
         
         this.receiver.subscribe(Events.WEAPON_ENEMY_COLLISION)
@@ -26,6 +30,7 @@ export default class BeamBehavior extends MovementAI {
         this.owner.rotation = Vec2.UP.angleToCCW(this.dir)
         this.speed = options.speed?options.speed:this.speed;
         this.receiver.ignoreEvents();
+        this.initialize(enemyStates.IDLE)
     }
     public handleEvent(event: GameEvent): void {
         // console.log(event, this.owner.id)
