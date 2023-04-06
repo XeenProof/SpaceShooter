@@ -6,11 +6,12 @@ import Color from "../../Wolfie2D/Utils/Color";
 import Homework1_Scene from "./LevelScene";
 import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 import GameEvent from "../../Wolfie2D/Events/GameEvent";
-import { LoadData, LoadType, LoadBackground, LoadPlayer, LoadEnemy, LoadProjectiles,LoadWelcome } from "../../constants/load";
+import { LoadData, LoadType, LoadBackground, LoadPlayer, LoadEnemy, LoadProjectiles,LoadWelcome, LoadMainmenu } from "../../constants/load";
 import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
 import RandUtils from "../../Wolfie2D/Utils/RandUtils";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import MainMenu from "./MainMenu";
+import SelectionScence from "./SelectionScene";
 
 // Layers in the main menu
 const WelcomeLayer = {
@@ -36,6 +37,7 @@ export default class WelcomeScence extends Scene {
 
     public override loadScene(){
         this.loadBackground(LoadWelcome.WELCOME);
+        this.autoloader(LoadMainmenu.MAINMENU);
     }
     
     public override startScene(){
@@ -62,6 +64,10 @@ export default class WelcomeScence extends Scene {
         while(this.receiver.hasNextEvent()){
             this.handleEvent(this.receiver.getNextEvent());
         }
+    }
+
+    public unloadScene(): void {
+        this.load.keepImage(LoadMainmenu.MAINMENU.KEY)
     }
 
     protected loadBackground(data: LoadData){

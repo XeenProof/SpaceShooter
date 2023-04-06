@@ -78,7 +78,7 @@ export default class SelectionScence extends Scene {
         back.borderWidth = 2;
         back.borderColor = Color.YELLOW;
         back.backgroundColor = Color.TRANSPARENT;
-        // back.onClickEventId = SelectionEvent.LEVEL_ONE;
+        back.onClickEventId = SelectionEvent.BACK;
 
         // let level1Img2 = this.add.sprite(LoadTest.TEST.KEY, SelectionLayer.CONTROLS);
         // level1Img2.scale.set(0.3, 0.3);

@@ -170,7 +170,7 @@ export default class MainMenu extends Scene {
         aboutBack.borderWidth = 2;
         aboutBack.borderColor = Color.YELLOW;
         aboutBack.backgroundColor = Color.TRANSPARENT;
-        aboutBack.onClickEventId = MainMenuEvent.MENU;
+        aboutBack.onClickEventId = "Test";
 
         // Subscribe to the button events
         this.receiver.subscribe(MainMenuEvent.PLAY_GAME);
@@ -178,6 +178,7 @@ export default class MainMenu extends Scene {
         this.receiver.subscribe(MainMenuEvent.ABOUT);
         this.receiver.subscribe(MainMenuEvent.MENU);
         this.receiver.subscribe(MainMenuEvent.PLAY_RECORDING);
+        this.receiver.subscribe("Test")
     }
 
     public override updateScene(){
@@ -226,7 +227,7 @@ export default class MainMenu extends Scene {
             case MainMenuEvent.PLAY_GAME: {
                 //this.seed = RandUtils.randomSeed()
                 // this.sceneManager.changeToScene(Homework1_Scene);
-                this.sceneManager.changeToScene(SelectionScene,{},{});
+                this.sceneManager.changeToScene(SelectionScene);
                 //this.sceneManager.changeToScene(ScriptScene, {levelData: level1})
 
                 break;
@@ -245,6 +246,10 @@ export default class MainMenu extends Scene {
                 this.mainMenu.setHidden(false);
                 this.controls.setHidden(true);
                 this.about.setHidden(true);
+                break;
+            }
+            case "Test":{
+                this.sceneManager.changeToScene(ScriptScene, {levelData: level1})
                 break;
             }
             default: {
