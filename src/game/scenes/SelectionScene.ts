@@ -12,6 +12,8 @@ import RandUtils from "../../Wolfie2D/Utils/RandUtils";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import MainMenu from "./MainMenu";
 import Button from "../../Wolfie2D/Nodes/UIElements/Button";
+import ScriptScene from "./ScriptScene";
+import { level1 } from "../../constants/scripts/level1script";
 
 // Layers in the main menu
 const SelectionLayer = {
@@ -148,7 +150,7 @@ export default class SelectionScence extends Scene {
     protected handleEvent(event: GameEvent): void {
         switch(event.type) {
             case SelectionEvent.LEVEL_ONE: {
-                this.sceneManager.changeToScene(Homework1_Scene);
+                this.sceneManager.changeToScene(ScriptScene, {levelData: level1});
                 break;
             }
             case SelectionEvent.BACK: {
