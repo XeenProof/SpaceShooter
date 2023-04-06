@@ -95,7 +95,7 @@ export default class TargetedMookBehavior extends ComplexPatternAI {
         let enemy = this.owner
         let player = this.owner.getScene().player
         let damage = Math.min(enemy.ramDamage, player.ramDamage)
-        this.owner.takeDamage(damage)
+        this.OwnerTakeDamage(damage)
     }
 
     protected handleDamage(enemyId, shotid):void{
@@ -103,7 +103,21 @@ export default class TargetedMookBehavior extends ComplexPatternAI {
         let bullet = this.owner.getScene().getShot(shotid)
         //if(!bullet.visible){return;}
         let damage = this.owner.getScene().getDamage(bullet.damage_key)
+        this.OwnerTakeDamage(damage)
+        
+    }
+
+    protected OwnerTakeDamage(damage:number){
         this.owner.takeDamage(damage)
+        if(this.owner.health <= 0){
+            this.dying()
+        }
+    }
+
+    protected dying(){
+        this.owner.dying();
+        this.weaponCooldown.pause()
+        this.weaponCooldown.reset()
     }
 
     protected despawn(){

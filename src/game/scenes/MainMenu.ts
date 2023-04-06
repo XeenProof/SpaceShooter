@@ -217,10 +217,14 @@ export default class MainMenu extends Scene {
 		this.bg2.position.add(this.bg1.sizeWithZoom.scale(0, -2));
 	}
 
+    public unloadScene(): void {
+        this.load.keepImage(LoadMainmenu.MAINMENU.KEY)
+    }
+
     protected handleEvent(event: GameEvent): void {
         switch(event.type) {
             case MainMenuEvent.PLAY_GAME: {
-                this.seed = RandUtils.randomSeed()
+                //this.seed = RandUtils.randomSeed()
                 // this.sceneManager.changeToScene(Homework1_Scene);
                 this.sceneManager.changeToScene(SelectionScene,{},{});
                 //this.sceneManager.changeToScene(ScriptScene, {levelData: level1})
