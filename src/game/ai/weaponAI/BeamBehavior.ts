@@ -16,7 +16,6 @@ export default class BeamBehavior extends MovementAI {
         this.receiver = new Receiver();
         this.activate(options);
         
-
         this.receiver.subscribe(Events.WEAPON_ENEMY_COLLISION)
         this.receiver.subscribe(Events.WEAPON_PLAYER_COLLISION)
     }
