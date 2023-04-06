@@ -94,7 +94,7 @@ export default class WelcomeScence extends Scene {
     protected handleEvent(event: GameEvent): void {
         switch(event.type) {
             case WelcomeEvent.PLAY_GAME: {
-                this.sceneManager.changeToScene(MainMenu);
+                this.sceneManager.changeToScene(MainMenu,{},{});
                 break;
             }
             default: {

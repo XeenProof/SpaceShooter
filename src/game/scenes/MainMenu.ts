@@ -42,7 +42,7 @@ export default class MainMenu extends Scene {
 	protected bg2: Sprite;
 
     public override loadScene(){
-        this.autoloader(LoadAPPLE.APPLE);
+        // this.autoloader(LoadAPPLE.APPLE);
         this.loadBackground(LoadMainmenu.MAINMENU);
     }
     
@@ -218,7 +218,7 @@ export default class MainMenu extends Scene {
             case MainMenuEvent.PLAY_GAME: {
                 this.seed = RandUtils.randomSeed()
                 // this.sceneManager.changeToScene(Homework1_Scene);
-                this.sceneManager.changeToScene(SelectionScene);
+                this.sceneManager.changeToScene(SelectionScene,{},{});
                 break;
             }
             case MainMenuEvent.CONTROLS: {
@@ -235,12 +235,6 @@ export default class MainMenu extends Scene {
                 this.mainMenu.setHidden(false);
                 this.controls.setHidden(true);
                 this.about.setHidden(true);
-                break;
-            }
-            case MainMenuEvent.PLAY_RECORDING: {
-                // TODO play the recording here
-                //this.sceneManager.changeToScene(Homework1_Scene, {seed: this.seed, recording: false});
-                this.emitter.fireEvent(GameEventType.PLAY_RECORDING, {onEnd: ()=>{this.sceneManager.changeToScene(MainMenu);}})
                 break;
             }
             default: {
