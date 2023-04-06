@@ -30,7 +30,7 @@ function initEnemyBeamFunc(add: FactoryManager, scene:ActorScene):BeamActor{
     entity.damage_key = info.KEY
     entity.setScene(scene)
     entity.visible = false;
-    entity.addAI(BeamBehavior, {src: inactivePos, dir: Vec2.DOWN})
+    entity.addAI(BeamBehavior, {src: inactivePos, dir: Vec2.DOWN, speed: info.SPEED})
     entity.addPhysics();
     entity.setGroup(PhysicGroups.ENEMY_WEAPON)
     entity.setTrigger(PhysicGroups.PLAYER, Events.WEAPON_PLAYER_COLLISION, null)
@@ -43,7 +43,7 @@ function initBeamFunc(add: FactoryManager, scene:ActorScene):BeamActor{
     entity.damage_key = info.KEY
     entity.setScene(scene)
     entity.visible = false;
-    entity.addAI(BeamBehavior, {src: inactivePos})
+    entity.addAI(BeamBehavior, {src: inactivePos, speed: info.SPEED})
     entity.addPhysics();
     entity.setGroup(PhysicGroups.PLAYER_WEAPON)
     entity.setTrigger(PhysicGroups.ENEMY, Events.WEAPON_ENEMY_COLLISION, null)

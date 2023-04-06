@@ -11,7 +11,7 @@ export default class BeamBehavior extends MovementAI {
 
     public initializeAI(owner: BeamActor, options: Record<string, any>): void {
         this.owner = owner;
-        this.speed = 500;
+        this.speed = options.speed?options.speed:500;
         this.dir = (options.dir)?options.dir:Vec2.UP;
         this.receiver = new Receiver();
         this.activate(options);
