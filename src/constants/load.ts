@@ -31,13 +31,32 @@ const Loads = {
     ENEMY_4: {KEY: "ENEMY_4", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Enemy_Fouth/Enemy_Fouth.json", SCALE:{X:1, Y:1}},
     ENEMY_5: {KEY: "ENEMY_5", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Enemy_Fifth/Enemy_Fifth.json", SCALE:{X:1, Y:1}},
     SPACE_THIEF: {KEY: "SPACE_THIEF", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Space_Thief/Space_Thief.json", SCALE:{X:1, Y:1}},
+
+
+    WELCOME: {KEY: "WELCOME", TYPE: LoadType.IMAGE, PATH: "assets/sprites/welcome.png", SCALE:{X:1, Y:1}},
+
+    MAINMENU: {KEY: "MAINMENU", TYPE: LoadType.IMAGE, PATH: "assets/sprites/space_blur.png", SCALE:{X:1, Y:1}},
+    TEST: {KEY: "APPLE", TYPE: LoadType.IMAGE, PATH: "assets/sprites/welcome.png", SCALE:{X:1, Y:1}},
     ENEMY1_BEAM: {KEY: "ENEMY1_BEAM", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Enemy1_Beam/Enemy1_Beam.json", SCALE:{X:1, Y:1}},
+
    
 }
 
 export const LoadBackground = {
     UNDERWATER: {...Loads.UNDERWATER, SCALE:{X:0.75, Y:0.75}},
     SPACE: {...Loads.SPACE, SCALE:{X:0.75, Y:0.75}}
+} as const
+
+export const LoadWelcome = {
+    WELCOME: {...Loads.WELCOME, SCALE:{X:1, Y:1}}
+} as const
+
+export const LoadAPPLE = {
+    APPLE: {...Loads.TEST, SCALE:{X:1, Y:1}}
+} as const
+
+export const LoadMainmenu = {
+    MAINMENU: {...Loads.MAINMENU, SCALE:{X:0.70, Y:0.70}}
 } as const
 
 export const LoadPlayer = {
