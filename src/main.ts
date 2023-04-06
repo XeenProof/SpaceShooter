@@ -14,7 +14,7 @@ import { Inputs } from "./constants/gameoptions";
         canvasSize: {x: 1200, y: 900},          // The size of the game
         clearColor: {r: 0.1, g: 0.1, b: 0.1},   // The color the game clears to
         inputs: Inputs,
-        useWebGL: true,                        // Tell the game we want to use webgl
+        useWebGL: false,                        // Tell the game we want to use webgl
         showDebug: false                       // Whether to show debug messages. You can change this to true if you want
     }
     // We have a custom shader, so lets add it to the registry and preload it

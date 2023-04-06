@@ -76,7 +76,6 @@ export default class ScriptScene extends LevelScene{
             }
             case Script_Type.SPAWN:{
                 //console.log("spawned")
-                let path = generatePathFromList(node.options.path, 200);
                 this.handleSpawnEnemy(node.options)
                 break;
             }
