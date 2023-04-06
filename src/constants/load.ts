@@ -32,6 +32,8 @@ const Loads = {
     SPACE_THIEF: {KEY: "SPACE_THIEF", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Space_Thief/Space_Thief.json", SCALE:{X:1, Y:1}},
 
     WELCOME: {KEY: "WELCOME", TYPE: LoadType.IMAGE, PATH: "assets/sprites/welcome.png", SCALE:{X:1, Y:1}},
+
+    MAINMENU: {KEY: "MAINMENU", TYPE: LoadType.IMAGE, PATH: "assets/sprites/space_blur.png", SCALE:{X:1, Y:1}},
    
 }
 
@@ -42,6 +44,10 @@ export const LoadBackground = {
 
 export const LoadWelcome = {
     WELCOME: {...Loads.WELCOME, SCALE:{X:1, Y:1}}
+} as const
+
+export const LoadMainmenu = {
+    MAINMENU: {...Loads.MAINMENU, SCALE:{X:0.70, Y:0.70}}
 } as const
 
 export const LoadPlayer = {
