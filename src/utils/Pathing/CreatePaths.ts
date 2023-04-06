@@ -31,7 +31,7 @@ export function generateRandomPathList(setList: Record<string, any>[]): PathNode
     return path;
 }
 
-export function generatePathFromList(list: Array<Positions>, default_speed: number): PathNode[]{
+export function generatePathFromList(list: Array<Positions>, default_speed: number = 300): PathNode[]{
     return list.map((pos) => {
         let { x, y, repeat, speed, thresh, wait} = pos;
         let r = (repeat)?repeat:0;

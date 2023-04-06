@@ -3,7 +3,7 @@ import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 import Receiver from "../../../Wolfie2D/Events/Receiver";
 import Graphic from "../../../Wolfie2D/Nodes/Graphic";
 import { Events } from "../../../constants/events";
-import BeamActor from "../../actors/BeamActor";
+import BeamActor from "../../actors/WeaponActors/BeamActor";
 import MovementAI from "../abstractAI/MovementAI";
 
 export default class BeamBehavior extends MovementAI {
@@ -11,17 +11,17 @@ export default class BeamBehavior extends MovementAI {
 
     public initializeAI(owner: BeamActor, options: Record<string, any>): void {
         this.owner = owner;
-        this.speed = 500;
+        this.speed = options.speed?options.speed:500;
         this.dir = (options.dir)?options.dir:Vec2.UP;
         this.receiver = new Receiver();
         this.activate(options);
-
+        
         this.receiver.subscribe(Events.WEAPON_ENEMY_COLLISION)
         this.receiver.subscribe(Events.WEAPON_PLAYER_COLLISION)
     }
     
     public activate(options: Record<string, any>): void {
-        this.owner.position.copy(options.pos)
+        this.owner.position.copy(options.src)
         this.dir = (options.dir)?options.dir:this.dir;
         this.owner.rotation = Vec2.UP.angleToCCW(this.dir)
         this.speed = options.speed?options.speed:this.speed;

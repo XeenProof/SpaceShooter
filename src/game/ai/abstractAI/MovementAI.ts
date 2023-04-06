@@ -12,7 +12,7 @@ import DespawnAI from "./DespawnAI";
 
 
 export default abstract class MovementAI extends DespawnAI {
-    protected owner: GameNode & Spawnable;
+    protected owner: GameNode;
     /**The direction the target is moving in */
     private _dir: Vec2 = null;
     /**The speed the target is moving in */

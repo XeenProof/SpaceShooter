@@ -1,16 +1,31 @@
+export interface scriptFormat{
+    type: string,
+    options: Record<string, any>
+}
+
 export const Script_Type = {
     SPAWN: "SPAWN",
     /**
      * options: {
      * enemy type: The type of enemy to spawn
      * path: The path the enemy is following
-     * enemy stats:
      * }
      */
-    WAIT: "WAIT"
+    WAIT: "WAIT",
     /**
      * options: {
-     * Wait Time
+     * wait_time: number
+     * }
+     */
+    WAVE: "WAVE",
+    /**
+     * options: {wavenum: wave number}
+     */
+    UPDATE_TRAVEL_SPEED: "UPDATE_TRAVEL_SPEED"
+    /**
+     * options: {
+     *  x: speed of x movement
+     *  y: speed of y movement
      * }
      */
 }

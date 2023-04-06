@@ -15,3 +15,9 @@ Questions to ask:
 
 https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_canvas_arc
 CanvasRenderer.ts where the drawing happens
+
+run order:
+Constructor
+intiscene
+loadscene
+startscene

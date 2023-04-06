@@ -1,22 +1,19 @@
 import AnimatedSprite from "../../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import { GAMEPLAY_DIMENTIONS } from "../../../constants/dimenstions";
 import Spawnable from "../../../utils/Interface/Spawnable";
+import ActorScene from "../../scenes/ActorScene";
 import BaseScene from "../../scenes/BaseScene";
 
-export default abstract class SpawnableActor extends AnimatedSprite implements Spawnable{
+export default abstract class SpawnableActor extends AnimatedSprite{
 
-    protected scene: BaseScene;
+    protected scene: ActorScene;
     public override getScene() {return this.scene;}
-    public override setScene(value: BaseScene) {this.scene = value;}
+    public override setScene(value: ActorScene) {this.scene = value;}
 
     private _canDespawn = true;
     public get canDespawn() {return this._canDespawn;}
     public set canDespawn(value) {this._canDespawn = value;}
 
-    spawn(options: Record<string, any>): void {
-        this.visible = true;
-        this.setAIActive(true, options)
-    }
     attemptDespawn(options: Record<string, any> = {}):void{if(this.despawnConditions(options) && this.canDespawn){this.despawn()}}
     
     despawn(): void {

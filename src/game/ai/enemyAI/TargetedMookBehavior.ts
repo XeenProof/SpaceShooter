@@ -1,15 +1,11 @@
 import Vec2 from "../../../Wolfie2D/DataTypes/Vec2";
-import Emitter from "../../../Wolfie2D/Events/Emitter";
 import GameEvent from "../../../Wolfie2D/Events/GameEvent";
-import GameNode from "../../../Wolfie2D/Nodes/GameNode";
-import AnimatedSprite from "../../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import Timer from "../../../Wolfie2D/Timing/Timer";
 import { bulletType } from "../../../constants/bulletTypes";
 import { Events } from "../../../constants/events";
 import PathQueue from "../../../utils/Pathing/PathQueue";
-import { TargetableEntity } from "../../../utils/Targeting/TargetableEntity";
-import MookActor from "../../actors/EnemyActors/MookActor";
 import PlayerActor from "../../actors/PlayerActor";
+import TargetedMookActor from "../../actors/EnemyActors/TargetedMookActor";
 import ComplexPatternAI from "../abstractAI/ComplexPatternAI";
 
 const animations = {
@@ -17,17 +13,17 @@ const animations = {
     TAKING_DAMAGE: "TAKING_DAMAGE"
 }
 
-export default class MookBehavior extends ComplexPatternAI{
-    protected override owner: MookActor
+export default class TargetedMookBehavior extends ComplexPatternAI {
+    protected override owner: TargetedMookActor
 
     protected target: PlayerActor;
     protected weaponCooldown: Timer;
 
-    public initializeAI(owner: MookActor, options: Record<string, any>): void {
+    public initializeAI(owner: TargetedMookActor, options: Record<string, any>): void {
         this.owner = owner
         this.owner.canDespawn = false;
 
-        this.weaponCooldown = new Timer(1000, ()=>{this.actionPattern()}, true);
+        this.weaponCooldown = new Timer(1500, ()=>{this.actionPattern()}, true);
 
         this.receiver.subscribe(Events.PLAYER_ENEMY_COLLISION);
         this.receiver.subscribe(Events.WEAPON_ENEMY_COLLISION);
@@ -49,7 +45,7 @@ export default class MookBehavior extends ComplexPatternAI{
     }
 
     protected actionPattern():void{
-        this.owner.fireEvent(Events.ENEMY_SHOOTS, {src: this.owner.position, dir: Vec2.DOWN, id: this.owner.id, type: bulletType.ENEMY_BEAM})
+        this.owner.fireEvent(Events.ENEMY_SHOOTS, {src: this.owner.position, dir: this.faceDir, id: this.owner.id, type: bulletType.ENEMY_BEAM})
     }
 
 
@@ -65,15 +61,17 @@ export default class MookBehavior extends ComplexPatternAI{
         super.update(deltaT)
     }
 
-    public destroy(): void {
-    }
+    public destroy(): void {}
+
+    public get faceDir():Vec2{return this.owner.position.dirTo(this.target.position)}
+    public get rotation():number{return Vec2.UP.angleToCCW(this.faceDir)}
 
     protected updateData(): void {
+        this.owner.rotation = this.rotation
         if(this.owner.onScreen && !this.owner.canDespawn){this.owner.canDespawn = true}
         if(this.pathCompleted && this.target){
             this.dir = this.owner.position.dirTo(this.target.position)
             this.speed = 500;
-            this.target = null;
             return
         }
         super.updateData()

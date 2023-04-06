@@ -23,6 +23,7 @@ const Loads = {
     PLANE: {KEY: "PLANE", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Plane/Plane.json", SCALE:{X:1, Y:1}},
     FLAME: {KEY: "FLAME", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/flame/flame.json", SCALE: {X:1, Y:1}},
     SHIELD: {KEY: "SHIELD", TYPE: LoadType.IMAGE, PATH: "assets/sprites/purple_shield.png", SCALE:{X:1, Y:1}},
+    PLANE_BEAM: {KEY: "PLANE_BEAM", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Plane_Beam/Plane_Beam.json", SCALE:{X:1, Y:1}},
     
     ENEMY_1: {KEY: "ENEMY_1", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Enemy_First/Enemy_First.json", SCALE:{X:1, Y:1}},
     ENEMY_2: {KEY: "ENEMY_2", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Enemy_Second/Enemy_Second.json", SCALE:{X:1, Y:1}},
@@ -31,10 +32,13 @@ const Loads = {
     ENEMY_5: {KEY: "ENEMY_5", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Enemy_Fifth/Enemy_Fifth.json", SCALE:{X:1, Y:1}},
     SPACE_THIEF: {KEY: "SPACE_THIEF", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Space_Thief/Space_Thief.json", SCALE:{X:1, Y:1}},
 
+
     WELCOME: {KEY: "WELCOME", TYPE: LoadType.IMAGE, PATH: "assets/sprites/welcome.png", SCALE:{X:1, Y:1}},
 
     MAINMENU: {KEY: "MAINMENU", TYPE: LoadType.IMAGE, PATH: "assets/sprites/space_blur.png", SCALE:{X:1, Y:1}},
     TEST: {KEY: "APPLE", TYPE: LoadType.IMAGE, PATH: "assets/sprites/welcome.png", SCALE:{X:1, Y:1}},
+    ENEMY1_BEAM: {KEY: "ENEMY1_BEAM", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Enemy1_Beam/Enemy1_Beam.json", SCALE:{X:1, Y:1}},
+
    
 }
 
@@ -63,13 +67,14 @@ export const LoadPlayer = {
 
 export const LoadEnemy = {
     MINE: {...Loads.MINE, SCALE:{X:0.3, Y:0.3}},
-    COMMON_MOOK: {...Loads.ENEMY_1, SCALE:{X:1, Y:1}}
+    COMMON_MOOK: {...Loads.ENEMY_1, SCALE:{X:1, Y:1}},
+    TARGETED_MOOK: {...Loads.ENEMY_2}
 }
 
 export const LoadProjectiles = {
-    BEAM: {...Loads.PLACEHOLDER, SCALE: {X:1, Y:1}},
+    BEAM: {...Loads.PLANE_BEAM, SCALE: {X:1, Y:1}},
 }
 
 export const LoadEnemyProjectile = {
-    ENEMY_BEAM: {...Loads.PLACEHOLDER, SCALE: {X:1, Y:1}}
+    ENEMY_BEAM: {...Loads.ENEMY1_BEAM, SCALE: {X:1, Y:1}}
 }

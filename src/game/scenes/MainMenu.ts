@@ -11,7 +11,11 @@ import { LoadData, LoadType, LoadBackground, LoadPlayer, LoadEnemy, LoadProjecti
 import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
 import RandUtils from "../../Wolfie2D/Utils/RandUtils";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
+
 import LevelScene from "./LevelScene";
+import ScriptScene from "./ScriptScene";
+import { level1 } from "../../constants/scripts/level1script";
+
 
 // Layers in the main menu
 const MainMenuLayer = {
@@ -219,6 +223,8 @@ export default class MainMenu extends Scene {
                 this.seed = RandUtils.randomSeed()
                 // this.sceneManager.changeToScene(Homework1_Scene);
                 this.sceneManager.changeToScene(SelectionScene,{},{});
+                //this.sceneManager.changeToScene(ScriptScene, {levelData: level1})
+
                 break;
             }
             case MainMenuEvent.CONTROLS: {

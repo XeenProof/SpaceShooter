@@ -1,11 +1,13 @@
-import Spritesheet from "../../Wolfie2D/DataTypes/Spritesheet";
-import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
-import Scene from "../../Wolfie2D/Scene/Scene";
-import BasicTargetable from "../../utils/Targeting/BasicTargetable";
-import { TargetableEntity } from "../../utils/Targeting/TargetableEntity";
-import { TargetingEntity } from "../../utils/Targeting/TargetingEntity";
-import BaseScene from "../scenes/BaseScene";
-import HPActor from "./abstractActors/HPActor";
+import Spritesheet from "../../../Wolfie2D/DataTypes/Spritesheet";
+import AnimatedSprite from "../../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
+import Scene from "../../../Wolfie2D/Scene/Scene";
+import { Layers } from "../../../constants/layers";
+import HealthbarHUD from "../../../utils/HUD/HealthbarHUD";
+import BasicTargetable from "../../../utils/Targeting/BasicTargetable";
+import { TargetableEntity } from "../../../utils/Targeting/TargetableEntity";
+import { TargetingEntity } from "../../../utils/Targeting/TargetingEntity";
+import BaseScene from "../../scenes/BaseScene";
+import HPActor from "../abstractActors/HPActor";
 
 const animations = {
     IDLE: "IDLE",
@@ -16,18 +18,11 @@ export default class MookActor extends HPActor{
 
     public constructor(sheet: Spritesheet){
         super(sheet)
-        //this.targetable = new BasicTargetable(this)
-    }
-
-    spawn(options: Record<string, any>): void {
-        this.canDespawn = false;
-        super.spawn(options);
-        this.animation.playIfNotAlready(animations.IDLE, true)
     }
 
     despawnConditions(options: Record<string, any>): boolean {
         if(this.offScreen){return true;}
-        return super.despawnConditions(options);
+        return false//super.despawnConditions(options);
     }
 
     despawn(): void {
@@ -37,10 +32,8 @@ export default class MookActor extends HPActor{
     }
 
     takeDamage(damage: number): void {
-        console.log("ran")
         this.animation.playIfNotAlready(animations.TAKING_DAMAGE, false)
         super.takeDamage(damage)
-        console.log(this.health)
     }
 
     //Targetable Interface Functions
