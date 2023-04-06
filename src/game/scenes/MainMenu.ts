@@ -4,13 +4,14 @@ import Layer from "../../Wolfie2D/Scene/Layer";
 import Scene from "../../Wolfie2D/Scene/Scene";
 import Color from "../../Wolfie2D/Utils/Color";
 import Homework1_Scene from "./LevelScene";
-import SelectionScence from "./SelectionScene";
+import SelectionScene from "./SelectionScene";
 import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 import GameEvent from "../../Wolfie2D/Events/GameEvent";
-import { LoadData, LoadType, LoadBackground, LoadPlayer, LoadEnemy, LoadProjectiles,LoadWelcome,LoadMainmenu } from "../../constants/load";
+import { LoadData, LoadType, LoadBackground, LoadPlayer, LoadEnemy, LoadProjectiles,LoadWelcome,LoadMainmenu,LoadAPPLE } from "../../constants/load";
 import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
 import RandUtils from "../../Wolfie2D/Utils/RandUtils";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
+import LevelScene from "./LevelScene";
 
 // Layers in the main menu
 const MainMenuLayer = {
@@ -41,6 +42,7 @@ export default class MainMenu extends Scene {
 	protected bg2: Sprite;
 
     public override loadScene(){
+        this.autoloader(LoadAPPLE.APPLE);
         this.loadBackground(LoadMainmenu.MAINMENU);
     }
     
@@ -183,7 +185,6 @@ export default class MainMenu extends Scene {
     protected loadBackground(data: LoadData){
 		this.autoloader(data)
 		this.BACKGROUND = data;
-        console.log(this.BACKGROUND)
 	}
 
     protected autoloader (data: LoadData) {
@@ -216,7 +217,8 @@ export default class MainMenu extends Scene {
         switch(event.type) {
             case MainMenuEvent.PLAY_GAME: {
                 this.seed = RandUtils.randomSeed()
-                this.sceneManager.changeToScene(SelectionScence);
+                // this.sceneManager.changeToScene(Homework1_Scene);
+                this.sceneManager.changeToScene(SelectionScene);
                 break;
             }
             case MainMenuEvent.CONTROLS: {
