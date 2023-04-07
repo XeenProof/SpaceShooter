@@ -20,7 +20,7 @@
                 [{"index":4,"duration":12},
                 {"index":5,"duration":12},
                 {"index":6,"duration":12}]},
-        {"name":"DYING","repeat":true,
+        {"name":"DYING","repeat":false,
             "frames":
                 [{"index":7,"duration":12},
                 {"index":8,"duration":12},

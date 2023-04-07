@@ -69,5 +69,7 @@ export default abstract class ComplexPatternAI extends MovementAI {
     public get waitTime(): number {return this._waitTime;}
     public set waitTime(value: number) {this._waitTime = value;}
 
+    public abstract dying():void
+
     destroy(): void {}
 }

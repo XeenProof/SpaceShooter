@@ -121,12 +121,12 @@ export default class TargetedMookBehavior extends ComplexPatternAI {
         if(damage > 0){
             this.changeState(enemyStates.TAKING_DAMAGE)
         }
-        if(this.owner.health <= 0){
-            this.dying()
-        }
+        // if(this.owner.health <= 0){
+        //     this.dying()
+        // }
     }
 
-    protected dying(){
+    public dying(){
         this.owner.dying();
         this.weaponCooldown.pause()
         this.weaponCooldown.reset()

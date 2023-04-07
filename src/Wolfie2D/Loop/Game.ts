@@ -183,8 +183,8 @@ export default class Game {
             this.resourceManager.update(deltaT);
         } catch(e){
             this.loop.pause();
-            console.warn("Uncaught Error in Update - Crashing gracefully");
-            console.error(e);
+            //console.warn("Uncaught Error in Update - Crashing gracefully");
+            //console.error(e);
         }
     }
 

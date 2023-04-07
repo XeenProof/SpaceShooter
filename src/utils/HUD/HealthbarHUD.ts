@@ -56,9 +56,7 @@ export default class HealthbarHUD implements Updateable {
      * Updates the healthbars position according to the position of it's owner
      * @param deltaT 
      */
-    public update(deltaT: number): void {
-        console.log(this)
-        
+    public update(deltaT: number): void {  
         this.healthBar.position.copy(this.owner.position).add(this.offset);
         this.healthBarBg.position.copy(this.owner.position).add(this.offset);
 
