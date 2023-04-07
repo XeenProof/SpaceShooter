@@ -31,8 +31,8 @@ export default class MookActor extends HPActor{
 
     }
 
-    takeDamage(damage: number): void {
-        super.takeDamage(damage)
+    takeDamage(damage: number): boolean {
+        return super.takeDamage(damage)
     }
 
     //Targetable Interface Functions

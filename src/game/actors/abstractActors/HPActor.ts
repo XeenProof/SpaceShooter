@@ -18,8 +18,6 @@ export default abstract class HPActor extends SpawnableActor implements HealthBa
     protected targetable: TargetableEntity;
     private _healthBar: HealthbarHUD;
 
-    private _DamageTimer: Timer;
-
     constructor(sheet: Spritesheet){
         super(sheet);
         this.battler = new BasicBattler(this)
@@ -50,8 +48,9 @@ export default abstract class HPActor extends SpawnableActor implements HealthBa
     get healthBar(): HealthbarHUD {return this._healthBar;}
     set healthBar(value: HealthbarHUD) {this._healthBar = value;}
 
-    public get DamageTimer(): Timer {return this._DamageTimer;}
-    public set DamageTimer(value: Timer) {this._DamageTimer = value;}
+    updateHealthBar(deltaT: number){
+        this.healthBar.update(deltaT)
+    }
 
     getTargeting(): TargetingEntity[] {return this.targetable.getTargeting()}
     addTargeting(targeting: TargetingEntity): void {this.targetable.addTargeting(targeting);}
@@ -74,7 +73,8 @@ export default abstract class HPActor extends SpawnableActor implements HealthBa
     }
 
     get ramDamage(): number {return this.health}
-    takeDamage(damage: number): void{
+    takeDamage(damage: number): boolean{
         this.health-=damage
+        return (damage > 0)
     }
 }
