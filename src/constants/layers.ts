@@ -2,5 +2,6 @@ export const Layers = {
 	PRIMARY: "PRIMARY",
 	BACKGROUND: "BACKGROUND", 
 	HEALTHBARS: "HEALTHBARS",
+	EXTRABARS: "EXTRABARS",
 	UI: "UI"
 } as const;

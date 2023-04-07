@@ -268,6 +268,7 @@ export default class BaseScene extends ActorScene{
 		this.addLayer(Layers.BACKGROUND, 0);
 		this.addLayer(Layers.PRIMARY, 5);
 		this.addLayer(Layers.HEALTHBARS, 6);
+		this.addLayer(Layers.EXTRABARS, 7)
 		this.addUILayer(Layers.UI);
 	}
 	

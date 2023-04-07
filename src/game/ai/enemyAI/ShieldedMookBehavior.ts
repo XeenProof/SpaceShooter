@@ -1,4 +1,5 @@
 import Timer from "../../../Wolfie2D/Timing/Timer";
+import { enemyStates } from "../../../constants/enemies/enemyAnimations";
 import ShieldMookActor from "../../actors/EnemyActors/ShieldMookActor";
 import HPActor from "../../actors/abstractActors/HPActor";
 import BasicEnemyAI from "../abstractAI/BasicEnemyAI";
@@ -22,7 +23,7 @@ export default class ShieldMookBehavior extends BasicEnemyAI{
         this.owner.shield.maxHealth = shieldhp;
         console.log(this.owner.shield)
 
-        this.owner.activateShield(shieldhp);
+        this.owner.activateShield();
     }
 
     protected updateData(){
@@ -34,7 +35,8 @@ export default class ShieldMookBehavior extends BasicEnemyAI{
     }
 
     public shieldPattern():void {
-        this.owner.activateShield(10)
+        if(this.isState(enemyStates.DEAD)){return;}
+        this.owner.activateShield()
     }
 
     protected stopAI(): void {

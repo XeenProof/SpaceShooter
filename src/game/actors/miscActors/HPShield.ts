@@ -1,17 +1,21 @@
 import Vec2 from "../../../Wolfie2D/DataTypes/Vec2";
+import CanvasNode from "../../../Wolfie2D/Nodes/CanvasNode";
 import Sprite from "../../../Wolfie2D/Nodes/Sprites/Sprite";
 import HealthBarUser from "../../../utils/HUD/HealthBarUser";
 import HealthbarHUD from "../../../utils/HUD/HealthbarHUD";
+import MookActor from "../EnemyActors/MookActor";
 
 
 export default class HPShield implements HealthBarUser{
+    private owner: CanvasNode
     private _sprite: Sprite;
     private _health:number;
     private _maxhealth:number;
     private _shieldBar: HealthbarHUD;
 
-    constructor(sprite: Sprite){
+    constructor(sprite: Sprite, owner: CanvasNode){
         this.sprite = sprite
+        this.owner = owner
     }
 
     public get sprite(): Sprite {return this._sprite;}
@@ -23,7 +27,7 @@ export default class HPShield implements HealthBarUser{
     get maxHealth(): number {return this._maxhealth}
 
     public set health(value: number) {this._health = value;}
-    public set maxHealth(value: number) {this._health = value;}
+    public set maxHealth(value: number) {this._maxhealth = value;}
 
     public get shieldBar(): HealthbarHUD {return this._shieldBar;}
     public set shieldBar(value: HealthbarHUD) {this._shieldBar = value;}
@@ -33,7 +37,7 @@ export default class HPShield implements HealthBarUser{
     }
 
     public updateHealthBar(deltaT: number): void {
-        console.log(this.shieldBar.owner.maxHealth)
+        this.sprite.position.copy(this.owner.position)
         if(this.shieldBar){this.shieldBar.update(deltaT)}
     }
 
@@ -58,8 +62,8 @@ export default class HPShield implements HealthBarUser{
     }
 
     public set visible(value: boolean){
-        this.sprite.visible = value;
-        this.shieldBar.visible = value;
+        this.sprite.visible = value && this.owner.visible;
+        this.shieldBar.visible = value && this.owner.visible;
     }
 
 }

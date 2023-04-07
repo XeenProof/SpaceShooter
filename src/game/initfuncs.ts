@@ -104,8 +104,8 @@ function initShieldedMookFunc(add: FactoryManager, scene: ActorScene):ShieldMook
 
     let shieldSprite = add.sprite(info.LOAD[1].KEY, Layers.PRIMARY)
     shieldSprite.scale.set(info.LOAD[1].SCALE.X, info.LOAD[1].SCALE.Y);
-    let shield = new HPShield(shieldSprite)
-    let shieldBar = new HealthbarHUD(scene, shield, Layers.HEALTHBARS, {size: hbsize.clone(), offset: new Vec2(0,0)})
+    let shield = new HPShield(shieldSprite, entity)
+    let shieldBar = new HealthbarHUD(scene, shield, Layers.HEALTHBARS, {size: hbsize.clone(), offset: hbOffset.clone().sub(new Vec2(0, -5)), color: Color.BLUE})
     shield.shieldBar = shieldBar
     shield.visible = false
     entity.shield = shield

@@ -134,4 +134,8 @@ export default class StateMachine implements Updateable {
         // Delegate the update to the current state
         this.currentState.update(deltaT);
     }
+
+    isState(statekey:string):boolean{
+        return (this.currentState == this.stateMap.get(statekey))
+    }
 }

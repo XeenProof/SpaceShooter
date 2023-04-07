@@ -95,6 +95,7 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
     }
 
     protected handleRamDamage(enemyId):void {
+        if(this.isState(enemyStates.DEAD)){return;}
         if(enemyId != this.owner.id){return;}
         let enemy = this.owner
         let player = this.owner.getScene().player
@@ -103,6 +104,7 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
     }
 
     protected handleDamage(enemyId, shotid):void{
+        if(this.isState(enemyStates.DEAD)){return;}
         if(enemyId != this.owner.id){return;}
         let bullet = this.owner.getScene().getShot(shotid)
         let damage = this.owner.getScene().getDamage(bullet.damage_key)
@@ -111,6 +113,7 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
     }
 
     protected OwnerTakeDamage(damage:number){
+        if(this.isState(enemyStates.DEAD)){return;}
         let receivedDamage = this.owner.takeDamage(damage)
         if(receivedDamage){this.changeState(enemyStates.TAKING_DAMAGE)}
     }
