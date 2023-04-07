@@ -41,5 +41,10 @@ export default class ShieldMookActor extends MookActor{
         super.move(velocity)
         if(this.shielded){this.shield.position.copy(this.position)}
     }
+
+    public dying(): void {
+        this.shield.deactivateShield()
+        super.dying()
+    }
     
 }
