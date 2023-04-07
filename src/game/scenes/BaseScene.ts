@@ -72,8 +72,6 @@ export default class BaseScene extends ActorScene{
 	protected damages: Map<String, number>;
 	protected cheatcodes: Record<string, number>
 
-	
-
 	// Laser/Charge labels
 	protected chrgLabel: Label;
 	protected chrgBarLabels: Array<Label>;
