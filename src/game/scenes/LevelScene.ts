@@ -17,10 +17,6 @@ import MathUtils from "../../Wolfie2D/Utils/MathUtils";
 
 import PlayerController from "../ai/PlayerController";
 
-import MineBehavior, { MineAnimations } from "../ai/MineBehavior";
-import BubbleAI from "../ai/BubbleBehavior";
-import LaserBehavior from "../ai/LaserBehavior";
-
 import GameOver from "./GameOver";
 
 import BubbleShaderType from "../shaders/BubbleShaderType";
