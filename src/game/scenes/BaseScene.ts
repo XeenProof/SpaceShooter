@@ -53,6 +53,7 @@ import ActorScene from "./ActorScene";
 import HPActor from "../actors/abstractActors/HPActor";
 import DamageActor from "../actors/abstractActors/DamageActor";
 import { Layers } from "../../constants/layers";
+import { GAMEPLAY_DIMENTIONS } from "../../constants/dimenstions";
 
 /**
  * This is the base scene for our game.
@@ -211,7 +212,6 @@ export default class BaseScene extends ActorScene{
 		
 		// Move the backgrounds
 		this.moveBackgrounds(deltaT);
-		this.wrapPlayer(this.player, this.viewport.getCenter(), this.viewport.getHalfSize())
 		this.lockPlayer(this.player, this.viewport.getCenter(), this.viewport.getHalfSize())
 	}
     /**
@@ -280,9 +280,6 @@ export default class BaseScene extends ActorScene{
 	 * it's own UI class, but I don't have time for that.
 	 */
 	protected initUI(): void {
-		// UILayer stuff
-		
-
 		// HP Label
 		this.healthLabel = <Label>this.add.uiElement(UIElementType.LABEL, Layers.UI, {position: new Vec2(50, 50), text: "HP "});
 		this.healthLabel.size.set(300, 30);
@@ -395,7 +392,7 @@ export default class BaseScene extends ActorScene{
 			let player = this.add.animatedSprite(PlayerActor, SHIP.KEY, Layers.PRIMARY);
 			player.setScene(this)
 
-			player.position.set(this.viewport.getCenter().x, this.viewport.getCenter().y);
+			player.position.set(450, 750);
 			player.scale.set(SHIP.SCALE.X, SHIP.SCALE.Y);
 
 			let booster = this.add.animatedSprite(AnimatedSprite, FLAMES.KEY, Layers.PRIMARY);
@@ -614,106 +611,17 @@ export default class BaseScene extends ActorScene{
 			this.chrgBarLabels[i].backgroundColor = Color.RED;
 		}
 	}
-    /** Methods for locking and wrapping nodes */
 
-    /**
-	 * This function wraps the player around the top/bottom of the viewport.
-	 * 
-	 * @param player - the GameNode associated with the player
-	 * @param viewportCenter - the coordinates of the center of the viewport
-	 * @param viewportHalfSize - the halfsize of the viewport
-	 * 
-	 * @remarks
-	 * 
-	 * Wrapping the player around the screen involves moving the player over from one side of the screen 
-	 * to the other side of the screen once the player has ventured too far into the padded region. To do
-	 * this, you will have to:
-	 * 
-	 * 1.) Check if the player has moved halfway off the top or bottom of the viewport
-	 * 2.) Update the player's position to the opposite side of the visible region
-	 * 
-	 * @see {Viewport} for more information about the viewport
-	 * 
-	 * For reference, a visualization of the padded viewport is shown below. The o's represent locations 
-	 * where the player should be wrapped. The O's represent locations where the player should be wrapped to. 
-	 * The X's represent locations where the player shouldn't be wrapped
-	 * 
-	 * Ex. the player should be wrapped from o1 -> O1, from o2 -> O2, etc. 
-	 * 
-	 * 
-	 * 					 X	 THIS IS OUT OF BOUNDS
-	 * 			 _______________________________________________
-	 * 			|	 THIS IS THE PADDED REGION (OFF SCREEN)		|
-	 * 			|												|
-	 * 			|											    |
-	 * 			|		 ___o1_______________O2_________		|
-	 * 			|		|								|		|
-	 * 			|		|								|		|
-	 *	 		|		|	  THIS IS THE VISIBLE		|		|
-	 * 		X	|	X	|			 REGION				|	X	|   X 
-	 * 			|		|								|		|
-	 * 			|		|		X						|		|
-	 * 			|		|___O1_______________o2_________|		|
-	 * 			|		   										|
-	 * 			|		   						   				|
-	 * 			|_______________________________________________|
-	 *
-	 * 							X THIS IS OUT OF BOUNDS													
-	 */
-	protected wrapPlayer(player: CanvasNode, viewportCenter: Vec2, viewportHalfSize: Vec2): void {
-		// TODO wrap the player around the top/bottom of the screen
-		let top = viewportCenter.y - viewportHalfSize.y;
-		let bottom = viewportCenter.y +  viewportHalfSize.y;
-		if(player.position.y<top){player.position.y = 900;}
-		if(player.position.y>bottom){player.position.y = 0;}
-		//edit the player CanvasNode's position directly
-	}
-
-    /**
-	 * A function for locking the player's coordinates. The player should not be able to move off the 
-	 * left or right side of the screen.
-     * 
-     * @param player - the CanvasNode associated with the player
-	 * @param viewportCenter - the coordinates of the center of the viewport
-	 * @param viewportHalfSize - the halfsize of the viewport 
-	 * 
-	 * @see {Viewport} for more information about the viewport
-     * 
-     * @remarks
-     * 
-     * More specifically, the left edge of the player's sprite should not move beyond the left edge 
-     * of the viewport and the right side of the player's sprite should not move outside the right 
-     * edge of the viewport.
-     * 
-     * For reference, a visualization of the padded viewport is shown below. The o's represent valid
-     * locations for the player and the X's represent invalid locations for the player.
-     * 	  
-	 * 					 X	 THIS IS OUT OF BOUNDS
-	 * 			 _______________________________________________
-	 * 			|	 THIS IS THE PADDED REGION (OFF SCREEN)		|
-	 * 			|												|
-	 * 			|						X					    |
-	 * 			|		 ______o______________o_________		|
-	 * 			|		|								|		|
-	 * 			|		X								|	X	|
-	 *	 	X	|		|	  THIS IS THE VISIBLE		|		|
-	 * 			|		|o			 REGION			   o|		|   X
-	 * 			|		|								|		|
-	 * 			|	X   |		o						X		|
-	 * 			|		|_____o_______________o_________|		|
-	 * 			|		   										|
-	 * 			|		   				X		   				|
-	 * 			|_______________________________________________|
-	 *
-	 * 							X THIS IS OUT OF BOUNDS	
-	 * 
-	 */
 	protected lockPlayer(player: CanvasNode, viewportCenter: Vec2, viewportHalfSize: Vec2): void {
 		// TODO prevent the player from moving off the left/right side of the screen
-		let left = viewportCenter.x - viewportHalfSize.x;
-		let right = viewportCenter.x +  viewportHalfSize.x;
-		if(player.boundary.center.x-player.boundary.halfSize.x<left){player.position.x = 0+player.boundary.halfSize.x;}
-		if(player.boundary.center.x+player.boundary.halfSize.x>right){player.position.x = 900-player.boundary.halfSize.x;}
+		let left = GAMEPLAY_DIMENTIONS.XSTART;
+		let right = GAMEPLAY_DIMENTIONS.XEND;
+		let top = GAMEPLAY_DIMENTIONS.YSTART;
+		let bottom = GAMEPLAY_DIMENTIONS.YEND;
+		if(player.boundary.center.x-player.boundary.halfSize.x<left){player.position.x = left+player.boundary.halfSize.x;}
+		if(player.boundary.center.x+player.boundary.halfSize.x>right){player.position.x = right-player.boundary.halfSize.x;}
+		if(player.boundary.center.y-player.boundary.halfSize.y<top){player.position.y = top+player.boundary.halfSize.y;}
+		if(player.boundary.center.y+player.boundary.halfSize.y>bottom){player.position.y = bottom-player.boundary.halfSize.y;}
 		//edit the player CanvasNode's position directly
 	}
 
