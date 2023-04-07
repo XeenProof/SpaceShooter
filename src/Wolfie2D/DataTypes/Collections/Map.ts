@@ -11,6 +11,10 @@ export default class Map<T> implements Collection {
 		this.map = {};
 	}
 
+	get record(): Record<string, T>{
+		return this.map;
+	}
+
 	/**
 	 * Adds a value T stored at a key.
 	 * @param key The key of the item to be stored

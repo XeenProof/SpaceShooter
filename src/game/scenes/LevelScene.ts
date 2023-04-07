@@ -71,32 +71,14 @@ export default class LevelScene extends BaseScene {
 	}
 
 	protected handleEvent(event: GameEvent){
-		super.handleEvent(event)
 		switch(event.type) {
-			case HW2Events.SHOOT_LASER: {
-				this.spawnBeam(event.data.get("src"));
+			case Events.PLAYER_SHOOTS: {
+				this.handlePlayerAttack(event.data.record)
 				break;
 			}
 			case Events.ENEMY_SHOOTS: {
+				console.log("enemy shooting")
 				this.spawnEnemyBeam(event.data.get("src"), event.data.get("dir"))
-			}
-			case HW2Events.DEAD: {
-				break;
-			}
-			case HW2Events.CHARGE_CHANGE: {
-				break;
-			}
-			case HW2Events.FIRING_LASER: {
-				break;
-			}
-			case HW2Events.PLAYER_BUBBLE_COLLISION: {
-				break;
-			}
-			case HW2Events.PLAYER_MINE_COLLISION: {
-				break;
-			}
-			case HW2Events.UPDATE_GUI: {
-				break;
 			}
 			default: {
 				throw new Error(`Unhandled event with type ${event.type} caught in ${this.constructor.name}`);
@@ -119,6 +101,14 @@ export default class LevelScene extends BaseScene {
         this.entities.initEntity(KEY, AMMOUNT, func, DATA)
     }
 
+	protected handlePlayerAttack(data: Record<string, any>): void{
+		let projectile: CanvasNode = this.entities.getEntity(data.key)
+		if(projectile){
+			projectile.visible = true
+			projectile.setAIActive(true, data)
+		}
+	}
+
 	protected spawnBeam(src: Vec2): void {
 		let beam: CanvasNode = this.entities.getEntity(AllProjectileKeys.BEAM);
 		if(beam){
@@ -132,20 +122,6 @@ export default class LevelScene extends BaseScene {
 			ebeam.visible = true;
 			ebeam.setAIActive(true, {src:src, dir: dir})
 		}
-	}
-
-	protected spawnCommomMook(path: PathNode[]): void {
-		let mook:CanvasNode = this.entities.getEntity(AllEnemyKeys.COMMON_MOOK)
-		if(mook){
-			mook.visible = true;
-			mook.setAIActive(true, {path: path})}
-	}
-
-	protected spawnTargetedMook(path: PathNode[]):void{
-		let mook:CanvasNode = this.entities.getEntity(AllEnemyKeys.TARGETED_MOOK)
-		if(mook){
-			mook.visible = true;
-			mook.setAIActive(true, {path: path})}
 	}
 
 	protected handleDeath(): void {

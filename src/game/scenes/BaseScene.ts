@@ -172,33 +172,12 @@ export default class BaseScene extends ActorScene{
 
 		// Create a background layer
 		this.initLayers();
-		//this.initBackground();
 		this.initUI();
-		// Create a layer to serve as our main game - Feel free to use this for your own assets
-		// It is given a depth of 5 to be above our background
-		
-		// Initialize the player
-		//this.initPlayer();
-		// Initialize the Timers
-		//this.initTimers();
-		// Initialize the UI
-		
-
-		// Initialize object pools
-		//this.initObjectPools();
-
-		// Subscribe to player events
-		this.receiver.subscribe(HW2Events.CHARGE_CHANGE);
-		this.receiver.subscribe(HW2Events.SHOOT_LASER);
-		this.receiver.subscribe(HW2Events.DEAD);
-		this.receiver.subscribe(HW2Events.UPDATE_GUI);
 
 		// Subscribe to laser events
-		this.receiver.subscribe(HW2Events.FIRING_LASER);
+		this.receiver.subscribe(Events.PLAYER_SHOOTS);
 		this.receiver.subscribe(Events.ENEMY_SHOOTS);
 
-		//Subscribe to mine events
-		this.receiver.subscribe(HW2Events.PLAYER_MINE_COLLISION)
 	}
 	/**
 	 * @see Scene.updateScene 
@@ -227,41 +206,6 @@ export default class BaseScene extends ActorScene{
 	 * @see GameEvent
 	 */
 	protected handleEvent(event: GameEvent){
-		switch(event.type) {
-			case HW2Events.SHOOT_LASER: {
-				//this.spawnLaser(event.data.get("src"));
-				break;
-			}
-			case HW2Events.DEAD: {
-				console.log("Player has died")
-				this.handleDeath();
-				break;
-			}
-			case HW2Events.CHARGE_CHANGE: {
-				this.handleChargeChange(event.data.get("curchrg"), event.data.get("maxchrg"));
-				break;
-			}
-			case HW2Events.FIRING_LASER: {
-				//this.minesDestroyed += this.handleMineLaserCollisions(event.data.get("laser"), this.mines);
-				break;
-			}
-			case HW2Events.PLAYER_BUBBLE_COLLISION: {
-				break;
-			}
-			case HW2Events.PLAYER_MINE_COLLISION: {
-				break;
-			}
-			case HW2Events.UPDATE_GUI: {
-				this.handleHealthChange(event.data.get("currentHealth"), event.data.get("maxHealth"))
-				this.handleAirChange(event.data.get("currentAir"), event.data.get("maxAir"))
-				break;
-			}
-			case Events.TEST:{
-				console.log(event)
-				break;
-			}
-			default: {}
-		}
 	}
 
 	protected initLayers():void{

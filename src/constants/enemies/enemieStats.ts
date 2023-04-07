@@ -1,18 +1,21 @@
 
 const COMMON_MOOK = {
     hp: 10,
+    droprate: 0.15,
     speed: 100,
     attack: 1,
 }
 
 const TARGETED_MOOK = {
     hp: 10,
+    droprate: 0.15,
     speed: 100,
     attack: 1
 }
 
 const SHIELDED_MOOK = {
     hp: 10,
+    droprate: 0.15,
     shieldhp: 5,
     speed: 100,
     attack: 1

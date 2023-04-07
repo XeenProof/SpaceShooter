@@ -52,6 +52,9 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
         let hp = options.stats?options.stats.hp:1;
         this.owner.maxHealth = hp;
         this.owner.health = hp;
+
+        let droprate = options.dropRate?options.dropRate:0;
+        this.owner.dropRate = droprate
     }
 
 
