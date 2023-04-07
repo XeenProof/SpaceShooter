@@ -17,10 +17,6 @@ import MathUtils from "../../Wolfie2D/Utils/MathUtils";
 
 import PlayerController from "../ai/PlayerController";
 
-import MineBehavior, { MineAnimations } from "../ai/MineBehavior";
-import BubbleAI from "../ai/BubbleBehavior";
-import LaserBehavior from "../ai/LaserBehavior";
-
 import GameOver from "./GameOver";
 
 import BubbleShaderType from "../shaders/BubbleShaderType";
@@ -129,11 +125,6 @@ export default class BaseScene extends ActorScene{
 		this.autoloader(LoadPlayer.SHIELD)
 
 		this.loadBackground(LoadBackground.SPACE);
-
-		this.autoloader(LoadEnemy.MINE);
-		this.autoloader(LoadEnemy.COMMON_MOOK);
-		this.autoloader(LoadProjectiles.BEAM);
-		this.autoloader(LoadEnemyProjectile.ENEMY_BEAM);
 	}
 
 	protected loadList(list:LoadData[]){
