@@ -6,4 +6,5 @@ export default interface HealthBarUser{
     get maxHealth():number
     get position():Vec2
     get id():number
+    updateHealthBar(deltaT:number):void
 }

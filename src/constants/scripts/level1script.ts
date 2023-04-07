@@ -16,11 +16,12 @@ export const level1 = {
             {DATA: AllProjectileData.BEAM, AMMOUNT: 20},
 
             {DATA: AllEnemyData.COMMON_MOOK, AMMOUNT: 20},
-            {DATA: AllEnemyData.TARGETED_MOOK, AMMOUNT: 20}
+            {DATA: AllEnemyData.TARGETED_MOOK, AMMOUNT: 20},
+            {DATA: AllEnemyData.SHIELDED_MOOK, AMMOUNT: 20}
         ]
     },
     SCRIPT: [
         {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-300}},
-        ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.TARGETED_MOOK], [recRoute.NORMAL, recRoute.REVERSE], 300, 2, 10),
+        ...generateRoundRobinScriptPart([AllEnemyKeys.SHIELDED_MOOK, AllEnemyKeys.SHIELDED_MOOK], [recRoute.NORMAL, recRoute.REVERSE], 300, 2, 10),
     ]
 }

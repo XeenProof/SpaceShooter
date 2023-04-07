@@ -42,8 +42,11 @@ export default class ScriptScene extends LevelScene{
         this.loadBackground(this.LOAD.BACKGROUND)
         let {PLAYER, OTHERS} = this.LOAD
         let {SHIP, FLAMES, SHIELD} = PLAYER
-        let otherlist = OTHERS.map((x)=>{return x.DATA.LOAD})
-        let list:LoadData[] = [SHIP, FLAMES, SHIELD, ...otherlist]
+        console.log("load scene")
+        let otherlist:LoadData[][] = OTHERS.map((x)=>{return x.DATA.LOAD})
+        let reducedlist = otherlist.reduce((x,y)=>{return [...x, ...y]}, [])
+        console.log(reducedlist)
+        let list:LoadData[] = [SHIP, FLAMES, SHIELD, ...reducedlist]
         this.loadList(list)
     }
 

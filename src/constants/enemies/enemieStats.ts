@@ -11,8 +11,9 @@ const TARGETED_MOOK = {
     attack: 1
 }
 
-const SHIELD_MOOK = {
+const SHIELDED_MOOK = {
     hp: 10,
+    shieldhp: 5,
     speed: 100,
     attack: 1
 }
@@ -20,5 +21,5 @@ const SHIELD_MOOK = {
 export const STATS = {
     COMMON_MOOK: COMMON_MOOK,
     TARGETED_MOOK: TARGETED_MOOK,
-    SHIELD_MOOK: SHIELD_MOOK
+    SHIELDED_MOOK: SHIELDED_MOOK
 }

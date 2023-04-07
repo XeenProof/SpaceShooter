@@ -29,16 +29,16 @@ export default class HealthbarHUD implements Updateable {
     protected layer: string;
 
     /** The GameNode that owns this healthbar */
-    protected owner: HealthBarUser;
+    public owner: HealthBarUser;
 
     /** The size and offset of the healthbar from it's owner's position */
     protected size: Vec2;
     protected offset: Vec2;
 
     /** The actual healthbar (the part with color) */
-    protected healthBar: Label;
+    public healthBar: Label;
     /** The healthbars background (the part with the border) */
-    protected healthBarBg: Label;
+    public healthBarBg: Label;
 
     private highColor = Color.GREEN;
     private midColor = Color.YELLOW;

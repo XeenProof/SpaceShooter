@@ -267,6 +267,7 @@ export default class BaseScene extends ActorScene{
 	protected initLayers():void{
 		this.addLayer(Layers.BACKGROUND, 0);
 		this.addLayer(Layers.PRIMARY, 5);
+		this.addLayer(Layers.HEALTHBARS, 6);
 		this.addUILayer(Layers.UI);
 	}
 	
@@ -422,67 +423,45 @@ export default class BaseScene extends ActorScene{
 		this.player.spawn({})
 	}
 
-	protected initObjectPools(): void {
-		this.initBeams();
-		this.initMooks(1);
-		this.initEnemyBeam();
-	}
+	// protected initObjectPools(): void {
+	// 	this.initBeams();
+	// 	this.initEnemyBeam();
+	// }
 
-	protected initEnemyBeam(c:number = 20):void{
-		let info = AllProjectileData.ENEMY_BEAM
-		this.damages.set(info.KEY, info.DAMAGE)
-		let func = () => {
-			let entity = this.add.animatedSprite(BeamActor, info.LOAD.KEY, Layers.PRIMARY)
-			entity.damage_key = info.KEY
-			entity.setScene(this)
-			entity.visible = false;
+	// protected initEnemyBeam(c:number = 20):void{
+	// 	let info = AllProjectileData.ENEMY_BEAM
+	// 	this.damages.set(info.KEY, info.DAMAGE)
+	// 	let func = () => {
+	// 		let entity = this.add.animatedSprite(BeamActor, info.LOAD[0].KEY, Layers.PRIMARY)
+	// 		entity.damage_key = info.KEY
+	// 		entity.setScene(this)
+	// 		entity.visible = false;
 
-			entity.addAI(BeamAI, {pos: Vec2.ZERO, dir: Vec2.DOWN})
-			entity.addPhysics();
-			entity.setGroup(PhysicGroups.ENEMY_WEAPON)
-			entity.setTrigger(PhysicGroups.PLAYER, Events.WEAPON_PLAYER_COLLISION, null)
-			return entity;
-		}
-		this.entities.initEntity(info.KEY, c, func, info)
-	}
+	// 		entity.addAI(BeamAI, {pos: Vec2.ZERO, dir: Vec2.DOWN})
+	// 		entity.addPhysics();
+	// 		entity.setGroup(PhysicGroups.ENEMY_WEAPON)
+	// 		entity.setTrigger(PhysicGroups.PLAYER, Events.WEAPON_PLAYER_COLLISION, null)
+	// 		return entity;
+	// 	}
+	// 	this.entities.initEntity(info.KEY, c, func, info)
+	// }
 
-	protected initBeams(c:number = 20):void {
-		let info = AllProjectileData.BEAM
-		this.damages.set(info.KEY, info.DAMAGE)
-		let func = () => {
-			let entity = this.add.animatedSprite(BeamActor, info.LOAD.KEY, Layers.PRIMARY)
-			entity.damage_key = info.KEY
-			entity.setScene(this)
-			entity.visible = false;
-			entity.addAI(BeamAI, {pos: Vec2.ZERO})
-			entity.addPhysics();
-			entity.setGroup(PhysicGroups.PLAYER_WEAPON)
-			entity.setTrigger(PhysicGroups.ENEMY, Events.WEAPON_ENEMY_COLLISION, null)
-			return entity;
-		}
-		this.entities.initEntity(info.KEY, c, func, info)
-	}
-
-	protected initMooks(c:number = 20):void {
-		let info = AllEnemyData.COMMON_MOOK
-		let {X, Y} = info.LOAD.SCALE
-		let func = () => {
-			let entity = this.add.animatedSprite(MookActor, info.LOAD.KEY, Layers.PRIMARY)
-			entity.setScene(this)
-
-			entity.visible = false;
-			entity.scale.set(X, Y);
-
-			entity.addAI(MookBehavior, {target: new BasicTargetable(new Position(0,0))})
-
-			let center = entity.position.clone()
-			let halfSize = entity.boundary.getHalfSize().clone().scale(0.9,0.6);
-			entity.addPhysics(new AABB(center, halfSize));
-			entity.setGroup(PhysicGroups.ENEMY);
-			return entity;
-		}
-		this.entities.initEntity(info.KEY, c, func, info)
-	}
+	// protected initBeams(c:number = 20):void {
+	// 	let info = AllProjectileData.BEAM
+	// 	this.damages.set(info.KEY, info.DAMAGE)
+	// 	let func = () => {
+	// 		let entity = this.add.animatedSprite(BeamActor, info.LOAD[0].KEY, Layers.PRIMARY)
+	// 		entity.damage_key = info.KEY
+	// 		entity.setScene(this)
+	// 		entity.visible = false;
+	// 		entity.addAI(BeamAI, {pos: Vec2.ZERO})
+	// 		entity.addPhysics();
+	// 		entity.setGroup(PhysicGroups.PLAYER_WEAPON)
+	// 		entity.setTrigger(PhysicGroups.ENEMY, Events.WEAPON_ENEMY_COLLISION, null)
+	// 		return entity;
+	// 	}
+	// 	this.entities.initEntity(info.KEY, c, func, info)
+	// }
 	/** Methods for updating the UI */
 
 	/**

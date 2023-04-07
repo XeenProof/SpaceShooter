@@ -69,7 +69,8 @@ export const LoadEnemy = {
     MINE: {...Loads.MINE, SCALE:{X:0.3, Y:0.3}},
     COMMON_MOOK: {...Loads.ENEMY_1, SCALE:{X:1, Y:1}},
     TARGETED_MOOK: {...Loads.ENEMY_2},
-    SHIELDED_MOOK: {...Loads.ENEMY_3}
+    SHIELDED_MOOK: {...Loads.ENEMY_3},
+    SHIELD: {...Loads.SHIELD, SCALE:{X:1.5, Y:1.5}}
 }
 
 export const LoadProjectiles = {

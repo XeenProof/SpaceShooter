@@ -58,14 +58,14 @@ export default class PlayerActor extends HPActor{
         this.shieldTimer = new Timer(2000, ()=>{this.deactivateShield()});
     }
 
-    takeDamage(damage: number, options:Record<string, any> = {}): void {
+    takeDamage(damage: number, options:Record<string, any> = {}): boolean {
         //if(this.iframe){return;}
-        super.takeDamage(0)
-        //this.iframe = true
+        let received = super.takeDamage(0)
+        if(!received){return false}
         this.animation.playIfNotAlready(animations.TAKING_DAMAGE)
         this.iTimer.reset()
         this.iTimer.start()
-        console.log("player hp", this.health, damage)
+        return true;
     }
 
     activateShield(){
