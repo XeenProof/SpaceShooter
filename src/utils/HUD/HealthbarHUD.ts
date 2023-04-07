@@ -5,11 +5,18 @@ import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
 import HPActor from "../../game/actors/abstractActors/HPActor";
+import HealthBarUser from "./HealthBarUser";
 
 
 interface HealthBarOptions {
     size: Vec2;
     offset: Vec2;
+    color?: Color;
+    colors?: {
+        highColor: Color,
+        midColor: Color,
+        lowColor: Color,
+    };
 }
 
 /**
@@ -22,7 +29,7 @@ export default class HealthbarHUD implements Updateable {
     protected layer: string;
 
     /** The GameNode that owns this healthbar */
-    protected owner: HPActor;
+    protected owner: HealthBarUser;
 
     /** The size and offset of the healthbar from it's owner's position */
     protected size: Vec2;
@@ -33,10 +40,18 @@ export default class HealthbarHUD implements Updateable {
     /** The healthbars background (the part with the border) */
     protected healthBarBg: Label;
 
-    public constructor(scene: Scene, owner: HPActor, layer: string, options: HealthBarOptions) {
+    private highColor = Color.GREEN;
+    private midColor = Color.YELLOW;
+    private lowColor = Color.RED;
+
+    public constructor(scene: Scene, owner: HealthBarUser, layer: string, options: HealthBarOptions) {
         this.scene = scene;
         this.layer = layer;
         this.owner = owner;
+
+        this.highColor = options.color?options.color:(options.colors?options.colors.highColor:Color.GREEN);
+        this.midColor = options.color?options.color:(options.colors?options.colors.midColor:Color.YELLOW);
+        this.lowColor = options.color?options.color:(options.colors?options.colors.lowColor:Color.RED);
 
         this.size = options.size;
         this.offset = options.offset;
@@ -68,7 +83,7 @@ export default class HealthbarHUD implements Updateable {
 		this.healthBar.size.set(this.healthBarBg.size.x - unit * (this.owner.maxHealth - this.owner.health), this.healthBarBg.size.y);
 		this.healthBar.position.set(this.healthBarBg.position.x - (unit / scale / 2) * (this.owner.maxHealth - this.owner.health), this.healthBarBg.position.y);
 
-		this.healthBar.backgroundColor = this.owner.health < this.owner.maxHealth * 1/4 ? Color.RED : this.owner.health < this.owner.maxHealth * 3/4 ? Color.YELLOW : Color.GREEN;
+		this.healthBar.backgroundColor = this.owner.health < this.owner.maxHealth * 1/4 ? this.lowColor : this.owner.health < this.owner.maxHealth * 3/4 ? this.midColor : this.highColor;
     }
 
     get ownerId(): number { return this.owner.id; }

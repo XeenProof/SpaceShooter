@@ -27,7 +27,7 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
 
     protected target: PlayerActor;
 
-    public initializeAI(owner: HPActor, options: Record<string, any>): void {
+    public initializeAI(owner: HPActor, options: Record<string, any> = {}): void {
         this.owner = owner
         this.owner.canDespawn = false;
 
@@ -38,7 +38,7 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
         this.receiver.subscribe(Events.PLAYER_ENEMY_COLLISION);
         this.receiver.subscribe(Events.WEAPON_ENEMY_COLLISION);
 
-        this.path = new PathQueue(30)
+        this.path = new PathQueue(options.pathLength?options.pathLength:30)
     }
 
     public activate(options: Record<string, any>): void {

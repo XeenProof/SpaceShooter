@@ -4,13 +4,14 @@ import Timer from "../../../Wolfie2D/Timing/Timer";
 import BasicBattler from "../../../utils/BattleSystem/BasicBattler";
 import Battler from "../../../utils/BattleSystem/Battler";
 import HealthbarHUD from "../../../utils/HUD/HealthbarHUD";
+import HealthBarUser from "../../../utils/HUD/HealthBarUser";
 import BasicTargetable from "../../../utils/Targeting/BasicTargetable";
 import { TargetableEntity } from "../../../utils/Targeting/TargetableEntity";
 import { TargetingEntity } from "../../../utils/Targeting/TargetingEntity";
 import SpawnableActor from "./SpawnableActor";
 
 
-export default abstract class HPActor extends SpawnableActor implements Battler {
+export default abstract class HPActor extends SpawnableActor implements HealthBarUser {
 
     /** Give the player a battler compoonent */
     protected battler: Battler;
