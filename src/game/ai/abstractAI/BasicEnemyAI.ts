@@ -60,7 +60,7 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
         while(this.receiver.hasNextEvent()){
 			this.handleEvent(this.receiver.getNextEvent());
 		}
-        this.owner.healthBar.update(deltaT)
+        this.owner.updateHealthBar(deltaT)
         if(this.owner.despawnConditions({}) && this.owner.canDespawn){
             this.despawn();
         }
@@ -111,8 +111,8 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
     }
 
     protected OwnerTakeDamage(damage:number){
-        this.owner.takeDamage(damage)
-        if(damage > 0){this.changeState(enemyStates.TAKING_DAMAGE)}
+        let receivedDamage = this.owner.takeDamage(damage)
+        if(receivedDamage){this.changeState(enemyStates.TAKING_DAMAGE)}
     }
 
     public dying(){
