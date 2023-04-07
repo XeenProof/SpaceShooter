@@ -15,6 +15,7 @@ import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import LevelScene from "./LevelScene";
 import ScriptScene from "./ScriptScene";
 import { level1 } from "../../constants/scripts/level1script";
+import Button from "../../Wolfie2D/Nodes/UIElements/Button";
 
 
 // Layers in the main menu
@@ -22,6 +23,9 @@ const MainMenuLayer = {
     MAIN_MENU: "MAIN_MENU", 
     CONTROLS: "CONTROLS",
     ABOUT: "ABOUT",
+    BACKGROUND: "BACKGROUND",
+    CONTROLS_BACKGROUND: "CONTROLS_BACKGROUND",
+    ABOUT_BACKGROUND: "ABOUT_BACKGROUND",
 } as const
 
 // Events triggered in the main menu
@@ -38,6 +42,7 @@ export default class MainMenu extends Scene {
     private mainMenu: Layer;
     private controls: Layer;
     private about: Layer;
+    private mainMenu_background: Layer;
     private seed: string;
     
     protected BACKGROUND: LoadData;
@@ -54,17 +59,21 @@ export default class MainMenu extends Scene {
         const center = this.viewport.getCenter();
 
         // Main menu screen
-        this.mainMenu = this.addLayer(MainMenuLayer.MAIN_MENU,0);
-		this.initBackground(MainMenuLayer.MAIN_MENU);
+        this.mainMenu_background = this.addLayer(MainMenuLayer.BACKGROUND,0);
+        this.mainMenu = this.addLayer(MainMenuLayer.MAIN_MENU,1);
+
+		this.initBackground(MainMenuLayer.BACKGROUND);
         // this.initBackground(MainMenuLayer.CONTROLS);
         // this.initBackground(MainMenuLayer.ABOUT);
 
         // Controls screen
-        this.controls = this.addUILayer(MainMenuLayer.CONTROLS);
+        this.controls = this.addLayer(MainMenuLayer.CONTROLS_BACKGROUND,0);
+        this.controls = this.addLayer(MainMenuLayer.CONTROLS,1);
         this.controls.setHidden(true);
         // About screen
 
-        this.about = this.addUILayer(MainMenuLayer.ABOUT);
+        this.about = this.addLayer(MainMenuLayer.ABOUT_BACKGROUND,0);
+        this.about = this.addLayer(MainMenuLayer.ABOUT,1);
         this.about.setHidden(true);
 
         const text = <Label> this.add.uiElement(UIElementType.LABEL, MainMenuLayer.MAIN_MENU, {position: new Vec2(center.x, center.y-200), text: "Main Menu"});
@@ -72,8 +81,8 @@ export default class MainMenu extends Scene {
         // text.borderWidth = 2;
         text.fontSize = 100;
         text.textColor = Color.YELLOW;
-        text.backgroundColor = Color.TRANSPARENT;
-        text.onClickEventId = MainMenuEvent.PLAY_GAME;
+        // text.backgroundColor = Color.TRANSPARENT;
+        // text.onClickEventId = MainMenuEvent.PLAY_GAME;
 
         // Add play button, and give it an event to emit on press
         const play = this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.MAIN_MENU, {position: new Vec2(center.x, center.y), text: "LEVEL SELECTION"});
@@ -92,7 +101,7 @@ export default class MainMenu extends Scene {
         controls.onClickEventId = MainMenuEvent.CONTROLS;
 
         // Add event button
-        const about = this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.MAIN_MENU, {position: new Vec2(center.x, center.y + 200), text: "HELP"});
+        const about =  this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.MAIN_MENU, {position: new Vec2(center.x, center.y + 200), text: "HELP"});
         about.size.set(200, 50);
         about.borderWidth = 2;
         about.borderColor = Color.YELLOW;
@@ -107,7 +116,7 @@ export default class MainMenu extends Scene {
         // playRecording.backgroundColor = Color.TRANSPARENT;
         // playRecording.onClickEventId = MainMenuEvent.PLAY_RECORDING;
 
-        this.initBackground(MainMenuLayer.CONTROLS);
+        this.initBackground(MainMenuLayer.CONTROLS_BACKGROUND);
 
         const header = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.CONTROLS, {position: new Vec2(center.x, center.y - 250), text: "Controls"});
         header.textColor = Color.YELLOW;
@@ -145,7 +154,7 @@ export default class MainMenu extends Scene {
         back.backgroundColor = Color.TRANSPARENT;
         back.onClickEventId = MainMenuEvent.MENU;
 
-        this.initBackground(MainMenuLayer.ABOUT);
+        this.initBackground(MainMenuLayer.ABOUT_BACKGROUND);
         const aboutHeader = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.ABOUT, {position: new Vec2(center.x, center.y - 300), text: "HELP"});
         aboutHeader.textColor = Color.YELLOW;
         aboutHeader.fontSize = 50;
@@ -170,14 +179,14 @@ export default class MainMenu extends Scene {
         aboutBack.borderWidth = 2;
         aboutBack.borderColor = Color.YELLOW;
         aboutBack.backgroundColor = Color.TRANSPARENT;
-        aboutBack.onClickEventId = "Test";
+        aboutBack.onClickEventId = MainMenuEvent.MENU;
 
         // Subscribe to the button events
         this.receiver.subscribe(MainMenuEvent.PLAY_GAME);
         this.receiver.subscribe(MainMenuEvent.CONTROLS);
         this.receiver.subscribe(MainMenuEvent.ABOUT);
         this.receiver.subscribe(MainMenuEvent.MENU);
-        this.receiver.subscribe(MainMenuEvent.PLAY_RECORDING);
+        // this.receiver.subscribe(MainMenuEvent.PLAY_RECORDING);
         this.receiver.subscribe("Test")
     }
 

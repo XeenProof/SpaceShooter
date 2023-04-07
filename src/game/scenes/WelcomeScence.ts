@@ -12,6 +12,7 @@ import RandUtils from "../../Wolfie2D/Utils/RandUtils";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import MainMenu from "./MainMenu";
 import SelectionScence from "./SelectionScene";
+import Button from "../../Wolfie2D/Nodes/UIElements/Button";
 
 // Layers in the main menu
 const WelcomeLayer = {
@@ -29,7 +30,6 @@ export default class WelcomeScence extends Scene {
     private welcome: Layer;
     private ui: Layer;
     
-    clickLabel: Label;
 
     protected BACKGROUND: LoadData;
     // Sprites for the background images
@@ -49,13 +49,14 @@ export default class WelcomeScence extends Scene {
         console.log(LoadWelcome.WELCOME);
 		this.initBackground();
 
-        this.ui = this.addLayer(WelcomeLayer.UI,0);
-        this.clickLabel = <Label>this.add.uiElement(UIElementType.BUTTON, WelcomeLayer.UI, {position: new Vec2(center.x, center.y + 330), text: "Click To Start"});
-        this.clickLabel.size.set(200, 50);
-        this.clickLabel.borderWidth = 2;
-        this.clickLabel.borderColor = Color.WHITE;
-        this.clickLabel.backgroundColor = Color.TRANSPARENT;
-        this.clickLabel.onClickEventId = WelcomeEvent.PLAY_GAME;
+        this.ui = this.addLayer(WelcomeLayer.UI,1);
+
+        const clickLabel = this.add.uiElement(UIElementType.BUTTON, WelcomeLayer.UI, {position: new Vec2(center.x, center.y + 330), text: "Click To Start"});
+        clickLabel.size.set(200, 50);
+        clickLabel.borderWidth = 2;
+        clickLabel.borderColor = Color.WHITE;
+        clickLabel.backgroundColor = Color.TRANSPARENT;
+        clickLabel.onClickEventId = WelcomeEvent.PLAY_GAME;
 
         this.receiver.subscribe(WelcomeEvent.PLAY_GAME);
     }
