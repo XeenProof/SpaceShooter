@@ -73,12 +73,12 @@ export default class LevelScene extends BaseScene {
 	protected handleEvent(event: GameEvent){
 		switch(event.type) {
 			case Events.PLAYER_SHOOTS: {
-				this.handlePlayerAttack(event.data.record)
+				this.handleAttack(event.data.record)
 				break;
 			}
 			case Events.ENEMY_SHOOTS: {
-				console.log("enemy shooting")
-				this.spawnEnemyBeam(event.data.get("src"), event.data.get("dir"))
+				this.handleAttack(event.data.record)
+				break;
 			}
 			default: {
 				throw new Error(`Unhandled event with type ${event.type} caught in ${this.constructor.name}`);
@@ -101,26 +101,11 @@ export default class LevelScene extends BaseScene {
         this.entities.initEntity(KEY, AMMOUNT, func, DATA)
     }
 
-	protected handlePlayerAttack(data: Record<string, any>): void{
+	protected handleAttack(data: Record<string, any>): void{
 		let projectile: CanvasNode = this.entities.getEntity(data.key)
 		if(projectile){
 			projectile.visible = true
 			projectile.setAIActive(true, data)
-		}
-	}
-
-	protected spawnBeam(src: Vec2): void {
-		let beam: CanvasNode = this.entities.getEntity(AllProjectileKeys.BEAM);
-		if(beam){
-			beam.visible = true;
-			beam.setAIActive(true, {src: src})}
-	}
-
-	protected spawnEnemyBeam(src: Vec2, dir?: Vec2):void{
-		let ebeam: CanvasNode = this.entities.getEntity(AllProjectileKeys.ENEMY_BEAM);
-		if(ebeam){
-			ebeam.visible = true;
-			ebeam.setAIActive(true, {src:src, dir: dir})
 		}
 	}
 

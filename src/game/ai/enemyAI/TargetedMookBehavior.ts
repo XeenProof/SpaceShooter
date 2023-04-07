@@ -34,7 +34,7 @@ export default class TargetedMookBehavior extends BasicEnemyAI {
     }
 
     protected actionPattern():void{
-        this.owner.fireEvent(Events.ENEMY_SHOOTS, {src: this.owner.position, dir: this.faceDir, id: this.owner.id, type: bulletType.ENEMY_BEAM})
+        this.owner.fireEvent(Events.ENEMY_SHOOTS, {src: this.owner.position, dir: this.faceDir, id: this.owner.id, key: bulletType.ENEMY_BEAM})
     }
 
     public update(deltaT: number){
