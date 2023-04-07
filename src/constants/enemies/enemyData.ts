@@ -4,7 +4,8 @@ import { STATS } from "./enemieStats";
 
 export const AllEnemyKeys = {
     COMMON_MOOK: "COMMON_MOOK",
-    TARGETED_MOOK: "TARGETED_MOOK"
+    TARGETED_MOOK: "TARGETED_MOOK",
+    SHIELDED_MOOK: "SHIELDED_MOOK"
 }
 
 export const AllEnemyData = {
@@ -19,6 +20,11 @@ export const AllEnemyData = {
         STATS:STATS.TARGETED_MOOK,
         LOAD: LoadEnemy.TARGETED_MOOK,
         PHYSICS: PhysicGroups.ENEMY
+    },
+    SHIELDED_MOOK:{
+        KEY: AllEnemyKeys.SHIELDED_MOOK,
+        STATS:STATS.SHIELD_MOOK,
+        LOAD: LoadEnemy.SHIELDED_MOOK,
+        PHYSICS: PhysicGroups.ENEMY
     }
-
 }
