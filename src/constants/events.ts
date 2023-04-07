@@ -5,7 +5,14 @@ export const Events = {
      * src: source the shot is coming from
      * dir: direction the shot is going
      * id: id of shooter
-     * type: the type of bullet shot
+     * key: the type of bullet shot
+     * } */
+    PLAYER_SHOOTS:"PLAYER_SHOOTS",
+    /**{
+     * src: source of the shot
+     * dir: direction of the shot
+     * id: id  of the shooter
+     * key: Type of bullet shot
      * } */
 
     /**Set Trigger Calls */

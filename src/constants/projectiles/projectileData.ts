@@ -2,9 +2,17 @@ import { LoadProjectiles } from "../load";
 import { LoadEnemyProjectile } from "../load";
 import { PhysicGroups } from "../physics";
 
-export const AllProjectileKeys = {
+export const PlayerProjectileKeys = {
     BEAM:"BEAM",
+}
+
+export const EnemyProjectileKeys = {
     ENEMY_BEAM: "ENEMY_BEAM"
+}
+
+export const AllProjectileKeys = {
+    ...PlayerProjectileKeys,
+    ...EnemyProjectileKeys
 }
 
 export const AllProjectileData = {

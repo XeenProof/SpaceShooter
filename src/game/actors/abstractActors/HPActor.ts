@@ -13,21 +13,16 @@ import SpawnableActor from "./SpawnableActor";
 
 export default abstract class HPActor extends SpawnableActor implements HealthBarUser {
 
-    /** Give the player a battler compoonent */
     protected battler: Battler;
     protected targetable: TargetableEntity;
+    private _dropRate: number;
+
     private _healthBar: HealthbarHUD;
 
     constructor(sheet: Spritesheet){
         super(sheet);
         this.battler = new BasicBattler(this)
         this.targetable = new BasicTargetable(this)
-    }
-
-    initHealth(hp: number, maxHealth: number = hp, trueMaxHealth:number = maxHealth){
-        this.health = hp;
-        this.maxHealth = maxHealth;
-        this.trueMaxHealth = trueMaxHealth;
     }
 
     get battleGroup(): number {return this.battler.battleGroup;}
@@ -47,6 +42,9 @@ export default abstract class HPActor extends SpawnableActor implements HealthBa
 
     get healthBar(): HealthbarHUD {return this._healthBar;}
     set healthBar(value: HealthbarHUD) {this._healthBar = value;}
+
+    get dropRate(): number {return this._dropRate;}
+    set dropRate(value: number) {this._dropRate = value;}
 
     updateHealthBar(deltaT: number){
         this.healthBar.update(deltaT)

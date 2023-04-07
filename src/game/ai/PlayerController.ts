@@ -12,6 +12,7 @@ import { HW2Events } from "../Events";
 import { Controls } from "../../constants/gameoptions";
 import PlayerActor from "../actors/PlayerActor";
 import { Events } from "../../constants/events";
+import { PlayerProjectileKeys } from "../../constants/projectiles/projectileData";
 
 export const PlayerAnimations = {
     IDLE: "IDLE",
@@ -98,7 +99,12 @@ export default class PlayerController implements AI {
 		// Handle trying to shoot a laser from the submarine
 		if (Input.isMouseJustPressed()) {
 			//this.currentCharge -= 1;
-			this.emitter.fireEvent(HW2Events.SHOOT_LASER, {src: this.owner.position});
+			this.emitter.fireEvent(Events.PLAYER_SHOOTS, {
+				src: this.owner.position,
+				dir: Vec2.UP,
+				key: PlayerProjectileKeys.BEAM,
+				id: this.owner.id
+			});
 		}
 		if(Input.isJustPressed(Controls.SHIELD)){
 			this.owner.activateShield()
