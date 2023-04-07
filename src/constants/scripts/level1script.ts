@@ -1,5 +1,11 @@
 import { AllEnemyKeys, AllEnemyData} from "../enemies/enemyData";
+
 import { recRoute } from "../formations/RectangleForm";
+import { diagonalRoute } from "../formations/DiagonalForm";
+import { TriangleRoute } from "../formations/TriangleForm";
+import { VtypeRoute } from "../formations/VtypeForm";
+import { DiamondRoute } from "../formations/DiamondForm";
+
 import { LoadBackground } from "../load";
 import { AllPlayerData } from "../player/playerData";
 import { AllProjectileKeys, AllProjectileData} from "../projectiles/projectileData";
@@ -22,6 +28,6 @@ export const level1 = {
     },
     SCRIPT: [
         {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-300}},
-        ...generateRoundRobinScriptPart([AllEnemyKeys.SHIELDED_MOOK, AllEnemyKeys.SHIELDED_MOOK], [recRoute.NORMAL, recRoute.REVERSE], 300, 2, 10),
+        ...generateRoundRobinScriptPart([AllEnemyKeys.SHIELDED_MOOK, AllEnemyKeys.SHIELDED_MOOK], [DiamondRoute.NORMAL, DiamondRoute.REVERSE], 300, 2, 10),
     ]
 }
