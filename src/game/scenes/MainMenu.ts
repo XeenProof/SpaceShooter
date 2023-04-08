@@ -22,19 +22,21 @@ import Button from "../../Wolfie2D/Nodes/UIElements/Button";
 const MainMenuLayer = {
     MAIN_MENU: "MAIN_MENU", 
     CONTROLS: "CONTROLS",
-    ABOUT: "ABOUT",
+    HELP: "HELP",
     BACKGROUND: "BACKGROUND",
     CONTROLS_BACKGROUND: "CONTROLS_BACKGROUND",
-    ABOUT_BACKGROUND: "ABOUT_BACKGROUND",
+    HELP_BACKGROUND: "HELP_BACKGROUND",
 } as const
 
 // Events triggered in the main menu
 const MainMenuEvent = {
     PLAY_GAME: "PLAY_GAME",
 	CONTROLS: "CONTROLS",
-	ABOUT: "ABOUT",
+	HELP: "HELP",
+    ONE_SHOOT_KILL: "ONE_SHOOT_KILL",
 	MENU: "MENU",
-    PLAY_RECORDING: "PLAY_RECORDING"
+    PLAY_RECORDING: "PLAY_RECORDING",
+    INVINCIBLE: "INVINCIBLE"
 } as const;
 
 export default class MainMenu extends Scene {
@@ -49,6 +51,9 @@ export default class MainMenu extends Scene {
     // Sprites for the background images
 	protected bg1: Sprite;
 	protected bg2: Sprite;
+
+    protected oneShootKillButton: Button;
+    protected invincibleButton: Button;
 
     public override loadScene(){
         // this.autoloader(LoadAPPLE.APPLE);
@@ -72,8 +77,8 @@ export default class MainMenu extends Scene {
         this.controls.setHidden(true);
         // About screen
 
-        this.about = this.addLayer(MainMenuLayer.ABOUT_BACKGROUND,0);
-        this.about = this.addLayer(MainMenuLayer.ABOUT,1);
+        this.about = this.addLayer(MainMenuLayer.HELP_BACKGROUND,0);
+        this.about = this.addLayer(MainMenuLayer.HELP,1);
         this.about.setHidden(true);
 
         const text = <Label> this.add.uiElement(UIElementType.LABEL, MainMenuLayer.MAIN_MENU, {position: new Vec2(center.x, center.y-200), text: "Main Menu"});
@@ -106,7 +111,7 @@ export default class MainMenu extends Scene {
         about.borderWidth = 2;
         about.borderColor = Color.YELLOW;
         about.backgroundColor = Color.TRANSPARENT;
-        about.onClickEventId = MainMenuEvent.ABOUT;
+        about.onClickEventId = MainMenuEvent.HELP;
 
         // Add play recording button
         // const playRecording = this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.MAIN_MENU, {position: new Vec2(center.x, center.y + 200), text: "Play Recording"});
@@ -154,39 +159,67 @@ export default class MainMenu extends Scene {
         back.backgroundColor = Color.TRANSPARENT;
         back.onClickEventId = MainMenuEvent.MENU;
 
-        this.initBackground(MainMenuLayer.ABOUT_BACKGROUND);
-        const aboutHeader = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.ABOUT, {position: new Vec2(center.x, center.y - 300), text: "HELP"});
-        aboutHeader.textColor = Color.YELLOW;
-        aboutHeader.fontSize = 50;
+        this.initBackground(MainMenuLayer.HELP_BACKGROUND);
+        const helpHeader = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x, center.y - 300), text: "HELP"});
+        helpHeader.textColor = Color.YELLOW;
+        helpHeader.fontSize = 50;
 
         const text1 = "Background: You play as an employee of the '\Galaxy Delivery Service\'  ";
         const text2 = "(GDS for short). One day on your delivery route, aliens, or what you";
         const text3 = "think they are, attack you. You, being too underpaid to care, decide to";
         const text4 = "just finish the run and go home";
+        const text5 = "Developer: Jimmy Lin, Runkai Qiu, Stephen Tang";
 
-        const line1 = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.ABOUT, {position: new Vec2(center.x , center.y - 200), text: text1});
-        const line2 = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.ABOUT, {position: new Vec2(center.x - 25, center.y - 150), text: text2});
-        const line3 = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.ABOUT, {position: new Vec2(center.x - 15, center.y - 100), text: text3});
-        const line4 = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.ABOUT, {position: new Vec2(center.x - 265, center.y - 50), text: text4});
+        const line1 = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x , center.y - 200), text: text1});
+        const line2 = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x - 25, center.y - 150), text: text2});
+        const line3 = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x - 15, center.y - 100), text: text3});
+        const line4 = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x - 265, center.y - 50), text: text4});
+        const line5 = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x - 150, center.y + 50), text: text5});
 
         line1.textColor = Color.YELLOW;
         line2.textColor = Color.YELLOW;
         line3.textColor = Color.YELLOW;
         line4.textColor = Color.YELLOW;
+        line5.textColor = Color.YELLOW;
 
-        const aboutBack = this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.ABOUT, {position: new Vec2(center.x - 400, center.y - 400), text: "Back"});
-        aboutBack.size.set(200, 50);
-        aboutBack.borderWidth = 2;
-        aboutBack.borderColor = Color.YELLOW;
-        aboutBack.backgroundColor = Color.TRANSPARENT;
-        aboutBack.onClickEventId = MainMenuEvent.MENU;
+        const helpBack = this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x - 400, center.y - 400), text: "Back"});
+        helpBack.size.set(200, 50);
+        helpBack.borderWidth = 2;
+        helpBack.borderColor = Color.YELLOW;
+        helpBack.backgroundColor = Color.TRANSPARENT;
+        helpBack.onClickEventId = MainMenuEvent.MENU;
+
+
+        this.oneShootKillButton = <Button> this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x-450, center.y + 300), text: ""});
+        this.oneShootKillButton.size.set(50, 50);
+        this.oneShootKillButton.borderWidth = 2;
+        this.oneShootKillButton.borderColor = Color.YELLOW;
+        this.oneShootKillButton.backgroundColor = Color.TRANSPARENT;
+        this.oneShootKillButton.onClickEventId = MainMenuEvent.ONE_SHOOT_KILL;
+
+        const oneShootKill = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x-200, center.y + 300), text: "One Shoot Kill Enermy"});
+        oneShootKill.textColor = Color.YELLOW;
+        oneShootKill.fontSize = 40;
+
+
+        this.invincibleButton = <Button> this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x-450, center.y + 400), text: ""});
+        this.invincibleButton.size.set(50, 50);
+        this.invincibleButton.borderWidth = 2;
+        this.invincibleButton.borderColor = Color.YELLOW;
+        this.invincibleButton.backgroundColor = Color.TRANSPARENT;
+        this.invincibleButton.onClickEventId = MainMenuEvent.INVINCIBLE;
+
+        const invincible = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x-320, center.y + 400), text: "Invincible"});
+        invincible.textColor = Color.YELLOW;
+        invincible.fontSize = 40;
 
         // Subscribe to the button events
         this.receiver.subscribe(MainMenuEvent.PLAY_GAME);
         this.receiver.subscribe(MainMenuEvent.CONTROLS);
-        this.receiver.subscribe(MainMenuEvent.ABOUT);
+        this.receiver.subscribe(MainMenuEvent.HELP);
         this.receiver.subscribe(MainMenuEvent.MENU);
-        // this.receiver.subscribe(MainMenuEvent.PLAY_RECORDING);
+        this.receiver.subscribe(MainMenuEvent.ONE_SHOOT_KILL);
+        this.receiver.subscribe(MainMenuEvent.INVINCIBLE);
         this.receiver.subscribe("Test")
     }
 
@@ -246,7 +279,7 @@ export default class MainMenu extends Scene {
                 this.mainMenu.setHidden(true);
                 break;
             }
-            case MainMenuEvent.ABOUT: {
+            case MainMenuEvent.HELP: {
                 this.about.setHidden(false);
                 this.mainMenu.setHidden(true);
                 break;
@@ -255,6 +288,24 @@ export default class MainMenu extends Scene {
                 this.mainMenu.setHidden(false);
                 this.controls.setHidden(true);
                 this.about.setHidden(true);
+                break;
+            }
+            case MainMenuEvent.ONE_SHOOT_KILL: {
+                if(this.oneShootKillButton.text==""){
+                    this.oneShootKillButton.text="X"
+                }
+                else{
+                    this.oneShootKillButton.text=""
+                }
+                break;
+            }
+            case MainMenuEvent.INVINCIBLE: {
+                if(this.invincibleButton.text==""){
+                    this.invincibleButton.text="X"
+                }
+                else{
+                    this.invincibleButton.text=""
+                }
                 break;
             }
             case "Test":{

@@ -94,7 +94,7 @@ export default class WelcomeScence extends Scene {
 
     protected initBackground(): void {
 		this.bg1 = this.add.sprite(this.BACKGROUND.KEY, WelcomeLayer.WELCOME);
-		this.bg1.scale.set(this.BACKGROUND.SCALE.X, this.BACKGROUND.SCALE.Y);
+		this.bg1.scale.set(this.BACKGROUND.SCALE.X, this.BACKGROUND.SCALE.Y*1.1);
 		this.bg1.position.copy(this.viewport.getCenter());
 	}
 
