@@ -18,6 +18,18 @@ export default class RandUtils {
     private static _seed: string | undefined;
     private static _rand: () => number;
 
+    static randomInt(v1: number, v2: number = 0):number{
+        if(v1 == v2) return v1;
+        let min = Math.min(v1, v2)
+        let max = Math.max(v1, v2)
+        let range = max-min+1;
+        return Math.floor(min+(this.random()*range))
+    }
+
+    static randomChance(chance: number):boolean{
+        return (this.random()<=chance)
+    }
+
     /**
      * The random function for Wolfie2D. The random() method generates a random number using 
      * the function exported seed-random. This function does the exact same thing that 
