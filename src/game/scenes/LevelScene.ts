@@ -67,6 +67,7 @@ export default class LevelScene extends BaseScene {
 	}
 
 	protected handleEvent(event: GameEvent){
+		super.handleEvent(event);
 		switch(event.type) {
 			case Events.PLAYER_SHOOTS: {
 				this.handleAttack(event.data.record)
