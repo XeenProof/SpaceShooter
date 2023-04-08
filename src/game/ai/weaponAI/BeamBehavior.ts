@@ -33,7 +33,7 @@ export default class BeamBehavior extends MovementAI {
         this.initialize(enemyStates.IDLE)
     }
     public handleEvent(event: GameEvent): void {
-        // console.log(event, this.owner.id)
+        console.log("handle beam ai")
         switch(event.type){
             case Events.WEAPON_PLAYER_COLLISION:
             case Events.WEAPON_ENEMY_COLLISION:{
@@ -45,6 +45,7 @@ export default class BeamBehavior extends MovementAI {
     public update(deltaT: number): void {
         if(!this.owner.visible){return;}
         this.owner.attemptDespawn();
+        if(!this.owner.visible){return;}
         while(this.receiver.hasNextEvent()){
             this.handleEvent(this.receiver.getNextEvent());
         }

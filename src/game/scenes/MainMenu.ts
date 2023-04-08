@@ -16,6 +16,8 @@ import LevelScene from "./LevelScene";
 import ScriptScene from "./ScriptScene";
 import { level1 } from "../../constants/scripts/level1script";
 import Button from "../../Wolfie2D/Nodes/UIElements/Button";
+import CheatCodes from "../../utils/Singletons/CheatCodes";
+import { cheats } from "../../constants/gameoptions";
 
 
 // Layers in the main menu
@@ -291,6 +293,7 @@ export default class MainMenu extends Scene {
                 break;
             }
             case MainMenuEvent.ONE_SHOOT_KILL: {
+                CheatCodes.triggerCheat(cheats.OHKO)
                 if(this.oneShootKillButton.text==""){
                     this.oneShootKillButton.text="X"
                 }
@@ -300,6 +303,7 @@ export default class MainMenu extends Scene {
                 break;
             }
             case MainMenuEvent.INVINCIBLE: {
+                CheatCodes.triggerCheat(cheats.INVINSIBLE)
                 if(this.invincibleButton.text==""){
                     this.invincibleButton.text="X"
                 }

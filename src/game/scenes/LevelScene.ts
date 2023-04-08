@@ -60,7 +60,6 @@ export const HW2Layers = {
 export default class LevelScene extends BaseScene {
 
 	public override initScene(options: Record<string, any>): void {
-		this.cheatcodes = options.cheatcodes?options.cheatcodes:{}
 	}
 
 	/**

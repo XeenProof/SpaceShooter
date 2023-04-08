@@ -4,7 +4,8 @@ import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
 import Scene from "../../Wolfie2D/Scene/Scene";
 import Timer from "../../Wolfie2D/Timing/Timer";
-import { CheatCodes } from "../../constants/gameoptions";
+import { cheats } from "../../constants/gameoptions";
+import CheatCodes from "../../utils/Singletons/CheatCodes";
 import BasicTargetable from "../../utils/Targeting/BasicTargetable";
 import { TargetableEntity } from "../../utils/Targeting/TargetableEntity";
 import { TargetingEntity } from "../../utils/Targeting/TargetingEntity";
@@ -70,12 +71,15 @@ export default class PlayerActor extends HPActor{
     }
 
     takeDamage(damage: number, options:Record<string, any> = {}): boolean {
-        console.log(this.scene.getCheat(CheatCodes.INVINSIBLE));
-        let received = super.takeDamage((this.scene.getCheat(CheatCodes.INVINSIBLE))?0:damage)
+        console.log("owner taking damage start")
+        console.log(CheatCodes.getCheat(cheats.INVINSIBLE));
+        console.log("owner taking damage test")
+        let received = super.takeDamage(CheatCodes.getCheat(cheats.INVINSIBLE)?0:damage)
         if(!received){return false}
         this.animation.playIfNotAlready(animations.TAKING_DAMAGE)
         this.iTimer.reset()
         this.iTimer.start()
+        console.log("owner taaking damage end")
         return true;
     }
 

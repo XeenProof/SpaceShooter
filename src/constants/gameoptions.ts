@@ -23,7 +23,7 @@ export const Inputs = [
     {name:Controls.PAUSE, keys: ['esc']}
 ]
 
-export const CheatCodes = {
+export const cheats = {
     INVINSIBLE: "INVINSIBLE",
     OHKO: "OHKO"
 }
