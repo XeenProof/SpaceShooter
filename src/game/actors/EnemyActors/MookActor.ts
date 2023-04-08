@@ -28,7 +28,6 @@ export default class MookActor extends HPActor{
     despawn(): void {
         console.log("Mook despawned")
         super.despawn()
-
     }
 
     takeDamage(damage: number): boolean {

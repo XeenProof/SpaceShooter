@@ -13,6 +13,10 @@ import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import MainMenu from "./MainMenu";
 import SelectionScence from "./SelectionScene";
 import Button from "../../Wolfie2D/Nodes/UIElements/Button";
+import Viewport from "../../Wolfie2D/SceneGraph/Viewport";
+import SceneManager from "../../Wolfie2D/Scene/SceneManager";
+import RenderingManager from "../../Wolfie2D/Rendering/RenderingManager";
+import CheatCodes from "../../utils/Singletons/CheatCodes";
 
 // Layers in the main menu
 const WelcomeLayer = {
@@ -30,6 +34,13 @@ export default class WelcomeScence extends Scene {
     private welcome: Layer;
     private ui: Layer;
     
+    constructor(viewport: Viewport, sceneManager: SceneManager, renderingManager: RenderingManager, options: Record<string, any>){
+        super(viewport, sceneManager, renderingManager, options);
+        let defaultCheats:string[] = options.cheats?options.cheats:[]
+        for(let cheat of defaultCheats){
+            CheatCodes.triggerCheat(cheat)
+        }
+    }
 
     protected BACKGROUND: LoadData;
     // Sprites for the background images

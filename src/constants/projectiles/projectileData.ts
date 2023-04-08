@@ -18,7 +18,7 @@ export const AllProjectileKeys = {
 export const AllProjectileData = {
     BEAM:{
         KEY: AllProjectileKeys.BEAM,
-        DAMAGE: 200,
+        DAMAGE: 2,
         SPEED: 500,
         LOAD:[LoadProjectiles.BEAM],
         PHYSICS: PhysicGroups.PLAYER_WEAPON

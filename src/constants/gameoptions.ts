@@ -22,3 +22,8 @@ export const Inputs = [
     {name:Controls.BOOST, keys: ['r']},
     {name:Controls.PAUSE, keys: ['esc']}
 ]
+
+export const cheats = {
+    INVINSIBLE: "INVINSIBLE",
+    OHKO: "OHKO"
+}

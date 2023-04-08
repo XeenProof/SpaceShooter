@@ -127,19 +127,16 @@ export default class PlayerController implements AI {
 	 */
 	public handleEvent(event: GameEvent): void {
 		switch(event.type) {
-			case HW2Events.SHOOT_LASER: {
-				break;
-			}
-			case HW2Events.DEAD:{
-				this.handlePlayerDeath();
-				break;
-			}
 			case Events.PLAYER_ENEMY_COLLISION:{
 				this.handleRamDamage(event.data.get("node"));
 				break;
 			}
 			case Events.WEAPON_PLAYER_COLLISION:{
 				this.handleDamage(event.data.get("other"))
+				break;
+			}
+			case Events.PLAYER_ENEMY_COLLISION:{
+				this.handleScrapPickup()
 				break;
 			}
 			default: {
@@ -171,9 +168,12 @@ export default class PlayerController implements AI {
 	protected handleDamage(shotid:number):void {
 		if(this.owner.shielded){return;}
 		let bullet = this.owner.getScene().getEnemyShot(shotid)
-        //if(!bullet.visible){return;}
         let damage = this.owner.getScene().getDamage(bullet.damage_key)
 		this.owner.takeDamage(damage)
+	}
+
+	protected handleScrapPickup():void{
+		console.log("WIP: Player picked up scrap")
 	}
 } 
 

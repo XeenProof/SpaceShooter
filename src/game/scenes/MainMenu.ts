@@ -16,6 +16,8 @@ import LevelScene from "./LevelScene";
 import ScriptScene from "./ScriptScene";
 import { level1 } from "../../constants/scripts/level1script";
 import Button from "../../Wolfie2D/Nodes/UIElements/Button";
+import CheatCodes from "../../utils/Singletons/CheatCodes";
+import { cheats } from "../../constants/gameoptions";
 
 
 // Layers in the main menu
@@ -196,6 +198,7 @@ export default class MainMenu extends Scene {
         this.oneShootKillButton.borderColor = Color.YELLOW;
         this.oneShootKillButton.backgroundColor = Color.TRANSPARENT;
         this.oneShootKillButton.onClickEventId = MainMenuEvent.ONE_SHOOT_KILL;
+        this.oneShootKillButton.text = CheatCodes.getCheat(cheats.OHKO)?"X":""
 
         const oneShootKill = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x-200, center.y + 300), text: "One Shoot Kill Enermy"});
         oneShootKill.textColor = Color.YELLOW;
@@ -208,6 +211,7 @@ export default class MainMenu extends Scene {
         this.invincibleButton.borderColor = Color.YELLOW;
         this.invincibleButton.backgroundColor = Color.TRANSPARENT;
         this.invincibleButton.onClickEventId = MainMenuEvent.INVINCIBLE;
+        this.invincibleButton.text = CheatCodes.getCheat(cheats.INVINSIBLE)?"X":""
 
         const invincible = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x-320, center.y + 400), text: "Invincible"});
         invincible.textColor = Color.YELLOW;
@@ -291,6 +295,7 @@ export default class MainMenu extends Scene {
                 break;
             }
             case MainMenuEvent.ONE_SHOOT_KILL: {
+                CheatCodes.triggerCheat(cheats.OHKO)
                 if(this.oneShootKillButton.text==""){
                     this.oneShootKillButton.text="X"
                 }
@@ -300,6 +305,7 @@ export default class MainMenu extends Scene {
                 break;
             }
             case MainMenuEvent.INVINCIBLE: {
+                CheatCodes.triggerCheat(cheats.INVINSIBLE)
                 if(this.invincibleButton.text==""){
                     this.invincibleButton.text="X"
                 }

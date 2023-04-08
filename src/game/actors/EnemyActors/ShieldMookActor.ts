@@ -24,6 +24,8 @@ export default class ShieldMookActor extends MookActor{
         return (this.shielded)?this.shield.health:super.ramDamage
     }
 
+    public get OHKODamage(): number{return this.shield.maxHealth + super.OHKODamage}
+
     public takeDamage(damage: number): boolean {
         let shieldDamage = Math.min(damage, (this.shielded)?this.shield.health:0)
         if(this.shield.health <= 0){this.shield.deactivateShield()}
