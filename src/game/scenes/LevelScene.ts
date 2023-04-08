@@ -90,6 +90,7 @@ export default class LevelScene extends BaseScene {
 
     protected initfunc(initdata: Record<string, any>): void {
         let {DATA, AMMOUNT} = initdata
+		console.log("initalizing...", DATA.KEY)
         let KEY = DATA.KEY
         let func = ()=>{return initfuncs[KEY](this.add, this)}
         if(DATA.PHYSICS == PhysicGroups.PLAYER_WEAPON || DATA.PHYSICS == PhysicGroups.ENEMY_WEAPON){

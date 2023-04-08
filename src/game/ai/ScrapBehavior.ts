@@ -15,6 +15,7 @@ export default class ScrapBehavior extends MovementAI{
         this.receiver.subscribe(Events.TRAVEL_SPEED_CHANGE)
     }
     activate(options: Record<string, any>): void {
+        //this.owner.position.copy(options.src)
         this.speed = (options.speed)?options.speed:this.speed
     }
     update(deltaT: number): void {

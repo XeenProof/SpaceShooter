@@ -9,13 +9,14 @@ import BasicTargetable from "../../../utils/Targeting/BasicTargetable";
 import { TargetableEntity } from "../../../utils/Targeting/TargetableEntity";
 import { TargetingEntity } from "../../../utils/Targeting/TargetingEntity";
 import SpawnableActor from "./SpawnableActor";
+import RandUtils from "../../../Wolfie2D/Utils/RandUtils";
 
 
 export default abstract class HPActor extends SpawnableActor implements HealthBarUser {
 
     protected battler: Battler;
     protected targetable: TargetableEntity;
-    private _dropRate: number;
+    private _dropRate: number = 0;
 
     private _healthBar: HealthbarHUD;
 
@@ -66,7 +67,7 @@ export default abstract class HPActor extends SpawnableActor implements HealthBa
     }
 
     dying(): void{
-        console.log("dying")
+        //console.log("dying", RandUtils.random())
         this.despawn()
     }
 

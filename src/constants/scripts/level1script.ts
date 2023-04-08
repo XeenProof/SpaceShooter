@@ -19,14 +19,14 @@ export const level1 = {
         BACKGROUND: LoadBackground.SPACE,
         PLAYER: AllPlayerData.PLAYER_V1.LOAD,
         OTHERS: [
-            {DATA: AllItemData.SCRAP, AMMOUNT: 20},
-
             {DATA: AllProjectileData.ENEMY_BEAM, AMMOUNT: 20},
             {DATA: AllProjectileData.BEAM, AMMOUNT: 20},
 
             {DATA: AllEnemyData.COMMON_MOOK, AMMOUNT: 20},
             {DATA: AllEnemyData.TARGETED_MOOK, AMMOUNT: 20},
-            {DATA: AllEnemyData.SHIELDED_MOOK, AMMOUNT: 20}
+            {DATA: AllEnemyData.SHIELDED_MOOK, AMMOUNT: 20},
+
+            {DATA: AllItemData.SCRAP, AMMOUNT: 20},
         ]
     },
     SCRIPT: [

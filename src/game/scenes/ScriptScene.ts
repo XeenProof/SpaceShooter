@@ -73,7 +73,7 @@ export default class ScriptScene extends LevelScene{
     }
 
     protected handleScript(node: ScriptNode){
-        //console.log(node, this.timePassed)
+        console.log("Performing...", node.type)
         switch(node.type){
             case Script_Type.UPDATE_TRAVEL_SPEED:{
                 this.handleBackgroundSpeedUpdate(node.options)
@@ -85,7 +85,6 @@ export default class ScriptScene extends LevelScene{
                 break;
             }
             case Script_Type.WAIT:{
-                console.log("wait")
                 this.handleWait(node.options)
                 break;
             }
