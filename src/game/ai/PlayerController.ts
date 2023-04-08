@@ -87,7 +87,6 @@ export default class PlayerController implements AI {
 	 * @param deltaT - the amount of time that has passed since the last update
 	 */
 	public update(deltaT: number): void {
-		console.log("player update")
         // First, handle all events 
 		while(this.receiver.hasNextEvent()){
 			this.handleEvent(this.receiver.getNextEvent());
@@ -134,7 +133,6 @@ export default class PlayerController implements AI {
 			}
 			case Events.WEAPON_PLAYER_COLLISION:{
 				this.handleDamage(event.data.get("other"))
-				console.log("after weapon collision")
 				break;
 			}
 			case Events.PLAYER_ENEMY_COLLISION:{
@@ -168,14 +166,10 @@ export default class PlayerController implements AI {
     }
 
 	protected handleDamage(shotid:number):void {
-		console.log("handle damage")
 		if(this.owner.shielded){return;}
 		let bullet = this.owner.getScene().getEnemyShot(shotid)
-        //if(!bullet.visible){return;}
         let damage = this.owner.getScene().getDamage(bullet.damage_key)
-		console.log("before owner takes damage")
 		this.owner.takeDamage(damage)
-		console.log("end damage")
 	}
 
 	protected handleScrapPickup():void{

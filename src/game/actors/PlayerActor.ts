@@ -71,15 +71,12 @@ export default class PlayerActor extends HPActor{
     }
 
     takeDamage(damage: number, options:Record<string, any> = {}): boolean {
-        console.log("owner taking damage start")
         console.log(CheatCodes.getCheat(cheats.INVINSIBLE));
-        console.log("owner taking damage test")
         let received = super.takeDamage(CheatCodes.getCheat(cheats.INVINSIBLE)?0:damage)
         if(!received){return false}
         this.animation.playIfNotAlready(animations.TAKING_DAMAGE)
         this.iTimer.reset()
         this.iTimer.start()
-        console.log("owner taaking damage end")
         return true;
     }
 

@@ -33,7 +33,6 @@ export default class BeamBehavior extends MovementAI {
         this.initialize(enemyStates.IDLE)
     }
     public handleEvent(event: GameEvent): void {
-        console.log("handle beam ai")
         switch(event.type){
             case Events.WEAPON_PLAYER_COLLISION:
             case Events.WEAPON_ENEMY_COLLISION:{
