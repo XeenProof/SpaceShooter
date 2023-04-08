@@ -80,7 +80,6 @@ export default class ScriptScene extends LevelScene{
                 break;
             }
             case Script_Type.SPAWN:{
-                //console.log("spawned")
                 this.handleSpawnEnemy(node.options)
                 break;
             }
@@ -92,7 +91,6 @@ export default class ScriptScene extends LevelScene{
     }
 
     protected handleSpawnEnemy(options: Record<string, any>):void{
-        console.log(options)
         let mook:CanvasNode = this.entities.getEntity(options.enemyType)
 		if(mook){
 			mook.visible = true;
@@ -107,7 +105,6 @@ export default class ScriptScene extends LevelScene{
     }
 
     protected handleWait(options: Record<string, number>){
-        console.log(options)
         let {wait_time} = options
         this.wait = true;
         if(this.timer.isActive()){this.timer.pause()}
