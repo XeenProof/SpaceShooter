@@ -14,6 +14,7 @@ import MainMenu from "./MainMenu";
 import Button from "../../Wolfie2D/Nodes/UIElements/Button";
 import ScriptScene from "./ScriptScene";
 import { level1 } from "../../constants/scripts/level1script";
+import { CheatCodes } from "../../constants/gameoptions";
 
 // Layers in the main menu
 const SelectionLayer = {
@@ -246,7 +247,7 @@ export default class SelectionScence extends Scene {
     protected handleEvent(event: GameEvent): void {
         switch(event.type) {
             case SelectionEvent.LEVEL_ONE: {
-                this.sceneManager.changeToScene(ScriptScene, {levelData: level1});
+                this.sceneManager.changeToScene(ScriptScene, {levelData: level1, cheatCodes: {INVINSIBLE: true}});
                 break;
             }
             case SelectionEvent.BACK: {

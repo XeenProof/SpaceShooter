@@ -48,6 +48,8 @@ export default abstract class HPActor extends SpawnableActor implements HealthBa
     get dropRate(): number {return this._dropRate;}
     set dropRate(value: number) {this._dropRate = value;}
 
+    get OHKODamage(): number{return this.maxHealth}
+
     updateHealthBar(deltaT: number){
         this.healthBar.update(deltaT)
     }

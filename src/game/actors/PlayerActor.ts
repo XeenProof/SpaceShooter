@@ -4,6 +4,7 @@ import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
 import Scene from "../../Wolfie2D/Scene/Scene";
 import Timer from "../../Wolfie2D/Timing/Timer";
+import { CheatCodes } from "../../constants/gameoptions";
 import BasicTargetable from "../../utils/Targeting/BasicTargetable";
 import { TargetableEntity } from "../../utils/Targeting/TargetableEntity";
 import { TargetingEntity } from "../../utils/Targeting/TargetingEntity";
@@ -26,6 +27,7 @@ export default class PlayerActor extends HPActor{
     //private iframe:boolean = false
     private iTimer:Timer = new Timer(500, ()=>{this.handleIframeEnds()}, false);
 
+    /**The booster and all it's related functions */
     private _booster: AnimatedSprite;
     private _boosted: boolean = false;
     private boostTimer: Timer;
@@ -34,19 +36,28 @@ export default class PlayerActor extends HPActor{
     public get boosted(): boolean {return this._boosted;}
     private set boosted(value: boolean) {this._boosted = value;}
 
+    /**The shield and all it's related functions */
     private _shield: Sprite;
     private shieldTimer: Timer;
     public get shield(): Sprite {return this._shield;}
     public set shield(value: Sprite) {this._shield = value;}
     public get shielded(): boolean {return (this.shield)?this.shield.visible:false}
 
+    /**The current speed and all it's related functions */
     private _currentSpeed: number;
     public get currentSpeed(): number {return this._currentSpeed*((this.boosted)?2:1);}
     public set currentSpeed(value: number) {this._currentSpeed = value;}
 
+    /**The scrap cost and all it's related functions */
+    private _scrap: number;
+    public get scrap(): number {return this._scrap;}
+    public set scrap(value: number) {this._scrap = value;}
+    public collectedScrap(value: number):void{this.scrap+=value}
+    public usedScrap(value: number):void{this.scrap-=value}
+    public canAfford(cost: number):boolean{return this.scrap >= cost}
+
     public constructor(sheet: Spritesheet){
         super(sheet)
-        console.log("player ", this.id)
     }
 
     spawn(options: Record<string, any> = {}): void {
@@ -59,8 +70,8 @@ export default class PlayerActor extends HPActor{
     }
 
     takeDamage(damage: number, options:Record<string, any> = {}): boolean {
-        //if(this.iframe){return;}
-        let received = super.takeDamage(0)
+        console.log(this.scene.getCheat(CheatCodes.INVINSIBLE));
+        let received = super.takeDamage((this.scene.getCheat(CheatCodes.INVINSIBLE))?0:damage)
         if(!received){return false}
         this.animation.playIfNotAlready(animations.TAKING_DAMAGE)
         this.iTimer.reset()

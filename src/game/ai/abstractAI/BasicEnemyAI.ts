@@ -7,6 +7,7 @@ import Timer from "../../../Wolfie2D/Timing/Timer";
 import { bulletType } from "../../../constants/bulletTypes";
 import { enemyStates } from "../../../constants/enemies/enemyAnimations";
 import { Events } from "../../../constants/events";
+import { CheatCodes } from "../../../constants/gameoptions";
 import PathQueue from "../../../utils/Pathing/PathQueue";
 import { TargetableEntity } from "../../../utils/Targeting/TargetableEntity";
 import MookActor from "../../actors/EnemyActors/MookActor";
@@ -117,7 +118,7 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
 
     protected OwnerTakeDamage(damage:number){
         if(this.isState(enemyStates.DEAD)){return;}
-        let receivedDamage = this.owner.takeDamage(damage)
+        let receivedDamage = this.owner.takeDamage((this.owner.getScene().getCheat(CheatCodes.OHKO))?this.owner.OHKODamage:damage)
         if(receivedDamage){this.changeState(enemyStates.TAKING_DAMAGE)}
     }
 
