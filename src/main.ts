@@ -15,7 +15,7 @@ import { Inputs } from "./constants/gameoptions";
         clearColor: {r: 0.1, g: 0.1, b: 0.1},   // The color the game clears to
         inputs: Inputs,
         useWebGL: false,                        // Tell the game We hate Webgl
-        showDebug: false                       // Whether to show debug messages. You can change this to true if you want
+        showDebug: true                       // Whether to show debug messages. You can change this to true if you want
     }
     // We have a custom shader, so lets add it to the registry and preload it
     // The registry essentially just ensures that we can locate items by name later, rather than needing

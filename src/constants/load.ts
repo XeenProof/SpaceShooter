@@ -47,7 +47,7 @@ export const LoadBackground = {
 } as const
 
 export const LoadItem = {
-    SCRAP: {...Loads.SCRAP, SCALE:{X:1, Y:1}}
+    SCRAP: {...Loads.SCRAP, SCALE:{X:1.5, Y:1.5}}
 }
 
 export const LoadWelcome = {

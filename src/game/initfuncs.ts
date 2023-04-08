@@ -39,10 +39,11 @@ function initScrapFunc(add: FactoryManager, scene: ActorScene):Sprite{
     let {X, Y} = info.LOAD[0].SCALE
     let item = add.sprite(info.LOAD[0].KEY, Layers.PRIMARY)
     item.scale.set(X,Y)
+    item.position.set(1200,1200)
     item.addAI(ScrapBehavior, {speed: scene.TravelSpeed})
     item.addPhysics();
     item.setGroup(PhysicGroups.DROPS)
-    //item.setTrigger(PhysicGroups.PLAYER, Events.PLAYER_SCRAP_COLLISION, null)
+    item.setTrigger(PhysicGroups.PLAYER, Events.PLAYER_SCRAP_COLLISION, null)
     item.visible = false;
     return item;
 }
@@ -50,6 +51,7 @@ function initScrapFunc(add: FactoryManager, scene: ActorScene):Sprite{
 function initEnemyBeamFunc(add: FactoryManager, scene:ActorScene):BeamActor{
     let info = AllProjectileData.ENEMY_BEAM
     let entity = add.animatedSprite(BeamActor, info.LOAD[0].KEY, Layers.PRIMARY)
+    entity.position.set(1200,1200)
     entity.damage_key = info.KEY
     entity.setScene(scene)
     entity.visible = false;
@@ -63,6 +65,7 @@ function initEnemyBeamFunc(add: FactoryManager, scene:ActorScene):BeamActor{
 function initBeamFunc(add: FactoryManager, scene:ActorScene):BeamActor{
     let info = AllProjectileData.BEAM
     let entity = add.animatedSprite(BeamActor, info.LOAD[0].KEY, Layers.PRIMARY)
+    entity.position.set(1200,1200)
     entity.damage_key = info.KEY
     entity.setScene(scene)
     entity.visible = false;
@@ -78,6 +81,7 @@ function initCommomMookFunc(add: FactoryManager, scene: ActorScene):MookActor{
     let {X, Y} = info.LOAD[0].SCALE
     let entity = add.animatedSprite(MookActor, info.LOAD[0].KEY, Layers.PRIMARY)
     let healthBar = new HealthbarHUD(scene, entity, Layers.HEALTHBARS, {size: new Vec2(entity.size.x, 5), offset: entity.size.clone().scaled(0, -1/2)})
+    entity.position.set(1200,1200)
     entity.healthBar = healthBar;
     entity.setScene(scene)
     entity.visible = false;
@@ -95,6 +99,7 @@ function initTargetedMookFunc(add: FactoryManager, scene: ActorScene):TargetedMo
     let {X, Y} = info.LOAD[0].SCALE
     let entity = add.animatedSprite(TargetedMookActor, info.LOAD[0].KEY, Layers.PRIMARY)
     let healthBar = new HealthbarHUD(scene, entity, Layers.HEALTHBARS, {size: new Vec2(entity.size.x, 5), offset: entity.size.clone().scaled(0, -1/2)})
+    entity.position.set(1200,1200)
     entity.healthBar = healthBar;
     entity.setScene(scene)
     entity.visible = false;
@@ -118,6 +123,7 @@ function initShieldedMookFunc(add: FactoryManager, scene: ActorScene):ShieldMook
     entity.setScene(scene)
     entity.visible = false
     entity.scale.set(X, Y);
+    entity.position.set(1200,1200)
 
     let shieldSprite = add.sprite(info.LOAD[1].KEY, Layers.PRIMARY)
     shieldSprite.scale.set(info.LOAD[1].SCALE.X, info.LOAD[1].SCALE.Y);
