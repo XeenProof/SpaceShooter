@@ -173,7 +173,7 @@ export default class PlayerController implements AI {
 	}
 
 	protected handleScrapPickup():void{
-		
+		console.log("WIP: Player picked up scrap")
 	}
 } 
 
