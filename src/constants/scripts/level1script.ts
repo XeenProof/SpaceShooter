@@ -6,11 +6,12 @@ import { TriangleRoute } from "../formations/TriangleForm";
 import { VtypeRoute } from "../formations/VtypeForm";
 import { DiamondRoute } from "../formations/DiamondForm";
 
-import { LoadBackground } from "../load";
+import { LoadBackground} from "../load";
 import { AllPlayerData } from "../player/playerData";
 import { AllProjectileKeys, AllProjectileData} from "../projectiles/projectileData";
 import { generateRoundRobinScriptPart } from "./scriptGenerator";
 import { Script_Type } from "./scriptTypes";
+import { AllItemData } from "../items/itemData";
 
 export const level1 = {
     NAME: "Level 1",
@@ -18,6 +19,8 @@ export const level1 = {
         BACKGROUND: LoadBackground.SPACE,
         PLAYER: AllPlayerData.PLAYER_V1.LOAD,
         OTHERS: [
+            {DATA: AllItemData.SCRAP, AMMOUNT: 20},
+
             {DATA: AllProjectileData.ENEMY_BEAM, AMMOUNT: 20},
             {DATA: AllProjectileData.BEAM, AMMOUNT: 20},
 

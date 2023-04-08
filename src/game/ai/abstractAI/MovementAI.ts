@@ -11,7 +11,7 @@ import SpawnableActor from "../../actors/abstractActors/SpawnableActor";
 import DespawnAI from "./DespawnAI";
 
 
-export default abstract class MovementAI extends DespawnAI {
+export default abstract class MovementAI extends StateMachineAI {
     protected owner: GameNode;
     /**The direction the target is moving in */
     private _dir: Vec2 = null;

@@ -12,7 +12,7 @@ export const EnemyProjectileKeys = {
 
 export const AllProjectileKeys = {
     ...PlayerProjectileKeys,
-    ...EnemyProjectileKeys
+    ...EnemyProjectileKeys,
 }
 
 export const AllProjectileData = {

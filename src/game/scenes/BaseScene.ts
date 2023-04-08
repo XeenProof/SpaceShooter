@@ -113,17 +113,6 @@ export default class BaseScene extends ActorScene{
 	public override initScene(options: Record<string, any>): void {
 
 	}
-	/**
-	 * @see Scene.loadScene()
-	 */
-	public override loadScene(){
-		// These Loaders are fine
-		this.loadPlayer(LoadPlayer.PLAYER);
-		this.autoloader(LoadPlayer.FLAMES);
-		this.autoloader(LoadPlayer.SHIELD)
-
-		this.loadBackground(LoadBackground.SPACE);
-	}
 
 	protected loadList(list:LoadData[]){
 		for(let data of list){this.autoloader(data);}
@@ -132,10 +121,6 @@ export default class BaseScene extends ActorScene{
 	protected loadBackground(data: LoadData){
 		this.autoloader(data)
 		this.BACKGROUND = data;
-	}
-
-	protected loadPlayer(data: LoadData){
-		this.autoloader(data)
 	}
 
 	protected autoloader (data: LoadData) {
@@ -166,19 +151,17 @@ export default class BaseScene extends ActorScene{
 		// Subscribe to laser events
 		this.receiver.subscribe(Events.PLAYER_SHOOTS);
 		this.receiver.subscribe(Events.ENEMY_SHOOTS);
-
 	}
 	/**
 	 * @see Scene.updateScene 
 	 */
 	public override updateScene(deltaT: number){
+		super.updateScene(deltaT)
 		this.timePassed += deltaT;
 		// Handle events
 		while (this.receiver.hasNextEvent()) {
 			this.handleEvent(this.receiver.getNextEvent());
 		}
-		
-		// Move the backgrounds
 		this.moveBackgrounds(deltaT);
 		this.lockPlayer(this.player, this.viewport.getCenter(), this.viewport.getHalfSize())
 	}
@@ -295,20 +278,20 @@ export default class BaseScene extends ActorScene{
      * progresses. When one background is moved completely offscreen at the bottom, it will get moved back to the top to 
      * continue the cycle.
 	 */
-		protected moveBackgrounds(deltaT: number): void {
-			let move = this.backgroundSpeed;
-			this.bg1.position.sub(move.clone().scaled(deltaT));
-			this.bg2.position.sub(move.clone().scaled(deltaT));
-	
-			let edgePos = this.viewport.getCenter().clone().add(this.bg1.sizeWithZoom.clone().scale(0, 2));
-	
-			if (this.bg1.position.y >= edgePos.y){
-				this.bg1.position = this.viewport.getCenter().clone().add(this.bg1.sizeWithZoom.clone().scale(0, -2))
-			}
-			if (this.bg2.position.y >= edgePos.y){
-				this.bg2.position = this.viewport.getCenter().clone().add(this.bg2.sizeWithZoom.clone().scale(0, -2))
-			}
+	protected moveBackgrounds(deltaT: number): void {
+		let move = this.backgroundSpeed;
+		this.bg1.position.sub(move.clone().scaled(deltaT));
+		this.bg2.position.sub(move.clone().scaled(deltaT));
+
+		let edgePos = this.viewport.getCenter().clone().add(this.bg1.sizeWithZoom.clone().scale(0, 2));
+
+		if (this.bg1.position.y >= edgePos.y){
+			this.bg1.position = this.viewport.getCenter().clone().add(this.bg1.sizeWithZoom.clone().scale(0, -2))
 		}
+		if (this.bg2.position.y >= edgePos.y){
+			this.bg2.position = this.viewport.getCenter().clone().add(this.bg2.sizeWithZoom.clone().scale(0, -2))
+		}
+	}
 
 	/** 
 	 * This method initializes the player.
@@ -357,47 +340,29 @@ export default class BaseScene extends ActorScene{
 		this.player.spawn({})
 	}
 
-	// protected initObjectPools(): void {
-	// 	this.initBeams();
-	// 	this.initEnemyBeam();
-	// }
+	protected lockPlayer(player: CanvasNode, viewportCenter: Vec2, viewportHalfSize: Vec2): void {
+		let left = GAMEPLAY_DIMENTIONS.XSTART;
+		let right = GAMEPLAY_DIMENTIONS.XEND;
+		let top = GAMEPLAY_DIMENTIONS.YSTART;
+		let bottom = GAMEPLAY_DIMENTIONS.YEND;
+		if(player.boundary.center.x-player.boundary.halfSize.x<left){player.position.x = left+player.boundary.halfSize.x;}
+		if(player.boundary.center.x+player.boundary.halfSize.x>right){player.position.x = right-player.boundary.halfSize.x;}
+		if(player.boundary.center.y-player.boundary.halfSize.y<top){player.position.y = top+player.boundary.halfSize.y;}
+		if(player.boundary.center.y+player.boundary.halfSize.y>bottom){player.position.y = bottom-player.boundary.halfSize.y;}
+	}
 
-	// protected initEnemyBeam(c:number = 20):void{
-	// 	let info = AllProjectileData.ENEMY_BEAM
-	// 	this.damages.set(info.KEY, info.DAMAGE)
-	// 	let func = () => {
-	// 		let entity = this.add.animatedSprite(BeamActor, info.LOAD[0].KEY, Layers.PRIMARY)
-	// 		entity.damage_key = info.KEY
-	// 		entity.setScene(this)
-	// 		entity.visible = false;
+	public set player(value: PlayerActor) {this._player = value;}
 
-	// 		entity.addAI(BeamAI, {pos: Vec2.ZERO, dir: Vec2.DOWN})
-	// 		entity.addPhysics();
-	// 		entity.setGroup(PhysicGroups.ENEMY_WEAPON)
-	// 		entity.setTrigger(PhysicGroups.PLAYER, Events.WEAPON_PLAYER_COLLISION, null)
-	// 		return entity;
-	// 	}
-	// 	this.entities.initEntity(info.KEY, c, func, info)
-	// }
+	/**Abstracted */
+	public get player(): PlayerActor {return this._player;}
+	public get isScreenCleared(): boolean {return this.entities.countInUse((x)=>{return x.PHYSICS == PhysicGroups.ENEMY}) <= 0}
+	public get TravelSpeed():Vec2 {return this.backgroundSpeed}
+	public getEnemy(id: number): HPActor {return <HPActor>this.entities.getEntityById(id, PhysicGroups.ENEMY)}
+	public getShot(id: number): DamageActor {return <DamageActor>this.entities.getEntityById(id, PhysicGroups.PLAYER_WEAPON)}
+	public getEnemyShot(id: number): DamageActor {return <DamageActor>this.entities.getEntityById(id, PhysicGroups.ENEMY_WEAPON)}
+	public getDamage(key: String): number{return this.damages.get(key)}
 
-	// protected initBeams(c:number = 20):void {
-	// 	let info = AllProjectileData.BEAM
-	// 	this.damages.set(info.KEY, info.DAMAGE)
-	// 	let func = () => {
-	// 		let entity = this.add.animatedSprite(BeamActor, info.LOAD[0].KEY, Layers.PRIMARY)
-	// 		entity.damage_key = info.KEY
-	// 		entity.setScene(this)
-	// 		entity.visible = false;
-	// 		entity.addAI(BeamAI, {pos: Vec2.ZERO})
-	// 		entity.addPhysics();
-	// 		entity.setGroup(PhysicGroups.PLAYER_WEAPON)
-	// 		entity.setTrigger(PhysicGroups.ENEMY, Events.WEAPON_ENEMY_COLLISION, null)
-	// 		return entity;
-	// 	}
-	// 	this.entities.initEntity(info.KEY, c, func, info)
-	// }
-	/** Methods for updating the UI */
-
+	//TO-BE-REMOVED-----------------------------------------------------------------------------
 	/**
 	 * This method handles updating the player's healthbar in the UI.
 	 * 
@@ -525,31 +490,5 @@ export default class BaseScene extends ActorScene{
 		}
 	}
 
-	protected lockPlayer(player: CanvasNode, viewportCenter: Vec2, viewportHalfSize: Vec2): void {
-		// TODO prevent the player from moving off the left/right side of the screen
-		let left = GAMEPLAY_DIMENTIONS.XSTART;
-		let right = GAMEPLAY_DIMENTIONS.XEND;
-		let top = GAMEPLAY_DIMENTIONS.YSTART;
-		let bottom = GAMEPLAY_DIMENTIONS.YEND;
-		if(player.boundary.center.x-player.boundary.halfSize.x<left){player.position.x = left+player.boundary.halfSize.x;}
-		if(player.boundary.center.x+player.boundary.halfSize.x>right){player.position.x = right-player.boundary.halfSize.x;}
-		if(player.boundary.center.y-player.boundary.halfSize.y<top){player.position.y = top+player.boundary.halfSize.y;}
-		if(player.boundary.center.y+player.boundary.halfSize.y>bottom){player.position.y = bottom-player.boundary.halfSize.y;}
-		//edit the player CanvasNode's position directly
-	}
-
-	protected handleDeath(): void {
-		this.gameOverTimer.start();
-	}
-
-	public set player(value: PlayerActor) {this._player = value;}
-
-	/**Abstracted */
-	public get player(): PlayerActor {return this._player;}
-	public get isScreenCleared(): boolean {return this.entities.countInUse((x)=>{return x.PHYSICS == PhysicGroups.ENEMY}) <= 0}
-	public get TravelSpeed():number {return this.backgroundSpeed.y}
-	public getEnemy(id: number): HPActor {return <HPActor>this.entities.getEntityById(id, PhysicGroups.ENEMY)}
-	public getShot(id: number): DamageActor {return <DamageActor>this.entities.getEntityById(id, PhysicGroups.PLAYER_WEAPON)}
-	public getEnemyShot(id: number): DamageActor {return <DamageActor>this.entities.getEntityById(id, PhysicGroups.ENEMY_WEAPON)}
-	public getDamage(key: String): number{return this.damages.get(key)}
+	
 }

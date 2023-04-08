@@ -19,15 +19,32 @@ import ShieldMookBehavior from "./ai/enemyAI/ShieldedMookBehavior"
 import HPShield from "./actors/miscActors/HPShield"
 import Color from "../Wolfie2D/Utils/Color"
 import Sprite from "../Wolfie2D/Nodes/Sprites/Sprite"
+import { AllItemData } from "../constants/items/itemData"
+import ScrapBehavior from "./ai/ScrapBehavior"
 
 const inactivePos = new Vec2(1200, 1200)
 
 export const initfuncs = {
+    SCRAP: initScrapFunc,
     BEAM: initBeamFunc,
     ENEMY_BEAM: initEnemyBeamFunc,
     COMMON_MOOK: initCommomMookFunc,
     TARGETED_MOOK: initTargetedMookFunc,
     SHIELDED_MOOK: initShieldedMookFunc
+}
+
+
+function initScrapFunc(add: FactoryManager, scene: ActorScene):Sprite{
+    let info = AllItemData.SCRAP
+    let {X, Y} = info.LOAD[0].SCALE
+    let item = add.sprite(info.LOAD[0].KEY, Layers.PRIMARY)
+    item.scale.set(X,Y)
+    item.addAI(ScrapBehavior, {speed: scene.TravelSpeed})
+    item.addPhysics();
+    item.setGroup(PhysicGroups.DROPS)
+    item.setTrigger(PhysicGroups.PLAYER, Events.PLAYER_SCRAP_COLLISION, null)
+
+    return item;
 }
 
 function initEnemyBeamFunc(add: FactoryManager, scene:ActorScene):BeamActor{

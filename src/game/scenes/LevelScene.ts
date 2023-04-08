@@ -104,9 +104,4 @@ export default class LevelScene extends BaseScene {
 			projectile.setAIActive(true, data)
 		}
 	}
-
-	protected handleDeath(): void {
-		this.gameOverTimer.start();
-	}
-
 }

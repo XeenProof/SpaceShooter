@@ -1,6 +1,8 @@
+import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
 import CanvasNode from "../../Wolfie2D/Nodes/CanvasNode";
 import Timer from "../../Wolfie2D/Timing/Timer";
 import { AllEnemyData } from "../../constants/enemies/enemyData";
+import { Events } from "../../constants/events";
 import { LoadData } from "../../constants/load";
 import { PhysicGroups } from "../../constants/physics";
 import { Script_Type, scriptFormat } from "../../constants/scripts/scriptTypes";
@@ -39,10 +41,10 @@ export default class ScriptScene extends LevelScene{
     }
 
     public loadScene(): void {
+        super.loadScene()
         this.loadBackground(this.LOAD.BACKGROUND)
         let {PLAYER, OTHERS} = this.LOAD
         let {SHIP, FLAMES, SHIELD} = PLAYER
-        console.log("load scene")
         let otherlist:LoadData[][] = OTHERS.map((x)=>{return x.DATA.LOAD})
         let reducedlist = otherlist.reduce((x,y)=>{return [...x, ...y]}, [])
         console.log(reducedlist)
@@ -102,6 +104,7 @@ export default class ScriptScene extends LevelScene{
         let {X, Y} = options
         this.backgroundSpeed.x = (X != undefined)?X:this.backgroundSpeed.x;
         this.backgroundSpeed.y = (Y != undefined)?Y:this.backgroundSpeed.y;
+        this.emitter.fireEvent(Events.TRAVEL_SPEED_CHANGE, {speed: this.backgroundSpeed})
     }
 
     protected handleWait(options: Record<string, number>){

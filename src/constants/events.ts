@@ -1,5 +1,6 @@
 export const Events = {
-    TEST: "TEST",
+    TRAVEL_SPEED_CHANGE: "TRAVEL_SPEED_CHANGE",
+
     ENEMY_SHOOTS: "ENEMY_SHOOTS", 
     /**{
      * src: source the shot is coming from
@@ -26,7 +27,12 @@ export const Events = {
      * node: target id
      * other: self id
      */
-    WEAPON_PLAYER_COLLISION: "WEAPON_PLAYER_COLLISION"
+    WEAPON_PLAYER_COLLISION: "WEAPON_PLAYER_COLLISION",
+    /**
+     * node: target id
+     * other: self id
+     */
+    PLAYER_SCRAP_COLLISION: "PLAYER_SCRAP_COLLISION"
     /**
      * node: target id
      * other: self id

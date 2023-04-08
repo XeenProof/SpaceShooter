@@ -15,10 +15,7 @@ const Loads = {
     UNDERWATER: {KEY: "UNDERWATER", TYPE: LoadType.IMAGE, PATH: "hw2_assets/sprites/WavyBlueLines.png", SCALE:{X:1, Y:1}},
     SPACE: {KEY: "SPACE", TYPE: LoadType.IMAGE, PATH: "assets/sprites/space_5.png", SCALE:{X:1, Y:1}},
 
-    SUBMARINE: {KEY: "SUBMARINE", TYPE: LoadType.SPRITESHEET, PATH: "hw2_assets/spritesheets/AYellowBarrelWithWindows.json", SCALE:{X:1, Y:1}},
-
-    MINE: {KEY: "MINE", TYPE: LoadType.SPRITESHEET, PATH: "hw2_assets/spritesheets/SpikyMineThing.json", SCALE:{X:1, Y:1}},
-    PLACEHOLDER: {KEY: "PLACEHOLDER", TYPE: LoadType.SPRITESHEET, PATH: "demo_assets/spritesheets/platformer/player.json", SCALE:{X:1, Y:1}},
+    SCRAP: {KEY: "SCRAP", TYPE: LoadType.IMAGE, PATH: "assets/sprites/scrap.png", SCALE:{X:1, Y:1}},
 
     PLANE: {KEY: "PLANE", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Plane/Plane.json", SCALE:{X:1, Y:1}},
     FLAME: {KEY: "FLAME", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/flame/flame.json", SCALE: {X:1, Y:1}},
@@ -32,12 +29,14 @@ const Loads = {
     ENEMY_5: {KEY: "ENEMY_5", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Enemy_Fifth/Enemy_Fifth.json", SCALE:{X:1, Y:1}},
     SPACE_THIEF: {KEY: "SPACE_THIEF", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Space_Thief/Space_Thief.json", SCALE:{X:1, Y:1}},
 
+    ENEMY1_BEAM: {KEY: "ENEMY1_BEAM", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Enemy1_Beam/Enemy1_Beam.json", SCALE:{X:1, Y:1}},
+
 
     WELCOME: {KEY: "WELCOME", TYPE: LoadType.IMAGE, PATH: "assets/sprites/welcome.png", SCALE:{X:1, Y:1}},
 
     MAINMENU: {KEY: "MAINMENU", TYPE: LoadType.IMAGE, PATH: "assets/sprites/space_blur.png", SCALE:{X:1, Y:1}},
     TEST: {KEY: "APPLE", TYPE: LoadType.IMAGE, PATH: "assets/sprites/welcome.png", SCALE:{X:1, Y:1}},
-    ENEMY1_BEAM: {KEY: "ENEMY1_BEAM", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Enemy1_Beam/Enemy1_Beam.json", SCALE:{X:1, Y:1}},
+    
 
    
 }
@@ -46,6 +45,10 @@ export const LoadBackground = {
     UNDERWATER: {...Loads.UNDERWATER, SCALE:{X:0.75, Y:0.75}},
     SPACE: {...Loads.SPACE, SCALE:{X:0.75, Y:0.75}}
 } as const
+
+export const LoadItem = {
+    SCRAP: {...Loads.SCRAP, SCALE:{X:1, Y:1}}
+}
 
 export const LoadWelcome = {
     WELCOME: {...Loads.WELCOME, SCALE:{X:1, Y:1}}
