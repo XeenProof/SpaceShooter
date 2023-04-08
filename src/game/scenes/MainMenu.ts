@@ -198,6 +198,7 @@ export default class MainMenu extends Scene {
         this.oneShootKillButton.borderColor = Color.YELLOW;
         this.oneShootKillButton.backgroundColor = Color.TRANSPARENT;
         this.oneShootKillButton.onClickEventId = MainMenuEvent.ONE_SHOOT_KILL;
+        this.oneShootKillButton.text = CheatCodes.getCheat(cheats.OHKO)?"X":""
 
         const oneShootKill = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x-200, center.y + 300), text: "One Shoot Kill Enermy"});
         oneShootKill.textColor = Color.YELLOW;
@@ -210,6 +211,7 @@ export default class MainMenu extends Scene {
         this.invincibleButton.borderColor = Color.YELLOW;
         this.invincibleButton.backgroundColor = Color.TRANSPARENT;
         this.invincibleButton.onClickEventId = MainMenuEvent.INVINCIBLE;
+        this.invincibleButton.text = CheatCodes.getCheat(cheats.INVINSIBLE)?"X":""
 
         const invincible = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x-320, center.y + 400), text: "Invincible"});
         invincible.textColor = Color.YELLOW;

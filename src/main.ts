@@ -4,7 +4,7 @@ import WelcomeScence from "./game/scenes/WelcomeScence";
 import RegistryManager from "./Wolfie2D/Registry/RegistryManager";
 import BubbleShaderType from "./game/shaders/BubbleShaderType";
 import LaserShaderType from "./game/shaders/LaserShaderType";
-import { Inputs } from "./constants/gameoptions";
+import { Inputs, cheats } from "./constants/gameoptions";
 
 // The main function is your entrypoint into Wolfie2D. Specify your first scene and any options here.
 (function main(){
@@ -22,5 +22,5 @@ import { Inputs } from "./constants/gameoptions";
     const game = new Game(options);
 
     // Start our game
-    game.start(WelcomeScence, {});
+    game.start(WelcomeScence, {cheats: [cheats.INVINSIBLE, cheats.OHKO]});
 })();
