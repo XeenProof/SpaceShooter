@@ -43,6 +43,7 @@ import { AllEnemyData, AllEnemyKeys } from "../../constants/enemies/enemyData";
 import Spawnable from "../../utils/Interface/Spawnable";
 import BeamActor from "../actors/WeaponActors/BeamActor";
 import { initfuncs } from "../initfuncs";
+import { AllItemKey } from "../../constants/items/itemData";
 
 
 
@@ -77,11 +78,14 @@ export default class LevelScene extends BaseScene {
 				this.handleAttack(event.data.record)
 				break;
 			}
+			case Events.DROP_SCRAP:{
+				this.handleSpawnScrap(event.data.get("src"))
+				break;
+			}
 			default: {
 				throw new Error(`Unhandled event with type ${event.type} caught in ${this.constructor.name}`);
 			}
 		}
-
 	}
 
 	protected initEntities(initlist:(Record<string, any>)[]): void {
@@ -104,6 +108,14 @@ export default class LevelScene extends BaseScene {
 		if(projectile){
 			projectile.visible = true
 			projectile.setAIActive(true, data)
+		}
+	}
+
+	protected handleSpawnScrap(src: Vec2):void{
+		let scrap: CanvasNode = this.entities.getEntity(AllItemKey.SCRAP)
+		if(scrap){
+			scrap.visible = true
+			scrap.setAIActive(true, {src: src})
 		}
 	}
 }

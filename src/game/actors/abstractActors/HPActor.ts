@@ -10,6 +10,7 @@ import { TargetableEntity } from "../../../utils/Targeting/TargetableEntity";
 import { TargetingEntity } from "../../../utils/Targeting/TargetingEntity";
 import SpawnableActor from "./SpawnableActor";
 import RandUtils from "../../../Wolfie2D/Utils/RandUtils";
+import { Events } from "../../../constants/events";
 
 
 export default abstract class HPActor extends SpawnableActor implements HealthBarUser {
@@ -67,7 +68,7 @@ export default abstract class HPActor extends SpawnableActor implements HealthBa
     }
 
     dying(): void{
-        //console.log("dying", RandUtils.random())
+        this.emitter.fireEvent(Events.DROP_SCRAP, {src: this.position})
         this.despawn()
     }
 

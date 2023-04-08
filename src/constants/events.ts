@@ -1,5 +1,8 @@
 export const Events = {
     TRAVEL_SPEED_CHANGE: "TRAVEL_SPEED_CHANGE",
+    /**{
+     * speed: the travel speed
+    * }*/
 
     ENEMY_SHOOTS: "ENEMY_SHOOTS", 
     /**{
@@ -15,6 +18,12 @@ export const Events = {
      * id: id  of the shooter
      * key: Type of bullet shot
      * } */
+    DROP_SCRAP:"DROP_SCRAP",
+    /**
+     * {
+     * src: source of where the enemy died
+     * }
+     */
 
     /**Set Trigger Calls */
     PLAYER_ENEMY_COLLISION: "PLAYER_ENEMY_COLLISION",

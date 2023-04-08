@@ -20,12 +20,15 @@ export default abstract class MovementAI extends StateMachineAI {
     /**The distance from target when considered arrived*/
     private _threshold: number;
 
+    protected ignoreStates: boolean
+
     abstract activate(options: Record<string, any>): void
 
     update(deltaT: number): void {
         if(this.dir != null){
             this.owner.move(this.dir.clone().scale(this.speed*deltaT));
         }
+        if(this.ignoreStates){return}
         super.update(deltaT);
     }
     abstract handleEvent(event: GameEvent): void

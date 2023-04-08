@@ -151,6 +151,7 @@ export default class BaseScene extends ActorScene{
 		// Subscribe to laser events
 		this.receiver.subscribe(Events.PLAYER_SHOOTS);
 		this.receiver.subscribe(Events.ENEMY_SHOOTS);
+		this.receiver.subscribe(Events.DROP_SCRAP);
 	}
 	/**
 	 * @see Scene.updateScene 
