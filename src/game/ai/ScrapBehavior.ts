@@ -34,6 +34,7 @@ export default class ScrapBehavior extends MovementAI{
         switch(event.type){
             case Events.TRAVEL_SPEED_CHANGE:{
                 this.speed = event.data.get("speed").y
+                break;
             }
             default:{
                 console.log("Unused Type:", event.type)
