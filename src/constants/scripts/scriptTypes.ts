@@ -19,7 +19,13 @@ export const Script_Type = {
      */
     WAVE: "WAVE",
     /**
-     * options: {wavenum: wave number}
+     * options: {
+     * wavenum: wave number
+     * mods: {//holds the staat modifiers on enemies
+     *  hp_multi: 1,
+		droprate_multi: 1
+     * }
+     * }
      */
     UPDATE_TRAVEL_SPEED: "UPDATE_TRAVEL_SPEED"
     /**

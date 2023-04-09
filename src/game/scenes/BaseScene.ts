@@ -72,6 +72,7 @@ export default class BaseScene extends ActorScene{
 	protected entities: EntityManager<CanvasNode>;
 	protected damages: Map<String, number>;
 	protected cheatcodes: Record<string, boolean>
+	protected wavenum: number = 0;
 
 	// shield labels
 	protected shieldLabel: Label;
@@ -387,7 +388,8 @@ export default class BaseScene extends ActorScene{
 	public getEnemy(id: number): HPActor {return <HPActor>this.entities.getEntityById(id, PhysicGroups.ENEMY)}
 	public getShot(id: number): DamageActor {return <DamageActor>this.entities.getEntityById(id, PhysicGroups.PLAYER_WEAPON)}
 	public getEnemyShot(id: number): DamageActor {return <DamageActor>this.entities.getEntityById(id, PhysicGroups.ENEMY_WEAPON)}
-	public getDamage(key: String): number{return this.damages.get(key)}
+	public getPlayerDamage(key: String): number{return this.damages.get(key)}
+	public getEnemyDamage(key: String): number{return this.damages.get(key)}
 	public getCheat(key: string): boolean {return (this.cheatcodes[key])?this.cheatcodes[key]:false}
 
 	//TO-BE-REMOVED-----------------------------------------------------------------------------

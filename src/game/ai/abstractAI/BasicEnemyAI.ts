@@ -45,6 +45,7 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
     }
 
     public activate(options: Record<string, any>): void {
+        console.log(options)
         super.activate(options)
         this.initialize(enemyStates.IDLE)
         this.owner.healthBar.visible = this.owner.visible
@@ -52,11 +53,15 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
         this.owner.canDespawn = false;
         this.target = this.owner.getScene().player
 
-        let hp = options.stats?options.stats.hp:1;
+        let inithp = options.stats?options.stats.hp:1;
+        let hp_multi = options.mods?options.mods.hp_multi:1
+        let hp = Math.round(inithp*hp_multi)
         this.owner.maxHealth = hp;
         this.owner.health = hp;
 
-        let droprate = options.stats?options.stats.droprate:0;
+        let initdroprate = options.stats?options.stats.droprate:0;
+        let droprate_multi = options.mods?options.mods.droprate_multi:1
+        let droprate = initdroprate*droprate_multi
         this.owner.dropRate = droprate
     }
 
@@ -117,7 +122,7 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
         if(this.isState(enemyStates.DEAD)){return;}
         if(enemyId != this.owner.id){return;}
         let bullet = this.owner.getScene().getShot(shotid)
-        let damage = this.owner.getScene().getDamage(bullet.damage_key)
+        let damage = this.owner.getScene().getPlayerDamage(bullet.damage_key)
         this.OwnerTakeDamage(damage)
         
     }

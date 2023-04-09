@@ -14,7 +14,8 @@ export default abstract class ActorScene extends Scene{
 
     public abstract getEnemy(id: number): HPActor
     public abstract getShot(id: number): DamageActor
-    public abstract getDamage(key: String): number
+    public abstract getEnemyDamage(key: String): number
+    public abstract getPlayerDamage(key: String): number
     public abstract getEnemyShot(id: number): DamageActor
     public abstract getCheat(key: string): boolean
 }

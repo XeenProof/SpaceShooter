@@ -186,7 +186,7 @@ export default class PlayerController extends StateMachineAI {
 	protected handleDamage(shotid:number):void {
 		if(this.owner.shielded){return;}
 		let bullet = this.owner.getScene().getEnemyShot(shotid)
-        let damage = this.owner.getScene().getDamage(bullet.damage_key)
+        let damage = this.owner.getScene().getEnemyDamage(bullet.damage_key)
 		let received = this.owner.takeDamage(damage)
 		if(received && !this.isState(playerstates.DYING)){
 			this.changeState(playerstates.TAKING_DAMAGE)

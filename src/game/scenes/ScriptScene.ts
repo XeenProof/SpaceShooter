@@ -26,6 +26,11 @@ export default class ScriptScene extends LevelScene{
     private timer:Timer
     private wait:boolean
 
+    protected statMods:Record<string, number> = {
+		hp_multi: 1,
+		droprate_multi: 1
+	}
+
     public initScene(options: Record<string, any>): void {
         this.levelData = options.levelData;
         this.cheatcodes = options.cheatcodes?options.cheatcodes:{}
@@ -87,6 +92,10 @@ export default class ScriptScene extends LevelScene{
                 this.handleWait(node.options)
                 break;
             }
+            case Script_Type.WAVE:{
+                this.HandleWave(node.options)
+                break;
+            }
         }
     }
 
@@ -94,7 +103,11 @@ export default class ScriptScene extends LevelScene{
         let mook:CanvasNode = this.entities.getEntity(options.enemyType)
 		if(mook){
 			mook.visible = true;
-			mook.setAIActive(true, {...options, path: generatePathFromList(options.path), stats: AllEnemyData[options.enemyType].STATS})}
+			mook.setAIActive(true, {...options, path: 
+                generatePathFromList(options.path), 
+                stats: AllEnemyData[options.enemyType].STATS, 
+                mods:this.statMods})
+        }
     }
 
     protected handleBackgroundSpeedUpdate(options: Record<string, number>){
@@ -112,6 +125,13 @@ export default class ScriptScene extends LevelScene{
         this.timer.reset()
         this.timer.reinit(wait_time, ()=>{this.stopWaiting()})
         this.timer.start()
+    }
+
+    protected HandleWave(options: Record<string, any>){
+        let {wavenum, mods} = options
+        this.wavenum = wavenum;
+        this.statMods = {...this.statMods, ...mods}
+        console.log(wavenum)
     }
 
     protected stopWaiting(){
