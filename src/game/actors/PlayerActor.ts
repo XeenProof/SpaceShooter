@@ -44,8 +44,13 @@ export default class PlayerActor extends HPActor{
     public set boosterCharge(value: RechargableStat) {this._boosterCharge = value;}
     public get boosterValue():number{return this.boosterCharge.value}
     public get maxBoosterValue():number{return this.boosterCharge.maxValue}
+    public get canBoost():boolean{return !this.boosted && (this.boosterCharge.canUse || CheatCodes.getCheat(cheats.INFINITE_BOOSTER))}
     public useBooster():void{
-
+        if(!this.canBoost){return;}
+        this.activateBoost()
+        if(CheatCodes.getCheat(cheats.INFINITE_BOOSTER)){return;}
+        this.boosterCharge.useCharge()
+        console.log(this.boosterValue, this.maxBoosterValue)
     }
 
     /**The shield and all it's related functions */
@@ -60,9 +65,14 @@ export default class PlayerActor extends HPActor{
     public get shieldCharge(): RechargableStat {return this._shieldCharge;}
     public set shieldCharge(value: RechargableStat) {this._shieldCharge = value;}
     public get shieldValue():number {return this.shieldCharge.value}
-    public get maxShieldValue():number {return this.shieldCharge.value}
+    public get maxShieldValue():number {return this.shieldCharge.maxValue}
+    public get canShield():boolean{return !this.shielded && (this.shieldCharge.canUse || CheatCodes.getCheat(cheats.INFINITE_SHIELD))}
     public useShield():void{
-        
+        if(!this.canShield){return;}
+        this.activateShield()
+        if(CheatCodes.getCheat(cheats.INFINITE_SHIELD)){return;}
+        this.shieldCharge.useCharge()
+        console.log(this.shieldValue, this.maxShieldValue)
     }
 
     /**The current speed and all it's related functions */

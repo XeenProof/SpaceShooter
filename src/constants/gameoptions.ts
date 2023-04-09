@@ -28,5 +28,7 @@ export const Inputs = [
 export const cheats = {
     INVINSIBLE: "INVINSIBLE",
     OHKO: "OHKO",
-    NUKE_BUTTON: "NUKE_BUTTON"
+    NUKE_BUTTON: "NUKE_BUTTON",
+    INFINITE_BOOSTER: "INFINITE_BOOSTER",
+    INFINITE_SHIELD: "INFINITE_SHIELD"
 }

@@ -147,8 +147,8 @@ export default class PlayerController extends StateMachineAI {
 		let forwardAxis = (Input.isPressed(Controls.MOVE_UP) ? 1 : 0) + (Input.isPressed(Controls.MOVE_DOWN) ? -1 : 0);
 		let horizontalAxis = (Input.isPressed(Controls.MOVE_LEFT) ? -1 : 0) + (Input.isPressed(Controls.MOVE_RIGHT) ? 1 : 0);
 		if(Input.isMouseJustPressed()) {this.handleShoot()}
-		if(Input.isJustPressed(Controls.SHIELD)){this.owner.activateShield()}
-		if(Input.isJustPressed(Controls.BOOST)){this.owner.activateBoost()}
+		if(Input.isJustPressed(Controls.SHIELD)){this.owner.useShield()}
+		if(Input.isJustPressed(Controls.BOOST)){this.owner.useBooster()}
 		if(Input.isJustPressed(Controls.NUKE) && CheatCodes.getCheat(cheats.NUKE_BUTTON)){this.handleNuke()}
 		// Move the player
 		let movement = Vec2.UP.scaled(forwardAxis * this.currentSpeed).add(new Vec2(horizontalAxis * this.currentSpeed, 0));

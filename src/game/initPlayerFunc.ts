@@ -21,7 +21,7 @@ export function initPlayerFunc(add: FactoryManager, scene: ActorScene, info:Reco
     let booster = add.animatedSprite(AnimatedSprite, FLAMES.KEY, Layers.PRIMARY);
     booster.position.copy(player.position)
     booster.scale.set(FLAMES.SCALE.X, FLAMES.SCALE.Y);
-    let boosterCharge = new RechargableStat(0,5,1000)
+    let boosterCharge = new RechargableStat(5,5,10000)
     player.booster = booster
     player.boosterCharge = boosterCharge
     console.log(booster)
@@ -30,7 +30,7 @@ export function initPlayerFunc(add: FactoryManager, scene: ActorScene, info:Reco
     shield.position.copy(player.position)
     shield.scale.set(SHIELD.SCALE.X, SHIELD.SCALE.Y)
     shield.visible = false
-    let shieldCharge = new RechargableStat(0,5,1000)
+    let shieldCharge = new RechargableStat(5,5,10000)
     player.shield = shield
     player.shieldCharge = shieldCharge
 
