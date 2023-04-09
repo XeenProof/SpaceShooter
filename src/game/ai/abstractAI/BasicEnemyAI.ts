@@ -39,6 +39,7 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
 
         this.receiver.subscribe(Events.PLAYER_ENEMY_COLLISION);
         this.receiver.subscribe(Events.WEAPON_ENEMY_COLLISION);
+        this.receiver.subscribe(Events.NUKE)
 
         this.path = new PathQueue(options.pathLength?options.pathLength:30)
     }
@@ -95,6 +96,10 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
             case Events.WEAPON_ENEMY_COLLISION:{
                 this.handleDamage(event.data.get("node"), event.data.get("other"))
                 break;
+            }
+            case Events.NUKE:{
+                if(!this.owner.visible){return;}
+                this.OwnerTakeDamage(this.owner.OHKODamage)
             }
         }
     }

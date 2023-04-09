@@ -41,9 +41,12 @@ export const Events = {
      * node: target id
      * other: self id
      */
-    PLAYER_SCRAP_COLLISION: "PLAYER_SCRAP_COLLISION"
+    PLAYER_SCRAP_COLLISION: "PLAYER_SCRAP_COLLISION",
     /**
      * node: target id
      * other: self id
      */
+
+    /**Cheat code events*/
+    NUKE: "NUKE"
 }

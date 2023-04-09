@@ -9,7 +9,7 @@ import Timer from "../../Wolfie2D/Timing/Timer";
 import MathUtils from "../../Wolfie2D/Utils/MathUtils";
 
 import { HW2Events } from "../Events";
-import { Controls } from "../../constants/gameoptions";
+import { Controls, cheats } from "../../constants/gameoptions";
 import PlayerActor from "../actors/PlayerActor";
 import { Events } from "../../constants/events";
 import { PlayerProjectileKeys } from "../../constants/projectiles/projectileData";
@@ -18,6 +18,7 @@ import { playerstates } from "./States/PlayerStates/PlayerState";
 import Idle from "./States/PlayerStates/Idle";
 import TakingDamage from "./States/PlayerStates/TakingDamage";
 import Dying from "./States/PlayerStates/Dying";
+import CheatCodes from "../../utils/Singletons/CheatCodes";
 
 export const PlayerAnimations = {
     IDLE: "IDLE",
@@ -144,21 +145,27 @@ export default class PlayerController extends StateMachineAI {
 		// Get the player's input direction 
 		let forwardAxis = (Input.isPressed(Controls.MOVE_UP) ? 1 : 0) + (Input.isPressed(Controls.MOVE_DOWN) ? -1 : 0);
 		let horizontalAxis = (Input.isPressed(Controls.MOVE_LEFT) ? -1 : 0) + (Input.isPressed(Controls.MOVE_RIGHT) ? 1 : 0);
-		if (Input.isMouseJustPressed()) {
-			this.emitter.fireEvent(Events.PLAYER_SHOOTS, {
-				src: this.owner.position,
-				dir: Vec2.UP,
-				key: PlayerProjectileKeys.BEAM,
-				id: this.owner.id
-			});
-		}
+		if(Input.isMouseJustPressed()) {this.handleShoot()}
 		if(Input.isJustPressed(Controls.SHIELD)){this.owner.activateShield()}
 		if(Input.isJustPressed(Controls.BOOST)){this.owner.activateBoost()}
+		if(Input.isJustPressed(Controls.NUKE) && CheatCodes.getCheat(cheats.NUKE_BUTTON)){this.handleNuke()}
 		// Move the player
 		let movement = Vec2.UP.scaled(forwardAxis * this.currentSpeed).add(new Vec2(horizontalAxis * this.currentSpeed, 0));
 		this.owner.move(movement.scaled(deltaT));
 	}
 
+	protected handleShoot():void {
+		this.emitter.fireEvent(Events.PLAYER_SHOOTS, {
+			src: this.owner.position,
+			dir: Vec2.UP,
+			key: PlayerProjectileKeys.BEAM,
+			id: this.owner.id
+		});
+	}
+
+	protected handleNuke():void {
+		this.emitter.fireEvent(Events.NUKE)
+	}
 
 	protected handlePlayerDeath = () => {
 		console.log("Handle player death")

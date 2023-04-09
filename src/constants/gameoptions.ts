@@ -9,7 +9,8 @@ export const Controls = {
     SHOOT: "SHOOT",
     SHIELD: "SHIELD",
     BOOST: "BOOST",
-    PAUSE: "PAUSE"
+    PAUSE: "PAUSE",
+    NUKE: "NUKE"
 } as const;
 
 export const Inputs = [
@@ -20,10 +21,12 @@ export const Inputs = [
     {name:Controls.SHOOT, keys: ["Space"] },
     {name:Controls.SHIELD, keys: ['e']},
     {name:Controls.BOOST, keys: ['r']},
-    {name:Controls.PAUSE, keys: ['esc']}
+    {name:Controls.PAUSE, keys: ['esc']},
+    {name:Controls.NUKE, keys:['-']}
 ]
 
 export const cheats = {
     INVINSIBLE: "INVINSIBLE",
-    OHKO: "OHKO"
+    OHKO: "OHKO",
+    NUKE_BUTTON: "NUKE_BUTTON"
 }
