@@ -13,6 +13,8 @@ import { generateRoundRobinScriptPart } from "./scriptGenerator";
 import { Script_Type } from "./scriptTypes";
 import { AllItemData } from "../items/itemData";
 
+
+
 export const level1 = {
     NAME: "Level 1",
     LOAD: {
@@ -33,11 +35,15 @@ export const level1 = {
         {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-300}},
         ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.COMMON_MOOK], [recRoute.NORMAL, recRoute.REVERSE], 300, 2, 10),
         {type: Script_Type.WAIT, options: {wait_time: -1}},
-        {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-450}},
+        {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-300}},
         ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.COMMON_MOOK], [DiamondRoute.NORMAL, DiamondRoute.REVERSE], 300, 2, 10),
         {type: Script_Type.WAIT, options: {wait_time: -1}},
-        {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-450}},
-        ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.TARGETED_MOOK, AllEnemyKeys.TARGETED_MOOK], [diagonalRoute.NORMAL, diagonalRoute.REVERSE], 300, 2, 10)
+        ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.TARGETED_MOOK, AllEnemyKeys.TARGETED_MOOK], [diagonalRoute.NORMAL, diagonalRoute.REVERSE], 300, 2, 10),
+        {type: Script_Type.WAIT, options: {wait_time: -1}},
+        ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.TARGETED_MOOK, AllEnemyKeys.TARGETED_MOOK], [TriangleRoute.NORMAL, TriangleRoute.REVERSE], 300, 2, 10),
+        {type: Script_Type.WAIT, options: {wait_time: -1}},
+        ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.TARGETED_MOOK, AllEnemyKeys.SHIELDED_MOOK], [VtypeRoute.NORMAL, VtypeRoute.REVERSE], 300, 2, 10),
+        {type: Script_Type.WAIT, options: {wait_time: -1}},
 
     ]
 }
