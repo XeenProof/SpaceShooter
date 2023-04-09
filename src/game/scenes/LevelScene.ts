@@ -44,6 +44,10 @@ import Spawnable from "../../utils/Interface/Spawnable";
 import BeamActor from "../actors/WeaponActors/BeamActor";
 import { initfuncs } from "../initfuncs";
 import { AllItemKey } from "../../constants/items/itemData";
+import { AllPlayerData } from "../../constants/player/playerData";
+import PlayerActor from "../actors/PlayerActor";
+import { Layers } from "../../constants/layers";
+import { initPlayerFunc } from "../initPlayerFunc";
 
 
 
@@ -89,6 +93,23 @@ export default class LevelScene extends BaseScene {
 				throw new Error(`Unhandled event with type ${event.type} caught in ${this.constructor.name}`);
 			}
 		}
+	}
+
+		/** 
+	 * This method initializes the player.
+	 * 
+	 * @remarks 
+	 * 
+	 * This method should add the player to the scene as an animated sprite. The player
+	 * should be added to the primary layer of the scene. The player's position should 
+	 * initially be set to the center of the viewport. The player should also be given
+	 * a collision shape and PlayerController AI.
+	 */ 
+	protected initPlayer(info:Record<string, any> = AllPlayerData.PLAYER_V1): void {
+		let func = () => {return initPlayerFunc(this.add, this, info)}
+		this.entities.initEntity(info.KEY, 1, func, info)
+		this.player = <PlayerActor>this.entities.findOneEntity(()=>{return true}, (value: any) => {return value.PHYSICS == PhysicGroups.PLAYER})
+		this.player.spawn({})
 	}
 
 	protected initEntities(initlist:(Record<string, any>)[]): void {

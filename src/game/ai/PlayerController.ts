@@ -98,6 +98,7 @@ export default class PlayerController extends StateMachineAI {
 		while(this.receiver.hasNextEvent()){
 			this.handleEvent(this.receiver.getNextEvent());
 		}
+		this.owner.handleChargesUpdate(deltaT)
 		if(this.canMove){this.handleControls(deltaT);}
 		
 		super.update(deltaT)

@@ -5,6 +5,7 @@ import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
 import Scene from "../../Wolfie2D/Scene/Scene";
 import Timer from "../../Wolfie2D/Timing/Timer";
 import { cheats } from "../../constants/gameoptions";
+import RechargableStat from "../../utils/HUD/RechargableStat";
 import CheatCodes from "../../utils/Singletons/CheatCodes";
 import BasicTargetable from "../../utils/Targeting/BasicTargetable";
 import { TargetableEntity } from "../../utils/Targeting/TargetableEntity";
@@ -37,12 +38,32 @@ export default class PlayerActor extends HPActor{
     public get boosted(): boolean {return this._boosted;}
     private set boosted(value: boolean) {this._boosted = value;}
 
+    /**The booster charge and all it's related functions */
+    private _boosterCharge: RechargableStat;
+    public get boosterCharge(): RechargableStat {return this._boosterCharge;}
+    public set boosterCharge(value: RechargableStat) {this._boosterCharge = value;}
+    public get boosterValue():number{return this.boosterCharge.value}
+    public get maxBoosterValue():number{return this.boosterCharge.maxValue}
+    public useBooster():void{
+
+    }
+
     /**The shield and all it's related functions */
     private _shield: Sprite;
     private shieldTimer: Timer;
     public get shield(): Sprite {return this._shield;}
     public set shield(value: Sprite) {this._shield = value;}
     public get shielded(): boolean {return (this.shield)?this.shield.visible:false}
+
+    /**The shield charge and all it's related functions */
+    private _shieldCharge: RechargableStat;
+    public get shieldCharge(): RechargableStat {return this._shieldCharge;}
+    public set shieldCharge(value: RechargableStat) {this._shieldCharge = value;}
+    public get shieldValue():number {return this.shieldCharge.value}
+    public get maxShieldValue():number {return this.shieldCharge.value}
+    public useShield():void{
+        
+    }
 
     /**The current speed and all it's related functions */
     private _currentSpeed: number;
@@ -61,6 +82,11 @@ export default class PlayerActor extends HPActor{
         super(sheet)
     }
 
+    public handleChargesUpdate(deltaT: number){
+        if(this.boosterCharge){this.boosterCharge.update(deltaT)}
+        if(this.shieldCharge){this.shieldCharge.update(deltaT)}
+    }
+
     spawn(options: Record<string, any> = {}): void {
         this.booster.animation.playIfNotAlready(booster_animations.LOW, true)
         this.booster.visible = true;
@@ -77,7 +103,7 @@ export default class PlayerActor extends HPActor{
         return true;
     }
 
-    activateShield(){
+    public activateShield(){
         this.shield.visible = true;
         this.shieldTimer.reset();
         this.shieldTimer.start();
@@ -88,7 +114,7 @@ export default class PlayerActor extends HPActor{
         this.shieldTimer.reset();
     }
 
-    activateBoost(){
+    public activateBoost(){
         this.booster.animation.playIfNotAlready(booster_animations.HIGH, true)
         this.boosted = true
         this.boostTimer.reset()

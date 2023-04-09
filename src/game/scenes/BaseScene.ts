@@ -58,8 +58,8 @@ import Button from "../../Wolfie2D/Nodes/UIElements/Button";
  */
 export default class BaseScene extends ActorScene{
 	protected BACKGROUND: LoadData;
-	protected PLAYER: LoadData;
 
+	protected PLAYERINFO: Record<string, any>
 	protected _player: PlayerActor;
 	protected backgroundSpeed:Vec2;
 
@@ -363,53 +363,6 @@ export default class BaseScene extends ActorScene{
 		if (this.bg2.position.y >= edgePos.y){
 			this.bg2.position = this.viewport.getCenter().clone().add(this.bg2.sizeWithZoom.clone().scale(0, -2))
 		}
-	}
-
-	/** 
-	 * This method initializes the player.
-	 * 
-	 * @remarks 
-	 * 
-	 * This method should add the player to the scene as an animated sprite. The player
-	 * should be added to the primary layer of the scene. The player's position should 
-	 * initially be set to the center of the viewport. The player should also be given
-	 * a collision shape and PlayerController AI.
-	 */ 
-	protected initPlayer(): void {
-		let info = AllPlayerData.PLAYER_V1
-		let {SHIP, FLAMES, SHIELD} = info.LOAD
-		let func = () => {
-			let player = this.add.animatedSprite(PlayerActor, SHIP.KEY, Layers.PRIMARY);
-			player.setScene(this)
-
-			player.position.set(450, 750);
-			player.scale.set(SHIP.SCALE.X, SHIP.SCALE.Y);
-
-			let booster = this.add.animatedSprite(AnimatedSprite, FLAMES.KEY, Layers.PRIMARY);
-			booster.position.copy(player.position)
-			booster.scale.set(FLAMES.SCALE.X, FLAMES.SCALE.Y);
-			player.booster = booster
-			console.log(booster)
-
-			let shield = this.add.sprite(SHIELD.KEY, Layers.PRIMARY);
-			shield.position.copy(player.position)
-			shield.scale.set(SHIELD.SCALE.X, SHIELD.SCALE.Y)
-			shield.visible = false
-			player.shield = shield
-
-			player.addAI(PlayerController, {stats: info.STATS});
-
-			let center = player.position.clone();
-			let halfSize = player.boundary.getHalfSize().clone();
-			player.addPhysics(new AABB(center, halfSize));
-			player.setGroup(PhysicGroups.PLAYER)
-			player.setTrigger(PhysicGroups.ENEMY, Events.PLAYER_ENEMY_COLLISION, null)
-
-			return player
-		}
-		this.entities.initEntity(info.KEY, 1, func, info)
-		this.player = <PlayerActor>this.entities.findOneEntity(()=>{return true}, (value: any) => {return value.PHYSICS == PhysicGroups.PLAYER})
-		this.player.spawn({})
 	}
 
 	protected lockPlayer(player: CanvasNode, viewportCenter: Vec2, viewportHalfSize: Vec2): void {
