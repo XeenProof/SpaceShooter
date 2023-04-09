@@ -28,8 +28,9 @@ export const Inputs = [
 export const cheats = {
     INVINSIBLE: "INVINSIBLE",
     OHKO: "OHKO",
-    NUKE_BUTTON: "NUKE_BUTTON",
-    INFINITE_BOOSTER: "INFINITE_BOOSTER",
-    INFINITE_SHIELD: "INFINITE_SHIELD",
-    INFINITE_SCRAP: "INFINITE_SCRAP"
+    NUKE_BUTTON: "NUKE_BUTTON", //Enable Nuke Button (-)
+    INFINITE_SCRAP: "INFINITE_SCRAP", //Infinite Scrap
+
+    INFINITE_BOOSTER: "INFINITE_BOOSTER", //Infinite Boost
+    INFINITE_SHIELD: "INFINITE_SHIELD", //Infinite Shield
 }

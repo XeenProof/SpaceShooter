@@ -296,22 +296,12 @@ export default class MainMenu extends Scene {
             }
             case MainMenuEvent.ONE_SHOOT_KILL: {
                 CheatCodes.triggerCheat(cheats.OHKO)
-                if(this.oneShootKillButton.text==""){
-                    this.oneShootKillButton.text="X"
-                }
-                else{
-                    this.oneShootKillButton.text=""
-                }
+                this.oneShootKillButton.text = CheatCodes.getCheat(cheats.OHKO)?"X":""
                 break;
             }
             case MainMenuEvent.INVINCIBLE: {
                 CheatCodes.triggerCheat(cheats.INVINSIBLE)
-                if(this.invincibleButton.text==""){
-                    this.invincibleButton.text="X"
-                }
-                else{
-                    this.invincibleButton.text=""
-                }
+                this.invincibleButton.text = CheatCodes.getCheat(cheats.INVINSIBLE)?"X":""
                 break;
             }
             case "Test":{
