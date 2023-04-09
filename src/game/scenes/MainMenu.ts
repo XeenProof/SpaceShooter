@@ -271,11 +271,7 @@ export default class MainMenu extends Scene {
     protected handleEvent(event: GameEvent): void {
         switch(event.type) {
             case MainMenuEvent.PLAY_GAME: {
-                //this.seed = RandUtils.randomSeed()
-                // this.sceneManager.changeToScene(Homework1_Scene);
                 this.sceneManager.changeToScene(SelectionScene);
-                //this.sceneManager.changeToScene(ScriptScene, {levelData: level1})
-
                 break;
             }
             case MainMenuEvent.CONTROLS: {
