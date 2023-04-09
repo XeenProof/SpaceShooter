@@ -62,7 +62,7 @@ export default class ScriptScene extends LevelScene{
 
     public updateScene(deltaT: number): void {
         super.updateScene(deltaT)
-        if(this.isScreenCleared && this.timer.isActive()){
+        if(this.isScreenCleared && this.wait){
             console.log("stopped waiting by force")
             this.stopWaiting();
         }

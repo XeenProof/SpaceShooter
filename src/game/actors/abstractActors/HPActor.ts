@@ -70,7 +70,10 @@ export default abstract class HPActor extends SpawnableActor implements HealthBa
     }
 
     dying(): void{
-        this.emitter.fireEvent(Events.DROP_SCRAP, {src: this.position})
+        console.log(this.dropRate)
+        if(RandUtils.randomChance(this.dropRate)){
+            this.emitter.fireEvent(Events.DROP_SCRAP, {src: this.position})
+        }
         this.despawn()
     }
 

@@ -35,6 +35,7 @@ export default class MookBehavior extends BasicEnemyAI{
 
     public activate(options: Record<string, any>): void {
         super.activate(options)
+        this.weaponCooldown.start()
     }
 
     protected actionPattern():void{

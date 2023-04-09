@@ -45,6 +45,7 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
     }
 
     public activate(options: Record<string, any>): void {
+        console.log("basic", options)
         super.activate(options)
         this.initialize(enemyStates.IDLE)
         this.owner.healthBar.visible = this.owner.visible
@@ -56,7 +57,7 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
         this.owner.maxHealth = hp;
         this.owner.health = hp;
 
-        let droprate = options.dropRate?options.dropRate:0;
+        let droprate = options.stats?options.stats.droprate:0;
         this.owner.dropRate = droprate
     }
 
