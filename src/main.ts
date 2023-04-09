@@ -22,5 +22,5 @@ import { Inputs, cheats } from "./constants/gameoptions";
     const game = new Game(options);
 
     // Start our game
-    game.start(WelcomeScence, {cheats: [cheats.INVINSIBLE, cheats.OHKO]});
+    game.start(WelcomeScence, {cheats: [cheats.OHKO]});
 })();

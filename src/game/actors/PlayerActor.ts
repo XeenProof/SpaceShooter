@@ -62,8 +62,6 @@ export default class PlayerActor extends HPActor{
     }
 
     spawn(options: Record<string, any> = {}): void {
-        //super.spawn(options)
-        this.animation.playIfNotAlready(animations.IDLE, true)
         this.booster.animation.playIfNotAlready(booster_animations.LOW, true)
         this.booster.visible = true;
         this.boostTimer = new Timer(2000, ()=>{this.deactivateBooster()});
@@ -72,10 +70,10 @@ export default class PlayerActor extends HPActor{
 
     takeDamage(damage: number, options:Record<string, any> = {}): boolean {
         let received = super.takeDamage(CheatCodes.getCheat(cheats.INVINSIBLE)?0:damage)
+        console.log(this.health)
         if(!received){return false}
-        this.animation.playIfNotAlready(animations.TAKING_DAMAGE)
-        this.iTimer.reset()
-        this.iTimer.start()
+        //this.iTimer.reset()
+        //this.iTimer.start()
         return true;
     }
 
@@ -109,6 +107,5 @@ export default class PlayerActor extends HPActor{
 
     public handleIframeEnds(): void {
         //this.iframe = false
-        this.animation.playIfNotAlready(animations.IDLE, true)
     }
 }

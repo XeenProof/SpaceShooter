@@ -1,3 +1,4 @@
+import StateMachineAI from "../../../Wolfie2D/AI/StateMachineAI";
 import State from "../../../Wolfie2D/DataTypes/State/State";
 import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 import HPActor from "../../actors/abstractActors/HPActor";
@@ -7,10 +8,10 @@ import MovementAI from "../abstractAI/MovementAI";
 
 
 export default abstract class BaseState extends State{
-    protected parent:MovementAI
+    protected parent:StateMachineAI
     protected owner:SpawnableActor
 
-    constructor(owner:SpawnableActor, parent:MovementAI){
+    constructor(owner:SpawnableActor, parent:StateMachineAI){
         super(parent)
         this.owner = owner
     }

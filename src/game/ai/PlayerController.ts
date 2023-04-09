@@ -13,6 +13,11 @@ import { Controls } from "../../constants/gameoptions";
 import PlayerActor from "../actors/PlayerActor";
 import { Events } from "../../constants/events";
 import { PlayerProjectileKeys } from "../../constants/projectiles/projectileData";
+import StateMachineAI from "../../Wolfie2D/AI/StateMachineAI";
+import { playerstates } from "./States/PlayerStates/PlayerState";
+import Idle from "./States/PlayerStates/Idle";
+import TakingDamage from "./States/PlayerStates/TakingDamage";
+import Dying from "./States/PlayerStates/Dying";
 
 export const PlayerAnimations = {
     IDLE: "IDLE",
@@ -24,16 +29,12 @@ export const PlayerAnimations = {
  * A class for controlling the player in the HW2Scene.
  * @author PeteyLumpkins
  */
-export default class PlayerController implements AI {
+export default class PlayerController extends StateMachineAI {
 	/** The GameNode that owns this PlayerController AI */
-	private owner: PlayerActor;
+	protected owner: PlayerActor;
 
 	public get currentSpeed(): number {return this.owner.currentSpeed;}
 	public set currentSpeed(value: number) {this.owner.currentSpeed = value;}
-
-	// A receiver and emitter to hook into the event queue
-	private receiver: Receiver;
-	private emitter: Emitter;
 
 	/**
 	 * This method initializes all variables inside of this AI class.
@@ -46,6 +47,10 @@ export default class PlayerController implements AI {
 
 		this.receiver = new Receiver();
 		this.emitter = new Emitter();
+
+		this.addState(playerstates.IDLE, new Idle(this.owner, this))
+		this.addState(playerstates.TAKING_DAMAGE, new TakingDamage(this.owner, this))
+		this.addState(playerstates.DYING, new Dying(this.owner, this))
 		
 		this.receiver.subscribe(HW2Events.SHOOT_LASER);
 		this.receiver.subscribe(HW2Events.DEAD)
@@ -53,6 +58,7 @@ export default class PlayerController implements AI {
 		this.receiver.subscribe(Events.PLAYER_ENEMY_COLLISION)
 		this.receiver.subscribe(Events.WEAPON_PLAYER_COLLISION)
 
+		this.initialize(playerstates.IDLE)
 		this.activate(options);
 	}
 	public activate(options: Record<string,any>): void {
@@ -91,31 +97,9 @@ export default class PlayerController implements AI {
 		while(this.receiver.hasNextEvent()){
 			this.handleEvent(this.receiver.getNextEvent());
 		}
-
-		// Get the player's input direction 
-		let forwardAxis = (Input.isPressed(Controls.MOVE_UP) ? 1 : 0) + (Input.isPressed(Controls.MOVE_DOWN) ? -1 : 0);
-		let horizontalAxis = (Input.isPressed(Controls.MOVE_LEFT) ? -1 : 0) + (Input.isPressed(Controls.MOVE_RIGHT) ? 1 : 0);
-
-		// Handle trying to shoot a laser from the submarine
-		if (Input.isMouseJustPressed()) {
-			//this.currentCharge -= 1;
-			this.emitter.fireEvent(Events.PLAYER_SHOOTS, {
-				src: this.owner.position,
-				dir: Vec2.UP,
-				key: PlayerProjectileKeys.BEAM,
-				id: this.owner.id
-			});
-		}
-		if(Input.isJustPressed(Controls.SHIELD)){
-			this.owner.activateShield()
-		}
-		if(Input.isJustPressed(Controls.BOOST)){
-			this.owner.activateBoost()
-		}
-
-		// Move the player
-		let movement = Vec2.UP.scaled(forwardAxis * this.currentSpeed).add(new Vec2(horizontalAxis * this.currentSpeed, 0));
-		this.owner.move(movement.scaled(deltaT));
+		if(this.canMove){this.handleControls(deltaT);}
+		
+		super.update(deltaT)
 	}
 	/**
 	 * This method handles all events that the reciever for the PlayerController is
@@ -151,6 +135,30 @@ export default class PlayerController implements AI {
 		this.receiver.destroy()
 	}
 
+	public get canMove():boolean{
+		if(this.isState(playerstates.DYING)){return false}
+		return true
+	}
+
+	public handleControls(deltaT: number):void {
+		// Get the player's input direction 
+		let forwardAxis = (Input.isPressed(Controls.MOVE_UP) ? 1 : 0) + (Input.isPressed(Controls.MOVE_DOWN) ? -1 : 0);
+		let horizontalAxis = (Input.isPressed(Controls.MOVE_LEFT) ? -1 : 0) + (Input.isPressed(Controls.MOVE_RIGHT) ? 1 : 0);
+		if (Input.isMouseJustPressed()) {
+			this.emitter.fireEvent(Events.PLAYER_SHOOTS, {
+				src: this.owner.position,
+				dir: Vec2.UP,
+				key: PlayerProjectileKeys.BEAM,
+				id: this.owner.id
+			});
+		}
+		if(Input.isJustPressed(Controls.SHIELD)){this.owner.activateShield()}
+		if(Input.isJustPressed(Controls.BOOST)){this.owner.activateBoost()}
+		// Move the player
+		let movement = Vec2.UP.scaled(forwardAxis * this.currentSpeed).add(new Vec2(horizontalAxis * this.currentSpeed, 0));
+		this.owner.move(movement.scaled(deltaT));
+	}
+
 
 	protected handlePlayerDeath = () => {
 		console.log("Handle player death")
@@ -169,7 +177,10 @@ export default class PlayerController implements AI {
 		if(this.owner.shielded){return;}
 		let bullet = this.owner.getScene().getEnemyShot(shotid)
         let damage = this.owner.getScene().getDamage(bullet.damage_key)
-		this.owner.takeDamage(damage)
+		let received = this.owner.takeDamage(damage)
+		if(received && !this.isState(playerstates.DYING)){
+			this.changeState(playerstates.TAKING_DAMAGE)
+		}
 	}
 
 	protected handleScrapPickup():void{
