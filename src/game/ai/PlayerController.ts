@@ -58,6 +58,7 @@ export default class PlayerController extends StateMachineAI {
 
 		this.receiver.subscribe(Events.PLAYER_ENEMY_COLLISION)
 		this.receiver.subscribe(Events.WEAPON_PLAYER_COLLISION)
+		this.receiver.subscribe(Events.PLAYER_SCRAP_COLLISION)
 
 		this.initialize(playerstates.IDLE)
 		this.activate(options);
@@ -70,6 +71,7 @@ export default class PlayerController extends StateMachineAI {
 
         // Set the player's movement speed
         this.currentSpeed = 300
+		this.owner.scrap = 0;
 
         // Play the idle animation by default
 		this.owner.animation.play(PlayerAnimations.IDLE, true);
@@ -121,7 +123,7 @@ export default class PlayerController extends StateMachineAI {
 				this.handleDamage(event.data.get("other"))
 				break;
 			}
-			case Events.PLAYER_ENEMY_COLLISION:{
+			case Events.PLAYER_SCRAP_COLLISION:{
 				this.handleScrapPickup()
 				break;
 			}
@@ -192,7 +194,9 @@ export default class PlayerController extends StateMachineAI {
 	}
 
 	protected handleScrapPickup():void{
-		console.log("WIP: Player picked up scrap")
+		let collected = this.owner.getScene().collectScrap
+		this.owner.collectedScrap(collected)
+		console.log(this.owner.scrap)
 	}
 } 
 

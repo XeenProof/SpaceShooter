@@ -382,6 +382,8 @@ export default class BaseScene extends ActorScene{
 	public get player(): PlayerActor {return this._player;}
 	public get isScreenCleared(): boolean {return this.entities.countInUse((x)=>{return x.PHYSICS == PhysicGroups.ENEMY}) <= 0}
 	public get TravelSpeed():Vec2 {return this.backgroundSpeed}
+	public get collectScrap():number {return RandUtils.randInt(10,21)}
+
 	public getEnemy(id: number): HPActor {return <HPActor>this.entities.getEntityById(id, PhysicGroups.ENEMY)}
 	public getShot(id: number): DamageActor {return <DamageActor>this.entities.getEntityById(id, PhysicGroups.PLAYER_WEAPON)}
 	public getEnemyShot(id: number): DamageActor {return <DamageActor>this.entities.getEntityById(id, PhysicGroups.ENEMY_WEAPON)}
