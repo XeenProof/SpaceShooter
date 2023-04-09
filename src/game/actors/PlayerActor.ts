@@ -84,9 +84,9 @@ export default class PlayerActor extends HPActor{
     private _scrap: number;
     public get scrap(): number {return this._scrap;}
     public set scrap(value: number) {this._scrap = value;}
-    public collectedScrap(value: number):void{this.scrap+=value}
-    public usedScrap(value: number):void{this.scrap-=value}
-    public canAfford(cost: number):boolean{return this.scrap >= cost}
+    public collectedScrap(value: number):void{if(this.scrap != -1){this.scrap+=value}}
+    public usedScrap(value: number):void{if(this.scrap != -1){this.scrap-=value}}
+    public canAfford(cost: number):boolean{return (this.scrap >= cost || this.scrap == -1)}
 
     public constructor(sheet: Spritesheet){
         super(sheet)
