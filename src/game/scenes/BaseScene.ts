@@ -50,6 +50,7 @@ import HPActor from "../actors/abstractActors/HPActor";
 import DamageActor from "../actors/abstractActors/DamageActor";
 import { Layers } from "../../constants/layers";
 import { GAMEPLAY_DIMENTIONS } from "../../constants/dimenstions";
+import Button from "../../Wolfie2D/Nodes/UIElements/Button";
 
 /**
  * This is the base scene for our game.
@@ -72,19 +73,27 @@ export default class BaseScene extends ActorScene{
 	protected damages: Map<String, number>;
 	protected cheatcodes: Record<string, boolean>
 
-	// Laser/Charge labels
-	protected chrgLabel: Label;
-	protected chrgBarLabels: Array<Label>;
+	// shield labels
+	protected shieldLabel: Label;
+	protected shieldBar: Label;
+	protected shieldBarBg: Label;
 
-	// Air labels
-	protected airLabel: Label;
-	protected airBar: Label;
-	protected airBarBg: Label;
+	// boost labels
+	protected boostLabel: Label;
+	protected boostBar: Label;
+	protected boostBarBg: Label;
 
 	// Health labels
 	protected healthLabel: Label;
 	protected healthBar: Label;
 	protected healthBarBg: Label;
+
+	// wave, scrap iron, points lables
+	protected waveLabel: Label;
+	protected scrapIronLabel: Label;
+	protected pointsLabel: Label;
+
+	protected informationBackground: Label;
 
 	// Timers for spawning rocks and bubbles
 	protected mineSpawnTimer: Timer;
@@ -185,7 +194,9 @@ export default class BaseScene extends ActorScene{
 		this.addLayer(Layers.BACKGROUND, 0);
 		this.addLayer(Layers.PRIMARY, 5);
 		this.addLayer(Layers.HEALTHBARS, 6);
-		this.addLayer(Layers.EXTRABARS, 7)
+		this.addLayer(Layers.EXTRABARS, 7);
+		this.addLayer(Layers.INFORMATION_BACKGROUND, 8);
+		this.addLayer(Layers.STATES, 9);
 		this.addUILayer(Layers.UI);
 	}
 	
@@ -199,54 +210,114 @@ export default class BaseScene extends ActorScene{
 	 * it's own UI class, but I don't have time for that.
 	 */
 	protected initUI(): void {
+		// information background
+		this.informationBackground = <Label>this.add.uiElement(UIElementType.LABEL, Layers.INFORMATION_BACKGROUND, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+150, GAMEPLAY_DIMENTIONS.YSTART+450), text: ""});
+		this.informationBackground.size = new Vec2(295, 895);
+		this.informationBackground.backgroundColor = Color.fromStringHex("#364558");
+		this.informationBackground.borderColor = Color.WHITE;
+		this.informationBackground.borderWidth = 4;
+
 		// HP Label
-		this.healthLabel = <Label>this.add.uiElement(UIElementType.LABEL, Layers.UI, {position: new Vec2(50, 50), text: "HP "});
-		this.healthLabel.size.set(300, 30);
+		this.healthLabel = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+60, GAMEPLAY_DIMENTIONS.YSTART+30), text: "HP"});
+		this.healthLabel.size.set(24, 24);
 		this.healthLabel.fontSize = 24;
 		this.healthLabel.font = "Courier";
+		this.healthLabel.textColor = Color.WHITE;
 
-		// Air Label
-		this.airLabel = <Label>this.add.uiElement(UIElementType.LABEL, Layers.UI, {position: new Vec2(50, 100), text: "Air"});
-		this.airLabel.size.set(300, 30);
-		this.airLabel.fontSize = 24;
-		this.airLabel.font = "Courier";
-
-		// Charge Label
-		this.chrgLabel = <Label>this.add.uiElement(UIElementType.LABEL, Layers.UI, {position: new Vec2(475, 50), text: "Lasers"});
-		this.chrgLabel.size.set(300, 30);
-		this.chrgLabel.fontSize = 24;
-		this.chrgLabel.font = "Courier";
-
-		// Charge airBars
-		this.chrgBarLabels = new Array(4);
-		for (let i = 0; i < this.chrgBarLabels.length; i++) {
-			let pos = new Vec2(500 + (i + 1)*(300 / this.chrgBarLabels.length), 50)
-			this.chrgBarLabels[i] = <Label>this.add.uiElement(UIElementType.LABEL, Layers.UI, {position: pos, text: ""});
-			this.chrgBarLabels[i].size = new Vec2(300 / this.chrgBarLabels.length, 25);
-			this.chrgBarLabels[i].backgroundColor = Color.GREEN;
-			this.chrgBarLabels[i].borderColor = Color.BLACK;
-		}
-
-		// HealthBar
-		this.healthBar = <Label>this.add.uiElement(UIElementType.LABEL, Layers.UI, {position: new Vec2(225, 50), text: ""});
-		this.healthBar.size = new Vec2(300, 25);
-		this.healthBar.backgroundColor = Color.GREEN;
-
-		// AirBar
-		this.airBar = <Label>this.add.uiElement(UIElementType.LABEL, Layers.UI, {position: new Vec2(225, 100), text: ""});
-		this.airBar.size = new Vec2(300, 25);
-		this.airBar.backgroundColor = Color.CYAN;
+		//healthbar
+		this.healthBar = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+60, GAMEPLAY_DIMENTIONS.YSTART+325), text: ""});
+		this.healthBar.size = new Vec2(60, 450);
+		this.healthBar.backgroundColor = Color.fromStringHex("#07E3D6");
 
 		// HealthBar Border
-		this.healthBarBg = <Label>this.add.uiElement(UIElementType.LABEL, Layers.UI, {position: new Vec2(225, 50), text: ""});
-		this.healthBarBg.size = new Vec2(300, 25);
+		this.healthBarBg = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+60, GAMEPLAY_DIMENTIONS.YSTART+325), text: ""});
+		this.healthBarBg.size = new Vec2(60, 450);
 		this.healthBarBg.borderColor = Color.BLACK;
+		this.healthBarBg.borderWidth = 1;
 
-		// AirBar Border
-		this.airBarBg = <Label>this.add.uiElement(UIElementType.LABEL, Layers.UI, {position: new Vec2(225, 100), text: ""});
-		this.airBarBg.size = new Vec2(300, 25);
-		this.airBarBg.borderColor = Color.BLACK;
+		// shield Label
+		this.shieldLabel = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+150, GAMEPLAY_DIMENTIONS.YSTART+30), text: "SHIELD"});
+		this.shieldLabel.size.set(24, 24);
+		this.shieldLabel.fontSize = 24;
+		this.shieldLabel.font = "Courier";
+		this.shieldLabel.textColor = Color.WHITE;
 
+		//shield
+		this.shieldBar = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+150, GAMEPLAY_DIMENTIONS.YSTART+325), text: ""});
+		this.shieldBar.size = new Vec2(60, 450);
+		this.shieldBar.backgroundColor = Color.fromStringHex("#07E3D6");
+
+		// shield Border
+		this.shieldBarBg = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+150, GAMEPLAY_DIMENTIONS.YSTART+325), text: ""});
+		this.shieldBarBg.size = new Vec2(60, 450);
+		this.shieldBarBg.borderColor = Color.BLACK;
+		this.shieldBarBg.borderWidth = 1;
+
+		// boost Label
+		this.boostLabel = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+240, GAMEPLAY_DIMENTIONS.YSTART+30), text: "BOOST"});
+		this.boostLabel.size.set(24, 24);
+		this.boostLabel.fontSize = 24;
+		this.boostLabel.font = "Courier";
+		this.boostLabel.textColor = Color.WHITE;
+
+		// boost
+		this.boostBar = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+240, GAMEPLAY_DIMENTIONS.YSTART+325), text: ""});
+		this.boostBar.size = new Vec2(60, 450);
+		this.boostBar.backgroundColor = Color.fromStringHex("#07E3D6");
+
+		// boost Border
+		this.boostBarBg = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+240, GAMEPLAY_DIMENTIONS.YSTART+325), text: ""});
+		this.boostBarBg.size = new Vec2(60, 450);
+		this.boostBarBg.borderColor = Color.BLACK;
+		this.boostBarBg.borderWidth = 1;
+
+		//wave
+		this.waveLabel = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+75, GAMEPLAY_DIMENTIONS.YSTART+590), text: "WAVE: "});
+		this.waveLabel.size.set(30, 30);
+		this.waveLabel.fontSize = 30;
+		this.waveLabel.font = "Courier";
+		this.waveLabel.textColor = Color.WHITE;
+
+		//scrap iron
+		this.scrapIronLabel = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+125, GAMEPLAY_DIMENTIONS.YSTART+640), text: "SCRAP IRON: "});
+		this.scrapIronLabel.size.set(30, 30);
+		this.scrapIronLabel.fontSize = 30;
+		this.scrapIronLabel.font = "Courier";
+		this.scrapIronLabel.textColor = Color.WHITE;
+
+		//points
+		this.pointsLabel = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+90, GAMEPLAY_DIMENTIONS.YSTART+690), text: "POINTS: "});
+		this.pointsLabel.size.set(30, 30);
+		this.pointsLabel.fontSize = 30;
+		this.pointsLabel.font = "Courier";
+		this.pointsLabel.textColor = Color.WHITE;
+
+		//health button
+		const healthButton = <Button> this.add.uiElement(UIElementType.BUTTON, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+150, GAMEPLAY_DIMENTIONS.YSTART+740), text: "HEALTH"});
+        healthButton.size.set(200, 50);
+        healthButton.borderWidth = 0.5;
+        healthButton.borderColor = Color.BLACK;
+		healthButton.fontSize = 30;
+        healthButton.backgroundColor = Color.fromStringHex("#07E3D6");
+		// healthButton.onClickEventId = MainMenuEvent.CONTROLS;
+
+		//increase max health button
+		const maxHealthButton = <Button> this.add.uiElement(UIElementType.BUTTON, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+150, GAMEPLAY_DIMENTIONS.YSTART+800), text: "UPGRADE HEALTH"});
+        maxHealthButton.size.set(200, 50);
+        maxHealthButton.borderWidth = 0.5;
+        maxHealthButton.borderColor = Color.BLACK;
+		maxHealthButton.fontSize = 18;
+        maxHealthButton.backgroundColor = Color.fromStringHex("#07E3D6");
+		// healthButton.onClickEventId = MainMenuEvent.CONTROLS;
+
+		//upgrade weapon button
+		const upgradeWeaponButton = <Button> this.add.uiElement(UIElementType.BUTTON, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+150, GAMEPLAY_DIMENTIONS.YSTART+860), text: "UPGRADE WEAPON"});
+        upgradeWeaponButton.size.set(200, 50);
+        upgradeWeaponButton.borderWidth = 0.5;
+        upgradeWeaponButton.borderColor = Color.BLACK;
+		upgradeWeaponButton.fontSize = 18;
+        upgradeWeaponButton.backgroundColor = Color.fromStringHex("#07E3D6");
+		// upgradeWeaponButton.onClickEventId = MainMenuEvent.CONTROLS;
 	}
 	/**
 	 * Initializes the timer objects for the game.
@@ -429,9 +500,9 @@ export default class BaseScene extends ActorScene{
 	 * @see Label for more information about labels
 	 */
 	protected handleAirChange(currentAir: number, maxAir: number): void {
-		let unit = this.airBarBg.size.x / maxAir;
-		this.airBar.size.set(this.airBarBg.size.x - unit * (maxAir - currentAir), this.airBarBg.size.y);
-		this.airBar.position.set(this.airBarBg.position.x - (unit / 2) * (maxAir - currentAir), this.airBarBg.position.y);
+		// let unit = this.airBarBg.size.x / maxAir;
+		// this.airBar.size.set(this.airBarBg.size.x - unit * (maxAir - currentAir), this.airBarBg.size.y);
+		// this.airBar.position.set(this.airBarBg.position.x - (unit / 2) * (maxAir - currentAir), this.airBarBg.position.y);
 	}
 	/**
 	 * This method handles updating the charge of player's laser in the UI.
@@ -484,12 +555,12 @@ export default class BaseScene extends ActorScene{
 	 * @see Label for more information about labels
 	 */
 	protected handleChargeChange(currentCharge: number, maxCharge: number): void {
-		for (let i = 0; i < currentCharge && i < this.chrgBarLabels.length; i++) {
-			this.chrgBarLabels[i].backgroundColor = Color.GREEN;
-		}
-		for (let i = currentCharge; i < this.chrgBarLabels.length; i++) {
-			this.chrgBarLabels[i].backgroundColor = Color.RED;
-		}
+		// for (let i = 0; i < currentCharge && i < this.chrgBarLabels.length; i++) {
+		// 	this.chrgBarLabels[i].backgroundColor = Color.GREEN;
+		// }
+		// for (let i = currentCharge; i < this.chrgBarLabels.length; i++) {
+		// 	this.chrgBarLabels[i].backgroundColor = Color.RED;
+		// }
 	}
 
 	
