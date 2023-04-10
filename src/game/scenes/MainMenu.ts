@@ -149,7 +149,7 @@ export default class MainMenu extends Scene {
         const d = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.CONTROLS, {position: new Vec2(center.x, center.y ), text: "D - Move Right"});
         d.textColor = Color.YELLOW
         d.fontSize = 50;
-        const space = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.CONTROLS, {position: new Vec2(center.x, center.y + 50), text: "SPACE - Shoot"});
+        const space = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.CONTROLS, {position: new Vec2(center.x, center.y + 50), text: "Left Click - Shoot"});
         space.textColor = Color.YELLOW;
         space.fontSize = 50;
         const E = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.CONTROLS, {position: new Vec2(center.x, center.y + 100), text: "E - Activate Shield"});
@@ -233,7 +233,7 @@ export default class MainMenu extends Scene {
         this.nukeButton.onClickEventId = MainMenuEvent.NUKE;
         this.nukeButton.text = CheatCodes.getCheat(cheats.NUKE_BUTTON)?"X":""
 
-        const nuke = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x, center.y + 200), text: "NUKE"});
+        const nuke = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x + 30, center.y + 200), text: "NUKE ( - )"});
         nuke.textColor = Color.YELLOW;
         nuke.fontSize = 40;
 

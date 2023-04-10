@@ -309,7 +309,7 @@ export default class BaseScene extends ActorScene{
 		this.scrapIronLabel.font = "Courier";
 		this.scrapIronLabel.textColor = Color.WHITE;
 
-		this.scrapIron = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+140, GAMEPLAY_DIMENTIONS.YSTART+640), text: `0`});
+		this.scrapIron = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+160, GAMEPLAY_DIMENTIONS.YSTART+640), text: `0`});
 		this.scrapIron.size.set(30, 30);
 		this.scrapIron.fontSize = 30;
 		this.scrapIron.font = "Courier";
