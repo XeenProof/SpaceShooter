@@ -38,7 +38,11 @@ const MainMenuEvent = {
     ONE_SHOOT_KILL: "ONE_SHOOT_KILL",
 	MENU: "MENU",
     PLAY_RECORDING: "PLAY_RECORDING",
-    INVINCIBLE: "INVINCIBLE"
+    INVINCIBLE: "INVINCIBLE",
+    NUKE: "NUKE",
+    INFINITE_SCRAP: "INFINITE_SCRAP",
+    INFINITE_BOOSTER: "INFINITE_BOOSTER",
+    INFINITE_SHIELD: "INFINITE_SHIELD",
 } as const;
 
 export default class MainMenu extends Scene {
@@ -56,6 +60,10 @@ export default class MainMenu extends Scene {
 
     protected oneShootKillButton: Button;
     protected invincibleButton: Button;
+    protected nukeButton: Button;
+    protected infiniteScrapButton: Button;
+    protected infiniteBoosterButton: Button;
+    protected infiniteShieldButton: Button;
 
     public override loadScene(){
         // this.autoloader(LoadAPPLE.APPLE);
@@ -192,7 +200,7 @@ export default class MainMenu extends Scene {
         helpBack.onClickEventId = MainMenuEvent.MENU;
 
 
-        this.oneShootKillButton = <Button> this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x-450, center.y + 300), text: ""});
+        this.oneShootKillButton = <Button> this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x-450, center.y + 200), text: ""});
         this.oneShootKillButton.size.set(50, 50);
         this.oneShootKillButton.borderWidth = 2;
         this.oneShootKillButton.borderColor = Color.YELLOW;
@@ -200,12 +208,12 @@ export default class MainMenu extends Scene {
         this.oneShootKillButton.onClickEventId = MainMenuEvent.ONE_SHOOT_KILL;
         this.oneShootKillButton.text = CheatCodes.getCheat(cheats.OHKO)?"X":""
 
-        const oneShootKill = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x-200, center.y + 300), text: "One Shoot Kill Enermy"});
+        const oneShootKill = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x-270, center.y + 200), text: "One Shoot Kill"});
         oneShootKill.textColor = Color.YELLOW;
         oneShootKill.fontSize = 40;
 
 
-        this.invincibleButton = <Button> this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x-450, center.y + 400), text: ""});
+        this.invincibleButton = <Button> this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x-450, center.y + 300), text: ""});
         this.invincibleButton.size.set(50, 50);
         this.invincibleButton.borderWidth = 2;
         this.invincibleButton.borderColor = Color.YELLOW;
@@ -213,9 +221,58 @@ export default class MainMenu extends Scene {
         this.invincibleButton.onClickEventId = MainMenuEvent.INVINCIBLE;
         this.invincibleButton.text = CheatCodes.getCheat(cheats.INVINSIBLE)?"X":""
 
-        const invincible = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x-320, center.y + 400), text: "Invincible"});
+        const invincible = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x-320, center.y + 300), text: "Invincible"});
         invincible.textColor = Color.YELLOW;
         invincible.fontSize = 40;
+
+        this.nukeButton = <Button> this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x - 100, center.y + 200), text: ""});
+        this.nukeButton.size.set(50, 50);
+        this.nukeButton.borderWidth = 2;
+        this.nukeButton.borderColor = Color.YELLOW;
+        this.nukeButton.backgroundColor = Color.TRANSPARENT;
+        this.nukeButton.onClickEventId = MainMenuEvent.NUKE;
+        this.nukeButton.text = CheatCodes.getCheat(cheats.NUKE_BUTTON)?"X":""
+
+        const nuke = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x, center.y + 200), text: "NUKE"});
+        nuke.textColor = Color.YELLOW;
+        nuke.fontSize = 40;
+
+        this.infiniteScrapButton = <Button> this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x - 100, center.y + 300), text: ""});
+        this.infiniteScrapButton.size.set(50, 50);
+        this.infiniteScrapButton.borderWidth = 2;
+        this.infiniteScrapButton.borderColor = Color.YELLOW;
+        this.infiniteScrapButton.backgroundColor = Color.TRANSPARENT;
+        this.infiniteScrapButton.onClickEventId = MainMenuEvent.INFINITE_SCRAP;
+        this.infiniteScrapButton.text = CheatCodes.getCheat(cheats.INFINITE_SCRAP)?"X":""
+
+        const infiniteScrap = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x + 60, center.y + 300), text: "Infinite Scrap"});
+        infiniteScrap.textColor = Color.YELLOW;
+        infiniteScrap.fontSize = 40;
+
+        this.infiniteBoosterButton = <Button> this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x + 240, center.y + 300), text: ""});
+        this.infiniteBoosterButton.size.set(50, 50);
+        this.infiniteBoosterButton.borderWidth = 2;
+        this.infiniteBoosterButton.borderColor = Color.YELLOW;
+        this.infiniteBoosterButton.backgroundColor = Color.TRANSPARENT;
+        this.infiniteBoosterButton.onClickEventId = MainMenuEvent.INFINITE_BOOSTER;
+        this.infiniteBoosterButton.text = CheatCodes.getCheat(cheats.INFINITE_BOOSTER)?"X":""
+
+
+        const infiniteBooster = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x + 420, center.y + 300), text: "Infinite Booster"});
+        infiniteBooster.textColor = Color.YELLOW;
+        infiniteBooster.fontSize = 40;
+
+        this.infiniteShieldButton = <Button> this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x + 240, center.y + 200), text: ""});
+        this.infiniteShieldButton.size.set(50, 50);
+        this.infiniteShieldButton.borderWidth = 2;
+        this.infiniteShieldButton.borderColor = Color.YELLOW;
+        this.infiniteShieldButton.backgroundColor = Color.TRANSPARENT;
+        this.infiniteShieldButton.onClickEventId = MainMenuEvent.INFINITE_SHIELD;
+        this.infiniteShieldButton.text = CheatCodes.getCheat(cheats.INFINITE_SHIELD)?"X":""
+
+        const infiniteShield = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x + 420, center.y + 200), text: "Infinite Shield"});
+        infiniteShield.textColor = Color.YELLOW;
+        infiniteShield.fontSize = 40;
 
         // Subscribe to the button events
         this.receiver.subscribe(MainMenuEvent.PLAY_GAME);
@@ -224,6 +281,10 @@ export default class MainMenu extends Scene {
         this.receiver.subscribe(MainMenuEvent.MENU);
         this.receiver.subscribe(MainMenuEvent.ONE_SHOOT_KILL);
         this.receiver.subscribe(MainMenuEvent.INVINCIBLE);
+        this.receiver.subscribe(MainMenuEvent.NUKE);
+        this.receiver.subscribe(MainMenuEvent.INFINITE_SCRAP);
+        this.receiver.subscribe(MainMenuEvent.INFINITE_BOOSTER);
+        this.receiver.subscribe(MainMenuEvent.INFINITE_SHIELD);
         this.receiver.subscribe("Test")
     }
 
@@ -298,6 +359,26 @@ export default class MainMenu extends Scene {
             case MainMenuEvent.INVINCIBLE: {
                 CheatCodes.triggerCheat(cheats.INVINSIBLE)
                 this.invincibleButton.text = CheatCodes.getCheat(cheats.INVINSIBLE)?"X":""
+                break;
+            }
+            case MainMenuEvent.NUKE: {
+                CheatCodes.triggerCheat(cheats.NUKE_BUTTON)
+                this.nukeButton.text = CheatCodes.getCheat(cheats.NUKE_BUTTON)?"X":""
+                break;
+            }
+            case MainMenuEvent.INFINITE_SCRAP: {
+                CheatCodes.triggerCheat(cheats.INFINITE_SCRAP)
+                this.infiniteScrapButton.text = CheatCodes.getCheat(cheats.INFINITE_SCRAP)?"X":""
+                break;
+            }
+            case MainMenuEvent.INFINITE_BOOSTER: {
+                CheatCodes.triggerCheat(cheats.INFINITE_BOOSTER)
+                this.infiniteBoosterButton.text = CheatCodes.getCheat(cheats.INFINITE_BOOSTER)?"X":""
+                break;
+            }
+            case MainMenuEvent.INFINITE_SHIELD: {
+                CheatCodes.triggerCheat(cheats.INFINITE_SHIELD)
+                this.infiniteShieldButton.text = CheatCodes.getCheat(cheats.INFINITE_SHIELD)?"X":""
                 break;
             }
             case "Test":{
