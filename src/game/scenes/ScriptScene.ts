@@ -94,6 +94,10 @@ export default class ScriptScene extends LevelScene{
                 this.HandleWave(node.options)
                 break;
             }
+            case Script_Type.LEVEL_ENDS:{
+                this.handleLevelEnds(node.options.endtype)
+                break;
+            }
         }
     }
 

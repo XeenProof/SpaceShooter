@@ -144,4 +144,8 @@ export default class PlayerActor extends HPActor{
     public handleIframeEnds(): void {
         //this.iframe = false
     }
+
+    public heal(value: number = this.maxHealth){
+        this.health = this.maxHealth
+    }
 }

@@ -88,6 +88,7 @@ export default class PlayerController extends StateMachineAI {
 	 */
 	public update(deltaT: number): void {
         // First, handle all events 
+		console.log("player update")
 		while(this.receiver.hasNextEvent()){
 			this.handleEvent(this.receiver.getNextEvent());
 		}

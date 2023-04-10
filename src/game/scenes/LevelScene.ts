@@ -10,6 +10,7 @@ import { AllItemKey } from "../../constants/items/itemData";
 import { AllPlayerData } from "../../constants/player/playerData";
 import PlayerActor from "../actors/PlayerActor";
 import { initPlayerFunc } from "../initPlayerFunc";
+import SelectionScence from "./SelectionScene";
 
 /**
  * This is the level scene for our game
@@ -19,21 +20,23 @@ export default class LevelScene extends BaseScene {
 
 	protected endLevelTimer:Timer
 	protected endType:string
+	protected levelEnded:boolean
 
 	public override initScene(options: Record<string, any>): void {
-		this.endLevelTimer = new Timer(5000, )
+		this.endLevelTimer = new Timer(5000, ()=>{this.endLevel()})
 	}
 
 	/**
 	 * @see Scene.updateScene 
 	 */
 	public override updateScene(deltaT: number){
+		console.log("scene update")
+		if(this.levelEnded){return;}
 		super.updateScene(deltaT)
 		//this.spawnCommomMook(generatePathFromList(recRoute.NORMAL, 300));
 	}
 
 	protected handleEvent(event: GameEvent){
-		super.handleEvent(event);
 		switch(event.type) {
 			case Events.PLAYER_SHOOTS: {
 				this.handleAttack(event.data.record)
@@ -48,11 +51,11 @@ export default class LevelScene extends BaseScene {
 				break;
 			}
 			case Events.HEALTH:{
-				if(super.player.canAfford(10)){
-					super.player.usedScrap(10);
-					super.player.health = super.player.maxHealth;
-				}
+				this.handleHealPlayer();
 				break;
+			}
+			case Events.LEVEL_ENDS:{
+				this.handleLevelEnds(event.data.get("endtype"));
 			}
 			default: {
 				throw new Error(`Unhandled event with type ${event.type} caught in ${this.constructor.name}`);
@@ -60,7 +63,7 @@ export default class LevelScene extends BaseScene {
 		}
 	}
 
-		/** 
+	/** 
 	 * This method initializes the player.
 	 * 
 	 * @remarks 
@@ -108,7 +111,23 @@ export default class LevelScene extends BaseScene {
 		}
 	}
 
-	protected handleLevelEnds():void{
+	protected handleHealPlayer():void{
+		if(this.player.canAfford(10)){
+			this.player.usedScrap(10);
+			this.player.health = this.player.maxHealth;
+		}
+	}
 
+	protected handleLevelEnds(type: string):void{
+		this.endType = type;
+		this.levelEnded = true
+		this.sceneManager.changeToScene(SelectionScence)
+		this.endLevelTimer.start();
+		console.log(type)
+	}
+
+	protected endLevel():void{
+		console.log("level ends")
+		this.sceneManager.changeToScene(SelectionScence)
 	}
 }

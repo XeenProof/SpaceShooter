@@ -1,4 +1,15 @@
+export const LevelEndConst = {
+    GAME_OVER: "GAME_OVER",
+    LEVEL_CLEARED: "LEVEL_CLEARED"
+}
+
 export const Events = {
+    LEVEL_ENDS: "LEVEL_ENDS",
+    /**
+     * {
+     * endtype: the type of level end
+     * }
+     */
     TRAVEL_SPEED_CHANGE: "TRAVEL_SPEED_CHANGE",
     /**{
      * speed: the travel speed

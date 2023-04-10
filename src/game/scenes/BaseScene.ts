@@ -24,12 +24,6 @@ import { Layers } from "../../constants/layers";
 import { GAMEPLAY_DIMENTIONS } from "../../constants/dimenstions";
 import Button from "../../Wolfie2D/Nodes/UIElements/Button";
 
-
-const GameInsideEvent = {
-    HEALTH: "HEALTH",
-	UPGRADE_HEALTH: "UPGRADE_HEALTH",
-	UPGRADE_WEAPON: "UPGRADE_WEAPON",
-} as const;
 /**
  * This is the base scene for our game.
  * It handles all the initializations 
@@ -157,15 +151,15 @@ export default class BaseScene extends ActorScene{
 		this.receiver.subscribe(Events.PLAYER_SHOOTS);
 		this.receiver.subscribe(Events.ENEMY_SHOOTS);
 		this.receiver.subscribe(Events.DROP_SCRAP);
-		this.receiver.subscribe(GameInsideEvent.HEALTH);
-		this.receiver.subscribe(GameInsideEvent.UPGRADE_HEALTH);
-		this.receiver.subscribe(GameInsideEvent.UPGRADE_WEAPON);
+		this.receiver.subscribe(Events.HEALTH);
+		this.receiver.subscribe(Events.UPGRADE_HEALTH);
+		this.receiver.subscribe(Events.UPGRADE_WEAPON);
+		this.receiver.subscribe(Events.LEVEL_ENDS);
 	}
 	/**
 	 * @see Scene.updateScene 
 	 */
 	public override updateScene(deltaT: number){
-		super.updateScene(deltaT)
 		this.timePassed += deltaT;
 		// Handle events
 		while (this.receiver.hasNextEvent()) {
@@ -344,7 +338,7 @@ export default class BaseScene extends ActorScene{
 		healthButton.fontSize = 30;
         healthButton.backgroundColor = Color.fromStringHex("#07E3D6");
 		healthButton.onClick
-		healthButton.onClickEventId = GameInsideEvent.HEALTH;
+		healthButton.onClickEventId = Events.HEALTH;
 
 		//increase max health button
 		const maxHealthButton = <Button> this.add.uiElement(UIElementType.BUTTON, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+150, GAMEPLAY_DIMENTIONS.YSTART+800), text: "UPGRADE HEALTH"});
@@ -353,7 +347,7 @@ export default class BaseScene extends ActorScene{
         maxHealthButton.borderColor = Color.BLACK;
 		maxHealthButton.fontSize = 18;
         maxHealthButton.backgroundColor = Color.fromStringHex("#07E3D6");
-		maxHealthButton.onClickEventId = GameInsideEvent.UPGRADE_HEALTH;
+		maxHealthButton.onClickEventId = Events.UPGRADE_HEALTH;
 
 		//upgrade weapon button
 		const upgradeWeaponButton = <Button> this.add.uiElement(UIElementType.BUTTON, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+150, GAMEPLAY_DIMENTIONS.YSTART+860), text: "UPGRADE WEAPON"});
@@ -362,7 +356,7 @@ export default class BaseScene extends ActorScene{
         upgradeWeaponButton.borderColor = Color.BLACK;
 		upgradeWeaponButton.fontSize = 18;
         upgradeWeaponButton.backgroundColor = Color.fromStringHex("#07E3D6");
-		upgradeWeaponButton.onClickEventId = GameInsideEvent.UPGRADE_WEAPON;
+		upgradeWeaponButton.onClickEventId = Events.UPGRADE_WEAPON;
 	}
 	/**
 	 * Initializes the timer objects for the game.
