@@ -122,7 +122,7 @@ export default class LevelScene extends BaseScene {
 		this.endType = type;
 		this.levelEnded = true
 		this.sceneManager.changeToScene(SelectionScence)
-		this.endLevelTimer.start();
+		// this.endLevelTimer.start();
 		console.log(type)
 	}
 
