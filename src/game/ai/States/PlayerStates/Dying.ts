@@ -12,6 +12,7 @@ export default class Dying extends PlayerState{
     public update(deltaT: number): void {
         console.log("player has died")
         this.owner.animation.playIfNotAlready(PlayerAnimations.DEAD)
+        this.emitter.fireEvent(Events.LEVEL_ENDS, {endtype: LevelEndConst.GAME_OVER})
         // if(!this.owner.animation.isPlaying(PlayerAnimations.DYING) && !this.played){
         //     this.played = true
         //     this.owner.animation.playIfNotAlready(PlayerAnimations.DEAD)

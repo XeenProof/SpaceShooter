@@ -9,9 +9,10 @@ export default class Dying extends EnemyState{
         this.owner.healthBar.visible = false
     }
     update(deltaT:number){
-        if(!this.owner.animation.isPlaying(enemyAnimations.DYING)){
-            this.parent.dying()
-        }
+        this.parent.dying()
+        // if(!this.owner.animation.isPlaying(enemyAnimations.DYING)){
+        //     this.parent.dying()
+        // }
     }
     public onExit(): Record<string, any> {
         this.owner.animation.stop()
