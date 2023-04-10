@@ -186,6 +186,8 @@ export default class BaseScene extends ActorScene{
 		this.receiver.subscribe(Events.ENEMY_SHOOTS);
 		this.receiver.subscribe(Events.DROP_SCRAP);
 		this.receiver.subscribe(GameInsideEvent.HEALTH);
+		this.receiver.subscribe(GameInsideEvent.UPGRADE_HEALTH);
+		this.receiver.subscribe(GameInsideEvent.UPGRADE_WEAPON);
 	}
 	/**
 	 * @see Scene.updateScene 
@@ -335,7 +337,7 @@ export default class BaseScene extends ActorScene{
 		//
 
 		//scrap iron
-		this.scrapIronLabel = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+125, GAMEPLAY_DIMENTIONS.YSTART+640), text: "SCRAP IRON: "});
+		this.scrapIronLabel = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+125, GAMEPLAY_DIMENTIONS.YSTART+640), text: "SCRAP: "});
 		this.scrapIronLabel.size.set(30, 30);
 		this.scrapIronLabel.fontSize = 30;
 		this.scrapIronLabel.font = "Courier";
