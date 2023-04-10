@@ -462,7 +462,7 @@ export default class BaseScene extends ActorScene{
 	public getEnemyDamage(key: String): number{return this.damages.get(key)}
 	public getCheat(key: string): boolean {return (this.cheatcodes[key])?this.cheatcodes[key]:false}
 
-	//TO-BE-REMOVED-----------------------------------------------------------------------------
+	
 	
 	protected handleHealthChange(currentHealth: number, maxHealth: number): void {
 		let unit = this.healthBarBg.size.y / maxHealth;

@@ -96,7 +96,10 @@ export default class LevelScene extends BaseScene {
 				break;
 			}
 			case GameInsideEvent.HEALTH:{
-				super.player.health = super.player.maxHealth;
+				if(super.player.canAfford(100)){
+					super.player.usedScrap(100);
+					super.player.health = super.player.maxHealth;
+				}
 				break;
 			}
 			default: {
