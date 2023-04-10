@@ -57,6 +57,12 @@ export const HW2Layers = {
 	UI: "UI"
 } as const;
 
+const GameInsideEvent = {
+    HEALTH: "HEALTH",
+	UPGRADE_HEALTH: "UPGRADE_HEALTH",
+	UPGRADE_WEAPON: "UPGRADE_WEAPON",
+} as const;
+
 /**
  * This is the level scene for our game
  * It handles all the interactions
@@ -87,6 +93,10 @@ export default class LevelScene extends BaseScene {
 			}
 			case Events.DROP_SCRAP:{
 				this.handleSpawnScrap(event.data.get("src"))
+				break;
+			}
+			case GameInsideEvent.HEALTH:{
+				super.player.health = super.player.maxHealth;
 				break;
 			}
 			default: {

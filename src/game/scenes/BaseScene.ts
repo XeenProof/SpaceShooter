@@ -52,6 +52,12 @@ import { Layers } from "../../constants/layers";
 import { GAMEPLAY_DIMENTIONS } from "../../constants/dimenstions";
 import Button from "../../Wolfie2D/Nodes/UIElements/Button";
 
+
+const GameInsideEvent = {
+    HEALTH: "HEALTH",
+	UPGRADE_HEALTH: "UPGRADE_HEALTH",
+	UPGRADE_WEAPON: "UPGRADE_WEAPON",
+} as const;
 /**
  * This is the base scene for our game.
  * It handles all the initializations 
@@ -89,10 +95,20 @@ export default class BaseScene extends ActorScene{
 	protected healthBar: Label;
 	protected healthBarBg: Label;
 
+	// health, shield, booster icons
+	protected healthIcon: Sprite;
+	protected shieldIcon: Sprite;
+	protected boostIcon: Sprite;
+
 	// wave, scrap iron, points lables
 	protected waveLabel: Label;
 	protected scrapIronLabel: Label;
 	protected pointsLabel: Label;
+
+	// wave, scrap iron, points values
+	protected wave: Label;
+	protected scrapIron: Label;
+	protected points: Label;
 
 	protected informationBackground: Label;
 
@@ -114,6 +130,12 @@ export default class BaseScene extends ActorScene{
 		this.entities = new EntityManager<CanvasNode>();
 		this.damages = new Map<String, number>();
 		this.backgroundSpeed = new Vec2(0, -150);
+    }
+
+	public override loadScene(){
+        this.load.image("HealthIcon","assets/sprites/health.png");
+		this.load.image("ShieldIcon","assets/sprites/shield.png");
+		this.load.image("BoostIcon","assets/sprites/boost.png");
     }
 
 	/** Scene lifecycle methods */
@@ -162,6 +184,7 @@ export default class BaseScene extends ActorScene{
 		this.receiver.subscribe(Events.PLAYER_SHOOTS);
 		this.receiver.subscribe(Events.ENEMY_SHOOTS);
 		this.receiver.subscribe(Events.DROP_SCRAP);
+		this.receiver.subscribe(GameInsideEvent.HEALTH);
 	}
 	/**
 	 * @see Scene.updateScene 
@@ -173,6 +196,14 @@ export default class BaseScene extends ActorScene{
 		while (this.receiver.hasNextEvent()) {
 			this.handleEvent(this.receiver.getNextEvent());
 		}
+
+		this.handleHealthChange(this.player.health,this.player.maxHealth);
+		this.handleShieldChange(this.player.shieldCharge.value,this.player.shieldCharge.maxValue);
+		this.handleBoosterChange(this.player.boosterCharge.value,this.player.boosterCharge.maxValue);
+		this.wave.setText(this.wavenum.toString());
+		this.scrapIron.setText(this.player.scrap.toString());
+		this.points.setText("0");
+
 		this.moveBackgrounds(deltaT);
 		this.lockPlayer(this.player, this.viewport.getCenter(), this.viewport.getHalfSize())
 	}
@@ -218,54 +249,60 @@ export default class BaseScene extends ActorScene{
 		this.informationBackground.borderColor = Color.WHITE;
 		this.informationBackground.borderWidth = 4;
 
+		// health icon  
+		this.healthIcon = this.add.sprite("HealthIcon", Layers.STATES);
+		this.healthIcon.position = new Vec2(GAMEPLAY_DIMENTIONS.XEND+60, GAMEPLAY_DIMENTIONS.YSTART+80);
+		this.healthIcon.scale = new Vec2(0.25,0.25);
 		// HP Label
 		this.healthLabel = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+60, GAMEPLAY_DIMENTIONS.YSTART+30), text: "HP"});
 		this.healthLabel.size.set(24, 24);
 		this.healthLabel.fontSize = 24;
 		this.healthLabel.font = "Courier";
 		this.healthLabel.textColor = Color.WHITE;
-
 		//healthbar
 		this.healthBar = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+60, GAMEPLAY_DIMENTIONS.YSTART+325), text: ""});
 		this.healthBar.size = new Vec2(60, 450);
 		this.healthBar.backgroundColor = Color.fromStringHex("#07E3D6");
-
 		// HealthBar Border
 		this.healthBarBg = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+60, GAMEPLAY_DIMENTIONS.YSTART+325), text: ""});
 		this.healthBarBg.size = new Vec2(60, 450);
 		this.healthBarBg.borderColor = Color.BLACK;
 		this.healthBarBg.borderWidth = 1;
 
+		// shield icon  
+		this.shieldIcon = this.add.sprite("ShieldIcon", Layers.STATES);
+		this.shieldIcon.position = new Vec2(GAMEPLAY_DIMENTIONS.XEND+150, GAMEPLAY_DIMENTIONS.YSTART+80);
+		this.shieldIcon.scale = new Vec2(0.25,0.25);
 		// shield Label
 		this.shieldLabel = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+150, GAMEPLAY_DIMENTIONS.YSTART+30), text: "SHIELD"});
 		this.shieldLabel.size.set(24, 24);
 		this.shieldLabel.fontSize = 24;
 		this.shieldLabel.font = "Courier";
 		this.shieldLabel.textColor = Color.WHITE;
-
 		//shield
 		this.shieldBar = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+150, GAMEPLAY_DIMENTIONS.YSTART+325), text: ""});
 		this.shieldBar.size = new Vec2(60, 450);
 		this.shieldBar.backgroundColor = Color.fromStringHex("#07E3D6");
-
 		// shield Border
 		this.shieldBarBg = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+150, GAMEPLAY_DIMENTIONS.YSTART+325), text: ""});
 		this.shieldBarBg.size = new Vec2(60, 450);
 		this.shieldBarBg.borderColor = Color.BLACK;
 		this.shieldBarBg.borderWidth = 1;
 
+		// boost icon  
+		this.boostIcon = this.add.sprite("BoostIcon", Layers.STATES);
+		this.boostIcon.position = new Vec2(GAMEPLAY_DIMENTIONS.XEND+240, GAMEPLAY_DIMENTIONS.YSTART+80);
+		this.boostIcon.scale = new Vec2(0.25,0.25);
 		// boost Label
 		this.boostLabel = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+240, GAMEPLAY_DIMENTIONS.YSTART+30), text: "BOOST"});
 		this.boostLabel.size.set(24, 24);
 		this.boostLabel.fontSize = 24;
 		this.boostLabel.font = "Courier";
 		this.boostLabel.textColor = Color.WHITE;
-
 		// boost
 		this.boostBar = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+240, GAMEPLAY_DIMENTIONS.YSTART+325), text: ""});
 		this.boostBar.size = new Vec2(60, 450);
 		this.boostBar.backgroundColor = Color.fromStringHex("#07E3D6");
-
 		// boost Border
 		this.boostBarBg = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+240, GAMEPLAY_DIMENTIONS.YSTART+325), text: ""});
 		this.boostBarBg.size = new Vec2(60, 450);
@@ -279,12 +316,26 @@ export default class BaseScene extends ActorScene{
 		this.waveLabel.font = "Courier";
 		this.waveLabel.textColor = Color.WHITE;
 
+		this.wave = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+125, GAMEPLAY_DIMENTIONS.YSTART+590), text: "0"});
+		this.wave.size.set(30, 30);
+		this.wave.fontSize = 30;
+		this.wave.font = "Courier";
+		this.wave.textColor = Color.WHITE;
+		//
+
 		//scrap iron
 		this.scrapIronLabel = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+125, GAMEPLAY_DIMENTIONS.YSTART+640), text: "SCRAP IRON: "});
 		this.scrapIronLabel.size.set(30, 30);
 		this.scrapIronLabel.fontSize = 30;
 		this.scrapIronLabel.font = "Courier";
 		this.scrapIronLabel.textColor = Color.WHITE;
+
+		this.scrapIron = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+240, GAMEPLAY_DIMENTIONS.YSTART+640), text: `0`});
+		this.scrapIron.size.set(30, 30);
+		this.scrapIron.fontSize = 30;
+		this.scrapIron.font = "Courier";
+		this.scrapIron.textColor = Color.WHITE;
+		//
 
 		//points
 		this.pointsLabel = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+90, GAMEPLAY_DIMENTIONS.YSTART+690), text: "POINTS: "});
@@ -293,6 +344,13 @@ export default class BaseScene extends ActorScene{
 		this.pointsLabel.font = "Courier";
 		this.pointsLabel.textColor = Color.WHITE;
 
+		this.points = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+155, GAMEPLAY_DIMENTIONS.YSTART+690), text: `0`});
+		this.points.size.set(30, 30);
+		this.points.fontSize = 30;
+		this.points.font = "Courier";
+		this.points.textColor = Color.WHITE;
+		//
+
 		//health button
 		const healthButton = <Button> this.add.uiElement(UIElementType.BUTTON, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+150, GAMEPLAY_DIMENTIONS.YSTART+740), text: "HEALTH"});
         healthButton.size.set(200, 50);
@@ -300,7 +358,8 @@ export default class BaseScene extends ActorScene{
         healthButton.borderColor = Color.BLACK;
 		healthButton.fontSize = 30;
         healthButton.backgroundColor = Color.fromStringHex("#07E3D6");
-		// healthButton.onClickEventId = MainMenuEvent.CONTROLS;
+		healthButton.onClick
+		healthButton.onClickEventId = GameInsideEvent.HEALTH;
 
 		//increase max health button
 		const maxHealthButton = <Button> this.add.uiElement(UIElementType.BUTTON, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+150, GAMEPLAY_DIMENTIONS.YSTART+800), text: "UPGRADE HEALTH"});
@@ -309,7 +368,7 @@ export default class BaseScene extends ActorScene{
         maxHealthButton.borderColor = Color.BLACK;
 		maxHealthButton.fontSize = 18;
         maxHealthButton.backgroundColor = Color.fromStringHex("#07E3D6");
-		// healthButton.onClickEventId = MainMenuEvent.CONTROLS;
+		maxHealthButton.onClickEventId = GameInsideEvent.UPGRADE_HEALTH;
 
 		//upgrade weapon button
 		const upgradeWeaponButton = <Button> this.add.uiElement(UIElementType.BUTTON, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+150, GAMEPLAY_DIMENTIONS.YSTART+860), text: "UPGRADE WEAPON"});
@@ -318,7 +377,7 @@ export default class BaseScene extends ActorScene{
         upgradeWeaponButton.borderColor = Color.BLACK;
 		upgradeWeaponButton.fontSize = 18;
         upgradeWeaponButton.backgroundColor = Color.fromStringHex("#07E3D6");
-		// upgradeWeaponButton.onClickEventId = MainMenuEvent.CONTROLS;
+		upgradeWeaponButton.onClickEventId = GameInsideEvent.UPGRADE_WEAPON;
 	}
 	/**
 	 * Initializes the timer objects for the game.
@@ -393,131 +452,32 @@ export default class BaseScene extends ActorScene{
 	public getCheat(key: string): boolean {return (this.cheatcodes[key])?this.cheatcodes[key]:false}
 
 	//TO-BE-REMOVED-----------------------------------------------------------------------------
-	/**
-	 * This method handles updating the player's healthbar in the UI.
-	 * 
-	 * @param currentHealth the current health of the player
-	 * @param maxHealth the maximum amount of health the player can have
-	 * 
-	 * @remarks
-	 * 
-	 * The player's healthbar in the UI is updated to reflect the current health
-	 * of the player. The method should be called in response to a player health
-	 * change event.
-	 * 
-	 * The player's healthbar has two components:
-	 * 
-	 * 1.) The actual healthbar (the colored portion)
-	 * 2.) The healthbar background
-	 * 
-	 * The size of the healthbar background should reflect the maximum amount of
-	 * health the player can have. The size of the colored healthbar should reflect
-	 * the current health of the player.
-	 * 
-	 * If the players health is less then 1/4 of the player's maximum health, the
-	 * healthbar should be colored red. If the players health is less then 3/4 of
-	 * the player's maximum health but no less than 1/4e the player's maximum health, 
-	 * then the healthbar should appear yellow. If the player's health is greater 
-	 * than 3/4 of the player's maximum health, then the healthbar should appear green.
-	 * 
-	 * @see Color for more information about colors
-	 * @see Label for more information about labels 
-	 */
+	
 	protected handleHealthChange(currentHealth: number, maxHealth: number): void {
-		let unit = this.healthBarBg.size.x / maxHealth;
+		let unit = this.healthBarBg.size.y / maxHealth;
 
-		this.healthBar.size.set(this.healthBarBg.size.x - unit * (maxHealth - currentHealth), this.healthBarBg.size.y);
-		this.healthBar.position.set(this.healthBarBg.position.x - (unit / 2) * (maxHealth - currentHealth), this.healthBarBg.position.y);
+		this.healthBar.size.set(this.healthBarBg.size.x, this.healthBarBg.size.y - unit * (maxHealth - currentHealth));
+		this.healthBar.position.set(this.healthBarBg.position.x, this.healthBarBg.position.y + (unit / 2) * (maxHealth - currentHealth));
 
-		this.healthBar.backgroundColor = currentHealth < maxHealth * 1/4 ? Color.RED: currentHealth < maxHealth * 3/4 ? Color.YELLOW : Color.GREEN;
+		this.healthBar.backgroundColor = currentHealth < maxHealth * 1/4 ? Color.RED: currentHealth < maxHealth * 3/4 ? Color.YELLOW : Color.fromStringHex("#07E3D6");
 	}
-	/**
-	 * This method handles updating the player's air-bar in the UI.
-	 * 
-	 * @param currentAir the current amount of air the player has
-	 * @param maxAir the maximum amount of air the player can have
-	 * 
-	 * @remarks
-	 * 
-	 * This method functions very similarly to how handleHealthChange function. The
-	 * method should update the UI in response to a player-air-change event to 
-	 * reflect the current amount of air the player has left.
-	 * 
-	 * The air-bar has two components:
-	 * 
-	 * 1.) The actual air-bar (the colored portion)
-	 * 2.) The air-bar background
-	 * 
-	 * The size of the air-bar background should reflect the maximum amount of
-	 * air the player can have. The size of the colored air-bar should reflect
-	 * the current amount of air the player has.
-	 * 
-	 * Unlike the healthbar, the color of the air-bar should be a constant cyan.
-	 * 
-	 * @see Label for more information about labels
-	 */
-	protected handleAirChange(currentAir: number, maxAir: number): void {
-		// let unit = this.airBarBg.size.x / maxAir;
-		// this.airBar.size.set(this.airBarBg.size.x - unit * (maxAir - currentAir), this.airBarBg.size.y);
-		// this.airBar.position.set(this.airBarBg.position.x - (unit / 2) * (maxAir - currentAir), this.airBarBg.position.y);
+	
+	protected handleShieldChange(currentShield: number, maxShield: number): void {
+		let unit = this.shieldBarBg.size.y / maxShield;
+
+		this.shieldBar.size.set(this.shieldBarBg.size.x, this.shieldBarBg.size.y - unit * (maxShield - currentShield));
+		this.shieldBar.position.set(this.shieldBarBg.position.x, this.shieldBarBg.position.y + (unit / 2) * (maxShield - currentShield));
+
+		this.shieldBar.backgroundColor = currentShield < maxShield * 1/4 ? Color.RED: currentShield < maxShield * 3/4 ? Color.YELLOW : Color.fromStringHex("#07E3D6");
 	}
-	/**
-	 * This method handles updating the charge of player's laser in the UI.
-	 * 
-	 * @param currentCharge the current number of charges the player's laser has
-	 * @param maxCharge the maximum amount of charges the player's laser can have
-	 * 
-	 * @remarks
-	 * 
-	 * This method updates the UI to reflect the latest state of the charge
-	 * of the player's laser-beam. 
-	 * 
-	 * Unlike the the health and air bars, the charge bar is broken up into multiple 
-	 * "bars". If the player can have a maximum of N-lasers (or charges) at a time, 
-	 * then the charge-bar will have N seperate components. Each component representing 
-	 * a single charge of the player's laser.
-	 * 
-	 * Each of the N components will be colored green or red. The green components will 
-	 * reflect how many charges the player's laser has available. The red components will
-	 * reflect the number of bars that need to be charged.
-	 * 
-	 * When a player fires a laser, the rightmost green component should become red. When 
-	 * the player's laser recharges, the leftmost red component should become green.
-	 * 
-	 * @example
-	 * 
-	 * Maxcharges = 4
-	 * 
-	 * Before firing a laser:
-	 *  _______ _______ _______ _______
-	 * | GREEN | GREEN | GREEN | GREEN |
-	 * |_______|_______|_______|_______|
-	 * 
-	 * After firing a laser:
-	 *  _______ _______ _______ _______
-	 * | GREEN | GREEN | GREEN |  RED  |
-	 * |_______|_______|_______|_______|
-	 * 
-	 * After firing a second laser:
-	 *  _______ _______ _______ _______
-	 * | GREEN | GREEN |  RED  |  RED  |
-	 * |_______|_______|_______|_______|
-	 * 
-	 * After waiting for a recharge
-	 *  _______ _______ _______ _______
-	 * | GREEN | GREEN | GREEN |  RED  |
-	 * |_______|_______|_______|_______|
-	 * 
-	 * @see Color for more information about color
-	 * @see Label for more information about labels
-	 */
-	protected handleChargeChange(currentCharge: number, maxCharge: number): void {
-		// for (let i = 0; i < currentCharge && i < this.chrgBarLabels.length; i++) {
-		// 	this.chrgBarLabels[i].backgroundColor = Color.GREEN;
-		// }
-		// for (let i = currentCharge; i < this.chrgBarLabels.length; i++) {
-		// 	this.chrgBarLabels[i].backgroundColor = Color.RED;
-		// }
+	
+	protected handleBoosterChange(currentBooster: number, maxBooster: number): void {
+		let unit = this.boostBarBg.size.y / maxBooster;
+
+		this.boostBar.size.set(this.boostBarBg.size.x, this.boostBarBg.size.y - unit * (maxBooster - currentBooster));
+		this.boostBar.position.set(this.boostBarBg.position.x, this.boostBarBg.position.y + (unit / 2) * (maxBooster - currentBooster));
+
+		this.boostBar.backgroundColor = currentBooster < maxBooster * 1/4 ? Color.RED: currentBooster < maxBooster * 3/4 ? Color.YELLOW : Color.fromStringHex("#07E3D6");
 	}
 
 	
