@@ -171,7 +171,7 @@ export default class PlayerController extends StateMachineAI {
 		let enemy = this.owner.getScene().getEnemy(enemyId)
 		let player = this.owner
 		let damage = Math.min(enemy.ramDamage, player.ramDamage)
-		this.owner.takeDamage((this.owner.shielded)?damage:damage/2);
+		this.owner.takeDamage((this.owner.shielded)?damage/2:damage);
 		if(this.owner.shielded){this.owner.deactivateShield()}
     }
 
