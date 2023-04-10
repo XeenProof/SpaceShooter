@@ -12,6 +12,7 @@ import { AllProjectileKeys, AllProjectileData} from "../projectiles/projectileDa
 import { generateRoundRobinScriptPart } from "./scriptGenerator";
 import { Script_Type } from "./scriptTypes";
 import { AllItemData } from "../items/itemData";
+import { LevelEndConst } from "../events";
 
 
 
@@ -45,6 +46,7 @@ export const level1 = {
         {type: Script_Type.WAIT, options: {wait_time: -1}},
         ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.TARGETED_MOOK, AllEnemyKeys.SHIELDED_MOOK], [VtypeRoute.NORMAL, VtypeRoute.REVERSE], 300, 2, 10),
         {type: Script_Type.WAIT, options: {wait_time: -1}},
+        {type: Script_Type.LEVEL_ENDS, options: {endtype: LevelEndConst.LEVEL_CLEARED}}
 
     ]
 }

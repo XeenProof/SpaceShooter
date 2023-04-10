@@ -56,6 +56,7 @@ export default class LevelScene extends BaseScene {
 			}
 			case Events.LEVEL_ENDS:{
 				this.handleLevelEnds(event.data.get("endtype"));
+				break;
 			}
 			default: {
 				throw new Error(`Unhandled event with type ${event.type} caught in ${this.constructor.name}`);
@@ -121,7 +122,6 @@ export default class LevelScene extends BaseScene {
 	protected handleLevelEnds(type: string):void{
 		this.endType = type;
 		this.levelEnded = true
-		this.sceneManager.changeToScene(SelectionScence)
 		this.endLevelTimer.start();
 		console.log(type)
 	}
