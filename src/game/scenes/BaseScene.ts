@@ -337,13 +337,13 @@ export default class BaseScene extends ActorScene{
 		//
 
 		//scrap iron
-		this.scrapIronLabel = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+125, GAMEPLAY_DIMENTIONS.YSTART+640), text: "SCRAP: "});
+		this.scrapIronLabel = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+83, GAMEPLAY_DIMENTIONS.YSTART+640), text: "SCRAP: "});
 		this.scrapIronLabel.size.set(30, 30);
 		this.scrapIronLabel.fontSize = 30;
 		this.scrapIronLabel.font = "Courier";
 		this.scrapIronLabel.textColor = Color.WHITE;
 
-		this.scrapIron = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+240, GAMEPLAY_DIMENTIONS.YSTART+640), text: `0`});
+		this.scrapIron = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+140, GAMEPLAY_DIMENTIONS.YSTART+640), text: `0`});
 		this.scrapIron.size.set(30, 30);
 		this.scrapIron.fontSize = 30;
 		this.scrapIron.font = "Courier";
@@ -351,7 +351,7 @@ export default class BaseScene extends ActorScene{
 		//
 
 		//points
-		this.pointsLabel = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+90, GAMEPLAY_DIMENTIONS.YSTART+690), text: "POINTS: "});
+		this.pointsLabel = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+92, GAMEPLAY_DIMENTIONS.YSTART+690), text: "POINTS: "});
 		this.pointsLabel.size.set(30, 30);
 		this.pointsLabel.fontSize = 30;
 		this.pointsLabel.font = "Courier";
