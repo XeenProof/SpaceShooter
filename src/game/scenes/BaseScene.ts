@@ -82,12 +82,13 @@ export default class BaseScene extends ActorScene{
 
 	// shield labels
 	protected shieldLabel: Label;
-	protected shieldBar: Label;
+	protected shieldBars: Array<Label>;
 	protected shieldBarBg: Label;
 
 	// boost labels
 	protected boostLabel: Label;
-	protected boostBar: Label;
+	// protected boostBar: Label;
+	protected boostBars: Array<Label>;
 	protected boostBarBg: Label;
 
 	// Health labels
@@ -198,8 +199,8 @@ export default class BaseScene extends ActorScene{
 		}
 
 		this.handleHealthChange(this.player.health,this.player.maxHealth);
-		this.handleShieldChange(this.player.shieldCharge.value,this.player.shieldCharge.maxValue);
-		this.handleBoosterChange(this.player.boosterCharge.value,this.player.boosterCharge.maxValue);
+		this.handleShieldChange((this.player.shieldCharge.value/this.player.shieldCharge.maxValue)*5);
+		this.handleBoosterChange((this.player.boosterCharge.value/this.player.boosterCharge.maxValue)*5);
 		this.wave.setText(this.wavenum.toString());
 		this.scrapIron.setText(this.player.scrap.toString());
 		this.points.setText("0");
@@ -259,7 +260,7 @@ export default class BaseScene extends ActorScene{
 		this.healthLabel.fontSize = 24;
 		this.healthLabel.font = "Courier";
 		this.healthLabel.textColor = Color.WHITE;
-		//healthbar
+		//health bar
 		this.healthBar = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+60, GAMEPLAY_DIMENTIONS.YSTART+325), text: ""});
 		this.healthBar.size = new Vec2(60, 450);
 		this.healthBar.backgroundColor = Color.fromStringHex("#07E3D6");
@@ -279,10 +280,15 @@ export default class BaseScene extends ActorScene{
 		this.shieldLabel.fontSize = 24;
 		this.shieldLabel.font = "Courier";
 		this.shieldLabel.textColor = Color.WHITE;
-		//shield
-		this.shieldBar = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+150, GAMEPLAY_DIMENTIONS.YSTART+325), text: ""});
-		this.shieldBar.size = new Vec2(60, 450);
-		this.shieldBar.backgroundColor = Color.fromStringHex("#07E3D6");
+		//shield bar
+		this.shieldBars = new Array(5);
+		for (let i = 0; i < this.shieldBars.length; i++) {
+			let pos = new Vec2(GAMEPLAY_DIMENTIONS.XEND+150, GAMEPLAY_DIMENTIONS.YSTART+595-(i + 1)*(450 / this.shieldBars.length));
+			this.shieldBars[i] = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: pos, text: ""});
+			this.shieldBars[i].size = new Vec2(60, 450/this.shieldBars.length);
+			this.shieldBars[i].backgroundColor = Color.fromStringHex("#07E3D6");
+			this.shieldBars[i].borderColor = Color.BLACK;
+		}
 		// shield Border
 		this.shieldBarBg = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+150, GAMEPLAY_DIMENTIONS.YSTART+325), text: ""});
 		this.shieldBarBg.size = new Vec2(60, 450);
@@ -299,10 +305,15 @@ export default class BaseScene extends ActorScene{
 		this.boostLabel.fontSize = 24;
 		this.boostLabel.font = "Courier";
 		this.boostLabel.textColor = Color.WHITE;
-		// boost
-		this.boostBar = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+240, GAMEPLAY_DIMENTIONS.YSTART+325), text: ""});
-		this.boostBar.size = new Vec2(60, 450);
-		this.boostBar.backgroundColor = Color.fromStringHex("#07E3D6");
+		// boost bar
+		this.boostBars = new Array(5);
+		for (let i = 0; i < this.boostBars.length; i++) {
+			let pos = new Vec2(GAMEPLAY_DIMENTIONS.XEND+240, GAMEPLAY_DIMENTIONS.YSTART+595-(i + 1)*(450 / this.boostBars.length));
+			this.boostBars[i] = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: pos, text: ""});
+			this.boostBars[i].size = new Vec2(60, 450/this.boostBars.length);
+			this.boostBars[i].backgroundColor = Color.fromStringHex("#07E3D6");
+			this.boostBars[i].borderColor = Color.BLACK;
+		}
 		// boost Border
 		this.boostBarBg = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+240, GAMEPLAY_DIMENTIONS.YSTART+325), text: ""});
 		this.boostBarBg.size = new Vec2(60, 450);
@@ -462,22 +473,22 @@ export default class BaseScene extends ActorScene{
 		this.healthBar.backgroundColor = currentHealth < maxHealth * 1/4 ? Color.RED: currentHealth < maxHealth * 3/4 ? Color.YELLOW : Color.fromStringHex("#07E3D6");
 	}
 	
-	protected handleShieldChange(currentShield: number, maxShield: number): void {
-		let unit = this.shieldBarBg.size.y / maxShield;
-
-		this.shieldBar.size.set(this.shieldBarBg.size.x, this.shieldBarBg.size.y - unit * (maxShield - currentShield));
-		this.shieldBar.position.set(this.shieldBarBg.position.x, this.shieldBarBg.position.y + (unit / 2) * (maxShield - currentShield));
-
-		this.shieldBar.backgroundColor = currentShield < maxShield * 1/4 ? Color.RED: currentShield < maxShield * 3/4 ? Color.YELLOW : Color.fromStringHex("#07E3D6");
+	protected handleShieldChange(currentShield: number): void {
+		for (let i = 0; i < currentShield && i < this.shieldBars.length; i++) {
+			this.shieldBars[i].backgroundColor = Color.fromStringHex("#07E3D6");
+		}
+		for (let i = currentShield; i < this.shieldBars.length; i++) {
+			this.shieldBars[i].backgroundColor = Color.fromStringHex("#f74134");
+		}
 	}
 	
-	protected handleBoosterChange(currentBooster: number, maxBooster: number): void {
-		let unit = this.boostBarBg.size.y / maxBooster;
-
-		this.boostBar.size.set(this.boostBarBg.size.x, this.boostBarBg.size.y - unit * (maxBooster - currentBooster));
-		this.boostBar.position.set(this.boostBarBg.position.x, this.boostBarBg.position.y + (unit / 2) * (maxBooster - currentBooster));
-
-		this.boostBar.backgroundColor = currentBooster < maxBooster * 1/4 ? Color.RED: currentBooster < maxBooster * 3/4 ? Color.YELLOW : Color.fromStringHex("#07E3D6");
+	protected handleBoosterChange(currentBooster: number): void {
+		for (let i = 0; i < currentBooster && i < this.boostBars.length; i++) {
+			this.boostBars[i].backgroundColor = Color.fromStringHex("#07E3D6");
+		}
+		for (let i = currentBooster; i < this.boostBars.length; i++) {
+			this.boostBars[i].backgroundColor = Color.fromStringHex("#f74134");
+		}
 	}
 
 	
