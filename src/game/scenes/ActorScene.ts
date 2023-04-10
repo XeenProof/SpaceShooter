@@ -1,5 +1,4 @@
 import Scene from "../../Wolfie2D/Scene/Scene";
-import BeamActor from "../actors/WeaponActors/BeamActor";
 import PlayerActor from "../actors/PlayerActor";
 import DamageActor from "../actors/abstractActors/DamageActor";
 import HPActor from "../actors/abstractActors/HPActor";

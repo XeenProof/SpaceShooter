@@ -4,6 +4,10 @@ export interface scriptFormat{
 }
 
 export const Script_Type = {
+    LEVEL_ENDS:"LEVEL_ENDS",
+    /**
+     * options: {endtype: the way the level ends}
+     */
     SPAWN: "SPAWN",
     /**
      * options: {

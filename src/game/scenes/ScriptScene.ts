@@ -1,15 +1,12 @@
-import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
 import CanvasNode from "../../Wolfie2D/Nodes/CanvasNode";
 import Timer from "../../Wolfie2D/Timing/Timer";
 import { AllEnemyData } from "../../constants/enemies/enemyData";
 import { Events } from "../../constants/events";
 import { LoadData } from "../../constants/load";
-import { PhysicGroups } from "../../constants/physics";
 import { Script_Type, scriptFormat } from "../../constants/scripts/scriptTypes";
 import { generatePathFromList } from "../../utils/Pathing/CreatePaths";
 import ScriptNode from "../../utils/ScriptQueue/ScriptNode";
 import ScriptQueue, { generateScriptQueue } from "../../utils/ScriptQueue/ScriptQueue";
-import { initfuncs } from "../initfuncs";
 import LevelScene from "./LevelScene";
 
 /**
@@ -43,6 +40,7 @@ export default class ScriptScene extends LevelScene{
 
         this.timer = new Timer(1000, ()=>{this.stopWaiting()})
         this.wait = false
+        super.initScene(options);
     }
 
     public loadScene(): void {

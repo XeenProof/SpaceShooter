@@ -24,6 +24,9 @@ export const Events = {
      * src: source of where the enemy died
      * }
      */
+    HEALTH: "HEALTH",
+	UPGRADE_HEALTH: "UPGRADE_HEALTH",
+	UPGRADE_WEAPON: "UPGRADE_WEAPON",
 
     /**Set Trigger Calls */
     PLAYER_ENEMY_COLLISION: "PLAYER_ENEMY_COLLISION",

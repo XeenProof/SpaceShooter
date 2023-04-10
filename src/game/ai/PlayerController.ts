@@ -1,14 +1,8 @@
-import AI from "../../Wolfie2D/DataTypes/Interfaces/AI";
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
 import Emitter from "../../Wolfie2D/Events/Emitter";
 import GameEvent from "../../Wolfie2D/Events/GameEvent";
 import Receiver from "../../Wolfie2D/Events/Receiver";
 import Input from "../../Wolfie2D/Input/Input";
-import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
-import Timer from "../../Wolfie2D/Timing/Timer";
-import MathUtils from "../../Wolfie2D/Utils/MathUtils";
-
-import { HW2Events } from "../Events";
 import { Controls, cheats } from "../../constants/gameoptions";
 import PlayerActor from "../actors/PlayerActor";
 import { Events } from "../../constants/events";
@@ -52,9 +46,6 @@ export default class PlayerController extends StateMachineAI {
 		this.addState(playerstates.IDLE, new Idle(this.owner, this))
 		this.addState(playerstates.TAKING_DAMAGE, new TakingDamage(this.owner, this))
 		this.addState(playerstates.DYING, new Dying(this.owner, this))
-		
-		this.receiver.subscribe(HW2Events.SHOOT_LASER);
-		this.receiver.subscribe(HW2Events.DEAD)
 
 		this.receiver.subscribe(Events.PLAYER_ENEMY_COLLISION)
 		this.receiver.subscribe(Events.WEAPON_PLAYER_COLLISION)

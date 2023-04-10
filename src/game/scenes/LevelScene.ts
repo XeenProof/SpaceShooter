@@ -1,67 +1,15 @@
-import AABB from "../../Wolfie2D/DataTypes/Shapes/AABB";
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
-import Graphic from "../../Wolfie2D/Nodes/Graphic";
-import { GraphicType } from "../../Wolfie2D/Nodes/Graphics/GraphicTypes";
-import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
-import Label from "../../Wolfie2D/Nodes/UIElements/Label";
-import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
-import Scene from "../../Wolfie2D/Scene/Scene";
-import Color from "../../Wolfie2D/Utils/Color";
-import RandUtils from "../../Wolfie2D/Utils/RandUtils";
-import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
 import CanvasNode from "../../Wolfie2D/Nodes/CanvasNode";
 import GameEvent from "../../Wolfie2D/Events/GameEvent";
 import Timer from "../../Wolfie2D/Timing/Timer";
-import Circle from "../../Wolfie2D/DataTypes/Shapes/Circle";
-import MathUtils from "../../Wolfie2D/Utils/MathUtils";
-
-import PlayerController from "../ai/PlayerController";
-
-import GameOver from "./GameOver";
-
-import BubbleShaderType from "../shaders/BubbleShaderType";
-import LaserShaderType from "../shaders/LaserShaderType";
-
-import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
-//import BasicRecording from "../../Wolfie2D/Playback/BasicRecording";
-
-import { HW2Events } from "../Events";
-import Viewport from "../../Wolfie2D/SceneGraph/Viewport";
-import SceneManager from "../../Wolfie2D/Scene/SceneManager";
-import RenderingManager from "../../Wolfie2D/Rendering/RenderingManager";
-
-import { LoadData, LoadType, LoadBackground, LoadPlayer, LoadEnemy } from "../../constants/load";
-import { PhysicGroups, Physics } from "../../constants/physics";
+import { PhysicGroups} from "../../constants/physics";
 import { Events } from "../../constants/events";
-import BeamAI from "../ai/weaponAI/BeamBehavior";
 import BaseScene from "./BaseScene";
-import PathNode from "../../utils/Pathing/PathNode";
-import { recRoute } from "../../constants/formations/RectangleForm";
-import { generatePathFromList } from "../../utils/Pathing/CreatePaths";
-import { AllProjectileKeys } from "../../constants/projectiles/projectileData";
-import { AllEnemyData, AllEnemyKeys } from "../../constants/enemies/enemyData";
-import Spawnable from "../../utils/Interface/Spawnable";
-import BeamActor from "../actors/WeaponActors/BeamActor";
 import { initfuncs } from "../initfuncs";
 import { AllItemKey } from "../../constants/items/itemData";
 import { AllPlayerData } from "../../constants/player/playerData";
 import PlayerActor from "../actors/PlayerActor";
-import { Layers } from "../../constants/layers";
 import { initPlayerFunc } from "../initPlayerFunc";
-
-
-
-export const HW2Layers = {
-	PRIMARY: "PRIMARY",
-	BACKGROUND: "BACKGROUND", 
-	UI: "UI"
-} as const;
-
-const GameInsideEvent = {
-    HEALTH: "HEALTH",
-	UPGRADE_HEALTH: "UPGRADE_HEALTH",
-	UPGRADE_WEAPON: "UPGRADE_WEAPON",
-} as const;
 
 /**
  * This is the level scene for our game
@@ -69,7 +17,11 @@ const GameInsideEvent = {
  */
 export default class LevelScene extends BaseScene {
 
+	protected endLevelTimer:Timer
+	protected endType:string
+
 	public override initScene(options: Record<string, any>): void {
+		this.endLevelTimer = new Timer(5000, )
 	}
 
 	/**
@@ -95,9 +47,9 @@ export default class LevelScene extends BaseScene {
 				this.handleSpawnScrap(event.data.get("src"))
 				break;
 			}
-			case GameInsideEvent.HEALTH:{
-				if(super.player.canAfford(100)){
-					super.player.usedScrap(100);
+			case Events.HEALTH:{
+				if(super.player.canAfford(10)){
+					super.player.usedScrap(10);
 					super.player.health = super.player.maxHealth;
 				}
 				break;
@@ -154,5 +106,9 @@ export default class LevelScene extends BaseScene {
 			scrap.visible = true
 			scrap.setAIActive(true, {src: src})
 		}
+	}
+
+	protected handleLevelEnds():void{
+
 	}
 }
