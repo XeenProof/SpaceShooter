@@ -25,7 +25,8 @@ export default class ScriptScene extends LevelScene{
 
     protected statMods:Record<string, number> = {
 		hp_multi: 1,
-		droprate_multi: 1
+		droprate_multi: 1,
+        enemydamage_multi: 1 //WIP
 	}
 
     public initScene(options: Record<string, any>): void {
