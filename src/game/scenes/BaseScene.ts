@@ -14,7 +14,7 @@ import RenderingManager from "../../Wolfie2D/Rendering/RenderingManager";
 
 import { LoadData, LoadType} from "../../constants/load";
 import { PhysicGroups, Physics } from "../../constants/physics";
-import { Events } from "../../constants/events";
+import { Events, LevelEndConst } from "../../constants/events";
 import PlayerActor from "../actors/PlayerActor";
 import EntityManager from "../../utils/EntityManager/EntityManager";
 import ActorScene from "./ActorScene";
@@ -30,6 +30,10 @@ import Button from "../../Wolfie2D/Nodes/UIElements/Button";
  */
 export default class BaseScene extends ActorScene{
 	protected BACKGROUND: LoadData;
+
+	protected endLevelTimer:Timer
+	protected endType:string
+	protected levelEnded:boolean
 
 	protected PLAYERINFO: Record<string, any>
 	protected _player: PlayerActor;
@@ -176,6 +180,19 @@ export default class BaseScene extends ActorScene{
 		this.moveBackgrounds(deltaT);
 		this.lockPlayer(this.player, this.viewport.getCenter(), this.viewport.getHalfSize())
 	}
+
+	// public handleEndType(){
+	// 	const center = this.viewport.getCenter();
+	// 	let level4 = <Label> this.add.uiElement(UIElementType.LABEL, Layers.GAMEEND, {position: new Vec2(center.x, center.y), text: ""});
+	// 	level4.fontSize=48;
+	// 	level4.textColor=Color.WHITE
+	// 	if (this.endType === LevelEndConst.GAME_OVER){
+	// 		level4.text="GAME OVER"
+	// 	}
+	// 	else if (this.endType === LevelEndConst.LEVEL_CLEARED){
+	// 		level4.text="VICTORY"
+	// 	}
+	// }
     /**
      * @see Scene.unloadScene()
      */
@@ -198,6 +215,7 @@ export default class BaseScene extends ActorScene{
 		this.addLayer(Layers.EXTRABARS, 7);
 		this.addLayer(Layers.INFORMATION_BACKGROUND, 8);
 		this.addLayer(Layers.STATES, 9);
+		// this.addLayer(Layers.GAMEEND, 10);
 		this.addUILayer(Layers.UI);
 	}
 	
