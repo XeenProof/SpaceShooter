@@ -158,8 +158,8 @@ export default class BaseScene extends ActorScene{
 		this.receiver.subscribe(Events.ENEMY_SHOOTS);
 		this.receiver.subscribe(Events.DROP_SCRAP);
 		this.receiver.subscribe(Events.HEALTH);
-		this.receiver.subscribe(Events.UPGRADE_HEALTH);
-		this.receiver.subscribe(Events.UPGRADE_WEAPON);
+		//this.receiver.subscribe(Events.UPGRADE_HEALTH);
+		//this.receiver.subscribe(Events.UPGRADE_WEAPON);
 		this.receiver.subscribe(Events.LEVEL_ENDS);
 	}
 	/**
@@ -167,12 +167,15 @@ export default class BaseScene extends ActorScene{
 	 */
 	public override updateScene(deltaT: number){
 		this.timePassed += deltaT;
+		this.handleEndType()
+		if(this.levelEnded){return;}
+		
 		// Handle events
 		while (this.receiver.hasNextEvent()) {
 			this.handleEvent(this.receiver.getNextEvent());
 		}
 
-		this.handleEndType()
+		
 		this.handleHealthChange(this.player.health,this.player.maxHealth);
 		this.handleShieldChange((this.player.shieldCharge.value/this.player.shieldCharge.maxValue)*5);
 		this.handleBoosterChange((this.player.boosterCharge.value/this.player.boosterCharge.maxValue)*5);
@@ -363,7 +366,7 @@ export default class BaseScene extends ActorScene{
 		healthButton.onClickEventId = Events.HEALTH;
 
 		//increase max health button
-		const maxHealthButton = <Button> this.add.uiElement(UIElementType.BUTTON, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+150, GAMEPLAY_DIMENTIONS.YSTART+800), text: "UPGRADE HEALTH"});
+		const maxHealthButton = <Button> this.add.uiElement(UIElementType.BUTTON, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+150, GAMEPLAY_DIMENTIONS.YSTART+800), text: "UPGRADE HEALTH (WIP)"});
         maxHealthButton.size.set(200, 50);
         maxHealthButton.borderWidth = 0.5;
         maxHealthButton.borderColor = Color.BLACK;
@@ -372,7 +375,7 @@ export default class BaseScene extends ActorScene{
 		maxHealthButton.onClickEventId = Events.UPGRADE_HEALTH;
 
 		//upgrade weapon button
-		const upgradeWeaponButton = <Button> this.add.uiElement(UIElementType.BUTTON, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+150, GAMEPLAY_DIMENTIONS.YSTART+860), text: "UPGRADE WEAPON"});
+		const upgradeWeaponButton = <Button> this.add.uiElement(UIElementType.BUTTON, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+150, GAMEPLAY_DIMENTIONS.YSTART+860), text: "UPGRADE WEAPON (WIP)"});
         upgradeWeaponButton.size.set(200, 50);
         upgradeWeaponButton.borderWidth = 0.5;
         upgradeWeaponButton.borderColor = Color.BLACK;
