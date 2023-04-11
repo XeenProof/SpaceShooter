@@ -81,6 +81,8 @@ export default class BaseScene extends ActorScene{
 	protected scrapIron: Label;
 	protected points: Label;
 
+	protected endText: Label;
+
 	protected informationBackground: Label;
 
 	// Timers for spawning rocks and bubbles
@@ -170,6 +172,7 @@ export default class BaseScene extends ActorScene{
 			this.handleEvent(this.receiver.getNextEvent());
 		}
 
+		this.handleEndType()
 		this.handleHealthChange(this.player.health,this.player.maxHealth);
 		this.handleShieldChange((this.player.shieldCharge.value/this.player.shieldCharge.maxValue)*5);
 		this.handleBoosterChange((this.player.boosterCharge.value/this.player.boosterCharge.maxValue)*5);
@@ -181,18 +184,14 @@ export default class BaseScene extends ActorScene{
 		this.lockPlayer(this.player, this.viewport.getCenter(), this.viewport.getHalfSize())
 	}
 
-	// public handleEndType(){
-	// 	const center = this.viewport.getCenter();
-	// 	let level4 = <Label> this.add.uiElement(UIElementType.LABEL, Layers.GAMEEND, {position: new Vec2(center.x, center.y), text: ""});
-	// 	level4.fontSize=48;
-	// 	level4.textColor=Color.WHITE
-	// 	if (this.endType === LevelEndConst.GAME_OVER){
-	// 		level4.text="GAME OVER"
-	// 	}
-	// 	else if (this.endType === LevelEndConst.LEVEL_CLEARED){
-	// 		level4.text="VICTORY"
-	// 	}
-	// }
+	public handleEndType(){
+		if (this.endType === LevelEndConst.GAME_OVER){
+			this.endText.text="GAME OVER"
+		}
+		else if (this.endType === LevelEndConst.LEVEL_CLEARED){
+			this.endText.text="VICTORY"
+		}
+	}
     /**
      * @see Scene.unloadScene()
      */
@@ -215,7 +214,7 @@ export default class BaseScene extends ActorScene{
 		this.addLayer(Layers.EXTRABARS, 7);
 		this.addLayer(Layers.INFORMATION_BACKGROUND, 8);
 		this.addLayer(Layers.STATES, 9);
-		// this.addLayer(Layers.GAMEEND, 10);
+		this.addLayer(Layers.GAMEEND, 10);
 		this.addUILayer(Layers.UI);
 	}
 	
@@ -229,6 +228,11 @@ export default class BaseScene extends ActorScene{
 	 * it's own UI class, but I don't have time for that.
 	 */
 	protected initUI(): void {
+		//
+		const center = this.viewport.getCenter();
+		this.endText = <Label> this.add.uiElement(UIElementType.LABEL, Layers.GAMEEND, {position: new Vec2(center.x, center.y), text: ""});
+		this.endText.fontSize=48;
+		this.endText.textColor=Color.WHITE
 		// information background
 		this.informationBackground = <Label>this.add.uiElement(UIElementType.LABEL, Layers.INFORMATION_BACKGROUND, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+150, GAMEPLAY_DIMENTIONS.YSTART+450), text: ""});
 		this.informationBackground.size = new Vec2(295, 895);

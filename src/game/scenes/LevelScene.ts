@@ -30,8 +30,6 @@ export default class LevelScene extends BaseScene {
 	 * @see Scene.updateScene 
 	 */
 	public override updateScene(deltaT: number){
-		console.log("scene update")
-		if(this.levelEnded){return;}
 		super.updateScene(deltaT)
 		//this.spawnCommomMook(generatePathFromList(recRoute.NORMAL, 300));
 	}
