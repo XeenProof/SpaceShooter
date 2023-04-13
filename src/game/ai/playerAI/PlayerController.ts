@@ -1,18 +1,18 @@
-import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
-import Emitter from "../../Wolfie2D/Events/Emitter";
-import GameEvent from "../../Wolfie2D/Events/GameEvent";
-import Receiver from "../../Wolfie2D/Events/Receiver";
-import Input from "../../Wolfie2D/Input/Input";
-import { Controls, cheats } from "../../constants/gameoptions";
-import PlayerActor from "../actors/PlayerActor";
-import { Events } from "../../constants/events";
-import { PlayerProjectileKeys } from "../../constants/projectiles/projectileData";
-import StateMachineAI from "../../Wolfie2D/AI/StateMachineAI";
-import { playerstates } from "./States/PlayerStates/PlayerState";
-import Idle from "./States/PlayerStates/Idle";
-import TakingDamage from "./States/PlayerStates/TakingDamage";
-import Dying from "./States/PlayerStates/Dying";
-import CheatCodes from "../../utils/Singletons/CheatCodes";
+import Vec2 from "../../../Wolfie2D/DataTypes/Vec2";
+import Emitter from "../../../Wolfie2D/Events/Emitter";
+import GameEvent from "../../../Wolfie2D/Events/GameEvent";
+import Receiver from "../../../Wolfie2D/Events/Receiver";
+import Input from "../../../Wolfie2D/Input/Input";
+import { Controls, cheats } from "../../../constants/gameoptions";
+import PlayerActor from "../../actors/PlayerActor";
+import { Events } from "../../../constants/events";
+import { PlayerProjectileKeys } from "../../../constants/projectiles/projectileData";
+import StateMachineAI from "../../../Wolfie2D/AI/StateMachineAI";
+import { playerstates } from "../States/PlayerStates/PlayerState";
+import Idle from "../States/PlayerStates/Idle";
+import TakingDamage from "../States/PlayerStates/TakingDamage";
+import Dying from "../States/PlayerStates/Dying";
+import CheatCodes from "../../../utils/Singletons/CheatCodes";
 
 export const PlayerAnimations = {
     IDLE: "IDLE",

@@ -1,5 +1,5 @@
 import PlayerActor from "../../../actors/PlayerActor";
-import PlayerController from "../../PlayerController";
+import PlayerController from "../../playerAI/PlayerController";
 import BaseState from "../BaseState";
 
 export const PlayerAnimations = {

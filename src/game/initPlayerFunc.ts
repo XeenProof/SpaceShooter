@@ -7,7 +7,7 @@ import { PhysicGroups } from "../constants/physics";
 import RechargableStat from "../utils/HUD/RechargableStat";
 import UpgradableStat from "../utils/HUD/UpgradableStat";
 import PlayerActor from "./actors/PlayerActor";
-import PlayerController from "./ai/PlayerController";
+import PlayerController from "./ai/playerAI/PlayerController";
 import ActorScene from "./scenes/ActorScene";
 
 

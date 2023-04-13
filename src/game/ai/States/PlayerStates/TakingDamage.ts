@@ -1,6 +1,6 @@
 import Timer from "../../../../Wolfie2D/Timing/Timer";
 import PlayerActor from "../../../actors/PlayerActor";
-import PlayerController from "../../PlayerController";
+import PlayerController from "../../playerAI/PlayerController";
 import MovementAI from "../../abstractAI/MovementAI";
 import PlayerState, { PlayerAnimations, playerstates } from "./PlayerState";
 
