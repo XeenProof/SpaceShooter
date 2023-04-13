@@ -450,8 +450,7 @@ export default class BaseScene extends ActorScene{
 	public getEnemyShot(id: number): DamageActor {return <DamageActor>this.entities.getEntityById(id, PhysicGroups.ENEMY_WEAPON)}
 	public getPlayerDamage(key: String): number{return this.damages.get(key)*this.playerDamageMulti}
 	public getEnemyDamage(key: String): number{return this.damages.get(key)*this.enemyDamageMulti}
-
-	
+	public getClosestEnemy(pos: Vec2): HPActor {return <HPActor>this.entities.findClosestEntity(pos, (x)=>{return x.PHYSICS == PhysicGroups.ENEMY})}
 	
 	protected handleHealthChange(currentHealth: number, maxHealth: number): void {
 		let unit = this.healthBarBg.size.y / maxHealth;

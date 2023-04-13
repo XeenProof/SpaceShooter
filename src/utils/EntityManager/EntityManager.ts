@@ -1,3 +1,4 @@
+import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
 import CanvasNode from "../../Wolfie2D/Nodes/CanvasNode";
 import GameNode from "../../Wolfie2D/Nodes/GameNode";
 import Spawnable from "../Interface/Spawnable";
@@ -44,6 +45,21 @@ export default class EntityManager<T extends CanvasNode>{
     public findOneEntity(entityFilter: (value?: any, index?: number) => boolean = ()=>{return true;}, keyFilter: (value?: any, index?: number) => boolean = ()=>{return true;}):(T){
         let foundEntities = this.findEntity(entityFilter, keyFilter)
         return (foundEntities.length > 0)?foundEntities[0]:null
+    }
+
+    public findClosestEntity(pos: Vec2, keyFilter: (value?: any, index?: number) => boolean = ()=>{return true;}):(T){
+        let found = this.findEntity((value: CanvasNode) => {return value.visible}, keyFilter)
+        if(found.length <= 0){return null}
+        let closest:T = found[0]
+        let leastDistance:number = closest.position.distanceSqTo(pos)
+        for(let node of found){
+            let distance = node.position.distanceSqTo(pos)
+            if(leastDistance > distance){
+                closest = node
+                leastDistance = distance
+            }
+        }
+        return closest
     }
 
     public getEntityById(id: number, physicsGroup?: string):(T){
