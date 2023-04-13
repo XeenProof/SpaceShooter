@@ -4,6 +4,7 @@ import { PhysicGroups } from "../physics";
 
 export const PlayerProjectileKeys = {
     BEAM:"BEAM",
+    TARGETED_BEAM:"TARGETED_BEAM"
 }
 
 export const EnemyProjectileKeys = {
@@ -21,6 +22,13 @@ export const AllProjectileData = {
         DAMAGE: 2,
         SPEED: 500,
         LOAD:[LoadProjectiles.BEAM],
+        PHYSICS: PhysicGroups.PLAYER_WEAPON
+    },
+    TARGETED_BEAM:{
+        KEY: AllProjectileKeys.TARGETED_BEAM,
+        DAMAGE: 20,
+        SPEED: 500,
+        LOAD: [LoadProjectiles.TARGETED_BEAM],
         PHYSICS: PhysicGroups.PLAYER_WEAPON
     },
     ENEMY_BEAM:{

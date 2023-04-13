@@ -99,6 +99,7 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
                 break;
             }
             case Events.WEAPON_ENEMY_COLLISION:{
+                console.log("damage taken")
                 this.handleDamage(event.data.get("node"), event.data.get("other"))
                 break;
             }
@@ -122,6 +123,7 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
         if(this.isState(enemyStates.DEAD)){return;}
         if(enemyId != this.owner.id){return;}
         let bullet = this.owner.getScene().getShot(shotid)
+        if(!bullet){console.error("bullet not found, check for errors")}
         let damage = this.owner.getScene().getPlayerDamage(bullet.damage_key)
         this.OwnerTakeDamage(damage)
         
