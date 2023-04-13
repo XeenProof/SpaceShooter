@@ -26,7 +26,7 @@ export const AllProjectileData = {
     },
     TARGETED_BEAM:{
         KEY: AllProjectileKeys.TARGETED_BEAM,
-        DAMAGE: 20,
+        DAMAGE: 2,
         SPEED: 500,
         LOAD: [LoadProjectiles.TARGETED_BEAM],
         PHYSICS: PhysicGroups.PLAYER_WEAPON
