@@ -16,6 +16,6 @@ export default class BeamActor extends DamageActor{
     }
 
     despawnConditions(options: Record<string, any>): boolean {
-        return this.offScreenDown || this.offScreenUp
+        return this.offScreen
     }
 }

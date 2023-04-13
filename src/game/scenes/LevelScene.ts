@@ -37,10 +37,11 @@ export default class LevelScene extends BaseScene {
 	protected handleEvent(event: GameEvent){
 		switch(event.type) {
 			case Events.PLAYER_SHOOTS: {
-				this.handleAttack(event.data.record)
+				this.handlePlayerAttackList(event.data.get("projectiles"))
 				break;
 			}
 			case Events.ENEMY_SHOOTS: {
+				console.log(event.data)
 				this.handleAttack(event.data.record)
 				break;
 			}
@@ -93,6 +94,12 @@ export default class LevelScene extends BaseScene {
         }
         this.entities.initEntity(KEY, AMMOUNT, func, DATA)
     }
+
+	protected handlePlayerAttackList(list: Record<string, any>[]): void{
+		for(let data of list){
+			this.handleAttack(data);
+		}
+	}
 
 	protected handleAttack(data: Record<string, any>): void{
 		let projectile: CanvasNode = this.entities.getEntity(data.key)

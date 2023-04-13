@@ -150,11 +150,17 @@ export default class PlayerController extends StateMachineAI {
 	}
 
 	protected handleShoot():void {
+		let pos = this.owner.position;
+		let id = this.owner.id;
 		this.emitter.fireEvent(Events.PLAYER_SHOOTS, {
-			src: this.owner.position,
-			dir: Vec2.UP,
-			key: PlayerProjectileKeys.BEAM,
-			id: this.owner.id
+			projectiles: 
+			[
+				{key: PlayerProjectileKeys.BEAM, src: pos, dir: Vec2.UP, id: this.owner.id},
+				{key: PlayerProjectileKeys.BEAM, src: pos, dir: Vec2.LEFT, id: this.owner.id},
+				{key: PlayerProjectileKeys.BEAM, src: pos, dir: Vec2.DOWN, id: this.owner.id},
+				{key: PlayerProjectileKeys.BEAM, src: pos, dir: Vec2.RIGHT, id: this.owner.id}
+			],
+			
 		});
 	}
 
