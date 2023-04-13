@@ -6,6 +6,7 @@ import Scene from "../../Wolfie2D/Scene/Scene";
 import Timer from "../../Wolfie2D/Timing/Timer";
 import { cheats } from "../../constants/gameoptions";
 import RechargableStat from "../../utils/HUD/RechargableStat";
+import UpgradableStat from "../../utils/HUD/UpgradableStat";
 import CheatCodes from "../../utils/Singletons/CheatCodes";
 import BasicTargetable from "../../utils/Targeting/BasicTargetable";
 import { TargetableEntity } from "../../utils/Targeting/TargetableEntity";
@@ -85,8 +86,50 @@ export default class PlayerActor extends HPActor{
     public get scrap(): number {return this._scrap;}
     public set scrap(value: number) {this._scrap = value;}
     public collectedScrap(value: number):void{if(this.scrap != -1){this.scrap+=value}}
-    public usedScrap(value: number):void{if(this.scrap != -1){this.scrap-=value}}
-    public canAfford(cost: number):boolean{return (this.scrap >= cost || this.scrap == -1)}
+    public useScrap(value: number):void{if(this.scrap != -1){this.scrap-=value}}
+    public canAfford(cost: number):boolean{return (this.scrap >= cost || this.scrap == -1 || CheatCodes.getCheat(cheats.INFINITE_SCRAP))}
+
+    /**Healing related */
+    public get canHeal(): boolean {return this.canAfford(10) && this.health < this.maxHealth && this.health > 0}
+    public heal(value: number = this.maxHealth){this.health = Math.min(this.health + value, this.maxHealth)}
+    public handlePlayerHeal(): void {if(this.canHeal){this.heal(10)}}
+
+    /**Health Upgrade and all it's related stuff */
+    private _basehealth: number;
+    private _healthUpgrade: UpgradableStat;
+    public get basehealth(): number {return this._basehealth;}
+    public set basehealth(value: number) {this._basehealth = value;}
+    public get healthUpgrade(): UpgradableStat {return this._healthUpgrade;}
+    public set healthUpgrade(value: UpgradableStat) {this._healthUpgrade = value;}
+    public get healthUpgradeLevel(): number {return this.healthUpgrade.level}
+    public get healthUpgradeCost():number {return this.healthUpgrade.cost}
+    public get canUpgradeHealth():boolean {return this.canAfford(this.healthUpgradeCost)}
+    public handleUpgradeHealth(value:number = 1, ignoreCost:boolean = false){
+        if(this.canUpgradeHealth || ignoreCost){
+            this.healthUpgrade.upgrade(value)
+            this.useScrap((ignoreCost)?0:this.healthUpgradeCost)
+            let currentMax = (this.healthUpgradeLevel*2)+this.basehealth
+            let prevMax = this.maxHealth
+            let difference = currentMax - prevMax
+            this.maxHealth+=difference
+            this.health+=difference
+        }
+    }
+
+    /**Attack Upgrade and all it's related stuff */
+    private _attackUpgrade: UpgradableStat;
+    public get attackUpgrade(): UpgradableStat {return this._attackUpgrade;}
+    public set attackUpgrade(value: UpgradableStat) {this._attackUpgrade = value;}
+    public get attackUpgradeLevel(): number {return this.attackUpgrade.level}
+    public get attackUpgradeCost():number {return this.attackUpgrade.cost}
+    public get canUpgradeAttack():boolean {return this.canAfford(this.attackUpgradeCost) || CheatCodes.getCheat(cheats.INFINITE_SCRAP)}
+    public handleUpgradeAttack(value:number = 1, ignoreCost:boolean = false){
+        if(this.canUpgradeAttack || ignoreCost){
+            this.attackUpgrade.upgrade(value)
+            this.useScrap((ignoreCost)?0:this.attackUpgradeCost)
+            console.log("handle attack upgrade wip")
+        }
+    }
 
     public constructor(sheet: Spritesheet){
         super(sheet)
@@ -143,9 +186,5 @@ export default class PlayerActor extends HPActor{
 
     public handleIframeEnds(): void {
         //this.iframe = false
-    }
-
-    public heal(value: number = this.maxHealth){
-        this.health = this.maxHealth
     }
 }

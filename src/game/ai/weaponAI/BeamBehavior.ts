@@ -45,7 +45,6 @@ export default class BeamBehavior extends MovementAI {
         if(!this.owner.visible){return;}
         this.owner.attemptDespawn();
         if(!this.owner.visible){return;}
-        console.log("beam update")
         while(this.receiver.hasNextEvent()){
             this.handleEvent(this.receiver.getNextEvent());
         }

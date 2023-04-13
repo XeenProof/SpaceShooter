@@ -54,7 +54,6 @@ export default class LevelScene extends BaseScene {
 				break;
 			}
 			case Events.ENEMY_SHOOTS: {
-				console.log(event.data)
 				this.handleAttack(event.data.record)
 				break;
 			}
@@ -128,7 +127,7 @@ export default class LevelScene extends BaseScene {
 
 	protected handleHealPlayer():void{
 		if(this.player.canAfford(10)){
-			this.player.usedScrap(10);
+			this.player.useScrap(10);
 			this.player.health = this.player.maxHealth;
 		}
 	}

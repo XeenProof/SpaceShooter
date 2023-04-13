@@ -51,12 +51,17 @@ export default class PlayerController extends StateMachineAI {
 		this.receiver.subscribe(Events.WEAPON_PLAYER_COLLISION)
 		this.receiver.subscribe(Events.PLAYER_SCRAP_COLLISION)
 
+		this.receiver.subscribe(Events.HEALTH)
+		this.receiver.subscribe(Events.UPGRADE_HEALTH)
+		this.receiver.subscribe(Events.UPGRADE_WEAPON)
+
 		this.initialize(playerstates.IDLE)
 		this.activate(options);
 	}
 	public activate(options: Record<string,any>): void {
 		//sets a player's health
 		let hp = options.hp?options.hp:30;
+		this.owner.basehealth = hp;
 		this.owner.maxHealth = hp;
         this.owner.health = hp;
 
@@ -88,7 +93,6 @@ export default class PlayerController extends StateMachineAI {
 	 */
 	public update(deltaT: number): void {
         // First, handle all events 
-		console.log("player update")
 		while(this.receiver.hasNextEvent()){
 			this.handleEvent(this.receiver.getNextEvent());
 		}
@@ -117,6 +121,18 @@ export default class PlayerController extends StateMachineAI {
 			}
 			case Events.PLAYER_SCRAP_COLLISION:{
 				this.handleScrapPickup()
+				break;
+			}
+			case Events.HEALTH:{
+				this.owner.handlePlayerHeal()
+				break;
+			}
+			case Events.UPGRADE_HEALTH:{
+				this.owner.handleUpgradeHealth()
+				break;
+			}
+			case Events.UPGRADE_WEAPON:{
+				this.owner.handleUpgradeAttack()
 				break;
 			}
 			default: {

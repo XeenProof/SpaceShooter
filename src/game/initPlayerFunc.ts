@@ -5,6 +5,7 @@ import { Events } from "../constants/events";
 import { Layers } from "../constants/layers";
 import { PhysicGroups } from "../constants/physics";
 import RechargableStat from "../utils/HUD/RechargableStat";
+import UpgradableStat from "../utils/HUD/UpgradableStat";
 import PlayerActor from "./actors/PlayerActor";
 import PlayerController from "./ai/PlayerController";
 import ActorScene from "./scenes/ActorScene";
@@ -33,6 +34,12 @@ export function initPlayerFunc(add: FactoryManager, scene: ActorScene, info:Reco
     let shieldCharge = new RechargableStat(5,5,10000)
     player.shield = shield
     player.shieldCharge = shieldCharge
+
+    let healthUpgrade = new UpgradableStat()
+    player.healthUpgrade = healthUpgrade
+
+    let attackUpgrade = new UpgradableStat()
+    player.attackUpgrade = attackUpgrade
 
     player.addAI(PlayerController, {stats: info.STATS});
 

@@ -68,7 +68,6 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
 
     public update(deltaT: number){
         if(!this.owner.visible){return;}
-        console.log("mook update")
         while(this.receiver.hasNextEvent()){
 			this.handleEvent(this.receiver.getNextEvent());
 		}
