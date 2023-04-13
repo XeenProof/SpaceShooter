@@ -26,6 +26,19 @@ export default class LevelScene extends BaseScene {
 		this.endLevelTimer = new Timer(5000, ()=>{this.endLevel()})
 	}
 
+	public override startScene(): void {
+		super.startScene()
+
+		this.receiver.subscribe(Events.PLAYER_SHOOTS);
+		this.receiver.subscribe(Events.ENEMY_SHOOTS);
+		this.receiver.subscribe(Events.DROP_SCRAP);
+		this.receiver.subscribe(Events.LEVEL_ENDS);
+
+		//this.receiver.subscribe(Events.HEALTH);
+		//this.receiver.subscribe(Events.UPGRADE_HEALTH);
+		//this.receiver.subscribe(Events.UPGRADE_WEAPON);
+	}
+
 	/**
 	 * @see Scene.updateScene 
 	 */
@@ -47,10 +60,6 @@ export default class LevelScene extends BaseScene {
 			}
 			case Events.DROP_SCRAP:{
 				this.handleSpawnScrap(event.data.get("src"))
-				break;
-			}
-			case Events.HEALTH:{
-				this.handleHealPlayer();
 				break;
 			}
 			case Events.LEVEL_ENDS:{

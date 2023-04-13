@@ -152,15 +152,6 @@ export default class BaseScene extends ActorScene{
 		// Create a background layer
 		this.initLayers();
 		this.initUI();
-
-		// Subscribe to laser events
-		this.receiver.subscribe(Events.PLAYER_SHOOTS);
-		this.receiver.subscribe(Events.ENEMY_SHOOTS);
-		this.receiver.subscribe(Events.DROP_SCRAP);
-		this.receiver.subscribe(Events.HEALTH);
-		//this.receiver.subscribe(Events.UPGRADE_HEALTH);
-		//this.receiver.subscribe(Events.UPGRADE_WEAPON);
-		this.receiver.subscribe(Events.LEVEL_ENDS);
 	}
 	/**
 	 * @see Scene.updateScene 
