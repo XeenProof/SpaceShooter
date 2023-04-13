@@ -1,16 +1,16 @@
-import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
-import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
-import Layer from "../../Wolfie2D/Scene/Layer";
-import Scene from "../../Wolfie2D/Scene/Scene";
-import Color from "../../Wolfie2D/Utils/Color";
-import Label from "../../Wolfie2D/Nodes/UIElements/Label";
-import GameEvent from "../../Wolfie2D/Events/GameEvent";
-import { LoadData, LoadType,LoadMainmenu} from "../../constants/load";
-import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
+import Vec2 from "../../../Wolfie2D/DataTypes/Vec2";
+import { UIElementType } from "../../../Wolfie2D/Nodes/UIElements/UIElementTypes";
+import Layer from "../../../Wolfie2D/Scene/Layer";
+import Scene from "../../../Wolfie2D/Scene/Scene";
+import Color from "../../../Wolfie2D/Utils/Color";
+import Label from "../../../Wolfie2D/Nodes/UIElements/Label";
+import GameEvent from "../../../Wolfie2D/Events/GameEvent";
+import { LoadData, LoadType,LoadMainmenu} from "../../../constants/load";
+import Sprite from "../../../Wolfie2D/Nodes/Sprites/Sprite";
 import MainMenu from "./MainMenu";
-import Button from "../../Wolfie2D/Nodes/UIElements/Button";
-import ScriptScene from "./ScriptScene";
-import { level1 } from "../../constants/scripts/level1script";
+import Button from "../../../Wolfie2D/Nodes/UIElements/Button";
+import ScriptScene from "../GameplayScenes/ScriptScene";
+import { level1 } from "../../../constants/scripts/level1script";
 
 // Layers in the main menu
 const SelectionLayer = {

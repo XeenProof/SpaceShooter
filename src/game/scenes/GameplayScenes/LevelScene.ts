@@ -1,16 +1,16 @@
-import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
-import CanvasNode from "../../Wolfie2D/Nodes/CanvasNode";
-import GameEvent from "../../Wolfie2D/Events/GameEvent";
-import Timer from "../../Wolfie2D/Timing/Timer";
-import { PhysicGroups} from "../../constants/physics";
-import { Events } from "../../constants/events";
+import Vec2 from "../../../Wolfie2D/DataTypes/Vec2";
+import CanvasNode from "../../../Wolfie2D/Nodes/CanvasNode";
+import GameEvent from "../../../Wolfie2D/Events/GameEvent";
+import Timer from "../../../Wolfie2D/Timing/Timer";
+import { PhysicGroups} from "../../../constants/physics";
+import { Events } from "../../../constants/events";
 import BaseScene from "./BaseScene";
-import { initfuncs } from "../initfuncs";
-import { AllItemKey } from "../../constants/items/itemData";
-import { AllPlayerData } from "../../constants/player/playerData";
-import PlayerActor from "../actors/PlayerActor";
-import { initPlayerFunc } from "../initPlayerFunc";
-import SelectionScence from "./SelectionScene";
+import { initfuncs } from "../../initfuncs";
+import { AllItemKey } from "../../../constants/items/itemData";
+import { AllPlayerData } from "../../../constants/player/playerData";
+import PlayerActor from "../../actors/PlayerActor";
+import { initPlayerFunc } from "../../initPlayerFunc";
+import SelectionScence from "../MenuScenes/SelectionScene";
 
 /**
  * This is the level scene for our game

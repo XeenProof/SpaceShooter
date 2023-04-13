@@ -4,11 +4,10 @@ import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
 import Scene from "../../Wolfie2D/Scene/Scene";
 import Color from "../../Wolfie2D/Utils/Color";
-import MainMenu from "./MainMenu";
+import MainMenu from "./MenuScenes/MainMenu";
 
 /**
- * The scene after the main HW3Scene. The scene ends when the user clicks anywhere on
- * the screen.
+ * This Scene is currently Unused
  */
 export default class GameOver extends Scene {
     private bubblesPopped: number;

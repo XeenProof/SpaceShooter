@@ -1,23 +1,23 @@
-import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
-import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
-import Layer from "../../Wolfie2D/Scene/Layer";
-import Scene from "../../Wolfie2D/Scene/Scene";
-import Color from "../../Wolfie2D/Utils/Color";
-import Homework1_Scene from "./LevelScene";
+import Vec2 from "../../../Wolfie2D/DataTypes/Vec2";
+import { UIElementType } from "../../../Wolfie2D/Nodes/UIElements/UIElementTypes";
+import Layer from "../../../Wolfie2D/Scene/Layer";
+import Scene from "../../../Wolfie2D/Scene/Scene";
+import Color from "../../../Wolfie2D/Utils/Color";
+import Homework1_Scene from "../GameplayScenes/LevelScene";
 import SelectionScene from "./SelectionScene";
-import Label from "../../Wolfie2D/Nodes/UIElements/Label";
-import GameEvent from "../../Wolfie2D/Events/GameEvent";
-import { LoadData, LoadType, LoadBackground, LoadPlayer, LoadEnemy, LoadProjectiles,LoadWelcome,LoadMainmenu,LoadAPPLE } from "../../constants/load";
-import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
-import RandUtils from "../../Wolfie2D/Utils/RandUtils";
-import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
+import Label from "../../../Wolfie2D/Nodes/UIElements/Label";
+import GameEvent from "../../../Wolfie2D/Events/GameEvent";
+import { LoadData, LoadType, LoadBackground, LoadPlayer, LoadEnemy, LoadProjectiles,LoadWelcome,LoadMainmenu,LoadAPPLE } from "../../../constants/load";
+import Sprite from "../../../Wolfie2D/Nodes/Sprites/Sprite";
+import RandUtils from "../../../Wolfie2D/Utils/RandUtils";
+import { GameEventType } from "../../../Wolfie2D/Events/GameEventType";
 
-import LevelScene from "./LevelScene";
-import ScriptScene from "./ScriptScene";
-import { level1 } from "../../constants/scripts/level1script";
-import Button from "../../Wolfie2D/Nodes/UIElements/Button";
-import CheatCodes from "../../utils/Singletons/CheatCodes";
-import { cheats } from "../../constants/gameoptions";
+import LevelScene from "../GameplayScenes/LevelScene";
+import ScriptScene from "../GameplayScenes/ScriptScene";
+import { level1 } from "../../../constants/scripts/level1script";
+import Button from "../../../Wolfie2D/Nodes/UIElements/Button";
+import CheatCodes from "../../../utils/Singletons/CheatCodes";
+import { cheats } from "../../../constants/gameoptions";
 
 
 // Layers in the main menu

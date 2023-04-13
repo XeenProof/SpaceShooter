@@ -1,8 +1,8 @@
-import Scene from "../../Wolfie2D/Scene/Scene";
-import PlayerActor from "../actors/PlayerActor";
-import DamageActor from "../actors/abstractActors/DamageActor";
-import HPActor from "../actors/abstractActors/HPActor";
-import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
+import Scene from "../../../Wolfie2D/Scene/Scene";
+import PlayerActor from "../../actors/PlayerActor";
+import DamageActor from "../../actors/abstractActors/DamageActor";
+import HPActor from "../../actors/abstractActors/HPActor";
+import Vec2 from "../../../Wolfie2D/DataTypes/Vec2";
 
 
 export default abstract class ActorScene extends Scene{

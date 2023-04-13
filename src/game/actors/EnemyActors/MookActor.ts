@@ -6,7 +6,7 @@ import HealthbarHUD from "../../../utils/HUD/HealthbarHUD";
 import BasicTargetable from "../../../utils/Targeting/BasicTargetable";
 import { TargetableEntity } from "../../../utils/Targeting/TargetableEntity";
 import { TargetingEntity } from "../../../utils/Targeting/TargetingEntity";
-import BaseScene from "../../scenes/BaseScene";
+import BaseScene from "../../scenes/GameplayScenes/BaseScene";
 import HPActor from "../abstractActors/HPActor";
 
 const animations = {

@@ -4,7 +4,7 @@ import Scene from "../../../Wolfie2D/Scene/Scene";
 import BasicTargetable from "../../../utils/Targeting/BasicTargetable";
 import { TargetableEntity } from "../../../utils/Targeting/TargetableEntity";
 import { TargetingEntity } from "../../../utils/Targeting/TargetingEntity";
-import BaseScene from "../../scenes/BaseScene";
+import BaseScene from "../../scenes/GameplayScenes/BaseScene";
 import DamageActor from "../abstractActors/DamageActor";
 import SpawnableActor from "../abstractActors/SpawnableActor";
 

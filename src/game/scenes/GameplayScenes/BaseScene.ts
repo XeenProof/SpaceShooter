@@ -1,28 +1,28 @@
-import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
-import Label from "../../Wolfie2D/Nodes/UIElements/Label";
-import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
-import Color from "../../Wolfie2D/Utils/Color";
-import RandUtils from "../../Wolfie2D/Utils/RandUtils";
-import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
-import CanvasNode from "../../Wolfie2D/Nodes/CanvasNode";
-import GameEvent from "../../Wolfie2D/Events/GameEvent";
-import Timer from "../../Wolfie2D/Timing/Timer";
+import Vec2 from "../../../Wolfie2D/DataTypes/Vec2";
+import Label from "../../../Wolfie2D/Nodes/UIElements/Label";
+import { UIElementType } from "../../../Wolfie2D/Nodes/UIElements/UIElementTypes";
+import Color from "../../../Wolfie2D/Utils/Color";
+import RandUtils from "../../../Wolfie2D/Utils/RandUtils";
+import Sprite from "../../../Wolfie2D/Nodes/Sprites/Sprite";
+import CanvasNode from "../../../Wolfie2D/Nodes/CanvasNode";
+import GameEvent from "../../../Wolfie2D/Events/GameEvent";
+import Timer from "../../../Wolfie2D/Timing/Timer";
 
-import Viewport from "../../Wolfie2D/SceneGraph/Viewport";
-import SceneManager from "../../Wolfie2D/Scene/SceneManager";
-import RenderingManager from "../../Wolfie2D/Rendering/RenderingManager";
+import Viewport from "../../../Wolfie2D/SceneGraph/Viewport";
+import SceneManager from "../../../Wolfie2D/Scene/SceneManager";
+import RenderingManager from "../../../Wolfie2D/Rendering/RenderingManager";
 
-import { LoadData, LoadType} from "../../constants/load";
-import { PhysicGroups, Physics } from "../../constants/physics";
-import { Events, LevelEndConst } from "../../constants/events";
-import PlayerActor from "../actors/PlayerActor";
-import EntityManager from "../../utils/EntityManager/EntityManager";
+import { LoadData, LoadType} from "../../../constants/load";
+import { PhysicGroups, Physics } from "../../../constants/physics";
+import { Events, LevelEndConst } from "../../../constants/events";
+import PlayerActor from "../../actors/PlayerActor";
+import EntityManager from "../../../utils/EntityManager/EntityManager";
 import ActorScene from "./ActorScene";
-import HPActor from "../actors/abstractActors/HPActor";
-import DamageActor from "../actors/abstractActors/DamageActor";
-import { Layers } from "../../constants/layers";
-import { GAMEPLAY_DIMENTIONS } from "../../constants/dimenstions";
-import Button from "../../Wolfie2D/Nodes/UIElements/Button";
+import HPActor from "../../actors/abstractActors/HPActor";
+import DamageActor from "../../actors/abstractActors/DamageActor";
+import { Layers } from "../../../constants/layers";
+import { GAMEPLAY_DIMENTIONS } from "../../../constants/dimenstions";
+import Button from "../../../Wolfie2D/Nodes/UIElements/Button";
 
 /**
  * This is the base scene for our game.

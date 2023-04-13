@@ -8,7 +8,7 @@ import RechargableStat from "../utils/HUD/RechargableStat";
 import UpgradableStat from "../utils/HUD/UpgradableStat";
 import PlayerActor from "./actors/PlayerActor";
 import PlayerController from "./ai/playerAI/PlayerController";
-import ActorScene from "./scenes/ActorScene";
+import ActorScene from "./scenes/GameplayScenes/ActorScene";
 
 
 export function initPlayerFunc(add: FactoryManager, scene: ActorScene, info:Record<string, any>):PlayerActor{

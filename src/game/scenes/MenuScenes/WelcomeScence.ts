@@ -1,22 +1,22 @@
-import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
-import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
-import Layer from "../../Wolfie2D/Scene/Layer";
-import Scene from "../../Wolfie2D/Scene/Scene";
-import Color from "../../Wolfie2D/Utils/Color";
-import Homework1_Scene from "./LevelScene";
-import Label from "../../Wolfie2D/Nodes/UIElements/Label";
-import GameEvent from "../../Wolfie2D/Events/GameEvent";
-import { LoadData, LoadType, LoadBackground, LoadPlayer, LoadEnemy, LoadProjectiles,LoadWelcome, LoadMainmenu } from "../../constants/load";
-import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
-import RandUtils from "../../Wolfie2D/Utils/RandUtils";
-import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
+import Vec2 from "../../../Wolfie2D/DataTypes/Vec2";
+import { UIElementType } from "../../../Wolfie2D/Nodes/UIElements/UIElementTypes";
+import Layer from "../../../Wolfie2D/Scene/Layer";
+import Scene from "../../../Wolfie2D/Scene/Scene";
+import Color from "../../../Wolfie2D/Utils/Color";
+import Homework1_Scene from "../GameplayScenes/LevelScene";
+import Label from "../../../Wolfie2D/Nodes/UIElements/Label";
+import GameEvent from "../../../Wolfie2D/Events/GameEvent";
+import { LoadData, LoadType, LoadBackground, LoadPlayer, LoadEnemy, LoadProjectiles,LoadWelcome, LoadMainmenu } from "../../../constants/load";
+import Sprite from "../../../Wolfie2D/Nodes/Sprites/Sprite";
+import RandUtils from "../../../Wolfie2D/Utils/RandUtils";
+import { GameEventType } from "../../../Wolfie2D/Events/GameEventType";
 import MainMenu from "./MainMenu";
 import SelectionScence from "./SelectionScene";
-import Button from "../../Wolfie2D/Nodes/UIElements/Button";
-import Viewport from "../../Wolfie2D/SceneGraph/Viewport";
-import SceneManager from "../../Wolfie2D/Scene/SceneManager";
-import RenderingManager from "../../Wolfie2D/Rendering/RenderingManager";
-import CheatCodes from "../../utils/Singletons/CheatCodes";
+import Button from "../../../Wolfie2D/Nodes/UIElements/Button";
+import Viewport from "../../../Wolfie2D/SceneGraph/Viewport";
+import SceneManager from "../../../Wolfie2D/Scene/SceneManager";
+import RenderingManager from "../../../Wolfie2D/Rendering/RenderingManager";
+import CheatCodes from "../../../utils/Singletons/CheatCodes";
 
 // Layers in the main menu
 const WelcomeLayer = {

@@ -1,12 +1,12 @@
-import CanvasNode from "../../Wolfie2D/Nodes/CanvasNode";
-import Timer from "../../Wolfie2D/Timing/Timer";
-import { AllEnemyData } from "../../constants/enemies/enemyData";
-import { Events } from "../../constants/events";
-import { LoadData } from "../../constants/load";
-import { Script_Type, scriptFormat } from "../../constants/scripts/scriptTypes";
-import { generatePathFromList } from "../../utils/Pathing/CreatePaths";
-import ScriptNode from "../../utils/ScriptQueue/ScriptNode";
-import ScriptQueue, { generateScriptQueue } from "../../utils/ScriptQueue/ScriptQueue";
+import CanvasNode from "../../../Wolfie2D/Nodes/CanvasNode";
+import Timer from "../../../Wolfie2D/Timing/Timer";
+import { AllEnemyData } from "../../../constants/enemies/enemyData";
+import { Events } from "../../../constants/events";
+import { LoadData } from "../../../constants/load";
+import { Script_Type, scriptFormat } from "../../../constants/scripts/scriptTypes";
+import { generatePathFromList } from "../../../utils/Pathing/CreatePaths";
+import ScriptNode from "../../../utils/ScriptQueue/ScriptNode";
+import ScriptQueue, { generateScriptQueue } from "../../../utils/ScriptQueue/ScriptQueue";
 import LevelScene from "./LevelScene";
 
 /**
