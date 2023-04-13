@@ -437,7 +437,7 @@ export default class BaseScene extends ActorScene{
 
 	public set player(value: PlayerActor) {this._player = value;}
 	public get enemyDamageMulti():number {return this.statMods.enemydamage_multi?this.statMods.enemydamage_multi:1}
-	public get playerDamageMulti():number {return 1}
+	public get playerDamageMulti():number {return this.player?this.player.damageMulti:1}
 
 	/**Abstracted */
 	public get player(): PlayerActor {return this._player;}

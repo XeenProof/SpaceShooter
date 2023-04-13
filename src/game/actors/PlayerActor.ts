@@ -117,7 +117,10 @@ export default class PlayerActor extends HPActor{
     }
 
     /**Attack Upgrade and all it's related stuff */
+    private _damageMulti: number = 1;
     private _attackUpgrade: UpgradableStat;
+    public get damageMulti(): number {return this._damageMulti;}
+    public set damageMulti(value: number) {this._damageMulti = value;}
     public get attackUpgrade(): UpgradableStat {return this._attackUpgrade;}
     public set attackUpgrade(value: UpgradableStat) {this._attackUpgrade = value;}
     public get attackUpgradeLevel(): number {return this.attackUpgrade.level}
@@ -127,7 +130,7 @@ export default class PlayerActor extends HPActor{
         if(this.canUpgradeAttack || ignoreCost){
             this.attackUpgrade.upgrade(value)
             this.useScrap((ignoreCost)?0:this.attackUpgradeCost)
-            console.log("handle attack upgrade wip")
+            this.damageMulti = (this.attackUpgradeLevel*0.5)+1
         }
     }
 
