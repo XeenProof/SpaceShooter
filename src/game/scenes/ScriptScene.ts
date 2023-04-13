@@ -23,15 +23,8 @@ export default class ScriptScene extends LevelScene{
     private timer:Timer
     private wait:boolean
 
-    protected statMods:Record<string, number> = {
-		hp_multi: 1,
-		droprate_multi: 1,
-        enemydamage_multi: 1 //WIP
-	}
-
     public initScene(options: Record<string, any>): void {
         this.levelData = options.levelData;
-        this.cheatcodes = options.cheatcodes?options.cheatcodes:{}
         let {NAME, LOAD, SCRIPT} = this.levelData
         this.NAME = NAME;
         this.LOAD = LOAD;

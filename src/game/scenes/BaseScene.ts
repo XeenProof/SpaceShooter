@@ -30,6 +30,11 @@ import Button from "../../Wolfie2D/Nodes/UIElements/Button";
  */
 export default class BaseScene extends ActorScene{
 	protected BACKGROUND: LoadData;
+	protected statMods:Record<string, number> = {
+		hp_multi: 1,
+		droprate_multi: 1,
+        enemydamage_multi: 1
+	}
 
 	protected endLevelTimer:Timer
 	protected endType:string
@@ -47,7 +52,6 @@ export default class BaseScene extends ActorScene{
 
 	protected entities: EntityManager<CanvasNode>;
 	protected damages: Map<String, number>;
-	protected cheatcodes: Record<string, boolean>
 	protected wavenum: number = 0;
 
 	// shield labels
@@ -432,6 +436,8 @@ export default class BaseScene extends ActorScene{
 	}
 
 	public set player(value: PlayerActor) {this._player = value;}
+	public get enemyDamageMulti():number {return this.statMods.enemydamage_multi?this.statMods.enemydamage_multi:1}
+	public get playerDamageMulti():number {return 1}
 
 	/**Abstracted */
 	public get player(): PlayerActor {return this._player;}
@@ -442,9 +448,8 @@ export default class BaseScene extends ActorScene{
 	public getEnemy(id: number): HPActor {return <HPActor>this.entities.getEntityById(id, PhysicGroups.ENEMY)}
 	public getShot(id: number): DamageActor {return <DamageActor>this.entities.getEntityById(id, PhysicGroups.PLAYER_WEAPON)}
 	public getEnemyShot(id: number): DamageActor {return <DamageActor>this.entities.getEntityById(id, PhysicGroups.ENEMY_WEAPON)}
-	public getPlayerDamage(key: String): number{return this.damages.get(key)}
-	public getEnemyDamage(key: String): number{return this.damages.get(key)}
-	public getCheat(key: string): boolean {return (this.cheatcodes[key])?this.cheatcodes[key]:false}
+	public getPlayerDamage(key: String): number{return this.damages.get(key)*this.playerDamageMulti}
+	public getEnemyDamage(key: String): number{return this.damages.get(key)*this.enemyDamageMulti}
 
 	
 	
