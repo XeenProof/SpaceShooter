@@ -13,6 +13,10 @@ import Idle from "../States/PlayerStates/Idle";
 import TakingDamage from "../States/PlayerStates/TakingDamage";
 import Dying from "../States/PlayerStates/Dying";
 import CheatCodes from "../../../utils/Singletons/CheatCodes";
+import PlayerWeaponManager from "./PlayerWeaponManager";
+import BasicBeam from "./PlayerWeapons/BasicBeam";
+import SideBackBeam from "./PlayerWeapons/SideBackBeams";
+import TargetedBeam from "./PlayerWeapons/TargetedBeam";
 
 export const PlayerAnimations = {
     IDLE: "IDLE",
@@ -27,6 +31,7 @@ export const PlayerAnimations = {
 export default class PlayerController extends StateMachineAI {
 	/** The GameNode that owns this PlayerController AI */
 	protected owner: PlayerActor;
+	protected weapons: PlayerWeaponManager
 
 	public get currentSpeed(): number {return this.owner.currentSpeed;}
 	public set currentSpeed(value: number) {this.owner.currentSpeed = value;}
@@ -39,6 +44,11 @@ export default class PlayerController extends StateMachineAI {
 	 */
 	public initializeAI(owner: PlayerActor, options: Record<string,any>): void {
 		this.owner = owner;
+
+		this.weapons = new PlayerWeaponManager()
+		//this.weapons.add(new BasicBeam(this.owner, this))
+		//this.weapons.add(new SideBackBeam(this.owner, this))
+		this.weapons.add(new TargetedBeam(this.owner, this))
 
 		this.receiver = new Receiver();
 		this.emitter = new Emitter();
@@ -152,6 +162,9 @@ export default class PlayerController extends StateMachineAI {
 		return true
 	}
 
+	
+	public get playerMouseDir():Vec2{return this.owner.position.dirTo(Input.getGlobalMousePosition()).clone()}
+
 	public handleControls(deltaT: number):void {
 		// Get the player's input direction 
 		let forwardAxis = (Input.isPressed(Controls.MOVE_UP) ? 1 : 0) + (Input.isPressed(Controls.MOVE_DOWN) ? -1 : 0);
@@ -170,13 +183,7 @@ export default class PlayerController extends StateMachineAI {
 		let id = this.owner.id;
 		this.emitter.fireEvent(Events.PLAYER_SHOOTS, {
 			projectiles: 
-			[
-				{key: PlayerProjectileKeys.BEAM, src: pos, dir: Vec2.UP, id: this.owner.id},
-				{key: PlayerProjectileKeys.BEAM, src: pos, dir: Vec2.LEFT, id: this.owner.id},
-				{key: PlayerProjectileKeys.BEAM, src: pos, dir: Vec2.DOWN, id: this.owner.id},
-				{key: PlayerProjectileKeys.BEAM, src: pos, dir: Vec2.RIGHT, id: this.owner.id}
-			],
-			
+			this.weapons.projectiles
 		});
 	}
 

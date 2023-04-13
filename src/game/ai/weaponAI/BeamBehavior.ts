@@ -19,6 +19,7 @@ export default class BeamBehavior extends MovementAI {
         
         this.addState(enemyStates.IDLE, new Attack(this.owner, this))
         this.activate(options);
+        this.ignoreStates = true;
         
         this.receiver.subscribe(Events.WEAPON_ENEMY_COLLISION)
         this.receiver.subscribe(Events.WEAPON_PLAYER_COLLISION)
@@ -49,6 +50,7 @@ export default class BeamBehavior extends MovementAI {
             this.handleEvent(this.receiver.getNextEvent());
         }
         super.update(deltaT)
+        console.log("update ends")
     }
 
     protected handleWeaponCollision(id: number):void{

@@ -27,6 +27,7 @@ const inactivePos = new Vec2(1200, 1200)
 export const initfuncs = {
     SCRAP: initScrapFunc,
     BEAM: initBeamFunc,
+    TARGETED_BEAM: initTargetedBeamFunc,
     ENEMY_BEAM: initEnemyBeamFunc,
     COMMON_MOOK: initCommomMookFunc,
     TARGETED_MOOK: initTargetedMookFunc,
@@ -74,6 +75,20 @@ function initBeamFunc(add: FactoryManager, scene:ActorScene):BeamActor{
     entity.setGroup(PhysicGroups.PLAYER_WEAPON)
     entity.setTrigger(PhysicGroups.ENEMY, Events.WEAPON_ENEMY_COLLISION, null)
     return entity;
+}
+
+function initTargetedBeamFunc(add: FactoryManager, scene:ActorScene):BeamActor{
+    let info = AllProjectileData.TARGETED_BEAM
+    let entity = add.animatedSprite(BeamActor, info.LOAD[0].KEY, Layers.PRIMARY)
+    entity.position.set(1200, 1200)
+    entity.damage_key = info.KEY
+    entity.setScene(scene)
+    entity.visible = false;
+    entity.addAI(BeamBehavior, {src: inactivePos, speed: info.SPEED})
+    entity.addPhysics();
+    entity.setGroup(PhysicGroups.PLAYER_WEAPON)
+    entity.setTrigger(PhysicGroups.ENEMY, Events.WEAPON_ENEMY_COLLISION, null)
+    return entity
 }
 
 function initCommomMookFunc(add: FactoryManager, scene: ActorScene):MookActor{

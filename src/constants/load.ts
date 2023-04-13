@@ -29,6 +29,7 @@ const Loads = {
     SPACE_THIEF: {KEY: "SPACE_THIEF", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Space_Thief/Space_Thief.json", SCALE:{X:1, Y:1}},
 
     ENEMY1_BEAM: {KEY: "ENEMY1_BEAM", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Enemy1_Beam/Enemy1_Beam.json", SCALE:{X:1, Y:1}},
+    ENEMY2_BEAM: {KEY: "ENEMY2_BEAM", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Enemy2_Beam/Enemy2_Beam.json", SCALE:{X:1, Y:1}},
 
 
     WELCOME: {KEY: "WELCOME", TYPE: LoadType.IMAGE, PATH: "assets/sprites/welcome.png", SCALE:{X:1, Y:1}},
@@ -75,6 +76,7 @@ export const LoadEnemy = {
 
 export const LoadProjectiles = {
     BEAM: {...Loads.PLANE_BEAM, SCALE: {X:1, Y:1}},
+    TARGETED_BEAM: {...Loads.PLANE_BEAM}
 }
 
 export const LoadEnemyProjectile = {
