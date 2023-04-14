@@ -26,7 +26,7 @@ export default class HomingWeaponAI extends BasicWeaponAI{
     }
 
     protected get targetDir():Vec2{
-        return this.owner.position.dirTo(this.target.position)
+        return (this.hasTarget)?this.owner.position.dirTo(this.target.position):this.nextDir
     }
     protected get hasTarget():boolean{
         return !(this.target == null || !this.target.visible)
