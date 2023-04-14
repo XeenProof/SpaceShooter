@@ -22,6 +22,7 @@ import Sprite from "../Wolfie2D/Nodes/Sprites/Sprite"
 import { AllItemData } from "../constants/items/itemData"
 import ScrapBehavior from "./ai/ScrapBehavior"
 import BasicWeaponAI from "./ai/weaponAI/BasicWeaponAI"
+import HomingWeaponAI from "./ai/weaponAI/HomingWeaponAI"
 
 const inactivePos = new Vec2(1200, 1200)
 
@@ -85,7 +86,7 @@ function initTargetedBeamFunc(add: FactoryManager, scene:ActorScene):BeamActor{
     entity.damage_key = info.KEY
     entity.setScene(scene)
     entity.visible = false;
-    entity.addAI(BasicWeaponAI, {src: inactivePos, speed: info.SPEED})
+    entity.addAI(HomingWeaponAI, {src: inactivePos, speed: info.SPEED})
     entity.addPhysics();
     entity.setGroup(PhysicGroups.PLAYER_WEAPON)
     entity.setTrigger(PhysicGroups.ENEMY, Events.WEAPON_ENEMY_COLLISION, null)

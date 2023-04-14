@@ -33,7 +33,7 @@ export default class BasicWeaponAI extends ComplexPatternAI{
         this.nextSpeed = (options.speed)?options.speed:500
         this.receiver.ignoreEvents();
         this.initialize(enemyStates.IDLE)
-        this.owner.rotation = Vec2.UP.angleToCCW((this.dir)?this.dir:this.nextDir)
+        this.owner.rotation = this.rotation
     }
 
     public update(deltaT: number): void {
@@ -69,4 +69,6 @@ export default class BasicWeaponAI extends ComplexPatternAI{
         if(this.owner.id != id){return;}
         this.owner.despawn()
     }
+
+    protected get rotation():number{return Vec2.UP.angleToCCW((this.dir)?this.dir:this.nextDir)}
 }
