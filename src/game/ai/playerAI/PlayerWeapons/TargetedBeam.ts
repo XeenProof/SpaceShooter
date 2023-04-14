@@ -8,6 +8,9 @@ export default class TargetedBeam extends PlayerWeapon{
         return this.owner.attackUpgradeLevel >= 1
     }
     public get projectileList(): Record<string, any>[] {
-        return [{key: PlayerProjectileKeys.TARGETED_BEAM, src: this.owner.position, dir: this.parent.playerMouseDir, id: this.owner.id}]
+        return [{key: PlayerProjectileKeys.TARGETED_BEAM, 
+            src: this.owner.position, 
+            dir: this.parent.playerMouseDir, 
+            id: this.owner.id}]
     }
 }
