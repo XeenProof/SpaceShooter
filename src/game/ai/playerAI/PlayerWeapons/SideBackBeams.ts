@@ -5,7 +5,7 @@ import PlayerWeapon from "./PlayerWeapon";
 
 export default class SideBackBeam extends PlayerWeapon{
 
-    public get defaultValues(): Record<string, any>{
+    private get defaultValues(): Record<string, any>{
         return {
             key: PlayerProjectileKeys.BEAM,
             src: this.owner.position,

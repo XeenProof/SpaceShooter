@@ -17,6 +17,7 @@ import PlayerWeaponManager from "./PlayerWeaponManager";
 import BasicBeam from "./PlayerWeapons/BasicBeam";
 import SideBackBeam from "./PlayerWeapons/SideBackBeams";
 import TargetedBeam from "./PlayerWeapons/TargetedBeam";
+import QuadHomingBeam from "./PlayerWeapons/QuadHomingShot";
 
 export const PlayerAnimations = {
     IDLE: "IDLE",
@@ -49,6 +50,7 @@ export default class PlayerController extends StateMachineAI {
 		this.weapons.add(new BasicBeam(this.owner, this))
 		this.weapons.add(new SideBackBeam(this.owner, this))
 		this.weapons.add(new TargetedBeam(this.owner, this))
+		this.weapons.add(new QuadHomingBeam(this.owner, this))
 
 		this.receiver = new Receiver();
 		this.emitter = new Emitter();
