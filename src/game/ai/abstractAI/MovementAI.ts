@@ -8,7 +8,6 @@ import Spawnable from "../../../utils/Interface/Spawnable";
 import PathNode from "../../../utils/Pathing/PathNode";
 import PathQueue from "../../../utils/Pathing/PathQueue";
 import SpawnableActor from "../../actors/abstractActors/SpawnableActor";
-import DespawnAI from "./DespawnAI";
 
 
 export default abstract class MovementAI extends StateMachineAI {
