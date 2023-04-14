@@ -7,7 +7,7 @@ import PathQueue from "../../../utils/Pathing/PathQueue";
 import DamageActor from "../../actors/abstractActors/DamageActor";
 import HPActor from "../../actors/abstractActors/HPActor";
 import Attack from "../States/AttackingState";
-import ComplexPatternAI from "./ComplexPatternAI";
+import ComplexPatternAI from "../abstractAI/ComplexPatternAI";
 
 export default class BasicWeaponAI extends ComplexPatternAI{
     protected override owner: DamageActor;
@@ -25,8 +25,6 @@ export default class BasicWeaponAI extends ComplexPatternAI{
 
         this.receiver.subscribe(Events.WEAPON_ENEMY_COLLISION)
         this.receiver.subscribe(Events.WEAPON_PLAYER_COLLISION)
-
-        
     }
 
     public activate(options: Record<string, any>): void {

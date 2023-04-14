@@ -21,7 +21,7 @@ import Color from "../Wolfie2D/Utils/Color"
 import Sprite from "../Wolfie2D/Nodes/Sprites/Sprite"
 import { AllItemData } from "../constants/items/itemData"
 import ScrapBehavior from "./ai/ScrapBehavior"
-import BasicWeaponAI from "./ai/abstractAI/BasicWeaponAI"
+import BasicWeaponAI from "./ai/weaponAI/BasicWeaponAI"
 
 const inactivePos = new Vec2(1200, 1200)
 
