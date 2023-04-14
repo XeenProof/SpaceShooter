@@ -33,13 +33,13 @@ export default abstract class MovementAI extends StateMachineAI {
     abstract handleEvent(event: GameEvent): void
 
     protected get speed(){return this._speed}
+    protected set speed(value: number) {this._speed = value;}
+
     protected get threshold(){return this._threshold}
+    protected set threshold(value: number) {this._threshold = value;}
 
     protected get dir(): Vec2 {return this._dir;}
     protected set dir(value: Vec2) {this._dir = value;}
-    
-    protected set speed(value: number) {this._speed = value;}
-    protected set threshold(value: number) {this._threshold = value;}
 
     destroy(): void {}
 }

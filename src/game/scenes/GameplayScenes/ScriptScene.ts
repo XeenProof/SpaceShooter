@@ -99,8 +99,7 @@ export default class ScriptScene extends LevelScene{
         let mook:CanvasNode = this.entities.getEntity(options.enemyType)
 		if(mook){
 			mook.visible = true;
-			mook.setAIActive(true, {...options, path: 
-                generatePathFromList(options.path), 
+			mook.setAIActive(true, {...options,
                 stats: AllEnemyData[options.enemyType].STATS, 
                 mods:this.statMods})
         }

@@ -3,6 +3,7 @@ import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 import GameNode from "../../../Wolfie2D/Nodes/GameNode";
 import Timer from "../../../Wolfie2D/Timing/Timer";
 import Spawnable from "../../../utils/Interface/Spawnable";
+import { generatePathFromList } from "../../../utils/Pathing/CreatePaths";
 import PathNode from "../../../utils/Pathing/PathNode";
 import PathQueue from "../../../utils/Pathing/PathQueue";
 import MovementAI from "./MovementAI";
@@ -24,9 +25,9 @@ export default abstract class ComplexPatternAI extends MovementAI {
     activate(options: Record<string, any>): void {
         this.currDest = null;
         this.path.clear()
-        this.path = this.path.enqueueArray((options.path)?options.path:[]);
+        this.path = this.path.enqueueArray((options.path)?generatePathFromList(options.path):[]);
         this.pathCompleted = false;
-        this.owner.position.copy((this.path.peek())?this.path.peek().position: Vec2.ZERO)
+        this.owner.position.copy((options.src)?options.src:(this.path.peek())?this.path.peek().position: Vec2.ZERO)
     }
 
     update(deltaT: number): void {

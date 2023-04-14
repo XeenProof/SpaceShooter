@@ -36,7 +36,7 @@ export function generatePathFromList(list: Array<Positions>, default_speed: numb
         let { x, y, repeat, speed, thresh, wait} = pos;
         let r = (repeat)?repeat:0;
         let s = (speed)?speed:default_speed;
-        let t = (thresh)?thresh:defaults.threshold
+        let t = (thresh)?thresh:s
         let w = (wait)?wait:defaults.minWait
         return new PathNode(new Vec2(x,y), r, s, t, w)
     })
