@@ -6,8 +6,10 @@ import { enemyStates } from "../../../constants/enemies/enemyAnimations";
 import { Events } from "../../../constants/events";
 import BeamActor from "../../actors/WeaponActors/BeamActor";
 import Attack from "../States/AttackingState";
+import ComplexPatternAI from "../abstractAI/ComplexPatternAI";
 import MovementAI from "../abstractAI/MovementAI";
 
+/**This is currently unused */
 export default class BeamBehavior extends MovementAI {
     protected override owner: BeamActor;
 

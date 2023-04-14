@@ -46,8 +46,8 @@ export default class PlayerController extends StateMachineAI {
 		this.owner = owner;
 
 		this.weapons = new PlayerWeaponManager()
-		//this.weapons.add(new BasicBeam(this.owner, this))
-		//this.weapons.add(new SideBackBeam(this.owner, this))
+		this.weapons.add(new BasicBeam(this.owner, this))
+		this.weapons.add(new SideBackBeam(this.owner, this))
 		this.weapons.add(new TargetedBeam(this.owner, this))
 
 		this.receiver = new Receiver();
