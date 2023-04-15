@@ -47,6 +47,26 @@ export class SideBackBeam extends PlayerWeapon{
     }
 }
 
+export class DiagonalBeam extends PlayerWeapon{
+    private list:Vec2[] = [new Vec2(1,1).normalize(), new Vec2(-1,1).normalize(), new Vec2(1,-1).normalize(), new Vec2(-1,-1).normalize()]
+    private get defaultValues(): Record<string, any>{
+        return {
+            key: PlayerProjectileKeys.BEAM,
+            src: this.owner.position,
+            id: this.owner.id
+        }
+    }
+
+    public get projectileList(): Record<string, any>[] {
+        return this.list.map((x)=>{
+            return {
+                ...this.defaultValues,
+                dir: x
+            }
+        })
+    }
+}
+
 export class TargetedBeam extends PlayerWeapon{
     public get projectileList(): Record<string, any>[] {
         return [{key: PlayerProjectileKeys.TARGETED_BEAM, 
