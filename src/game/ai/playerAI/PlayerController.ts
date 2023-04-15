@@ -13,7 +13,7 @@ import TakingDamage from "../States/PlayerStates/TakingDamage";
 import Dying from "../States/PlayerStates/Dying";
 import CheatCodes from "../../../utils/Singletons/CheatCodes";
 import WeaponsManager from "../../../utils/WeaponManager/WeaponsManager";
-import PlayerWeapon, { BasicBeam, QuadHomingBeam, SideBackBeam, TargetedBeam } from "./PlayerWeapon";
+import PlayerWeapon, { BasicBeam, HomingBarrage, MiniBarrage, QuadHomingBeam, SideBackBeam, TargetedBeam } from "./PlayerWeapon";
 
 export const PlayerAnimations = {
     IDLE: "IDLE",
@@ -25,7 +25,9 @@ const WeaponTypes = {
 	BASIC_BEAM: "BASIC_BEAM",
 	SIDEBACKBEAM: "SIDEBACKBEAM",
 	TARGETEDBEAM: "TARGETEDBEAM",
-	QUADHOMINGBEAM: "QUADHOMINGBEAM"
+	QUADHOMINGBEAM: "QUADHOMINGBEAM",
+	MINIBARRAGE: "MINIBARRAGE",
+	HOMINGBARRAGE: "HOMINGBARRAGE"
 }
 
 /**
@@ -54,6 +56,8 @@ export default class PlayerController extends StateMachineAI {
 		this.weapons.add(WeaponTypes.SIDEBACKBEAM, new SideBackBeam(this.owner, this, 1))
 		this.weapons.add(WeaponTypes.TARGETEDBEAM, new TargetedBeam(this.owner, this, 2))
 		this.weapons.add(WeaponTypes.QUADHOMINGBEAM, new QuadHomingBeam(this.owner, this, 10))
+		this.weapons.add(WeaponTypes.MINIBARRAGE, new MiniBarrage(this.owner, this, 20))
+		this.weapons.add(WeaponTypes.HOMINGBARRAGE, new HomingBarrage(this.owner, this, 30))
 
 		this.receiver = new Receiver();
 		this.emitter = new Emitter();
