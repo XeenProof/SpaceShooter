@@ -13,10 +13,6 @@ export default class QuadHomingBeam extends PlayerWeapon{
         }
     }
 
-    // public get activated(): boolean {
-    //     return this.owner.attackUpgradeLevel >= 2
-    // }
-
     public get projectileList(): Record<string, any>[] {
         let src = this.owner.position
         let positions = this.list.map((pos)=>{return {x:pos.x+src.x, y:pos.y+src.y, speed: 300}})

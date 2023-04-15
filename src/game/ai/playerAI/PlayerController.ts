@@ -6,24 +6,31 @@ import Input from "../../../Wolfie2D/Input/Input";
 import { Controls, cheats } from "../../../constants/gameoptions";
 import PlayerActor from "../../actors/PlayerActor";
 import { Events } from "../../../constants/events";
-import { PlayerProjectileKeys } from "../../../constants/projectiles/projectileData";
 import StateMachineAI from "../../../Wolfie2D/AI/StateMachineAI";
 import { playerstates } from "../States/PlayerStates/PlayerState";
 import Idle from "../States/PlayerStates/Idle";
 import TakingDamage from "../States/PlayerStates/TakingDamage";
 import Dying from "../States/PlayerStates/Dying";
 import CheatCodes from "../../../utils/Singletons/CheatCodes";
-import PlayerWeaponManager from "./PlayerWeaponManager";
 import BasicBeam from "./PlayerWeapons/BasicBeam";
 import SideBackBeam from "./PlayerWeapons/SideBackBeams";
 import TargetedBeam from "./PlayerWeapons/TargetedBeam";
 import QuadHomingBeam from "./PlayerWeapons/QuadHomingShot";
+import WeaponsManager from "../../../utils/WeaponManager/WeaponsManager";
+import PlayerWeapon from "./PlayerWeapons/PlayerWeapon";
 
 export const PlayerAnimations = {
     IDLE: "IDLE",
     HIT: "HIT",
     DEATH: "DEATH"
 } as const;
+
+const WeaponTypes = {
+	BASIC_BEAM: "BASIC_BEAM",
+	SIDEBACKBEAM: "SIDEBACKBEAM",
+	TARGETEDBEAM: "TARGETEDBEAM",
+	QUADHOMINGBEAM: "QUADHOMINGBEAM"
+}
 
 /**
  * A class for controlling the player in the HW2Scene.
@@ -32,7 +39,7 @@ export const PlayerAnimations = {
 export default class PlayerController extends StateMachineAI {
 	/** The GameNode that owns this PlayerController AI */
 	protected owner: PlayerActor;
-	protected weapons: PlayerWeaponManager
+	protected weapons: WeaponsManager<PlayerWeapon>
 
 	public get currentSpeed(): number {return this.owner.currentSpeed;}
 	public set currentSpeed(value: number) {this.owner.currentSpeed = value;}
@@ -46,11 +53,11 @@ export default class PlayerController extends StateMachineAI {
 	public initializeAI(owner: PlayerActor, options: Record<string,any>): void {
 		this.owner = owner;
 
-		this.weapons = new PlayerWeaponManager()
-		this.weapons.add(new BasicBeam(this.owner, this))
-		this.weapons.add(new SideBackBeam(this.owner, this))
-		this.weapons.add(new TargetedBeam(this.owner, this))
-		this.weapons.add(new QuadHomingBeam(this.owner, this))
+		this.weapons = new WeaponsManager<PlayerWeapon>()
+		this.weapons.add(WeaponTypes.BASIC_BEAM, new BasicBeam(this.owner, this))
+		this.weapons.add(WeaponTypes.SIDEBACKBEAM, new SideBackBeam(this.owner, this, 1))
+		this.weapons.add(WeaponTypes.TARGETEDBEAM, new TargetedBeam(this.owner, this, 2))
+		this.weapons.add(WeaponTypes.QUADHOMINGBEAM, new QuadHomingBeam(this.owner, this, 10))
 
 		this.receiver = new Receiver();
 		this.emitter = new Emitter();
@@ -181,11 +188,9 @@ export default class PlayerController extends StateMachineAI {
 	}
 
 	protected handleShoot():void {
-		let pos = this.owner.position;
-		let id = this.owner.id;
 		this.emitter.fireEvent(Events.PLAYER_SHOOTS, {
 			projectiles: 
-			this.weapons.projectiles
+			this.weapons.getProjectiles()
 		});
 	}
 
