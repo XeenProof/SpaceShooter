@@ -18,10 +18,11 @@ export default class ShieldMookBehavior extends BasicEnemyAI{
 
     public activate(options: Record<string, any>): void {
         super.activate(options)
-        let shieldhp = 10
+        let initshieldhp = (options.stats)?options.stats.shieldhp:10
+        let hp_multi = options.mods?options.mods.hp_multi:1
+        let shieldhp = initshieldhp*hp_multi
         this.owner.shield.health = shieldhp;
         this.owner.shield.maxHealth = shieldhp;
-        console.log(this.owner.shield)
 
         this.owner.activateShield();
     }
