@@ -1,14 +1,14 @@
-import AABB from "../Wolfie2D/DataTypes/Shapes/AABB";
-import AnimatedSprite from "../Wolfie2D/Nodes/Sprites/AnimatedSprite";
-import FactoryManager from "../Wolfie2D/Scene/Factories/FactoryManager";
-import { Events } from "../constants/events";
-import { Layers } from "../constants/layers";
-import { PhysicGroups } from "../constants/physics";
-import RechargableStat from "../utils/HUD/RechargableStat";
-import UpgradableStat from "../utils/HUD/UpgradableStat";
-import PlayerActor from "./actors/PlayerActor";
-import PlayerController from "./ai/playerAI/PlayerController";
-import ActorScene from "./scenes/GameplayScenes/ActorScene";
+import AABB from "../../Wolfie2D/DataTypes/Shapes/AABB";
+import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
+import FactoryManager from "../../Wolfie2D/Scene/Factories/FactoryManager";
+import { Events } from "../../constants/events";
+import { Layers } from "../../constants/layers";
+import { PhysicGroups } from "../../constants/physics";
+import RechargableStat from "../../utils/HUD/RechargableStat";
+import UpgradableStat from "../../utils/HUD/UpgradableStat";
+import PlayerActor from "../actors/PlayerActor";
+import PlayerController from "../ai/playerAI/PlayerController";
+import ActorScene from "../scenes/GameplayScenes/ActorScene";
 
 
 export function initPlayerFunc(add: FactoryManager, scene: ActorScene, info:Record<string, any>):PlayerActor{

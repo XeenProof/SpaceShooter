@@ -5,11 +5,11 @@ import Timer from "../../../Wolfie2D/Timing/Timer";
 import { PhysicGroups} from "../../../constants/physics";
 import { Events } from "../../../constants/events";
 import BaseScene from "./BaseScene";
-import { initfuncs } from "../../initfuncs";
+import { initfuncs } from "../../initfuncs/initfuncs";
 import { AllItemKey } from "../../../constants/items/itemData";
 import { AllPlayerData } from "../../../constants/player/playerData";
 import PlayerActor from "../../actors/PlayerActor";
-import { initPlayerFunc } from "../../initPlayerFunc";
+import { initPlayerFunc } from "../../initfuncs/initPlayerFunc";
 import SelectionScence from "../MenuScenes/SelectionScene";
 import { AllEnemyData } from "../../../constants/enemies/enemyData";
 
