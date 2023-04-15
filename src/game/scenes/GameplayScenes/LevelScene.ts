@@ -11,6 +11,7 @@ import { AllPlayerData } from "../../../constants/player/playerData";
 import PlayerActor from "../../actors/PlayerActor";
 import { initPlayerFunc } from "../../initPlayerFunc";
 import SelectionScence from "../MenuScenes/SelectionScene";
+import { AllEnemyData } from "../../../constants/enemies/enemyData";
 
 /**
  * This is the level scene for our game
@@ -117,18 +118,21 @@ export default class LevelScene extends BaseScene {
 		}
 	}
 
+	protected handleSpawnEnemy(options: Record<string, any>):void{
+        let mook:CanvasNode = this.entities.getEntity(options.enemyType)
+		if(mook){
+			mook.visible = true;
+			mook.setAIActive(true, {...options,
+                stats: AllEnemyData[options.enemyType].STATS, 
+                mods:this.statMods})
+        }
+    }
+
 	protected handleSpawnScrap(src: Vec2):void{
 		let scrap: CanvasNode = this.entities.getEntity(AllItemKey.SCRAP)
 		if(scrap){
 			scrap.visible = true
 			scrap.setAIActive(true, {src: src})
-		}
-	}
-
-	protected handleHealPlayer():void{
-		if(this.player.canAfford(10)){
-			this.player.useScrap(10);
-			this.player.health = this.player.maxHealth;
 		}
 	}
 

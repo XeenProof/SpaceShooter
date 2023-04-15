@@ -95,16 +95,6 @@ export default class ScriptScene extends LevelScene{
         }
     }
 
-    protected handleSpawnEnemy(options: Record<string, any>):void{
-        let mook:CanvasNode = this.entities.getEntity(options.enemyType)
-		if(mook){
-			mook.visible = true;
-			mook.setAIActive(true, {...options,
-                stats: AllEnemyData[options.enemyType].STATS, 
-                mods:this.statMods})
-        }
-    }
-
     protected handleBackgroundSpeedUpdate(options: Record<string, number>){
         let {X, Y} = options
         this.backgroundSpeed.x = (X != undefined)?X:this.backgroundSpeed.x;
