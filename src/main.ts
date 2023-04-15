@@ -22,6 +22,6 @@ import { Inputs, cheats } from "./constants/gameoptions";
     const game = new Game(options);
 
     // Start our game
-    game.start(WelcomeScence, {cheats: [cheats.NUKE_BUTTON, cheats.INFINITE_SCRAP, cheats.INVINSIBLE]});
+    game.start(WelcomeScence, {cheats: [cheats.NUKE_BUTTON, cheats.INFINITE_SCRAP, cheats.INVINSIBLE, cheats.UNLOCK_ALL_WEAPONS]});
     // cheats.INVINSIBLE
 })();

@@ -1,6 +1,8 @@
 import Vec2 from "../../../Wolfie2D/DataTypes/Vec2";
 import { GAMEPLAY_DIMENTIONS } from "../../../constants/dimenstions";
+import { cheats } from "../../../constants/gameoptions";
 import { PlayerProjectileKeys } from "../../../constants/projectiles/projectileData";
+import CheatCodes from "../../../utils/Singletons/CheatCodes";
 import Weapon from "../../../utils/WeaponManager/Weapon";
 import PlayerActor from "../../actors/PlayerActor";
 import PlayerController from "./PlayerController";
@@ -18,8 +20,14 @@ export default abstract class PlayerWeapon extends Weapon{
         this.upperRequirement = upperlevel
     }
 
+    public get cheatCodeActivated():boolean{
+        return CheatCodes.getCheat(cheats.UNLOCK_ALL_WEAPONS)
+    }
+
     public get activated():boolean{
-        return this.owner.attackUpgradeLevel >= this.levelRequirement && this.owner.attackUpgradeLevel <= this.upperRequirement
+        return (this.owner.attackUpgradeLevel >= this.levelRequirement && 
+            this.owner.attackUpgradeLevel <= this.upperRequirement) ||
+            this.cheatCodeActivated
     }
 }
 
@@ -108,7 +116,7 @@ export class MiniBarrage extends PlayerWeapon{
         let divided = this.screenwidth/this.projectileCount
         let half = divided/2
         let x = divided*value+half
-        let speed = Math.abs(this.owner.position.x-x)
+        let speed = Math.max(Math.abs(this.owner.position.x-x), 100)
         return {x:x, speed:speed}
     }
     private get list():{x:number, speed:number}[] {

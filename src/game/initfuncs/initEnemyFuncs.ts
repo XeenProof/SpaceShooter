@@ -14,12 +14,15 @@ import ShieldMookActor from "../actors/EnemyActors/ShieldMookActor"
 import ShieldMookBehavior from "../ai/enemyAI/ShieldedMookBehavior"
 import HPShield from "../actors/miscActors/HPShield"
 import Color from "../../Wolfie2D/Utils/Color"
+import HoarderActor from "../actors/EnemyActors/HoarderActor"
+import HoarderBehavior from "../ai/enemyAI/HoarderBehavior"
 
 
 export const initEnemyFunc = {
     COMMON_MOOK: initCommomMookFunc,
     TARGETED_MOOK: initTargetedMookFunc,
-    SHIELDED_MOOK: initShieldedMookFunc
+    SHIELDED_MOOK: initShieldedMookFunc,
+    HOARDER: initHoarderFunc,
 }
 
 function initCommomMookFunc(add: FactoryManager, scene: ActorScene):MookActor{
@@ -85,4 +88,22 @@ function initShieldedMookFunc(add: FactoryManager, scene: ActorScene):ShieldMook
     entity.addPhysics(new AABB(center, halfSize));
     entity.setGroup(PhysicGroups.ENEMY);
     return entity
+}
+
+function initHoarderFunc(add: FactoryManager, scene: ActorScene):MookActor{
+    let info = AllEnemyData.HOARDER
+    let {X, Y} = info.LOAD[0].SCALE
+    let entity = add.animatedSprite(HoarderActor, info.LOAD[0].KEY, Layers.PRIMARY)
+    let healthBar = new HealthbarHUD(scene, entity, Layers.HEALTHBARS, {size: new Vec2(entity.size.x, 5), offset: entity.size.clone().scaled(0, -1/2)})
+    entity.position.set(1200,1200)
+    entity.healthBar = healthBar;
+    entity.setScene(scene)
+    entity.visible = false;
+    entity.scale.set(X, Y);
+    entity.addAI(HoarderBehavior)
+    let center = entity.position.clone()
+    let halfSize = entity.boundary.getHalfSize().clone().scale(0.9,0.6);
+    entity.addPhysics(new AABB(center, halfSize));
+    entity.setGroup(PhysicGroups.ENEMY);
+    return entity;
 }

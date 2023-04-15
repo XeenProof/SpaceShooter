@@ -53,6 +53,7 @@ export default class BasicWeaponAI extends ComplexPatternAI{
             return
         }
         super.updateData()
+        this.owner.rotation = this.rotation
     }
 
     public handleEvent(event: GameEvent): void {

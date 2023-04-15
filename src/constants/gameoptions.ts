@@ -30,6 +30,7 @@ export const cheats = {
     OHKO: "OHKO",
     NUKE_BUTTON: "NUKE_BUTTON", //Enable Nuke Button (-)
     INFINITE_SCRAP: "INFINITE_SCRAP", //Infinite Scrap
+    UNLOCK_ALL_WEAPONS: "UNLOCK_ALL_WEAPONS",
 
     INFINITE_BOOSTER: "INFINITE_BOOSTER", //Infinite Boost
     INFINITE_SHIELD: "INFINITE_SHIELD", //Infinite Shield

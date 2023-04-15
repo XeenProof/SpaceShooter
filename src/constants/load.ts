@@ -77,7 +77,7 @@ export const LoadEnemy = {
 
 export const LoadProjectiles = {
     BEAM: {...Loads.PLANE_BEAM, SCALE: {X:1, Y:1}},
-    TARGETED_BEAM: {...Loads.PLANE_BEAM}
+    TARGETED_BEAM: {...Loads.ENEMY2_BEAM}
 }
 
 export const LoadEnemyProjectile = {

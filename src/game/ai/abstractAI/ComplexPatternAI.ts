@@ -54,7 +54,6 @@ export default abstract class ComplexPatternAI extends MovementAI {
         if(node == null){
             this.pathCompleted = true;
             this.currDest = null;
-            this.speed = 0;
             return
         }
         this.currDest = node.position;

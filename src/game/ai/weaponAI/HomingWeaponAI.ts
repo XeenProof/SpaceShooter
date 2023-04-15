@@ -18,7 +18,6 @@ export default class HomingWeaponAI extends BasicWeaponAI{
             this.handleHomingAspect()
         }
         super.updateData()
-        this.owner.rotation = this.rotation
     }
 
     protected updateTarget():void{

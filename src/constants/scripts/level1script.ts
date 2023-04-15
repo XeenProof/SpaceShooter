@@ -29,6 +29,7 @@ export const level1 = {
             {DATA: AllEnemyData.COMMON_MOOK, AMMOUNT: 20},
             {DATA: AllEnemyData.TARGETED_MOOK, AMMOUNT: 20},
             {DATA: AllEnemyData.SHIELDED_MOOK, AMMOUNT: 20},
+            {DATA: AllEnemyData.HOARDER, AMMOUNT: 20},
 
             {DATA: AllItemData.SCRAP, AMMOUNT: 20},
         ]
@@ -36,7 +37,7 @@ export const level1 = {
     SCRIPT: [
         {type: Script_Type.WAVE, options: {wavenum: 1, mods:{droprate_multi: 10}}},
         {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-300}},
-        ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.COMMON_MOOK], [recRoute.NORMAL, recRoute.REVERSE], 600, 2, 10),
+        ...generateRoundRobinScriptPart([AllEnemyKeys.HOARDER, AllEnemyKeys.COMMON_MOOK], [recRoute.NORMAL, recRoute.REVERSE], 600, 2, 10),
         {type: Script_Type.WAIT, options: {wait_time: -1}},
         {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-300}},
         ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.COMMON_MOOK], [DiamondRoute.NORMAL, DiamondRoute.REVERSE], 600, 2, 10),
