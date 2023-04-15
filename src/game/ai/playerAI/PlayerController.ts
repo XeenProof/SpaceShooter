@@ -12,12 +12,8 @@ import Idle from "../States/PlayerStates/Idle";
 import TakingDamage from "../States/PlayerStates/TakingDamage";
 import Dying from "../States/PlayerStates/Dying";
 import CheatCodes from "../../../utils/Singletons/CheatCodes";
-import BasicBeam from "./PlayerWeapons/BasicBeam";
-import SideBackBeam from "./PlayerWeapons/SideBackBeams";
-import TargetedBeam from "./PlayerWeapons/TargetedBeam";
-import QuadHomingBeam from "./PlayerWeapons/QuadHomingShot";
 import WeaponsManager from "../../../utils/WeaponManager/WeaponsManager";
-import PlayerWeapon from "./PlayerWeapons/PlayerWeapon";
+import PlayerWeapon, { BasicBeam, QuadHomingBeam, SideBackBeam, TargetedBeam } from "./PlayerWeapon";
 
 export const PlayerAnimations = {
     IDLE: "IDLE",
