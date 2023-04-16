@@ -23,5 +23,9 @@ export default class PathNode {
     public get repeat(): boolean {return (this._repeatCount > 0 || this._repeatCount == -1)}
     public get wait(): number {return this._wait;}
 
+    public get clone():PathNode{
+        return new PathNode(this.position.clone(), this.repeatCount, this.speed, this.distanceThreshold, this.wait)
+    }
+
     public used() {if(this._repeatCount > 0){this._repeatCount--;}}
 }

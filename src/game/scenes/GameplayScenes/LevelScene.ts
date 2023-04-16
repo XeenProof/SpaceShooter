@@ -12,6 +12,7 @@ import PlayerActor from "../../actors/PlayerActor";
 import { initPlayerFunc } from "../../initfuncs/initPlayerFunc";
 import SelectionScence from "../MenuScenes/SelectionScene";
 import { AllEnemyData } from "../../../constants/enemies/enemyData";
+import { generateRandomPathFuncList, spawnRandomizer } from "../../../utils/Pathing/CreatePaths";
 
 /**
  * This is the level scene for our game
@@ -120,10 +121,17 @@ export default class LevelScene extends BaseScene {
 
 	protected handleSpawnEnemy(options: Record<string, any>):void{
         let mook:CanvasNode = this.entities.getEntity(options.enemyType)
+		console.log(options)
+		let rpsd = options.rpsd?options.rpsd:{}
+		let rpsl = options.rpsl?options.rpsl:[spawnRandomizer, {}]
+		console.log("before generating")
+		let path = (options.path)?options.path:generateRandomPathFuncList(rpsl, rpsd)
+		
 		if(mook){
 			mook.visible = true;
 			mook.setAIActive(true, {...options,
-                stats: AllEnemyData[options.enemyType].STATS, 
+				path: path,
+                stats: AllEnemyData[options.enemyType].STATS,
                 mods:this.statMods})
         }
     }
