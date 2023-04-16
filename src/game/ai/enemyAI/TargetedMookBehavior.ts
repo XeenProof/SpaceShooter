@@ -1,7 +1,6 @@
 import Vec2 from "../../../Wolfie2D/DataTypes/Vec2";
 import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 import Timer from "../../../Wolfie2D/Timing/Timer";
-import { bulletType } from "../../../constants/bulletTypes";
 import { Events } from "../../../constants/events";
 import PathQueue from "../../../utils/Pathing/PathQueue";
 import PlayerActor from "../../actors/PlayerActor";
@@ -12,6 +11,7 @@ import Idle from "../States/EnemyStates/Idle";
 import TakingDamage from "../States/EnemyStates/TakingDamage";
 import Dying from "../States/EnemyStates/Dying";
 import BasicEnemyAI from "../abstractAI/BasicEnemyAI";
+import { EnemyProjectileKeys } from "../../../constants/projectiles/projectileData";
 
 const animations = {
     IDLE: "IDLE",
@@ -34,7 +34,7 @@ export default class TargetedMookBehavior extends BasicEnemyAI {
     }
 
     protected actionPattern():void{
-        this.owner.fireEvent(Events.ENEMY_SHOOTS, {src: this.owner.position, dir: this.faceDir, id: this.owner.id, key: bulletType.ENEMY_BEAM})
+        this.owner.fireEvent(Events.ENEMY_SHOOTS, {src: this.owner.position, dir: this.faceDir, id: this.owner.id, key: EnemyProjectileKeys.ENEMY_BEAM})
     }
 
     public update(deltaT: number){

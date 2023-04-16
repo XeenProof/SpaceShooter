@@ -1,5 +1,6 @@
 import CanvasNode from "../../../Wolfie2D/Nodes/CanvasNode";
 import Timer from "../../../Wolfie2D/Timing/Timer";
+import RandUtils from "../../../Wolfie2D/Utils/RandUtils";
 import { AllEnemyData } from "../../../constants/enemies/enemyData";
 import { Events } from "../../../constants/events";
 import { LoadData } from "../../../constants/load";
@@ -19,17 +20,19 @@ export default class ScriptScene extends LevelScene{
     private LOAD:Record<string, any>
     private SCRIPT:scriptFormat[]
     private scriptQueue: ScriptQueue
+    private randomQueue: ScriptQueue
 
     private timer:Timer
     private wait:boolean
 
     public initScene(options: Record<string, any>): void {
         this.levelData = options.levelData;
-        let {NAME, LOAD, SCRIPT} = this.levelData
+        let {NAME, LOAD, SCRIPT, RANDOMSPAWN} = this.levelData
         this.NAME = NAME;
         this.LOAD = LOAD;
         this.SCRIPT = SCRIPT;
         this.scriptQueue = generateScriptQueue(SCRIPT)
+        this.randomQueue = generateScriptQueue(RANDOMSPAWN)
         console.log(this.levelData)
 
         this.timer = new Timer(1000, ()=>{this.stopWaiting()})
@@ -77,7 +80,7 @@ export default class ScriptScene extends LevelScene{
                 break;
             }
             case Script_Type.SPAWN:{
-                this.handleSpawnEnemy(node.options)
+                this.handleScriptedSpawn(node.options)
                 break;
             }
             case Script_Type.WAIT:{
@@ -93,6 +96,14 @@ export default class ScriptScene extends LevelScene{
                 break;
             }
         }
+    }
+
+    protected handleScriptedSpawn(options: Record<string, number>){
+        this.handleSpawnEnemy(options)
+        if(!this.randomQueue.hasNextNode){return;}
+        let randomnode = this.randomQueue.peekNextNode()
+        if(!RandUtils.randomChance(randomnode.chance)){return;}
+        this.handleSpawnEnemy(randomnode.options)
     }
 
     protected handleBackgroundSpeedUpdate(options: Record<string, number>){

@@ -13,6 +13,7 @@ export default class HoarderBehavior extends BasicEnemyAI{
     public activate(options: Record<string, any>): void {
         super.activate(options)
         this.owner.resetDrops(.1,.2,.3,.4,.5,.6,.7,.8,.9)
+        this.target = null
     }
 
     public update(deltaT: number): void {

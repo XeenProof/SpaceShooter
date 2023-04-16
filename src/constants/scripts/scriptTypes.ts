@@ -1,6 +1,8 @@
 export interface scriptFormat{
     type: string,
-    options: Record<string, any>
+    options: Record<string, any>,
+    repeat?: number
+    chance?: number
 }
 
 export const Script_Type = {
@@ -11,7 +13,7 @@ export const Script_Type = {
     SPAWN: "SPAWN",
     /**
      * options: {
-     * enemy type: The type of enemy to spawn
+     * enemyType: The type of enemy to spawn
      * rpsl: "Randomized Path Settings List" if path doesn't exist, generate a random one
      * rpsd: "Randomized Path Settings Default" if path doesn't exist, this is the default settings
      * path: The path the enemy is following

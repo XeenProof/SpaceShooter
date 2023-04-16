@@ -1,7 +1,7 @@
 import { Script_Type, scriptFormat } from "./scriptTypes";
 import { Positions, RandomizeVariables, generateRandomPathFuncList } from "../../utils/Pathing/CreatePaths";
 
-export function duplicateEnemyKeys(enemyKeys:string[], amount){
+export function duplicateEnemyKeys(enemyKeys:string[], amount):string[]{
     let list = []
     for(let key of enemyKeys){
         for(let i = 0; i < amount; i++){

@@ -15,7 +15,11 @@ export default class ScriptQueue extends Queue<ScriptNode>{
     }
 
     getNextNode():ScriptNode{
-        return (this.hasNextNode)?this.dequeue():null
+        if(!this.hasNextNode){return null}
+        let node = this.dequeue();
+        node.used();
+        if(node.repeat){this.enqueue(node)}
+        return node
     }
 
     peekNextNode():ScriptNode{
@@ -24,5 +28,9 @@ export default class ScriptQueue extends Queue<ScriptNode>{
 }
 
 export function generateScriptQueue(script: scriptFormat[]):ScriptQueue{
-    return new ScriptQueue(script.map((x)=>{return new ScriptNode(x.type, x.options)}))
+    return new ScriptQueue(script.map((x)=>{
+        let chance = x.chance?x.chance:1
+        let repeat = x.repeat?x.repeat:0
+        return new ScriptNode(x.type, x.options, chance, repeat)
+    }))
 }
