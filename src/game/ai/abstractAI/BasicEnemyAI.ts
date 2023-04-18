@@ -37,7 +37,6 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
     }
 
     public activate(options: Record<string, any>): void {
-        console.log(options)
         super.activate(options)
         this.initialize(enemyStates.IDLE)
         this.owner.healthBar.visible = this.owner.visible
@@ -118,13 +117,13 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
         if(!bullet){console.error("bullet not found, check for errors")}
         let damage = this.owner.getScene().getPlayerDamage(bullet.damage_key)
         this.OwnerTakeDamage(damage)
-        
     }
 
-    protected OwnerTakeDamage(damage:number){
+    protected OwnerTakeDamage(damage:number):boolean{
         if(this.isState(enemyStates.DEAD)){return;}
         let receivedDamage = this.owner.takeDamage((CheatCodes.getCheat(cheats.OHKO))?this.owner.OHKODamage:damage)
         if(receivedDamage){this.changeState(enemyStates.TAKING_DAMAGE)}
+        return receivedDamage
     }
 
     public dying(){

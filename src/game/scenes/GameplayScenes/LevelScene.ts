@@ -35,6 +35,7 @@ export default class LevelScene extends BaseScene {
 		this.receiver.subscribe(Events.ENEMY_SHOOTS);
 		this.receiver.subscribe(Events.DROP_SCRAP);
 		this.receiver.subscribe(Events.LEVEL_ENDS);
+		this.receiver.subscribe(Events.ENEMY_SUMMONS);
 
 		//this.receiver.subscribe(Events.HEALTH);
 		//this.receiver.subscribe(Events.UPGRADE_HEALTH);
@@ -65,6 +66,11 @@ export default class LevelScene extends BaseScene {
 			}
 			case Events.LEVEL_ENDS:{
 				this.handleLevelEnds(event.data.get("endtype"));
+				break;
+			}
+			case Events.ENEMY_SUMMONS:{
+				console.log(event.data.get("summons"))
+				this.handleSummoning(event.data.get("id"), event.data.get("summons"))
 				break;
 			}
 			default: {
@@ -119,11 +125,23 @@ export default class LevelScene extends BaseScene {
 		}
 	}
 
+	protected handleSummoning(id:number, options: Record<string, any>[]):void{
+		let minions:{key:string, minion:CanvasNode}[] = []
+		for(let op of options){
+			let summoned = this.handleSpawnEnemy(op)
+			minions.push({key:op.summonKey, minion:summoned})
+		}
+		this.emitter.fireEvent(Events.SUMMONING_COMPLETED, {
+			id: id,
+			summoned: minions
+		})
+	}
+
 	protected handleSpawnEnemy(options: Record<string, any>):CanvasNode{
         let mook:CanvasNode = this.entities.getEntity(options.enemyType)
 		console.log(options)
 		let rpsd = options.rpsd?options.rpsd:{}
-		let rpsl = options.rpsl?options.rpsl:[spawnRandomizer, {}]
+		let rpsl = options.rpsl?options.rpsl:(options.src)?[{}]:[spawnRandomizer, {}]
 		let path = (options.path)?options.path:generateRandomPathFuncList(rpsl, rpsd)
 		if(mook){
 			mook.visible = true;

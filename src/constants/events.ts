@@ -16,19 +16,32 @@ export const Events = {
     * }*/
 
     ENEMY_SHOOTS: "ENEMY_SHOOTS", 
-    /**{
+    /**projectiles:[{
      * src: source the shot is coming from
      * dir: direction the shot is going
      * id: id of shooter
      * key: the type of bullet shot
-     * } */
+     * }] */
     PLAYER_SHOOTS:"PLAYER_SHOOTS",
-    /**{
+    /**projectiles:[{
      * src: source of the shot
      * dir: direction of the shot
      * id: id  of the shooter
      * key: Type of bullet shot
-     * } */
+     * }] */
+    ENEMY_SUMMONS:"ENEMY_SUMMONS",
+    /**
+     * summoning:[
+     * summonKey: the summoning key (used for tracking)
+     * enemyType: the type of enemies summoned
+     * path?:
+     * ]
+     */
+    SUMMONING_COMPLETED:"SUMMONING_COMPLETED",
+    /**
+     * id: the summoner's id
+     * summoned: {key: summonkey, minion: summoned Entity}
+     */
     DROP_SCRAP:"DROP_SCRAP",
     /**
      * {
