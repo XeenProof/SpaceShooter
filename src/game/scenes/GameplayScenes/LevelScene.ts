@@ -119,13 +119,12 @@ export default class LevelScene extends BaseScene {
 		}
 	}
 
-	protected handleSpawnEnemy(options: Record<string, any>):void{
+	protected handleSpawnEnemy(options: Record<string, any>):CanvasNode{
         let mook:CanvasNode = this.entities.getEntity(options.enemyType)
 		console.log(options)
 		let rpsd = options.rpsd?options.rpsd:{}
 		let rpsl = options.rpsl?options.rpsl:[spawnRandomizer, {}]
 		let path = (options.path)?options.path:generateRandomPathFuncList(rpsl, rpsd)
-		
 		if(mook){
 			mook.visible = true;
 			mook.setAIActive(true, {...options,
@@ -133,6 +132,7 @@ export default class LevelScene extends BaseScene {
                 stats: AllEnemyData[options.enemyType].STATS,
                 mods:this.statMods})
         }
+		return mook
     }
 
 	protected handleSpawnScrap(src: Vec2):void{
