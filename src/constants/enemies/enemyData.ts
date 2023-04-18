@@ -7,6 +7,7 @@ export const AllEnemyKeys = {
     TARGETED_MOOK: "TARGETED_MOOK",
     SHIELDED_MOOK: "SHIELDED_MOOK",
     HOARDER: "HOARDER",
+    MEGAMOOK: "MEGAMOOK"
 }
 
 export const AllEnemyData = {
@@ -32,6 +33,12 @@ export const AllEnemyData = {
         KEY: AllEnemyKeys.HOARDER,
         STATS: STATS.HOARDER,
         LOAD: [LoadEnemy.HOARDER],
+        PHYSICS: PhysicGroups.ENEMY
+    },
+    MEGAMOOK:{
+        KEY: AllEnemyKeys.MEGAMOOK,
+        STATS: STATS.MEGAMOOK,
+        LOAD: [LoadEnemy.MEGAMOOK],
         PHYSICS: PhysicGroups.ENEMY
     }
 }

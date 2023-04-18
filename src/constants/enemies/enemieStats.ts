@@ -25,10 +25,16 @@ const HOARDER = {
     droprate: 1,
     speed: 500
 }
+const MEGAMOOK = {
+    hp:300,
+    droprate: 1,
+    speed: 300
+}
 
 export const STATS = {
     COMMON_MOOK: COMMON_MOOK,
     TARGETED_MOOK: TARGETED_MOOK,
     SHIELDED_MOOK: SHIELDED_MOOK,
-    HOARDER: HOARDER
+    HOARDER: HOARDER,
+    MEGAMOOK: MEGAMOOK
 }

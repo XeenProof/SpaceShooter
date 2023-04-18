@@ -72,7 +72,8 @@ export const LoadEnemy = {
     TARGETED_MOOK: {...Loads.ENEMY_2},
     SHIELDED_MOOK: {...Loads.ENEMY_3},
     SHIELD: {...Loads.SHIELD, SCALE:{X:1.5, Y:1.5}},
-    HOARDER: {...Loads.SPACE_THIEF}
+    HOARDER: {...Loads.SPACE_THIEF},
+    MEGAMOOK: {...Loads.ENEMY_1, SCALE:{X:3, Y:3}}
 }
 
 export const LoadProjectiles = {

@@ -9,11 +9,13 @@ import ScrapBehavior from "../ai/ScrapBehavior"
 import { initEnemyFunc } from "./initEnemyFuncs"
 import { initBeamFuncs } from "./initBeamFunc"
 import { initEnemyBeamFuncs } from "./initEnemyBeamFuncs"
+import { initBossFunc } from "./initBossFunc"
 
 export const initfuncs = {
     ...initEnemyFunc,
     ...initBeamFuncs,
     ...initEnemyBeamFuncs,
+    ...initBossFunc,
     SCRAP: initScrapFunc,
 }
 

@@ -46,10 +46,21 @@ export const level1 = {
             {DATA: AllEnemyData.SHIELDED_MOOK, AMMOUNT: 20},
             {DATA: AllEnemyData.HOARDER, AMMOUNT: 20},
 
+            {DATA: AllEnemyData.MEGAMOOK, AMMOUND: 1},
+
             {DATA: AllItemData.SCRAP, AMMOUNT: 20},
         ]
     },
     SCRIPT: [
+        {type: Script_Type.SPAWN, options: {
+            enemyType: AllEnemyKeys.MEGAMOOK,
+            rpsl: [spawnRandomizer, {
+                speed:{min: 300},
+                repeat:{min:-1},
+                generateAmount: 20
+            }]
+        }},
+        {type: Script_Type.WAIT, options: {wait_time: -1}},
         {type: Script_Type.WAVE, options: {wavenum: 1, mods:{droprate_multi: 10}}},
         {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-150}},
         ...applyRandomPathSettings([AllEnemyKeys.COMMON_MOOK], [spawnRandomizer, RandomizedSettings], {}, 1, 200, 2, 20),
