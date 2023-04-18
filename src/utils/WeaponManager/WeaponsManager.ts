@@ -20,7 +20,7 @@ export default class WeaponsManager<T extends Weapon>{
         return weaponList.map((x)=>{return x.listToFire}).reduce((x,y)=>{return [...x, ...y]}, [])
     }
 
-    public add(key:string, weapon: T, groups:number[] = []):void{
+    public add(key:string, weapon: T, ...groups:number[]):void{
         this.weaponMap.set(key, weapon)
         this.keys.add(key)
         for(let n of groups){
@@ -31,9 +31,9 @@ export default class WeaponsManager<T extends Weapon>{
     public addToGroup(group:number, ...keys:string[]):void{
         if(group <= 0){console.error("Positive Group Number Required")}
         if(!this.hasGroup(group)){this.createGroup(group)}
-        for(let s in keys){
-            if(!keys.includes(s)){
-                console.log("Weapon not found: nothing added")
+        for(let s of keys){
+            if(!this.keys.has(s)){
+                console.log(`${s} not found: nothing added`)
                 continue;
             }
             this.getGroup(group).add(s)
