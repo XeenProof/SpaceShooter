@@ -124,7 +124,6 @@ export default class LevelScene extends BaseScene {
 		console.log(options)
 		let rpsd = options.rpsd?options.rpsd:{}
 		let rpsl = options.rpsl?options.rpsl:[spawnRandomizer, {}]
-		console.log("before generating")
 		let path = (options.path)?options.path:generateRandomPathFuncList(rpsl, rpsd)
 		
 		if(mook){

@@ -53,11 +53,8 @@ export interface Positions{
 
 export function generateRandomPathFuncList(settingsList:RandomizeVariables[], defaultSettings:RandomizeVariables):Positions[]{
     let updatedSettingsList = settingsList.map((x)=>{return {...defaultSettings, ...x}})
-    console.log("Updated Settings List", updatedSettingsList)
     let PathGenerated = updatedSettingsList.map((x)=>{return generateRandomPathFunc(x)})
-    console.log("Path Generated", PathGenerated)
     let mergedPath = PathGenerated.reduce((x,y)=>{return [...x,...y]}, [])
-    console.log("mergedPath", mergedPath)
     return mergedPath
 }
 
