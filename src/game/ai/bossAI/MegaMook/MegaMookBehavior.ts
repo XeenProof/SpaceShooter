@@ -27,6 +27,7 @@ export default class MegaMookBehavior extends BasicEnemyAI{
     private firedCounter:number;
 
     private summons:SummonsManager<MegaMookSummon>
+    private summonsChart:Map<number, boolean>
 
     public initializeAI(owner: HPActor, options: Record<string, any> = {}): void {
         super.initializeAI(owner, options)
@@ -40,6 +41,8 @@ export default class MegaMookBehavior extends BasicEnemyAI{
         this.summons = new SummonsManager<MegaMookSummon>()
         this.summons.add(new RegularMookSummons(this.owner, this, SUMMONS.REGULAR))
 
+        this.summonsChart = new Map<number, boolean>()
+
         this.receiver.subscribe(Events.SUMMONING_COMPLETED)
 
         console.log(this.weapons)
@@ -48,6 +51,7 @@ export default class MegaMookBehavior extends BasicEnemyAI{
     public activate(options: Record<string, any>): void {
         super.activate(options)
         this.weaponsTimer.start()
+        this.initSummonsChart(.05, .1, .15, .2, .25, .30, .35, .40, .45, .50, .55, .6, .65, .7, .75, .8, .85, .9, .95)
     }
 
     private handleWeaponFire():void{
@@ -85,11 +89,25 @@ export default class MegaMookBehavior extends BasicEnemyAI{
     protected OwnerTakeDamage(damage:number):boolean{
         let receivedDamage = super.OwnerTakeDamage(damage)
         if(receivedDamage && this.owner.health > 0){
-            this.emitter.fireEvent(Events.ENEMY_SUMMONS, {
-                id:this.owner.id,
-                summons: this.summons.getSummons()
-            })
+            this.handleSummoning()
         }
         return receivedDamage
+    }
+
+    protected handleSummoning(){
+        for(let [key, value] of this.summonsChart){
+            if(this.owner.percentHealth <= key && value){
+                this.emitter.fireEvent(Events.ENEMY_SUMMONS, {
+                    id:this.owner.id, 
+                    summons: this.summons.getSummons()
+                })
+                this.summonsChart.set(key, false)
+            }
+        }
+    }
+
+    private initSummonsChart(...percents:number[]){
+        this.summonsChart.clear();
+        for(let n of percents){this.summonsChart.set(n,true)}
     }
 }

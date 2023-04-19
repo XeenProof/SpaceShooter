@@ -90,7 +90,6 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
                 break;
             }
             case Events.WEAPON_ENEMY_COLLISION:{
-                console.log("damage taken")
                 this.handleDamage(event.data.get("node"), event.data.get("other"))
                 break;
             }
