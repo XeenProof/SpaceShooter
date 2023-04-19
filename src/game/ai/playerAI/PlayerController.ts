@@ -14,6 +14,7 @@ import Dying from "../States/PlayerStates/Dying";
 import CheatCodes from "../../../utils/Singletons/CheatCodes";
 import WeaponsManager from "../../../utils/WeaponManager/WeaponsManager";
 import PlayerWeapon, { BasicBeam, DiagonalBeam, HomingBarrage, MiniBarrage, QuadHomingBeam, SideBackBeam, TargetedBeam } from "./PlayerWeapon";
+import HPActor from "../../actors/abstractActors/HPActor";
 
 export const PlayerAnimations = {
     IDLE: "IDLE",
@@ -175,6 +176,7 @@ export default class PlayerController extends StateMachineAI {
 
 	
 	public get playerMouseDir():Vec2{return this.owner.position.dirTo(Input.getGlobalMousePosition()).clone()}
+	public get closestEnemy():HPActor{return this.owner.getScene().getClosestEnemy(this.owner.position)}
 
 	public handleControls(deltaT: number):void {
 		// Get the player's input direction 
