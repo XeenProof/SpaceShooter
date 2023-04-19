@@ -152,7 +152,9 @@ export default class LevelScene extends BaseScene {
 	}
 
 	protected endLevel():void{
-		console.log("level ends")
+		// this.
+		// console.log("level ends")
+		SelectionScence.levelCount++;
 		this.sceneManager.changeToScene(SelectionScence)
 	}
 }

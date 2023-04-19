@@ -92,6 +92,7 @@ export default class ScriptScene extends LevelScene{
                 break;
             }
             case Script_Type.LEVEL_ENDS:{
+                console.log(node.options)
                 this.handleLevelEnds(node.options.endtype)
                 break;
             }
