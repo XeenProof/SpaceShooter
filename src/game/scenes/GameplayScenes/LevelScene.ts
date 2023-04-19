@@ -69,7 +69,6 @@ export default class LevelScene extends BaseScene {
 				break;
 			}
 			case Events.ENEMY_SUMMONS:{
-				console.log(event.data.get("summons"))
 				this.handleSummoning(event.data.get("id"), event.data.get("summons"))
 				break;
 			}

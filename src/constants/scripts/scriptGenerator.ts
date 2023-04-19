@@ -14,12 +14,12 @@ export function duplicateEnemyKeys(enemyKeys:string[], amount):string[]{
  * 
  * @param enemyKeys: the order of enemies
  * @param pathKeys: the paths they follow
- * @param waittime: the inbetween time before spawns
- * @param waitBetween: the number of enemies to wait inbetween
- * @param ammount: the amount of spawn scripts to generate
+ * @param waittime?: the inbetween time before spawns
+ * @param waitBetween?: the number of enemies to wait inbetween
+ * @param ammount?: the amount of spawn scripts to generate
  * @returns 
  */
-export function generateRoundRobinScriptPart(enemyKeys:string[], pathKeys:Positions[][], waittime: number = 0, waitBetween:number = pathKeys.length, ammount:number = enemyKeys.length, ):scriptFormat[]{
+export function generateRoundRobinScriptPart(enemyKeys:string[], pathKeys:Positions[][], waittime: number = 0, waitBetween:number = pathKeys.length, ammount:number = enemyKeys.length):scriptFormat[]{
     if (enemyKeys.length == 0 || pathKeys.length == 0){return []}
     let waitactions = (waittime <= 0)?null:{type: Script_Type.WAIT, options: {wait_time: waittime}}
     let script:scriptFormat[] = []

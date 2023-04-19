@@ -52,6 +52,7 @@ export const level1 = {
         ]
     },
     SCRIPT: [
+        {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-150}},
         {type: Script_Type.SPAWN, options: {
             enemyType: AllEnemyKeys.MEGAMOOK,
             rpsl: [spawnRandomizer, {
