@@ -3,7 +3,7 @@ import CanvasNode from "../../../Wolfie2D/Nodes/CanvasNode";
 import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 import Timer from "../../../Wolfie2D/Timing/Timer";
 import { PhysicGroups} from "../../../constants/physics";
-import { Events } from "../../../constants/events";
+import { Events, LevelEndConst } from "../../../constants/events";
 import BaseScene from "./BaseScene";
 import { initfuncs } from "../../initfuncs/initfuncs";
 import { AllItemKey } from "../../../constants/items/itemData";
@@ -13,7 +13,12 @@ import { initPlayerFunc } from "../../initfuncs/initPlayerFunc";
 import SelectionScence from "../MenuScenes/SelectionScene";
 import { AllEnemyData } from "../../../constants/enemies/enemyData";
 import { generateRandomPathFuncList, spawnRandomizer } from "../../../utils/Pathing/CreatePaths";
-
+import ScriptScene from "./ScriptScene";
+import { level1 } from "../../../constants/scripts/level1script";
+import { level2 } from "../../../constants/scripts/level2script";
+import { level3 } from "../../../constants/scripts/level3script";
+import { level4 } from "../../../constants/scripts/level4script";
+import { level5 } from "../../../constants/scripts/level5script";
 /**
  * This is the level scene for our game
  * It handles all the interactions
@@ -170,7 +175,29 @@ export default class LevelScene extends BaseScene {
 	protected endLevel():void{
 		// this.
 		// console.log("level ends")
-		SelectionScence.levelCount++;
+		console.log(this.endType)
+		if(this.endType!=LevelEndConst.GAME_OVER){
+			if (ScriptScene.NAME == level1.NAME){
+				SelectionScence.level2_Open=true;
+			}
+
+			if (ScriptScene.NAME == level2.NAME){
+				SelectionScence.level3_Open=true;
+			}
+
+			if (ScriptScene.NAME == level3.NAME){
+				SelectionScence.level4_Open=true;
+			}
+
+			if (ScriptScene.NAME == level4.NAME){
+				SelectionScence.level5_Open=true;
+			}
+
+			if (ScriptScene.NAME == level5.NAME){
+				SelectionScence.level6_Open=true;
+			}
+		}
+
 		this.sceneManager.changeToScene(SelectionScence)
 	}
 }

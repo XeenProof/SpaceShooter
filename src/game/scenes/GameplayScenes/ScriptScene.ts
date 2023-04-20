@@ -16,7 +16,7 @@ import LevelScene from "./LevelScene";
 export default class ScriptScene extends LevelScene{
     /**Base Variables */
     private levelData:Record<string, any>
-    private NAME:String
+    static NAME:String
     private LOAD:Record<string, any>
     private SCRIPT:scriptFormat[]
     private scriptQueue: ScriptQueue
@@ -28,7 +28,7 @@ export default class ScriptScene extends LevelScene{
     public initScene(options: Record<string, any>): void {
         this.levelData = options.levelData;
         let {NAME, LOAD, SCRIPT, RANDOMSPAWN} = this.levelData
-        this.NAME = NAME;
+        ScriptScene.NAME = NAME;
         this.LOAD = LOAD;
         this.SCRIPT = SCRIPT;
         this.scriptQueue = generateScriptQueue(SCRIPT)

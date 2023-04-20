@@ -45,7 +45,11 @@ export default class SelectionScence extends Scene {
     protected BACKGROUND: LoadData;
 	protected bg1: Sprite;
 
-    static levelCount=6;
+    static level2_Open=false;
+    static level3_Open=false;
+    static level4_Open=false;
+    static level5_Open=false;
+    static level6_Open=false;
 
     public override loadScene(){
         this.load.image("Test","assets/sprites/welcome.png");
@@ -112,7 +116,7 @@ export default class SelectionScence extends Scene {
         level2.backgroundColor = Color.TRANSPARENT;
 
         const level2button = <Button> this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: level2Img.position, text: ""});
-        if(SelectionScence.levelCount>=2){
+        if(SelectionScence.level2_Open==true){
             level2button.size.set(220, 180);
             level2button.backgroundColor = Color.TRANSPARENT;
             level2button.borderColor = Color.TRANSPARENT;
@@ -145,7 +149,7 @@ export default class SelectionScence extends Scene {
         level3.backgroundColor = Color.TRANSPARENT;
 
         const level3button = <Button> this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: level3Img.position, text: ""});
-        if(SelectionScence.levelCount>=3){
+        if(SelectionScence.level3_Open==true){
             level3button.size.set(220, 180);
             level3button.backgroundColor = Color.TRANSPARENT;
             level3button.borderColor = Color.TRANSPARENT;
@@ -177,7 +181,7 @@ export default class SelectionScence extends Scene {
         level4.backgroundColor = Color.TRANSPARENT;
 
         const level4button = <Button> this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: level4Img.position, text: ""});
-        if(SelectionScence.levelCount>=4){
+        if(SelectionScence.level4_Open==true){
             level4button.size.set(220, 180);
             level4button.backgroundColor = Color.TRANSPARENT;
             level4button.borderColor = Color.TRANSPARENT;
@@ -208,7 +212,7 @@ export default class SelectionScence extends Scene {
         level5.backgroundColor = Color.TRANSPARENT;
 
         const level5button = <Button> this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: level5Img.position, text: ""});
-        if(SelectionScence.levelCount>=5){
+        if(SelectionScence.level5_Open==true){
             level5button.size.set(220, 180);
             level5button.backgroundColor = Color.TRANSPARENT;
             level5button.borderColor = Color.TRANSPARENT;
@@ -239,7 +243,7 @@ export default class SelectionScence extends Scene {
         level6.backgroundColor = Color.TRANSPARENT;
 
         const level6button = <Button> this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: level6Img.position, text: ""});
-        if(SelectionScence.levelCount>=6){
+        if(SelectionScence.level6_Open==true){
             level6button.size.set(220, 180);
             level6button.backgroundColor = Color.TRANSPARENT;
             level6button.borderColor = Color.TRANSPARENT;
