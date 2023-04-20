@@ -45,7 +45,7 @@ export default class SelectionScence extends Scene {
     protected BACKGROUND: LoadData;
 	protected bg1: Sprite;
 
-    static levelCount=1;
+    static levelCount=6;
 
     public override loadScene(){
         this.load.image("Test","assets/sprites/welcome.png");
