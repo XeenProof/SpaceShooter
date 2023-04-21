@@ -18,6 +18,10 @@
       {
         "source": "/benchmark2",
         "destination": "/benchmarks/bm2/index.html"
+      },
+      {
+        "source": "/benchmark3",
+        "destination": "/benchmarks/bm1/benchmark1.html"
       }
     ]
   }
