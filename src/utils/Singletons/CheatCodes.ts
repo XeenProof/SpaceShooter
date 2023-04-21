@@ -1,6 +1,6 @@
 import LocalStorageHandler from "./LocalStorageHandler"
 
-const CHEATS = "CHEATS"
+const KEY = "CHEATS"
 
 export default class CheatCodes{
     private static _instance:CheatCodes
@@ -11,14 +11,14 @@ export default class CheatCodes{
     public static triggerCheat(key: string, updateLocal:boolean = true){
         this.instance.setCheat(key, !this.instance.getCheat(key))
         if(updateLocal){
-            LocalStorageHandler.updateData(CHEATS, this.instance.cheats)
+            LocalStorageHandler.updateData(KEY, this.instance.cheats)
         }
     }
     public static getCheat(key: string):boolean{return this.instance.getCheat(key)}
 
     private constructor(){
         this.cheats = new Map<string, boolean>()
-        let data = LocalStorageHandler.getData(CHEATS)
+        let data = LocalStorageHandler.getData(KEY)
         let keys = Object.keys(data)
         for(let k of keys){
             if(data[k]){this.setCheat(k, data[k])}

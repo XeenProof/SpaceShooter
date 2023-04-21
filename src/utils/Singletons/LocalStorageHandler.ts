@@ -9,6 +9,9 @@ export default class LocalStorageHandler{
         console.log("saving...", value)
         localStorage.setItem(LOCALSTORAGENAME, JSON.stringify(value))
     }
+    static clearData(){
+        localStorage.removeItem(LOCALSTORAGENAME)
+    }
     static updateData(key:string, settings:Map<string, any>){
         let newSettings = {...this.localStorageData, [key]:Object.fromEntries(settings)}
         this.localStorageData = newSettings
