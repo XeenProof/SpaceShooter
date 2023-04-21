@@ -10,6 +10,7 @@ export default abstract class ActorScene extends Scene{
     public abstract get player(): PlayerActor
     public abstract get TravelSpeed(): Vec2
     public abstract get collectScrap(): number
+    public abstract get isPaused(): boolean
 
     public abstract getEnemy(id: number): HPActor
     public abstract getShot(id: number): DamageActor

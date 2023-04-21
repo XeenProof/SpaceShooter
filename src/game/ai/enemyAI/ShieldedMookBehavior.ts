@@ -40,6 +40,15 @@ export default class ShieldMookBehavior extends BasicEnemyAI{
         this.owner.activateShield()
     }
 
+    public pause(): void {
+        super.pause()
+        if(!this.owner.shielded){this.ShieldCooldown.pause()}
+    }
+    public resume(): void {
+        super.resume()
+        if(!this.owner.shielded){this.ShieldCooldown.start()}
+    }
+
     protected stopAI(): void {
         this.ShieldCooldown.pause()
         this.ShieldCooldown.reset()

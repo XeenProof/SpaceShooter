@@ -23,6 +23,7 @@ import DamageActor from "../../actors/abstractActors/DamageActor";
 import { Layers } from "../../../constants/layers";
 import { GAMEPLAY_DIMENTIONS } from "../../../constants/dimenstions";
 import Button from "../../../Wolfie2D/Nodes/UIElements/Button";
+import Input from "../../../Wolfie2D/Input/Input";
 
 /**
  * This is the base scene for our game.
@@ -35,6 +36,7 @@ export default class BaseScene extends ActorScene{
 		droprate_multi: 1,
         enemydamage_multi: 1
 	}
+	protected paused:boolean
 
 	protected endLevelTimer:Timer
 	protected endType:string
@@ -88,16 +90,6 @@ export default class BaseScene extends ActorScene{
 	protected endText: Label;
 
 	protected informationBackground: Label;
-
-	// Timers for spawning rocks and bubbles
-	protected mineSpawnTimer: Timer;
-	protected bubbleSpawnTimer: Timer;
-	protected gameOverTimer: Timer;
-
-	// Keeps track of mines destroyed, bubbles popped, amount of time passed
-	protected bubblesPopped: number = 0;
-	protected minesDestroyed: number = 0;
-	protected timePassed: number = 0;
 
 	// The padding of the world
 	protected worldPadding: Vec2;
@@ -156,12 +148,13 @@ export default class BaseScene extends ActorScene{
 		// Create a background layer
 		this.initLayers();
 		this.initUI();
+
+		this.receiver.subscribe(Events.PAUSE)
 	}
 	/**
 	 * @see Scene.updateScene 
 	 */
 	public override updateScene(deltaT: number){
-		this.timePassed += deltaT;
 		this.handleEndType()
 		if(this.levelEnded){return;}
 		
@@ -170,7 +163,7 @@ export default class BaseScene extends ActorScene{
 			this.handleEvent(this.receiver.getNextEvent());
 		}
 
-		
+		if(this.paused){return;}
 		this.handleHealthChange(this.player.health,this.player.maxHealth);
 		this.handleShieldChange((this.player.shieldCharge.value/this.player.shieldCharge.maxValue)*5);
 		this.handleBoosterChange((this.player.boosterCharge.value/this.player.boosterCharge.maxValue)*5);
@@ -203,6 +196,13 @@ export default class BaseScene extends ActorScene{
 	 * @see GameEvent
 	 */
 	protected handleEvent(event: GameEvent){
+		switch(event.type){
+			case Events.PAUSE:{
+				console.log(event.data.get("pausing"))
+				this.paused = event.data.get("pausing");
+				break;
+			}
+		}
 	}
 
 	protected initLayers():void{
@@ -379,18 +379,6 @@ export default class BaseScene extends ActorScene{
 		upgradeWeaponButton.onClickEventId = Events.UPGRADE_WEAPON;
 	}
 	/**
-	 * Initializes the timer objects for the game.
-	 */
-	protected initTimers(): void {
-		this.mineSpawnTimer = new Timer(500);
-		this.mineSpawnTimer.start();
-
-		this.bubbleSpawnTimer = new Timer(2500);
-		this.bubbleSpawnTimer.start();
-
-		this.gameOverTimer = new Timer(3000);
-	}
-	/**
 	 * Initializes the background image sprites for the game.
 	 */
 	protected initBackground(): void {
@@ -444,6 +432,7 @@ export default class BaseScene extends ActorScene{
 	public get isScreenCleared(): boolean {return this.entities.countInUse((x)=>{return x.PHYSICS == PhysicGroups.ENEMY}) <= 0}
 	public get TravelSpeed():Vec2 {return this.backgroundSpeed}
 	public get collectScrap():number {return RandUtils.randInt(10,21)}
+	public get isPaused():boolean{return this.paused}
 
 	public getEnemy(id: number): HPActor {return <HPActor>this.entities.getEntityById(id, PhysicGroups.ENEMY)}
 	public getShot(id: number): DamageActor {return <DamageActor>this.entities.getEntityById(id, PhysicGroups.PLAYER_WEAPON)}

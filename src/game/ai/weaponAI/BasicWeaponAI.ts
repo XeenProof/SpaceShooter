@@ -16,6 +16,7 @@ export default class BasicWeaponAI extends ComplexPatternAI{
     protected nextSpeed: number;
 
     public initializeAI(owner: DamageActor, options: Record<string, any>): void {
+        super.initializeAI(owner, options)
         this.owner = owner
         this.path = new PathQueue(options.pathLength?options.pathLength:10)
 

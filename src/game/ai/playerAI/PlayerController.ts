@@ -77,6 +77,8 @@ export default class PlayerController extends StateMachineAI {
 		this.receiver.subscribe(Events.UPGRADE_HEALTH)
 		this.receiver.subscribe(Events.UPGRADE_WEAPON)
 
+		this.receiver.subscribe(Events.PAUSE)
+
 		this.initialize(playerstates.IDLE)
 		this.activate(options);
 	}
@@ -118,6 +120,7 @@ export default class PlayerController extends StateMachineAI {
 		while(this.receiver.hasNextEvent()){
 			this.handleEvent(this.receiver.getNextEvent());
 		}
+		this.handlePauseClick()
 		this.owner.handleChargesUpdate(deltaT)
 		if(this.canMove){this.handleControls(deltaT);}
 		
@@ -157,6 +160,10 @@ export default class PlayerController extends StateMachineAI {
 				this.owner.handleUpgradeAttack()
 				break;
 			}
+			case Events.PAUSE: {
+				this.handlePause(event.data.get("pausing"))
+				break
+			}
 			default: {
 				throw new Error(`Unhandled event of type: ${event.type} caught in PlayerController`);
 			}
@@ -171,6 +178,7 @@ export default class PlayerController extends StateMachineAI {
 
 	public get canMove():boolean{
 		if(this.isState(playerstates.DYING)){return false}
+		if(this.owner.frozen){return false}
 		return true
 	}
 
@@ -189,6 +197,13 @@ export default class PlayerController extends StateMachineAI {
 		// Move the player
 		let movement = Vec2.UP.scaled(forwardAxis * this.currentSpeed).add(new Vec2(horizontalAxis * this.currentSpeed, 0));
 		this.owner.move(movement.scaled(deltaT));
+	}
+
+	protected handlePauseClick(){
+		if(Input.isJustPressed(Controls.PAUSE)){
+			this.emitter.fireEvent(Events.PAUSE,
+			{pausing: !this.owner.getScene().isPaused})
+		}
 	}
 
 	protected handleShoot():void {
@@ -229,6 +244,20 @@ export default class PlayerController extends StateMachineAI {
 		let collected = this.owner.getScene().collectScrap
 		this.owner.collectedScrap(collected)
 		console.log(this.owner.scrap)
+	}
+
+	public handlePause(pausing: boolean):void{
+        if(pausing){this.pause()}
+		else{this.resume()}
+    }
+
+    public pause():void{
+		this.owner.freeze()
+		this.owner.TimerPause()
+	}
+    public resume():void{
+		this.owner.unfreeze()
+		this.owner.TimerResume()
 	}
 } 
 

@@ -110,4 +110,13 @@ export default class MegaMookBehavior extends BasicEnemyAI{
         this.summonsChart.clear();
         for(let n of percents){this.summonsChart.set(n,true)}
     }
+
+    public pause(): void {
+        super.pause()
+        this.weaponsTimer.pause()
+    }
+    public resume(): void {
+        super.resume()
+        this.weaponsTimer.start()
+    }
 }

@@ -56,6 +56,7 @@ export default class LevelScene extends BaseScene {
 	}
 
 	protected handleEvent(event: GameEvent){
+		super.handleEvent(event)
 		switch(event.type) {
 			case Events.PLAYER_SHOOTS: {
 				this.handleAttackList(event.data.get("projectiles"))
@@ -76,9 +77,6 @@ export default class LevelScene extends BaseScene {
 			case Events.ENEMY_SUMMONS:{
 				this.handleSummoning(event.data.get("id"), event.data.get("summons"))
 				break;
-			}
-			default: {
-				throw new Error(`Unhandled event with type ${event.type} caught in ${this.constructor.name}`);
 			}
 		}
 	}

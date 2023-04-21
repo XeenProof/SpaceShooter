@@ -21,3 +21,10 @@ Constructor
 intiscene
 loadscene
 startscene
+
+frozen
+pause
+
+aiactive
+
+Don't pause the scene (keep update scene running but don't update)

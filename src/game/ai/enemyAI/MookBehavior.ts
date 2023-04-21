@@ -27,6 +27,15 @@ export default class MookBehavior extends BasicEnemyAI{
         this.weaponCooldown.start()
     }
 
+    public pause(): void {
+        super.pause()
+        this.weaponCooldown.pause()
+    }
+    public resume(): void {
+        super.resume()
+        this.weaponCooldown.start()
+    }
+
     protected actionPattern():void{
         this.owner.fireEvent(Events.ENEMY_SHOOTS, 
             {projectiles: [

@@ -2,16 +2,11 @@ import Spritesheet from "../../Wolfie2D/DataTypes/Spritesheet";
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
-import Scene from "../../Wolfie2D/Scene/Scene";
 import Timer from "../../Wolfie2D/Timing/Timer";
 import { cheats } from "../../constants/gameoptions";
 import RechargableStat from "../../utils/HUD/RechargableStat";
 import UpgradableStat from "../../utils/HUD/UpgradableStat";
 import CheatCodes from "../../utils/Singletons/CheatCodes";
-import BasicTargetable from "../../utils/Targeting/BasicTargetable";
-import { TargetableEntity } from "../../utils/Targeting/TargetableEntity";
-import { TargetingEntity } from "../../utils/Targeting/TargetingEntity";
-import BaseScene from "../scenes/GameplayScenes/BaseScene";
 import HPActor from "./abstractActors/HPActor";
 
 
@@ -139,6 +134,7 @@ export default class PlayerActor extends HPActor{
     }
 
     public handleChargesUpdate(deltaT: number){
+        if(this.frozen){return}
         if(this.boosterCharge){this.boosterCharge.update(deltaT)}
         if(this.shieldCharge){this.shieldCharge.update(deltaT)}
     }
@@ -189,5 +185,18 @@ export default class PlayerActor extends HPActor{
 
     public handleIframeEnds(): void {
         //this.iframe = false
+    }
+
+    public TimerPause():void{
+        this.boosterCharge.pause()
+        this.shieldCharge.pause()
+        this.shieldTimer.pause()
+        this.boostTimer.pause()
+    }
+    public TimerResume():void{
+        this.boosterCharge.resume()
+        this.shieldCharge.resume()
+        if(this.shielded){this.shieldTimer.start()}
+        if(this.boosted){this.boostTimer.start()}
     }
 }

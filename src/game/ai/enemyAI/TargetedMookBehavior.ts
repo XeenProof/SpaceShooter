@@ -57,4 +57,13 @@ export default class TargetedMookBehavior extends BasicEnemyAI {
         this.weaponCooldown.pause()
         this.weaponCooldown.reset()
     }
+
+    public pause(): void {
+        super.pause()
+        this.weaponCooldown.pause()
+    }
+    public resume(): void {
+        super.resume()
+        this.weaponCooldown.start()
+    }
 }

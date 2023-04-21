@@ -36,7 +36,6 @@ export default abstract class ComplexPatternAI extends MovementAI {
             super.update(deltaT);
         }
     }
-    abstract handleEvent(event: GameEvent): void
 
     protected updateData(): void{
         if(this.path === null || this.pathCompleted){return;}
@@ -68,6 +67,19 @@ export default abstract class ComplexPatternAI extends MovementAI {
 
     public get waitTime(): number {return this._waitTime;}
     public set waitTime(value: number) {this._waitTime = value;}
+
+    public pause():void {
+        super.pause()
+        if(this.wait){
+            this.waitTimer.pause()
+        }
+    }
+    public resume():void {
+        super.resume()
+        if(this.wait){
+            this.waitTimer.start()
+        }
+    }
 
     destroy(): void {}
 }

@@ -4,6 +4,12 @@ export const LevelEndConst = {
 }
 
 export const Events = {
+    PAUSE:"PAUSE",
+    /**
+     * {
+     * pausing: is paused or not
+     * }
+     */
     LEVEL_ENDS: "LEVEL_ENDS",
     /**
      * {

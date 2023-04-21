@@ -57,4 +57,11 @@ export default class RechargableStat implements Updateable{
         this.value = Math.min(this.maxValue, this.value+rechargeAmount)
         console.log(this.value, this.maxValue)
     }
+
+    public pause(){
+        this.timer.pause()
+    }
+    public resume(){
+        if(!this.isMaxed){this.timer.start()}
+    }
 }

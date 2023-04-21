@@ -4,6 +4,7 @@ import Vec2 from "../../../Wolfie2D/DataTypes/Vec2";
 import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 import GameNode from "../../../Wolfie2D/Nodes/GameNode";
 import Timer from "../../../Wolfie2D/Timing/Timer";
+import { Events } from "../../../constants/events";
 import Spawnable from "../../../utils/Interface/Spawnable";
 import PathNode from "../../../utils/Pathing/PathNode";
 import PathQueue from "../../../utils/Pathing/PathQueue";
@@ -21,6 +22,10 @@ export default abstract class MovementAI extends StateMachineAI {
 
     protected ignoreStates: boolean
 
+    public initializeAI(owner: GameNode, config: Record<string, any>): void {
+        this.receiver.subscribe(Events.PAUSE)
+    }
+
     abstract activate(options: Record<string, any>): void
 
     update(deltaT: number): void {
@@ -30,7 +35,24 @@ export default abstract class MovementAI extends StateMachineAI {
         if(this.ignoreStates){return}
         super.update(deltaT);
     }
-    abstract handleEvent(event: GameEvent): void
+    public handleEvent(event: GameEvent): void{
+        switch(event.type){
+            case Events.PAUSE:{
+                this.handlePause(event.data.get("pausing"))
+            }
+        }
+    }
+
+    public handlePause(pausing: boolean):void{
+        if(pausing){
+            this.pause()
+        }else{
+            this.resume()
+        }
+    }
+
+    public pause():void{this.owner.freeze()}
+    public resume():void{this.owner.unfreeze()}
 
     protected get speed(){return this._speed}
     protected set speed(value: number) {this._speed = value;}

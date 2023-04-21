@@ -22,6 +22,7 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
     protected target: PlayerActor;
 
     public initializeAI(owner: HPActor, options: Record<string, any> = {}): void {
+        super.initializeAI(owner, options)
         this.owner = owner
         this.owner.canDespawn = false;
 
@@ -84,6 +85,7 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
     }
 
     public handleEvent(event: GameEvent): void {
+        super.handleEvent(event)
         switch(event.type){
             case Events.PLAYER_ENEMY_COLLISION:{
                 this.handleRamDamage(event.data.get("node"));
