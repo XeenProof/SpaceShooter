@@ -4,6 +4,7 @@ import { Events } from "../../../constants/events";
 import { cheats } from "../../../constants/gameoptions";
 import PathQueue from "../../../utils/Pathing/PathQueue";
 import CheatCodes from "../../../utils/Singletons/CheatCodes";
+import MookActor from "../../actors/EnemyActors/MookActor";
 import PlayerActor from "../../actors/PlayerActor";
 import HPActor from "../../actors/abstractActors/HPActor";
 import Dying from "../States/EnemyStates/Dying";
@@ -17,11 +18,11 @@ const animations = {
 }
 
 export default abstract class BasicEnemyAI extends ComplexPatternAI{
-    protected override owner: HPActor
+    protected override owner: MookActor
 
     protected target: PlayerActor;
 
-    public initializeAI(owner: HPActor, options: Record<string, any> = {}): void {
+    public initializeAI(owner: MookActor, options: Record<string, any> = {}): void {
         super.initializeAI(owner, options)
         this.owner = owner
         this.owner.canDespawn = false;
@@ -55,6 +56,11 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
         let droprate_multi = options.mods?options.mods.droprate_multi:1
         let droprate = initdroprate*droprate_multi
         this.owner.dropRate = droprate
+
+        let initPoints = (options.stats)?options.stats.points:0;
+        let pointsMulti = options.mods?options.mods.points_multi:1
+        let points = initPoints*pointsMulti
+        this.owner.points = pointsMulti
     }
 
 

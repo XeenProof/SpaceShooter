@@ -1,6 +1,8 @@
 import Spritesheet from "../../../Wolfie2D/DataTypes/Spritesheet";
 import AnimatedSprite from "../../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import Scene from "../../../Wolfie2D/Scene/Scene";
+import RandUtils from "../../../Wolfie2D/Utils/RandUtils";
+import { Events } from "../../../constants/events";
 import { Layers } from "../../../constants/layers";
 import HealthbarHUD from "../../../utils/HUD/HealthbarHUD";
 import BasicTargetable from "../../../utils/Targeting/BasicTargetable";
@@ -15,6 +17,9 @@ const animations = {
 }
 
 export default class MookActor extends HPActor{
+    private _points: number;
+    public get points(): number {return this._points;}
+    public set points(value: number) {this._points = value;}
 
     public constructor(sheet: Spritesheet){
         super(sheet)
@@ -32,6 +37,15 @@ export default class MookActor extends HPActor{
 
     takeDamage(damage: number): boolean {
         return super.takeDamage(damage)
+    }
+
+    dying(): void {
+        console.log(this.dropRate)
+        this.emitter.fireEvent(Events.ENEMY_DIED, {points: this.points})
+        if(RandUtils.randomChance(this.dropRate)){
+            this.emitter.fireEvent(Events.DROP_SCRAP, {src: this.position})
+        }
+        super.dying()
     }
 
     //Targetable Interface Functions

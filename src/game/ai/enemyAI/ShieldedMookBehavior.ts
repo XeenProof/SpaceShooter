@@ -11,7 +11,7 @@ export default class ShieldMookBehavior extends BasicEnemyAI{
 
     protected ShieldCooldown: Timer
 
-    public initializeAI(owner: HPActor, options?: Record<string, any>): void {
+    public initializeAI(owner: ShieldMookActor, options?: Record<string, any>): void {
         super.initializeAI(owner, options)
         this.ShieldCooldown =  new Timer(2000, ()=>{this.shieldPattern()})
     }

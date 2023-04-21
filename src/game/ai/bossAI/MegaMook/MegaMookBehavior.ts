@@ -29,7 +29,7 @@ export default class MegaMookBehavior extends BasicEnemyAI{
     private summons:SummonsManager<MegaMookSummon>
     private summonsChart:Map<number, boolean>
 
-    public initializeAI(owner: HPActor, options: Record<string, any> = {}): void {
+    public initializeAI(owner: MegaMookActor, options: Record<string, any> = {}): void {
         super.initializeAI(owner, options)
         this.firedCounter = 0;
         this.weaponsTimer = new Timer(1500,()=>{this.handleWeaponFire()}, true)
