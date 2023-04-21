@@ -24,7 +24,7 @@ export const Inputs = [
     {name:Controls.SHOOT, keys: ["Space"] },
     {name:Controls.SHIELD, keys: ['e']},
     {name:Controls.BOOST, keys: ['r']},
-    {name:Controls.PAUSE, keys: ['escape']},
+    {name:Controls.PAUSE, keys: ['escape', 'p']},
     {name:Controls.NUKE, keys:['-']},
     {name:Controls.HEALTH, keys:['1']},
     {name:Controls.UPGREADEHEALTH, keys:['2']},
