@@ -339,7 +339,6 @@ export default class SelectionScence extends Scene {
     }
 
     private levelIsUnlocked(script: Record<string, any>):boolean{
-        console.log(script)
         if(CheatCodes.getCheat(cheats.UNLOCK_ALL_LEVELS)){return true}
         let {UNLOCK_CONDITION} = script
         if(!UNLOCK_CONDITION){return true}
