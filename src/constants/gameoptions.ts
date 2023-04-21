@@ -10,7 +10,10 @@ export const Controls = {
     SHIELD: "SHIELD",
     BOOST: "BOOST",
     PAUSE: "PAUSE",
-    NUKE: "NUKE"
+    NUKE: "NUKE",
+    HEALTH: "HEALTH",
+    UPGREADEHEALTH: "UPGREADEHEALTH",
+    UPGREADEWEAPON: "UPGREADEWEAPON"
 } as const;
 
 export const Inputs = [
@@ -22,7 +25,10 @@ export const Inputs = [
     {name:Controls.SHIELD, keys: ['e']},
     {name:Controls.BOOST, keys: ['r']},
     {name:Controls.PAUSE, keys: ['escape']},
-    {name:Controls.NUKE, keys:['-']}
+    {name:Controls.NUKE, keys:['-']},
+    {name:Controls.HEALTH, keys:['1']},
+    {name:Controls.UPGREADEHEALTH, keys:['2']},
+    {name:Controls.UPGREADEWEAPON, keys:['3']},
 ]
 
 export const cheats = {

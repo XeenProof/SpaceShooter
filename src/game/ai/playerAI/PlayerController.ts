@@ -123,6 +123,19 @@ export default class PlayerController extends StateMachineAI {
 		this.handlePauseClick()
 		this.owner.handleChargesUpdate(deltaT)
 		if(this.canMove){this.handleControls(deltaT);}
+
+		if(Input.isJustPressed(Controls.HEALTH)){
+			this.owner.handlePlayerHeal()
+		}
+
+		if(Input.isJustPressed(Controls.UPGREADEHEALTH)){
+			this.owner.handleUpgradeHealth()
+		}
+
+		if(Input.isJustPressed(Controls.UPGREADEWEAPON)){
+			this.owner.handleUpgradeAttack()
+		}
+
 		
 		super.update(deltaT)
 	}
