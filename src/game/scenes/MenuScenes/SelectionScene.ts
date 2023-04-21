@@ -18,6 +18,7 @@ import { level5 } from "../../../constants/scripts/level5script";
 import { level6 } from "../../../constants/scripts/level6script";
 import CheatCodes from "../../../utils/Singletons/CheatCodes";
 import { cheats } from "../../../constants/gameoptions";
+import ProgressTracker from "../../../utils/Singletons/ProgressTracker";
 
 // Layers in the main menu
 const SelectionLayer = {
@@ -47,12 +48,6 @@ export default class SelectionScence extends Scene {
     protected BACKGROUND: LoadData;
 	protected bg1: Sprite;
 
-    static level2_Open=false;
-    static level3_Open=false;
-    static level4_Open=false;
-    static level5_Open=false;
-    static level6_Open=false;
-
     public override loadScene(){
         this.load.image("Test","assets/sprites/welcome.png");
         this.load.image("Blank","assets/sprites/blank.png");
@@ -67,14 +62,6 @@ export default class SelectionScence extends Scene {
         this.initBackground(SelectionLayer.BACKGROUND);
 
         this.controls = this.addLayer(SelectionLayer.CONTROLS,1);
-
-        if(CheatCodes.getCheat(cheats.UNLOCK_ALL_LEVELS)){
-            SelectionScence.level2_Open=true;
-            SelectionScence.level3_Open=true;
-            SelectionScence.level4_Open=true;
-            SelectionScence.level5_Open=true;
-            SelectionScence.level6_Open=true;
-        }
 
         const text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x, center.y-275), text: "LEVEL SELECTION"});
         text.size.set(300, 50);
@@ -118,15 +105,15 @@ export default class SelectionScence extends Scene {
         level2Img.scale.set(0.35, 0.35);
         level2Img.position.copy(new Vec2(center.x, center.y-80));
         
-        let level2 = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x, center.y-175), text: "LEVEL TWO"});
-        level2.size.set(300, 50);
-        level2.borderWidth = 2;
-        level2.fontSize = 30;
-        level2.textColor = Color.YELLOW;
-        level2.backgroundColor = Color.TRANSPARENT;
+        let level2text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x, center.y-175), text: "LEVEL TWO"});
+        level2text.size.set(300, 50);
+        level2text.borderWidth = 2;
+        level2text.fontSize = 30;
+        level2text.textColor = Color.YELLOW;
+        level2text.backgroundColor = Color.TRANSPARENT;
 
         const level2button = <Button> this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: level2Img.position, text: ""});
-        if(SelectionScence.level2_Open==true){
+        if(this.levelIsUnlocked(level2)){
             level2button.size.set(220, 180);
             level2button.backgroundColor = Color.TRANSPARENT;
             level2button.borderColor = Color.TRANSPARENT;
@@ -151,15 +138,15 @@ export default class SelectionScence extends Scene {
         level3Img.scale.set(0.35, 0.35);
         level3Img.position.copy(new Vec2(center.x+300, center.y-80));
         
-        let level3 = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x+300, center.y-175), text: "LEVEL THREE"});
-        level3.size.set(300, 50);
-        level3.borderWidth = 2;
-        level3.fontSize = 30;
-        level3.textColor = Color.YELLOW;
-        level3.backgroundColor = Color.TRANSPARENT;
+        let level3text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x+300, center.y-175), text: "LEVEL THREE"});
+        level3text.size.set(300, 50);
+        level3text.borderWidth = 2;
+        level3text.fontSize = 30;
+        level3text.textColor = Color.YELLOW;
+        level3text.backgroundColor = Color.TRANSPARENT;
 
         const level3button = <Button> this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: level3Img.position, text: ""});
-        if(SelectionScence.level3_Open==true){
+        if(this.levelIsUnlocked(level3)){
             level3button.size.set(220, 180);
             level3button.backgroundColor = Color.TRANSPARENT;
             level3button.borderColor = Color.TRANSPARENT;
@@ -183,15 +170,15 @@ export default class SelectionScence extends Scene {
         level4Img.scale.set(0.35, 0.35);
         level4Img.position.copy(new Vec2(center.x-300, center.y+180));
         
-        let level4 = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x-300, center.y+75), text: "LEVEL FOUR"});
-        level4.size.set(300, 50);
-        level4.borderWidth = 2;
-        level4.fontSize = 30;
-        level4.textColor = Color.YELLOW;
-        level4.backgroundColor = Color.TRANSPARENT;
+        let level4text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x-300, center.y+75), text: "LEVEL FOUR"});
+        level4text.size.set(300, 50);
+        level4text.borderWidth = 2;
+        level4text.fontSize = 30;
+        level4text.textColor = Color.YELLOW;
+        level4text.backgroundColor = Color.TRANSPARENT;
 
         const level4button = <Button> this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: level4Img.position, text: ""});
-        if(SelectionScence.level4_Open==true){
+        if(this.levelIsUnlocked(level4)){
             level4button.size.set(220, 180);
             level4button.backgroundColor = Color.TRANSPARENT;
             level4button.borderColor = Color.TRANSPARENT;
@@ -214,15 +201,15 @@ export default class SelectionScence extends Scene {
         level5Img.scale.set(0.35, 0.35);
         level5Img.position.copy(new Vec2(center.x, center.y+180));
         
-        let level5 = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x, center.y+75), text: "LEVEL FIVE"});
-        level5.size.set(300, 50);
-        level5.borderWidth = 2;
-        level5.fontSize = 30;
-        level5.textColor = Color.YELLOW;
-        level5.backgroundColor = Color.TRANSPARENT;
+        let level5text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x, center.y+75), text: "LEVEL FIVE"});
+        level5text.size.set(300, 50);
+        level5text.borderWidth = 2;
+        level5text.fontSize = 30;
+        level5text.textColor = Color.YELLOW;
+        level5text.backgroundColor = Color.TRANSPARENT;
 
         const level5button = <Button> this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: level5Img.position, text: ""});
-        if(SelectionScence.level5_Open==true){
+        if(this.levelIsUnlocked(level5)){
             level5button.size.set(220, 180);
             level5button.backgroundColor = Color.TRANSPARENT;
             level5button.borderColor = Color.TRANSPARENT;
@@ -245,15 +232,15 @@ export default class SelectionScence extends Scene {
         level6Img.scale.set(0.35, 0.35);
         level6Img.position.copy(new Vec2(center.x+300, center.y+180));
         
-        let level6 = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x+300, center.y+75), text: "LEVEL SIX"});
-        level6.size.set(300, 50);
-        level6.borderWidth = 2;
-        level6.fontSize = 30;
-        level6.textColor = Color.YELLOW;
-        level6.backgroundColor = Color.TRANSPARENT;
+        let level6text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x+300, center.y+75), text: "LEVEL SIX"});
+        level6text.size.set(300, 50);
+        level6text.borderWidth = 2;
+        level6text.fontSize = 30;
+        level6text.textColor = Color.YELLOW;
+        level6text.backgroundColor = Color.TRANSPARENT;
 
         const level6button = <Button> this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: level6Img.position, text: ""});
-        if(SelectionScence.level6_Open==true){
+        if(this.levelIsUnlocked(level6)){
             level6button.size.set(220, 180);
             level6button.backgroundColor = Color.TRANSPARENT;
             level6button.borderColor = Color.TRANSPARENT;
@@ -349,5 +336,16 @@ export default class SelectionScence extends Scene {
                 throw new Error(`Unhandled event caught in MainMenu: "${event.type}"`);
             }
         }
+    }
+
+    private levelIsUnlocked(script: Record<string, any>):boolean{
+        console.log(script)
+        if(CheatCodes.getCheat(cheats.UNLOCK_ALL_LEVELS)){return true}
+        let {UNLOCK_CONDITION} = script
+        if(!UNLOCK_CONDITION){return true}
+        for(let s of UNLOCK_CONDITION){
+            if(!ProgressTracker.getBool(s)){return false}
+        }
+        return true
     }
 }

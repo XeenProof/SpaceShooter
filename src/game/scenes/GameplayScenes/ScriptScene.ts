@@ -2,12 +2,13 @@ import CanvasNode from "../../../Wolfie2D/Nodes/CanvasNode";
 import Timer from "../../../Wolfie2D/Timing/Timer";
 import RandUtils from "../../../Wolfie2D/Utils/RandUtils";
 import { AllEnemyData } from "../../../constants/enemies/enemyData";
-import { Events } from "../../../constants/events";
+import { Events, LevelEndConst } from "../../../constants/events";
 import { LoadData } from "../../../constants/load";
 import { Script_Type, scriptFormat } from "../../../constants/scripts/scriptTypes";
 import { generatePathFromList } from "../../../utils/Pathing/CreatePaths";
 import ScriptNode from "../../../utils/ScriptQueue/ScriptNode";
 import ScriptQueue, { generateScriptQueue } from "../../../utils/ScriptQueue/ScriptQueue";
+import ProgressTracker from "../../../utils/Singletons/ProgressTracker";
 import LevelScene from "./LevelScene";
 
 /**
@@ -17,6 +18,7 @@ export default class ScriptScene extends LevelScene{
     /**Base Variables */
     private levelData:Record<string, any>
     static NAME:String
+    private KEY:string
     private LOAD:Record<string, any>
     private SCRIPT:scriptFormat[]
     private AUDIOLIST:LoadData[]
@@ -28,8 +30,9 @@ export default class ScriptScene extends LevelScene{
 
     public initScene(options: Record<string, any>): void {
         this.levelData = options.levelData;
-        let {NAME, LOAD, SCRIPT, RANDOMSPAWN, AUDIOLIST} = this.levelData
+        let {NAME, LOAD, SCRIPT, RANDOMSPAWN, AUDIOLIST, KEY} = this.levelData
         ScriptScene.NAME = NAME;
+        this.KEY = KEY
         this.LOAD = LOAD;
         this.SCRIPT = SCRIPT;
         this.AUDIOLIST = (AUDIOLIST)?AUDIOLIST:[];
@@ -94,13 +97,20 @@ export default class ScriptScene extends LevelScene{
                 break;
             }
             case Script_Type.LEVEL_ENDS:{
-                this.handleLevelEnds(node.options.endtype)
+                this.handleScriptedLevelEnds(node.options.endtype)
                 break;
             }
             case Script_Type.PLAY_SOUND:{
                 this.handleScriptedAudio(node.options)
                 break;
             }
+        }
+    }
+
+    protected handleScriptedLevelEnds(type: string):void{
+        this.handleLevelEnds(type)
+        if(type == LevelEndConst.LEVEL_CLEARED){
+            ProgressTracker.setProgress(this.KEY, 1)
         }
     }
 
