@@ -285,7 +285,7 @@ export default class MainMenu extends Scene {
         this.unlockAllLevelButton.onClickEventId = MainMenuEvent.UNLOCK_ALL_LEVEL;
         this.unlockAllLevelButton.text = CheatCodes.getCheat(cheats.UNLOCK_ALL_LEVELS)?"X":""
 
-        const unlockAllLevel = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x - 260, center.y + 400), text: "Unlock all layers"});
+        const unlockAllLevel = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x - 260, center.y + 400), text: "Unlock all levels"});
         unlockAllLevel.textColor = Color.YELLOW;
         unlockAllLevel.fontSize = 40;
 

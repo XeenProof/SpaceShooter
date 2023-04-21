@@ -33,6 +33,7 @@ const RandomHoarderScript = {
 
 export const level1 = {
     NAME: "Level 1",
+    KEY: "LEVEL1",
     LOAD: {
         BACKGROUND: LoadBackground.SPACE,
         PLAYER: AllPlayerData.PLAYER_V1.LOAD,
