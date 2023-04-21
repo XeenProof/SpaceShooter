@@ -36,10 +36,9 @@ const Loads = {
 
     MAINMENU: {KEY: "MAINMENU", TYPE: LoadType.IMAGE, PATH: "assets/sprites/space_blur.png", SCALE:{X:1, Y:1}},
     TEST: {KEY: "APPLE", TYPE: LoadType.IMAGE, PATH: "assets/sprites/welcome.png", SCALE:{X:1, Y:1}},
-    SPACE_MUSIC: {KEY: "SPACE", TYPE:LoadType.AUDIO, PATH: "assets/music/spaceMusic.mp3"},
+    
     /**Loading Music Test down here */
-    TESTAUDIO: {KEY: "TEST", TYPE:LoadType.AUDIO, PATH: "assets/music/temp.mp3"}
-   
+    SPACE_MUSIC: {KEY: "SPACE", TYPE:LoadType.AUDIO, PATH: "assets/music/spaceMusic.mp3"},
 }
 
 export const LoadBackground = {
