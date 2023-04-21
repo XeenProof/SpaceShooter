@@ -53,7 +53,7 @@ export const level1 = {
     },
     AUDIOLIST: [LoadMusic.SPACE_MUSIC],
     SCRIPT: [
-        {type: Script_Type.PLAY_SOUND, options: {index: 0}},
+        //{type: Script_Type.PLAY_SOUND, options: {index: 0}},
         {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-150}},
         {type: Script_Type.SPAWN, options: {
             enemyType: AllEnemyKeys.MEGAMOOK,
