@@ -18,6 +18,7 @@ import { level1 } from "../../../constants/scripts/level1script";
 import Button from "../../../Wolfie2D/Nodes/UIElements/Button";
 import CheatCodes from "../../../utils/Singletons/CheatCodes";
 import { cheats } from "../../../constants/gameoptions";
+import LocalStorageHandler from "../../../utils/Singletons/LocalStorageHandler";
 
 
 // Layers in the main menu
@@ -37,7 +38,7 @@ const MainMenuEvent = {
 	HELP: "HELP",
     ONE_SHOOT_KILL: "ONE_SHOOT_KILL",
 	MENU: "MENU",
-    PLAY_RECORDING: "PLAY_RECORDING",
+    CLEAR_LOCAL_STORAGE: "CLEAR_LOCAL_STORAGE",
     INVINCIBLE: "INVINCIBLE",
     NUKE: "NUKE",
     INFINITE_SCRAP: "INFINITE_SCRAP",
@@ -52,7 +53,6 @@ export default class MainMenu extends Scene {
     private controls: Layer;
     private about: Layer;
     private mainMenu_background: Layer;
-    private seed: string;
     
     protected BACKGROUND: LoadData;
     // Sprites for the background images
@@ -125,14 +125,6 @@ export default class MainMenu extends Scene {
         about.backgroundColor = Color.TRANSPARENT;
         about.onClickEventId = MainMenuEvent.HELP;
 
-        // Add play recording button
-        // const playRecording = this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.MAIN_MENU, {position: new Vec2(center.x, center.y + 200), text: "Play Recording"});
-        // playRecording.size.set(200, 50);
-        // playRecording.borderWidth = 2;
-        // playRecording.borderColor = Color.WHITE;
-        // playRecording.backgroundColor = Color.TRANSPARENT;
-        // playRecording.onClickEventId = MainMenuEvent.PLAY_RECORDING;
-
         this.initBackground(MainMenuLayer.CONTROLS_BACKGROUND);
 
         const header = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.CONTROLS, {position: new Vec2(center.x, center.y - 250), text: "Controls"});
@@ -200,6 +192,13 @@ export default class MainMenu extends Scene {
         helpBack.borderColor = Color.YELLOW;
         helpBack.backgroundColor = Color.TRANSPARENT;
         helpBack.onClickEventId = MainMenuEvent.MENU;
+
+        const clearData = this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x + 400, center.y - 400), text: "Clear Data"});
+        clearData.size.set(200, 50);
+        clearData.borderWidth = 2;
+        clearData.borderColor = Color.YELLOW;
+        clearData.backgroundColor = Color.TRANSPARENT;
+        clearData.onClickEventId = MainMenuEvent.CLEAR_LOCAL_STORAGE;
 
 
         this.oneShootKillButton = <Button> this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x-450, center.y + 200), text: ""});
@@ -294,6 +293,7 @@ export default class MainMenu extends Scene {
         this.receiver.subscribe(MainMenuEvent.CONTROLS);
         this.receiver.subscribe(MainMenuEvent.HELP);
         this.receiver.subscribe(MainMenuEvent.MENU);
+        this.receiver.subscribe(MainMenuEvent.CLEAR_LOCAL_STORAGE);
         this.receiver.subscribe(MainMenuEvent.ONE_SHOOT_KILL);
         this.receiver.subscribe(MainMenuEvent.INVINCIBLE);
         this.receiver.subscribe(MainMenuEvent.NUKE);
@@ -301,7 +301,6 @@ export default class MainMenu extends Scene {
         this.receiver.subscribe(MainMenuEvent.INFINITE_BOOSTER);
         this.receiver.subscribe(MainMenuEvent.INFINITE_SHIELD);
         this.receiver.subscribe(MainMenuEvent.UNLOCK_ALL_LEVEL);
-        this.receiver.subscribe("Test")
     }
 
     public override updateScene(){
@@ -367,6 +366,10 @@ export default class MainMenu extends Scene {
                 this.about.setHidden(true);
                 break;
             }
+            case MainMenuEvent.CLEAR_LOCAL_STORAGE:{
+                LocalStorageHandler.clearData()
+                break;
+            }
             case MainMenuEvent.ONE_SHOOT_KILL: {
                 CheatCodes.triggerCheat(cheats.OHKO)
                 this.oneShootKillButton.text = CheatCodes.getCheat(cheats.OHKO)?"X":""
@@ -400,10 +403,6 @@ export default class MainMenu extends Scene {
             case MainMenuEvent.UNLOCK_ALL_LEVEL: {
                 CheatCodes.triggerCheat(cheats.UNLOCK_ALL_LEVELS)
                 this.unlockAllLevelButton.text = CheatCodes.getCheat(cheats.UNLOCK_ALL_LEVELS)?"X":""
-                break;
-            }
-            case "Test":{
-                this.sceneManager.changeToScene(ScriptScene, {levelData: level1})
                 break;
             }
             default: {
