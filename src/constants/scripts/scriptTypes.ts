@@ -6,6 +6,14 @@ export interface scriptFormat{
 }
 
 export const Script_Type = {
+    PLAY_SOUND:"PLAY_SOUND",
+    /**
+     * options: {
+     * index: the index of the audio in the AUDIO list
+     * loop?: whether to infinitely loop or not
+     * holdReference?: boolean
+     * }
+     */
     LEVEL_ENDS:"LEVEL_ENDS",
     /**
      * options: {endtype: the way the level ends}

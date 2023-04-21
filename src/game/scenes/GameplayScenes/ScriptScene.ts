@@ -19,6 +19,7 @@ export default class ScriptScene extends LevelScene{
     static NAME:String
     private LOAD:Record<string, any>
     private SCRIPT:scriptFormat[]
+    private AUDIOLIST:LoadData[]
     private scriptQueue: ScriptQueue
     private randomQueue: ScriptQueue
 
@@ -27,10 +28,11 @@ export default class ScriptScene extends LevelScene{
 
     public initScene(options: Record<string, any>): void {
         this.levelData = options.levelData;
-        let {NAME, LOAD, SCRIPT, RANDOMSPAWN} = this.levelData
+        let {NAME, LOAD, SCRIPT, RANDOMSPAWN, AUDIOLIST} = this.levelData
         ScriptScene.NAME = NAME;
         this.LOAD = LOAD;
         this.SCRIPT = SCRIPT;
+        this.AUDIOLIST = (AUDIOLIST)?AUDIOLIST:[];
         this.scriptQueue = generateScriptQueue(SCRIPT)
         this.randomQueue = generateScriptQueue(RANDOMSPAWN)
         console.log(this.levelData)
@@ -48,7 +50,7 @@ export default class ScriptScene extends LevelScene{
         let otherlist:LoadData[][] = OTHERS.map((x)=>{return x.DATA.LOAD})
         let reducedlist = otherlist.reduce((x,y)=>{return [...x, ...y]}, [])
         console.log(reducedlist)
-        let list:LoadData[] = [SHIP, FLAMES, SHIELD, ...reducedlist]
+        let list:LoadData[] = [SHIP, FLAMES, SHIELD, ...reducedlist, ...this.AUDIOLIST]
         this.loadList(list)
     }
 
@@ -92,11 +94,22 @@ export default class ScriptScene extends LevelScene{
                 break;
             }
             case Script_Type.LEVEL_ENDS:{
-                console.log(node.options)
                 this.handleLevelEnds(node.options.endtype)
                 break;
             }
+            case Script_Type.PLAY_SOUND:{
+                this.handleScriptedAudio(node.options)
+                break;
+            }
         }
+    }
+
+    protected handleScriptedAudio(options: Record<string, any>){
+        let index:number = options.index
+        if(index < 0 || index >= this.AUDIOLIST.length){console.log("Audio not found")}
+        let key:string = this.AUDIOLIST[index].KEY
+        console.log("Playing...", key)
+        this.handlePlayAudio({...options, key: key})
     }
 
     protected handleScriptedSpawn(options: Record<string, number>){

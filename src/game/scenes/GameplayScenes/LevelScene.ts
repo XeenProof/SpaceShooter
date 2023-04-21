@@ -20,11 +20,18 @@ import { level2 } from "../../../constants/scripts/level2script";
 import { level3 } from "../../../constants/scripts/level3script";
 import { level4 } from "../../../constants/scripts/level4script";
 import { level5 } from "../../../constants/scripts/level5script";
+import { GameEventType } from "../../../Wolfie2D/Events/GameEventType";
+
+const audioDefaults = {
+	loop: true,
+	holdReference: true
+}
 /**
  * This is the level scene for our game
  * It handles all the interactions
  */
 export default class LevelScene extends BaseScene {
+	protected currentAudio:string
 
 	protected endLevelTimer:Timer
 	protected endType:string
@@ -42,10 +49,6 @@ export default class LevelScene extends BaseScene {
 		this.receiver.subscribe(Events.DROP_SCRAP);
 		this.receiver.subscribe(Events.LEVEL_ENDS);
 		this.receiver.subscribe(Events.ENEMY_SUMMONS);
-
-		//this.receiver.subscribe(Events.HEALTH);
-		//this.receiver.subscribe(Events.UPGRADE_HEALTH);
-		//this.receiver.subscribe(Events.UPGRADE_WEAPON);
 	}
 
 	/**
@@ -53,7 +56,6 @@ export default class LevelScene extends BaseScene {
 	 */
 	public override updateScene(deltaT: number){
 		super.updateScene(deltaT)
-		//this.spawnCommomMook(generatePathFromList(recRoute.NORMAL, 300));
 	}
 
 	protected handleEvent(event: GameEvent){
@@ -80,6 +82,10 @@ export default class LevelScene extends BaseScene {
 				break;
 			}
 		}
+	}
+
+	public unloadScene(): void {
+		if(this.currentAudio){this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: this.currentAudio})}
 	}
 
 	/** 
@@ -169,6 +175,14 @@ export default class LevelScene extends BaseScene {
 		this.levelEnded = true
 		this.endLevelTimer.start();
 		console.log(type)
+	}
+
+	protected handlePlayAudio(options: Record<string, any>):void{
+		let key = options.key
+		if(!key){return;}
+		let settings = {...audioDefaults, ...options}
+		this.emitter.fireEvent(GameEventType.PLAY_SOUND, settings)
+		this.currentAudio = key
 	}
 
 	protected endLevel():void{

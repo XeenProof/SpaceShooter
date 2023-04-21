@@ -37,7 +37,8 @@ const Loads = {
     MAINMENU: {KEY: "MAINMENU", TYPE: LoadType.IMAGE, PATH: "assets/sprites/space_blur.png", SCALE:{X:1, Y:1}},
     TEST: {KEY: "APPLE", TYPE: LoadType.IMAGE, PATH: "assets/sprites/welcome.png", SCALE:{X:1, Y:1}},
     
-
+    /**Loading Music Test down here */
+    TESTAUDIO: {KEY: "TEST", TYPE:LoadType.AUDIO, PATH: "assets/music/temp.mp3"}
    
 }
 
@@ -83,4 +84,8 @@ export const LoadProjectiles = {
 
 export const LoadEnemyProjectile = {
     ENEMY_BEAM: {...Loads.ENEMY1_BEAM, SCALE: {X:1, Y:1}}
+}
+
+export const LoadMusic = {
+    TEMP: {...Loads.TESTAUDIO}
 }

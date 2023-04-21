@@ -6,7 +6,7 @@ import { TriangleRoute } from "../formations/TriangleForm";
 import { VtypeRoute } from "../formations/VtypeForm";
 import { DiamondRoute } from "../formations/DiamondForm";
 
-import { LoadBackground} from "../load";
+import { LoadBackground, LoadMusic} from "../load";
 import { AllPlayerData } from "../player/playerData";
 import { AllProjectileKeys, AllProjectileData} from "../projectiles/projectileData";
 import { applyRandomPathSettings, duplicateEnemyKeys, generateRoundRobinScriptPart } from "./scriptGenerator";
@@ -51,7 +51,9 @@ export const level1 = {
             {DATA: AllItemData.SCRAP, AMMOUNT: 20},
         ]
     },
+    AUDIOLIST: [LoadMusic.TEMP],
     SCRIPT: [
+        {type: Script_Type.PLAY_SOUND, options: {index: 0}},
         {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-150}},
         {type: Script_Type.SPAWN, options: {
             enemyType: AllEnemyKeys.MEGAMOOK,
