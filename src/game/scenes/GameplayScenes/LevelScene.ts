@@ -24,7 +24,7 @@ import { GameEventType } from "../../../Wolfie2D/Events/GameEventType";
 
 const audioDefaults = {
 	loop: true,
-	holdReference: true
+	holdReference: false
 }
 /**
  * This is the level scene for our game
@@ -85,7 +85,9 @@ export default class LevelScene extends BaseScene {
 	}
 
 	public unloadScene(): void {
-		if(this.currentAudio){this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: this.currentAudio})}
+		if(this.currentAudio){
+			this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: this.currentAudio})
+		}
 	}
 
 	/** 
