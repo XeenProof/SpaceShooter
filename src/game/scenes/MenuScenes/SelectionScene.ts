@@ -16,6 +16,8 @@ import { level3 } from "../../../constants/scripts/level3script";
 import { level4 } from "../../../constants/scripts/level4script";
 import { level5 } from "../../../constants/scripts/level5script";
 import { level6 } from "../../../constants/scripts/level6script";
+import CheatCodes from "../../../utils/Singletons/CheatCodes";
+import { cheats } from "../../../constants/gameoptions";
 
 // Layers in the main menu
 const SelectionLayer = {
@@ -65,6 +67,14 @@ export default class SelectionScence extends Scene {
         this.initBackground(SelectionLayer.BACKGROUND);
 
         this.controls = this.addLayer(SelectionLayer.CONTROLS,1);
+
+        if(CheatCodes.getCheat(cheats.UNLOCK_ALL_LEVELS)){
+            SelectionScence.level2_Open=true;
+            SelectionScence.level3_Open=true;
+            SelectionScence.level4_Open=true;
+            SelectionScence.level5_Open=true;
+            SelectionScence.level6_Open=true;
+        }
 
         const text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x, center.y-275), text: "LEVEL SELECTION"});
         text.size.set(300, 50);
