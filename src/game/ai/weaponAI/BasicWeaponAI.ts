@@ -58,6 +58,7 @@ export default class BasicWeaponAI extends ComplexPatternAI{
     }
 
     public handleEvent(event: GameEvent): void {
+        super.handleEvent(event)
         switch(event.type){
             case Events.WEAPON_PLAYER_COLLISION:
             case Events.WEAPON_ENEMY_COLLISION:{
