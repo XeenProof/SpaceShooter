@@ -73,6 +73,8 @@ export default class PlayerController extends StateMachineAI {
 		this.receiver.subscribe(Events.WEAPON_PLAYER_COLLISION)
 		this.receiver.subscribe(Events.PLAYER_SCRAP_COLLISION)
 
+		this.receiver.subscribe(Events.ENEMY_DIED)
+
 		this.receiver.subscribe(Events.HEALTH)
 		this.receiver.subscribe(Events.UPGRADE_HEALTH)
 		this.receiver.subscribe(Events.UPGRADE_WEAPON)
@@ -92,6 +94,7 @@ export default class PlayerController extends StateMachineAI {
         // Set the player's movement speed
         this.currentSpeed = 300
 		this.owner.scrap = 0;
+		this.owner.points = 0
 
         // Play the idle animation by default
 		this.owner.animation.play(PlayerAnimations.IDLE, true);
@@ -164,6 +167,10 @@ export default class PlayerController extends StateMachineAI {
 			case Events.PAUSE: {
 				this.handlePause(event.data.get("pausing"))
 				break
+			}
+			case Events.ENEMY_DIED:{
+				this.owner.points+=event.data.get("points")
+				break;
 			}
 			default: {
 				throw new Error(`Unhandled event of type: ${event.type} caught in PlayerController`);

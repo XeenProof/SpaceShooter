@@ -37,10 +37,11 @@ export const Script_Type = {
     /**
      * options: {
      * wavenum: wave number
-     * mods: {//holds the staat modifiers on enemies
+     * mods: {//holds the stat modifiers on enemies
      *  hp_multi: 1,
 		droprate_multi: 1,
-        enemydamage_multi: 1
+        enemydamage_multi: 1,
+        points_multi: 1
      * }
      * }
      */

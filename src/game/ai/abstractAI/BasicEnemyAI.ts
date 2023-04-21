@@ -60,7 +60,7 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
         let initPoints = (options.stats)?options.stats.points:0;
         let pointsMulti = options.mods?options.mods.points_multi:1
         let points = initPoints*pointsMulti
-        this.owner.points = pointsMulti
+        this.owner.points = points
     }
 
 

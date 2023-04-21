@@ -48,6 +48,10 @@ export const Events = {
      * id: the summoner's id
      * summoned: {key: summonkey, minion: summoned Entity}
      */
+    ENEMY_DIED:"ENEMY_DIED",
+    /**
+     * points: the points that enemy is worth
+     */
     DROP_SCRAP:"DROP_SCRAP",
     /**
      * {

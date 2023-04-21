@@ -34,7 +34,8 @@ export default class BaseScene extends ActorScene{
 	protected statMods:Record<string, number> = {
 		hp_multi: 1,
 		droprate_multi: 1,
-        enemydamage_multi: 1
+        enemydamage_multi: 1,
+		points_multi: 1
 	}
 	protected paused:boolean
 
@@ -169,7 +170,7 @@ export default class BaseScene extends ActorScene{
 		this.handleBoosterChange((this.player.boosterCharge.value/this.player.boosterCharge.maxValue)*5);
 		this.wave.setText(this.wavenum.toString());
 		this.scrapIron.setText(this.player.scrap.toString());
-		this.points.setText("0");
+		this.points.setText(this.player.points.toString());
 
 		this.moveBackgrounds(deltaT);
 		this.lockPlayer(this.player, this.viewport.getCenter(), this.viewport.getHalfSize())

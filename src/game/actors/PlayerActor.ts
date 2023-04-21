@@ -129,6 +129,10 @@ export default class PlayerActor extends HPActor{
         }
     }
 
+    private _points: number = 0;
+    public get points(): number {return this._points;}
+    public set points(value: number) {this._points = value;}
+
     public constructor(sheet: Spritesheet){
         super(sheet)
     }
