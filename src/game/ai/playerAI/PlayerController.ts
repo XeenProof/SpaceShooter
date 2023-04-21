@@ -124,18 +124,6 @@ export default class PlayerController extends StateMachineAI {
 		this.owner.handleChargesUpdate(deltaT)
 		if(this.canMove){this.handleControls(deltaT);}
 
-		if(Input.isJustPressed(Controls.HEALTH)){
-			this.owner.handlePlayerHeal()
-		}
-
-		if(Input.isJustPressed(Controls.UPGREADEHEALTH)){
-			this.owner.handleUpgradeHealth()
-		}
-
-		if(Input.isJustPressed(Controls.UPGREADEWEAPON)){
-			this.owner.handleUpgradeAttack()
-		}
-
 		
 		super.update(deltaT)
 	}
@@ -207,6 +195,19 @@ export default class PlayerController extends StateMachineAI {
 		if(Input.isJustPressed(Controls.SHIELD)){this.owner.useShield()}
 		if(Input.isJustPressed(Controls.BOOST)){this.owner.useBooster()}
 		if(Input.isJustPressed(Controls.NUKE) && CheatCodes.getCheat(cheats.NUKE_BUTTON)){this.handleNuke()}
+
+		if(Input.isJustPressed(Controls.HEALTH)){
+			this.owner.handlePlayerHeal()
+		}
+
+		if(Input.isJustPressed(Controls.UPGREADEHEALTH)){
+			this.owner.handleUpgradeHealth()
+		}
+
+		if(Input.isJustPressed(Controls.UPGREADEWEAPON)){
+			this.owner.handleUpgradeAttack()
+		}
+		
 		// Move the player
 		let movement = Vec2.UP.scaled(forwardAxis * this.currentSpeed).add(new Vec2(horizontalAxis * this.currentSpeed, 0));
 		this.owner.move(movement.scaled(deltaT));
