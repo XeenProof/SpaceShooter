@@ -189,33 +189,33 @@ export default class LevelScene extends BaseScene {
 
 	protected endLevel():void{
 		if(this.currentAudio){
-			//console.log("inside if", this.currentAudio)
 			this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: this.currentAudio})
 		}
+
 		// this.
 		// console.log("level ends")
-		console.log(this.endType)
-		if(this.endType!=LevelEndConst.GAME_OVER){
-			if (ScriptScene.NAME == level1.NAME){
-				SelectionScence.level2_Open=true;
-			}
+		// console.log(this.endType)
+		// if(this.endType!=LevelEndConst.GAME_OVER){
+		// 	if (ScriptScene.NAME == level1.NAME){
+		// 		SelectionScence.level2_Open=true;
+		// 	}
 
-			if (ScriptScene.NAME == level2.NAME){
-				SelectionScence.level3_Open=true;
-			}
+		// 	if (ScriptScene.NAME == level2.NAME){
+		// 		SelectionScence.level3_Open=true;
+		// 	}
 
-			if (ScriptScene.NAME == level3.NAME){
-				SelectionScence.level4_Open=true;
-			}
+		// 	if (ScriptScene.NAME == level3.NAME){
+		// 		SelectionScence.level4_Open=true;
+		// 	}
 
-			if (ScriptScene.NAME == level4.NAME){
-				SelectionScence.level5_Open=true;
-			}
+		// 	if (ScriptScene.NAME == level4.NAME){
+		// 		SelectionScence.level5_Open=true;
+		// 	}
 
-			if (ScriptScene.NAME == level5.NAME){
-				SelectionScence.level6_Open=true;
-			}
-		}
+		// 	if (ScriptScene.NAME == level5.NAME){
+		// 		SelectionScence.level6_Open=true;
+		// 	}
+		// }
 
 		this.sceneManager.changeToScene(SelectionScence)
 	}
