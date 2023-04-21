@@ -14,6 +14,7 @@ import SelectionScence from "../MenuScenes/SelectionScene";
 import { AllEnemyData } from "../../../constants/enemies/enemyData";
 import { generateRandomPathFuncList, spawnRandomizer } from "../../../utils/Pathing/CreatePaths";
 import ScriptScene from "./ScriptScene";
+
 import { level1 } from "../../../constants/scripts/level1script";
 import { level2 } from "../../../constants/scripts/level2script";
 import { level3 } from "../../../constants/scripts/level3script";

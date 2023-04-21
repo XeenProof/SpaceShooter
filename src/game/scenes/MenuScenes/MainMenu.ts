@@ -43,6 +43,7 @@ const MainMenuEvent = {
     INFINITE_SCRAP: "INFINITE_SCRAP",
     INFINITE_BOOSTER: "INFINITE_BOOSTER",
     INFINITE_SHIELD: "INFINITE_SHIELD",
+    UNLOCK_ALL_LEVEL: "UNLOCK_ALL_LEVEL",
 } as const;
 
 export default class MainMenu extends Scene {
@@ -64,6 +65,7 @@ export default class MainMenu extends Scene {
     protected infiniteScrapButton: Button;
     protected infiniteBoosterButton: Button;
     protected infiniteShieldButton: Button;
+    protected unlockAllLevelButton: Button;
 
     public override loadScene(){
         // this.autoloader(LoadAPPLE.APPLE);
@@ -274,6 +276,19 @@ export default class MainMenu extends Scene {
         infiniteShield.textColor = Color.YELLOW;
         infiniteShield.fontSize = 40;
 
+
+        this.unlockAllLevelButton = <Button> this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x - 450, center.y + 400), text: ""});
+        this.unlockAllLevelButton.size.set(50, 50);
+        this.unlockAllLevelButton.borderWidth = 2;
+        this.unlockAllLevelButton.borderColor = Color.YELLOW;
+        this.unlockAllLevelButton.backgroundColor = Color.TRANSPARENT;
+        this.unlockAllLevelButton.onClickEventId = MainMenuEvent.UNLOCK_ALL_LEVEL;
+        this.unlockAllLevelButton.text = CheatCodes.getCheat(cheats.UNLOCK_ALL_LEVELS)?"X":""
+
+        const unlockAllLevel = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x - 260, center.y + 400), text: "Unlock all layers"});
+        unlockAllLevel.textColor = Color.YELLOW;
+        unlockAllLevel.fontSize = 40;
+
         // Subscribe to the button events
         this.receiver.subscribe(MainMenuEvent.PLAY_GAME);
         this.receiver.subscribe(MainMenuEvent.CONTROLS);
@@ -285,6 +300,7 @@ export default class MainMenu extends Scene {
         this.receiver.subscribe(MainMenuEvent.INFINITE_SCRAP);
         this.receiver.subscribe(MainMenuEvent.INFINITE_BOOSTER);
         this.receiver.subscribe(MainMenuEvent.INFINITE_SHIELD);
+        this.receiver.subscribe(MainMenuEvent.UNLOCK_ALL_LEVEL);
         this.receiver.subscribe("Test")
     }
 
@@ -379,6 +395,11 @@ export default class MainMenu extends Scene {
             case MainMenuEvent.INFINITE_SHIELD: {
                 CheatCodes.triggerCheat(cheats.INFINITE_SHIELD)
                 this.infiniteShieldButton.text = CheatCodes.getCheat(cheats.INFINITE_SHIELD)?"X":""
+                break;
+            }
+            case MainMenuEvent.UNLOCK_ALL_LEVEL: {
+                CheatCodes.triggerCheat(cheats.UNLOCK_ALL_LEVELS)
+                this.unlockAllLevelButton.text = CheatCodes.getCheat(cheats.UNLOCK_ALL_LEVELS)?"X":""
                 break;
             }
             case "Test":{
