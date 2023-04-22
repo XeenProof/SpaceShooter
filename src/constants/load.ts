@@ -38,7 +38,7 @@ const Loads = {
     TEST: {KEY: "APPLE", TYPE: LoadType.IMAGE, PATH: "assets/sprites/welcome.png", SCALE:{X:1, Y:1}},
     
     /**Loading Music Test down here */
-    SPACE_MUSIC: {KEY: "SPACE", TYPE:LoadType.AUDIO, PATH: "assets/music/spaceMusic.mp3"},
+    SPACE_MUSIC: {KEY: "SPACE_MUSIC", TYPE:LoadType.AUDIO, PATH: "assets/music/spaceMusic.mp3"},
 }
 
 export const LoadBackground = {
