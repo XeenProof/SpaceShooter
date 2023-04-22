@@ -15,11 +15,6 @@ import { AllEnemyData } from "../../../constants/enemies/enemyData";
 import { generateRandomPathFuncList, spawnRandomizer } from "../../../utils/Pathing/CreatePaths";
 import ScriptScene from "./ScriptScene";
 
-import { level1 } from "../../../constants/scripts/level1script";
-import { level2 } from "../../../constants/scripts/level2script";
-import { level3 } from "../../../constants/scripts/level3script";
-import { level4 } from "../../../constants/scripts/level4script";
-import { level5 } from "../../../constants/scripts/level5script";
 import { GameEventType } from "../../../Wolfie2D/Events/GameEventType";
 
 const audioDefaults = {

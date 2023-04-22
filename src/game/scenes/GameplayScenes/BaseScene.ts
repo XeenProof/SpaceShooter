@@ -24,6 +24,7 @@ import { Layers } from "../../../constants/layers";
 import { GAMEPLAY_DIMENTIONS } from "../../../constants/dimenstions";
 import Button from "../../../Wolfie2D/Nodes/UIElements/Button";
 import Input from "../../../Wolfie2D/Input/Input";
+import Layer from "../../../Wolfie2D/Scene/Layer";
 
 /**
  * This is the base scene for our game.
@@ -94,6 +95,7 @@ export default class BaseScene extends ActorScene{
 
 	// The padding of the world
 	protected worldPadding: Vec2;
+	protected pauseUI: Layer;
 
 	public constructor(viewport: Viewport, sceneManager: SceneManager, renderingManager: RenderingManager, options: Record<string, any>) {
         super(viewport, sceneManager, renderingManager, {...options, physics: Physics});
@@ -151,6 +153,7 @@ export default class BaseScene extends ActorScene{
 		this.initUI();
 
 		this.receiver.subscribe(Events.PAUSE)
+		this.receiver.subscribe(Events.CONTINUE)
 	}
 	/**
 	 * @see Scene.updateScene 
@@ -164,7 +167,15 @@ export default class BaseScene extends ActorScene{
 			this.handleEvent(this.receiver.getNextEvent());
 		}
 
-		if(this.paused){return;}
+		if(this.paused){
+			this.getLayer(Layers.PAUSE).setHidden(false)
+			return; 
+		}
+		else{
+			this.getLayer(Layers.PAUSE).setHidden(true)
+			console.log(this.getLayer(Layers.PAUSE).isHidden());
+		}
+
 		this.handleHealthChange(this.player.health,this.player.maxHealth);
 		this.handleShieldChange((this.player.shieldCharge.value/this.player.shieldCharge.maxValue)*5);
 		this.handleBoosterChange((this.player.boosterCharge.value/this.player.boosterCharge.maxValue)*5);
@@ -174,6 +185,7 @@ export default class BaseScene extends ActorScene{
 
 		this.moveBackgrounds(deltaT);
 		this.lockPlayer(this.player, this.viewport.getCenter(), this.viewport.getHalfSize())
+
 	}
 
 	public handleEndType(){
@@ -203,6 +215,9 @@ export default class BaseScene extends ActorScene{
 				this.paused = event.data.get("pausing");
 				break;
 			}
+			case Events.CONTINUE:{
+				this.paused=false;
+			}
 		}
 	}
 
@@ -215,6 +230,8 @@ export default class BaseScene extends ActorScene{
 		this.addLayer(Layers.STATES, 9);
 		this.addLayer(Layers.GAMEEND, 10);
 		this.addUILayer(Layers.UI);
+
+		this.pauseUI=this.addLayer(Layers.PAUSE, 100);
 	}
 	
 
@@ -378,6 +395,9 @@ export default class BaseScene extends ActorScene{
 		upgradeWeaponButton.fontSize = 18;
         upgradeWeaponButton.backgroundColor = Color.fromStringHex("#07E3D6");
 		upgradeWeaponButton.onClickEventId = Events.UPGRADE_WEAPON;
+
+		// initail PAUSE SCENE
+		this.initPauseScene();
 	}
 	/**
 	 * Initializes the background image sprites for the game.
@@ -391,6 +411,14 @@ export default class BaseScene extends ActorScene{
 		this.bg2.scale.set(this.BACKGROUND.SCALE.X, this.BACKGROUND.SCALE.Y);
 		this.bg2.position = this.bg1.position.clone();
 		this.bg2.position.add(this.bg1.sizeWithZoom.scale(0, -2));
+	}
+
+	protected initPauseScene():void{
+		const center = this.viewport.getCenter();
+		const cont = <Button> this.add.uiElement(UIElementType.LABEL, Layers.PAUSE, {position: new Vec2(center.x, center.y), text: ""});
+		cont.backgroundColor= Color.YELLOW
+		cont.text="CONTINUE"
+		cont.onClickEventId = Events.CONTINUE;
 	}
 
 	/**
