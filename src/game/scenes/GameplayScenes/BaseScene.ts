@@ -153,7 +153,6 @@ export default class BaseScene extends ActorScene{
 		this.initUI();
 
 		this.receiver.subscribe(Events.PAUSE)
-		this.receiver.subscribe(Events.CONTINUE)
 	}
 	/**
 	 * @see Scene.updateScene 
@@ -214,9 +213,6 @@ export default class BaseScene extends ActorScene{
 				console.log(event.data.get("pausing"))
 				this.paused = event.data.get("pausing");
 				break;
-			}
-			case Events.CONTINUE:{
-				this.paused=false;
 			}
 		}
 	}
@@ -418,7 +414,7 @@ export default class BaseScene extends ActorScene{
 		const cont = <Button> this.add.uiElement(UIElementType.LABEL, Layers.PAUSE, {position: new Vec2(center.x, center.y), text: ""});
 		cont.backgroundColor= Color.YELLOW
 		cont.text="CONTINUE"
-		cont.onClickEventId = Events.CONTINUE;
+		cont.onClick = ()=>{this.emitter.fireEvent(Events.PAUSE, {pausing:false})};
 	}
 
 	/**

@@ -86,7 +86,4 @@ export const Events = {
 
     /**Cheat code events*/
     NUKE: "NUKE",
-
-    // Continue after pause
-    CONTINUE: "CONTINUE",
 }
