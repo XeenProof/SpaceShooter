@@ -5,8 +5,9 @@ import { diagonalRoute } from "../formations/DiagonalForm";
 import { TriangleRoute } from "../formations/TriangleForm";
 import { VtypeRoute } from "../formations/VtypeForm";
 import { DiamondRoute } from "../formations/DiamondForm";
+import { ZRoute } from "../formations/ZForm";
 
-import { LoadBackground} from "../load";
+import { LoadBackground, LoadMusic} from "../load";
 import { AllPlayerData } from "../player/playerData";
 import { AllProjectileKeys, AllProjectileData} from "../projectiles/projectileData";
 import { generateRoundRobinScriptPart } from "./scriptGenerator";
@@ -49,19 +50,49 @@ export const level3 = {
             {DATA: AllItemData.SCRAP, AMMOUNT: 20},
         ]
     },
+    AUDIOLIST: [LoadMusic.SPACE_MUSIC],
     SCRIPT: [
+        {type: Script_Type.PLAY_SOUND, options: {index: 0}},
+
         {type: Script_Type.WAVE, options: {wavenum: 1, mods:{droprate_multi: 10}}},
+        ...generateRoundRobinScriptPart([AllEnemyKeys.SHIELDED_MOOK], [TriangleRoute.NORMAL,TriangleRoute.REVERSE], 1500, 2, 2),
+        {type: Script_Type.WAIT, options: {wait_time: -1}},
+
+        {type: Script_Type.WAVE, options: {wavenum: 2, mods:{droprate_multi: 10}}},
+        {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-200}},
+        ...generateRoundRobinScriptPart([AllEnemyKeys.SHIELDED_MOOK], [VtypeRoute.NORMAL, VtypeRoute.REVERSE], 500, 2, 2),
+        ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK], [ZRoute.NORMAL, ZRoute.REVERSE], 500, 2, 2),
+        {type: Script_Type.WAIT, options: {wait_time: -1}},
+
+        {type: Script_Type.WAVE, options: {wavenum: 3, mods:{droprate_multi: 10}}},
+        {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-250}},
+        ...generateRoundRobinScriptPart([AllEnemyKeys.SHIELDED_MOOK], [recRoute.NORMAL, recRoute.REVERSE], 500, 2, 2),
+        ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK], [ZRoute.NORMAL, ZRoute.REVERSE], 500, 2, 2),
+        ...generateRoundRobinScriptPart([AllEnemyKeys.TARGETED_MOOK], [VtypeRoute.NORMAL, VtypeRoute.REVERSE], 500, 2, 2),
+        {type: Script_Type.WAIT, options: {wait_time: -1}},
+
+        {type: Script_Type.WAVE, options: {wavenum: 4, mods:{droprate_multi: 10}}},
         {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-300}},
-        ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.COMMON_MOOK], [recRoute.NORMAL, recRoute.REVERSE], 300, 2, 10),
+        ...generateRoundRobinScriptPart([AllEnemyKeys.SHIELDED_MOOK], [recRoute.NORMAL, recRoute.REVERSE], 500, 2, 4),
+        ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK], [diagonalRoute.NORMAL, diagonalRoute.REVERSE], 500, 2, 2),
+        ...generateRoundRobinScriptPart([AllEnemyKeys.TARGETED_MOOK], [VtypeRoute.NORMAL, VtypeRoute.REVERSE], 500, 2, 2),
         {type: Script_Type.WAIT, options: {wait_time: -1}},
-        {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-300}},
-        ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.COMMON_MOOK], [DiamondRoute.NORMAL, DiamondRoute.REVERSE], 300, 2, 10),
+
+        {type: Script_Type.WAVE, options: {wavenum: 5, mods:{droprate_multi: 10}}},
+        {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-350}},
+        ...generateRoundRobinScriptPart([AllEnemyKeys.SHIELDED_MOOK], [recRoute.NORMAL, recRoute.REVERSE], 500, 2, 4),
+        ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK], [diagonalRoute.NORMAL, diagonalRoute.REVERSE], 500, 2, 4),
+        ...generateRoundRobinScriptPart([AllEnemyKeys.TARGETED_MOOK], [DiamondRoute.NORMAL, DiamondRoute.REVERSE], 500, 2, 2),
         {type: Script_Type.WAIT, options: {wait_time: -1}},
-        ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.TARGETED_MOOK, AllEnemyKeys.TARGETED_MOOK], [diagonalRoute.NORMAL, diagonalRoute.REVERSE], 300, 2, 10),
+
+        {type: Script_Type.WAVE, options: {wavenum: 6, mods:{droprate_multi: 10}}},
+        {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-400}},
+        ...generateRoundRobinScriptPart([AllEnemyKeys.SHIELDED_MOOK], [recRoute.NORMAL, recRoute.REVERSE], 500, 2, 4),
+        ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK], [DiamondRoute.NORMAL, DiamondRoute.REVERSE], 500, 2, 4),
+        ...generateRoundRobinScriptPart([AllEnemyKeys.TARGETED_MOOK], [diagonalRoute.NORMAL, diagonalRoute.REVERSE], 500, 2, 4),
         {type: Script_Type.WAIT, options: {wait_time: -1}},
-        ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.TARGETED_MOOK, AllEnemyKeys.TARGETED_MOOK], [TriangleRoute.NORMAL, TriangleRoute.REVERSE], 300, 2, 10),
-        {type: Script_Type.WAIT, options: {wait_time: -1}},
-        ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.TARGETED_MOOK, AllEnemyKeys.SHIELDED_MOOK], [VtypeRoute.NORMAL, VtypeRoute.REVERSE], 300, 2, 10),
+
+
         {type: Script_Type.WAIT, options: {wait_time: -1}},
         {type: Script_Type.LEVEL_ENDS, options: {endtype: LevelEndConst.LEVEL_CLEARED}}
 
