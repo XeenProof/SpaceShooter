@@ -34,7 +34,8 @@ const WeaponTypes = {
 
 export const PlayerAudios = {
 	ATTACK: 0,
-	DEAD: 1
+	DAMAGED: 1,
+	DEAD: 2
 } as const
 
 /**

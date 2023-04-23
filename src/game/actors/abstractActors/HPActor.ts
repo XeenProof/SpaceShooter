@@ -57,6 +57,7 @@ export default abstract class HPActor extends SpawnableActor implements HealthBa
     set audioKeys(value: string[]) {this._audioKeys = value;}
     playSoundFX(index:number):void{
         if(!this.audioKeys){return}
+        console.log(this.audioKeys)
         if(index < 0 || index >= this.audioKeys.length){return}
         this.emitter.fireEvent(GameEventType.PLAY_SFX, {key:this.audioKeys[index]})
     }

@@ -6,9 +6,10 @@ import MookActor from "../../actors/EnemyActors/MookActor";
 import PlayerActor from "../../actors/PlayerActor";
 import BasicEnemyAI from "../abstractAI/BasicEnemyAI";
 
-const animations = {
-    IDLE: "IDLE",
-    TAKING_DAMAGE: "TAKING_DAMAGE"
+const audio = {
+    DAMAGED: 0,
+    DEAD: 1,
+    ATTACK: 2
 }
 
 export default class MookBehavior extends BasicEnemyAI{
@@ -37,6 +38,7 @@ export default class MookBehavior extends BasicEnemyAI{
     }
 
     protected actionPattern():void{
+        this.owner.playSoundFX(audio.ATTACK)
         this.owner.fireEvent(Events.ENEMY_SHOOTS, 
             {projectiles: [
                 {src: this.owner.position, 

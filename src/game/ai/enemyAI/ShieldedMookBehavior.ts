@@ -4,7 +4,10 @@ import ShieldMookActor from "../../actors/EnemyActors/ShieldMookActor";
 import HPActor from "../../actors/abstractActors/HPActor";
 import BasicEnemyAI from "../abstractAI/BasicEnemyAI";
 
-
+const audio = {
+    DAMAGED: 0,
+    DEAD: 1,
+}
 
 export default class ShieldMookBehavior extends BasicEnemyAI{
     protected override owner: ShieldMookActor

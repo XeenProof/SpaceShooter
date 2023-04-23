@@ -102,6 +102,7 @@ export const LoadMusic = {
 
 export const LoadAudio = {
     PLAYER_ATTACK: {...Loads.PLAYER_ATTACK},
+    PLAYER_TAKINGDAMAGE: {...Loads.ENEMY_TAKINGDAMAGE},
     PLAYER_DEAD: {...Loads.PLAYER_DEAD},
     ENEMY_ATTACK: {...Loads.ENEMY_ATTACK},
     ENEMY_TAKINGDAMAGE: {...Loads.ENEMY_TAKINGDAMAGE},

@@ -52,8 +52,10 @@ export default class ScriptScene extends LevelScene{
         let {SHIP, FLAMES, SHIELD, AUDIO} = PLAYER
         let otherlist:LoadData[][] = OTHERS.map((x)=>{return x.DATA.LOAD})
         let reducedlist = otherlist.reduce((x,y)=>{return [...x, ...y]}, [])
-        console.log(reducedlist)
-        let list:LoadData[] = [SHIP, FLAMES, SHIELD,...AUDIO, ...reducedlist, ...this.AUDIOLIST]
+        let otheraudio:LoadData[][] = OTHERS.map((x)=>{return x.DATA.AUDIO?x.DATA.AUDIO:[]})
+        let reducedaudio = otheraudio.reduce((x,y)=>{return [...x, ...y]}, [])
+        console.log(reducedlist, reducedaudio)
+        let list:LoadData[] = [SHIP, FLAMES, SHIELD,...AUDIO, ...reducedlist, ...this.AUDIOLIST, ...reducedaudio]
         this.loadList(list)
     }
 

@@ -13,9 +13,10 @@ import Dying from "../States/EnemyStates/Dying";
 import BasicEnemyAI from "../abstractAI/BasicEnemyAI";
 import { EnemyProjectileKeys } from "../../../constants/projectiles/projectileData";
 
-const animations = {
-    IDLE: "IDLE",
-    TAKING_DAMAGE: "TAKING_DAMAGE"
+const audio = {
+    DAMAGED: 0,
+    DEAD: 1,
+    ATTACK: 2
 }
 
 export default class TargetedMookBehavior extends BasicEnemyAI {

@@ -2,6 +2,10 @@ import Vec2 from "../../../Wolfie2D/DataTypes/Vec2";
 import HoarderActor from "../../actors/EnemyActors/HoarderActor";
 import BasicEnemyAI from "../abstractAI/BasicEnemyAI";
 
+const audio = {
+    DAMAGED: 0,
+    DEAD: 1,
+}
 
 export default class HoarderBehavior extends BasicEnemyAI{
     protected override owner: HoarderActor;

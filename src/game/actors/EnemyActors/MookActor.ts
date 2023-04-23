@@ -36,7 +36,9 @@ export default class MookActor extends HPActor{
     }
 
     takeDamage(damage: number): boolean {
-        return super.takeDamage(damage)
+        let damaged = super.takeDamage(damage)
+        if(damaged){this.playSoundFX(0)}
+        return damaged
     }
 
     dying(): void {

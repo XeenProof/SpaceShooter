@@ -5,6 +5,7 @@ import EnemyState from "./EnemyState";
 
 export default class Dying extends EnemyState{
     public onEnter(options: Record<string, any>): void {
+        this.owner.playSoundFX(1)
         this.owner.animation.playIfNotAlready(enemyAnimations.DYING, false)
         this.owner.healthBar.visible = false
     }
