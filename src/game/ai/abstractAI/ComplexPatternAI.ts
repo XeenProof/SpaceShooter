@@ -32,9 +32,7 @@ export default abstract class ComplexPatternAI extends MovementAI {
 
     update(deltaT: number): void {
         this.updateData();
-        if(!this.wait){
-            super.update(deltaT);
-        }
+        super.update(deltaT);
     }
 
     protected updateData(): void{
@@ -45,10 +43,12 @@ export default abstract class ComplexPatternAI extends MovementAI {
     }
 
     private updateFields(node: PathNode):void{
-        if(this.waitTime > 0){
+        if(this.waitTime > 0 || this.waitTime == -1){
             this.wait = true;
-            this.waitTimer = new Timer(this.waitTime, ()=>{this.wait = false})
-            this.waitTimer.start()
+            if(this.waitTime > 0){
+                this.waitTimer = new Timer(this.waitTime, ()=>{this.wait = false})
+                this.waitTimer.start()
+            }
         }
         if(node == null){
             this.pathCompleted = true;
@@ -82,4 +82,8 @@ export default abstract class ComplexPatternAI extends MovementAI {
     }
 
     destroy(): void {}
+
+    protected get canMove():boolean{
+        return !this.wait && super.canMove
+    }
 }

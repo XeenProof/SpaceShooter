@@ -13,5 +13,4 @@ export default class MegaMookActor extends MookActor{
         if(bool){this.scale.set(this.percentHealth*2+1, this.percentHealth*2+1)}
         return bool
     }
-
 }

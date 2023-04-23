@@ -175,7 +175,6 @@ export default class BaseScene extends ActorScene{
 		}
 		else{
 			this.getLayer(Layers.PAUSE).setHidden(true)
-			console.log(this.getLayer(Layers.PAUSE).isHidden());
 		}
 
 		this.handleHealthChange(this.player.health,this.player.maxHealth);

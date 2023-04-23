@@ -27,8 +27,8 @@ const RandomHoarderScript = {
         enemyType: AllEnemyKeys.HOARDER,
         rpsl: [spawnRandomizer, RandomizedSettings]
     },
-    chance: 0.0,
-    repeat: 0.0,
+    chance: 0.01,
+    repeat: 19,
 }
 
 export const level6 = {
@@ -48,12 +48,27 @@ export const level6 = {
             {DATA: AllEnemyData.SHIELDED_MOOK, AMMOUNT: 20},
             {DATA: AllEnemyData.HOARDER, AMMOUNT: 20},
 
-            {DATA: AllEnemyData.MEGAMOOK, AMMOUND: 1},
+            {DATA: AllEnemyData.MEGAMOOK, AMMOUNT: 1},
+            {DATA: AllEnemyData.SUMMONER, AMMOUNT: 1},
 
             {DATA: AllItemData.SCRAP, AMMOUNT: 20},
         ]
     },
     SCRIPT: [
+        {type: Script_Type.SPAWN, options: {
+            enemyType: AllEnemyKeys.TARGETED_MOOK,
+            path: [{y:0,x:0},{y:600, x:850, speed: 100, thresh: 300, wait:0}]
+        }},
+        {type: Script_Type.WAIT, options: {wait_time: -1}},
+        {type: Script_Type.SPAWN, options: {
+            enemyType: AllEnemyKeys.SUMMONER,
+            rpsl: [spawnRandomizer, {
+                speed:{min: 150},
+                repeat:{min:-1},
+                generateAmount: 20
+            }]
+        }},
+        {type: Script_Type.WAIT, options: {wait_time: -1}},
         {type: Script_Type.WAVE, options: {wavenum: 1, mods:{droprate_multi: 10}}},
         {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-300}},
         ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.COMMON_MOOK], [recRoute.NORMAL, recRoute.REVERSE], 300, 2, 10),

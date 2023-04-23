@@ -40,12 +40,7 @@ export default class MegaMookBehavior extends BasicEnemyAI{
 
         this.summons = new SummonsManager<MegaMookSummon>()
         this.summons.add(new RegularMookSummons(this.owner, this, SUMMONS.REGULAR))
-
         this.summonsChart = new Map<number, boolean>()
-
-        this.receiver.subscribe(Events.SUMMONING_COMPLETED)
-
-        console.log(this.weapons)
     }
 
     public activate(options: Record<string, any>): void {
@@ -118,5 +113,10 @@ export default class MegaMookBehavior extends BasicEnemyAI{
     public resume(): void {
         super.resume()
         this.weaponsTimer.start()
+    }
+
+    protected initReceiver(): void {
+        super.initReceiver()
+        this.receiver.subscribe(Events.SUMMONING_COMPLETED)
     }
 }

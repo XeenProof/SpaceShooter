@@ -29,7 +29,7 @@ export default abstract class MovementAI extends StateMachineAI {
     abstract activate(options: Record<string, any>): void
 
     update(deltaT: number): void {
-        if(this.dir != null){
+        if(this.canMove){
             this.owner.move(this.dir.clone().scale(this.speed*deltaT));
         }
         if(this.ignoreStates){return}
@@ -64,4 +64,8 @@ export default abstract class MovementAI extends StateMachineAI {
     protected set dir(value: Vec2) {this._dir = value;}
 
     destroy(): void {}
+
+    protected get canMove():boolean{
+        return this.dir != null
+    }
 }

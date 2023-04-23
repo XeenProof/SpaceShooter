@@ -21,11 +21,13 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
     protected override owner: MookActor
 
     protected target: PlayerActor;
+    protected rushed: boolean;
 
     public initializeAI(owner: MookActor, options: Record<string, any> = {}): void {
         super.initializeAI(owner, options)
         this.owner = owner
         this.owner.canDespawn = false;
+        this.rushed = false
 
         this.initStates()
         this.initReceiver()
@@ -76,10 +78,10 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
 
     protected updateData(): void {
         if(this.owner.onScreen && !this.owner.canDespawn){this.owner.canDespawn = true}
-        if(this.pathCompleted && this.target){
+        if(this.pathCompleted && this.target && !this.rushed){
             this.dir = this.owner.position.dirTo(this.target.position)
             this.speed = 500;
-            this.target = null;
+            this.rushed = true
             return
         }
         super.updateData()

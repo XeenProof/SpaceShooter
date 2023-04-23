@@ -20,6 +20,7 @@ export default class ShieldMookBehavior extends BasicEnemyAI{
     }
 
     public activate(options: Record<string, any>): void {
+        console.log("shield mook ai activated")
         super.activate(options)
         let initshieldhp = (options.stats)?options.stats.shieldhp:10
         let hp_multi = options.mods?options.mods.hp_multi:1

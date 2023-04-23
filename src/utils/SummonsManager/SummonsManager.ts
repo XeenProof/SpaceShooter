@@ -25,7 +25,9 @@ export default class SummonsManager<T extends Summons>{
         if(!keySet){return []}
         let keys = [...keySet.values()]
         let summonsList = keys.map((key)=>{return this.summonMap.get(key)})
-        return summonsList.map((x)=>{return x.listToSummon}).reduce((x,y)=>{return [...x, ...y]}, [])
+        console.log(summonsList)
+        let returnable = summonsList.map((x)=>{return x.listToSummon}).reduce((x,y)=>{return [...x, ...y]}, [])
+        return returnable
     }
 
     public add(summons: T, ...groups:number[]):void{

@@ -132,11 +132,14 @@ export default class LevelScene extends BaseScene {
 	}
 
 	protected handleSummoning(id:number, options: Record<string, any>[]):void{
+		if(options.length <= 0){return;}
 		let minions:{key:string, minion:CanvasNode}[] = []
 		for(let op of options){
 			let summoned = this.handleSpawnEnemy(op)
+			if(!summoned){continue;}
 			minions.push({key:op.summonKey, minion:summoned})
 		}
+		console.log(minions)
 		this.emitter.fireEvent(Events.SUMMONING_COMPLETED, {
 			id: id,
 			summoned: minions
