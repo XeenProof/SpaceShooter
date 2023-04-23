@@ -16,6 +16,8 @@ export const initBossFunc = {
 
 function initMegaMookFunc(add: FactoryManager, scene: ActorScene):MegaMookActor{
     let info = AllEnemyData.MEGAMOOK
+    let AUDIO = info.AUDIO?info.AUDIO:[]
+    let audioKeys = AUDIO.map((x)=>{return x.KEY})
     let {X, Y} = info.LOAD[0].SCALE
     let entity = add.animatedSprite(MegaMookActor, info.LOAD[0].KEY, Layers.PRIMARY)
     let healthBar = new HealthbarHUD(scene, entity, Layers.HEALTHBARS, {size: new Vec2(entity.size.x, 5), offset: entity.size.clone().scaled(0, -1/2)})
@@ -25,6 +27,7 @@ function initMegaMookFunc(add: FactoryManager, scene: ActorScene):MegaMookActor{
     entity.visible = false;
     entity.scale.set(X, Y);
     entity.addAI(MegaMookBehavior)
+    entity.audioKeys = audioKeys
     let center = entity.position.clone()
     let halfSize = entity.boundary.getHalfSize().clone().scale(0.9,0.6);
     entity.addPhysics(new AABB(center, halfSize));

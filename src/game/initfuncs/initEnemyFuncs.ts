@@ -27,6 +27,8 @@ export const initEnemyFunc = {
 
 function initCommomMookFunc(add: FactoryManager, scene: ActorScene):MookActor{
     let info = AllEnemyData.COMMON_MOOK
+    let AUDIO = info.AUDIO?info.AUDIO:[]
+    let audioKeys = AUDIO.map((x)=>{return x.KEY})
     let {X, Y} = info.LOAD[0].SCALE
     let entity = add.animatedSprite(MookActor, info.LOAD[0].KEY, Layers.PRIMARY)
     let healthBar = new HealthbarHUD(scene, entity, Layers.HEALTHBARS, {size: new Vec2(entity.size.x, 5), offset: entity.size.clone().scaled(0, -1/2)})
@@ -36,6 +38,7 @@ function initCommomMookFunc(add: FactoryManager, scene: ActorScene):MookActor{
     entity.visible = false;
     entity.scale.set(X, Y);
     entity.addAI(MookBehavior)
+    entity.audioKeys = audioKeys
     let center = entity.position.clone()
     let halfSize = entity.boundary.getHalfSize().clone().scale(0.9,0.6);
     entity.addPhysics(new AABB(center, halfSize));
@@ -45,6 +48,8 @@ function initCommomMookFunc(add: FactoryManager, scene: ActorScene):MookActor{
 
 function initTargetedMookFunc(add: FactoryManager, scene: ActorScene):TargetedMookActor{
     let info = AllEnemyData.TARGETED_MOOK
+    let AUDIO = info.AUDIO?info.AUDIO:[]
+    let audioKeys = AUDIO.map((x)=>{return x.KEY})
     let {X, Y} = info.LOAD[0].SCALE
     let entity = add.animatedSprite(TargetedMookActor, info.LOAD[0].KEY, Layers.PRIMARY)
     let healthBar = new HealthbarHUD(scene, entity, Layers.HEALTHBARS, {size: new Vec2(entity.size.x, 5), offset: entity.size.clone().scaled(0, -1/2)})
@@ -54,6 +59,7 @@ function initTargetedMookFunc(add: FactoryManager, scene: ActorScene):TargetedMo
     entity.visible = false;
     entity.scale.set(X, Y);
     entity.addAI(TargetedMookBehavior)
+    entity.audioKeys = audioKeys
     let center = entity.position.clone()
     let halfSize = entity.boundary.getHalfSize().clone();
     entity.addPhysics(new AABB(center, halfSize));
@@ -63,6 +69,8 @@ function initTargetedMookFunc(add: FactoryManager, scene: ActorScene):TargetedMo
 
 function initShieldedMookFunc(add: FactoryManager, scene: ActorScene):ShieldMookActor{
     let info = AllEnemyData.SHIELDED_MOOK
+    let AUDIO = info.AUDIO?info.AUDIO:[]
+    let audioKeys = AUDIO.map((x)=>{return x.KEY})
     let {X, Y} = info.LOAD[0].SCALE
     let entity = add.animatedSprite(ShieldMookActor, info.LOAD[0].KEY,Layers.PRIMARY)
     let hbsize = new Vec2(entity.size.x, 5)
@@ -83,6 +91,7 @@ function initShieldedMookFunc(add: FactoryManager, scene: ActorScene):ShieldMook
     entity.shield = shield
 
     entity.addAI(ShieldMookBehavior)
+    entity.audioKeys = audioKeys
     let center = entity.position.clone()
     let halfSize = entity.boundary.getHalfSize().clone();
     entity.addPhysics(new AABB(center, halfSize));
@@ -92,6 +101,8 @@ function initShieldedMookFunc(add: FactoryManager, scene: ActorScene):ShieldMook
 
 function initHoarderFunc(add: FactoryManager, scene: ActorScene):MookActor{
     let info = AllEnemyData.HOARDER
+    let AUDIO = info.AUDIO?info.AUDIO:[]
+    let audioKeys = AUDIO.map((x)=>{return x.KEY})
     let {X, Y} = info.LOAD[0].SCALE
     let entity = add.animatedSprite(HoarderActor, info.LOAD[0].KEY, Layers.PRIMARY)
     let healthBar = new HealthbarHUD(scene, entity, Layers.HEALTHBARS, {size: new Vec2(entity.size.x, 5), offset: entity.size.clone().scaled(0, -1/2)})
@@ -101,6 +112,7 @@ function initHoarderFunc(add: FactoryManager, scene: ActorScene):MookActor{
     entity.visible = false;
     entity.scale.set(X, Y);
     entity.addAI(HoarderBehavior)
+    entity.audioKeys = audioKeys
     let center = entity.position.clone()
     let halfSize = entity.boundary.getHalfSize().clone().scale(0.9,0.6);
     entity.addPhysics(new AABB(center, halfSize));
