@@ -56,31 +56,31 @@ export const level1 = {
     AUDIOLIST: [LoadMusic.SPACE_MUSIC],
     SCRIPT: [
         {type: Script_Type.PLAY_SOUND, options: {index: 0}},
-        {type: Script_Type.WAVE, options: {wavenum: 1, mods:{droprate_multi: 10}}},
+        {type: Script_Type.WAVE, options: {wavenum: 1, mods:{droprate_multi: 1}}},
         ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK], [recRoute.NORMAL,recRoute.REVERSE], 1500, 2, 2),
         {type: Script_Type.WAIT, options: {wait_time: -1}},
 
-        {type: Script_Type.WAVE, options: {wavenum: 2, mods:{droprate_multi: 10}}},
+        {type: Script_Type.WAVE, options: {wavenum: 2, mods:{droprate_multi: 1}}},
         {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-200}},
         ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK], [ZRoute.NORMAL, ZRoute.REVERSE], 700, 2, 4),
         {type: Script_Type.WAIT, options: {wait_time: -1}},
 
-        {type: Script_Type.WAVE, options: {wavenum: 3, mods:{droprate_multi: 10}}},
+        {type: Script_Type.WAVE, options: {wavenum: 3, mods:{droprate_multi: 1}}},
         {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-250}},
         ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK], [DiamondRoute.NORMAL, DiamondRoute.REVERSE], 700, 2, 6),
         {type: Script_Type.WAIT, options: {wait_time: -1}},
 
-        {type: Script_Type.WAVE, options: {wavenum: 4, mods:{droprate_multi: 10}}},
+        {type: Script_Type.WAVE, options: {wavenum: 4, mods:{droprate_multi: 1}}},
         {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-300}},
         ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK], [recRoute.NORMAL,recRoute.REVERSE,ZRoute.NORMAL], 700, 2, 6),
         {type: Script_Type.WAIT, options: {wait_time: -1}},
 
-        {type: Script_Type.WAVE, options: {wavenum: 5, mods:{droprate_multi: 10}}},
+        {type: Script_Type.WAVE, options: {wavenum: 5, mods:{droprate_multi: 1}}},
         {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-350}},
         ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK], [ZRoute.NORMAL, ZRoute.REVERSE, DiamondRoute.NORMAL], 700, 2, 6),
         {type: Script_Type.WAIT, options: {wait_time: -1}},
 
-        {type: Script_Type.WAVE, options: {wavenum: 6, mods:{droprate_multi: 10}}},
+        {type: Script_Type.WAVE, options: {wavenum: 6, mods:{droprate_multi: 1}}},
         {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-400}},
         ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK], [DiamondRoute.NORMAL, DiamondRoute.REVERSE,recRoute.NORMAL,recRoute.REVERSE], 700, 2, 8),
         {type: Script_Type.WAIT, options: {wait_time: -1}},
@@ -99,7 +99,7 @@ export const level1 = {
     //         }]
     //     }},
     //     {type: Script_Type.WAIT, options: {wait_time: -1}},
-    //     {type: Script_Type.WAVE, options: {wavenum: 1, mods:{droprate_multi: 10}}},
+    //     {type: Script_Type.WAVE, options: {wavenum: 1, mods:{droprate_multi: 1}}},
     //     {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-150}},
     //     ...applyRandomPathSettings([AllEnemyKeys.COMMON_MOOK], [spawnRandomizer, RandomizedSettings], {}, 1, 200, 2, 20),
     //     {type: Script_Type.WAIT, options: {wait_time: -1}},

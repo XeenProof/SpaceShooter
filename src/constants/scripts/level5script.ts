@@ -54,7 +54,7 @@ export const level5 = {
         ]
     },
     SCRIPT: [
-        {type: Script_Type.WAVE, options: {wavenum: 1, mods:{droprate_multi: 10}}},
+        {type: Script_Type.WAVE, options: {wavenum: 1, mods:{droprate_multi: 1}}},
         {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-300}},
         ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.COMMON_MOOK], [recRoute.NORMAL, recRoute.REVERSE], 300, 2, 10),
         {type: Script_Type.WAIT, options: {wait_time: -1}},
