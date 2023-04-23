@@ -11,10 +11,10 @@ import BasicWeaponAI from "../ai/weaponAI/BasicWeaponAI"
 const inactivePos = new Vec2(1200, 1200)
 
 export const initEnemyBeamFuncs = {
-    ENEMY_BEAM_GREEN: initEnemyBeamFunc,
+    ENEMY_BEAM_GREEN: initEnemyBeamGreenFunc,
 }
 
-function initEnemyBeamFunc(add: FactoryManager, scene:ActorScene):BeamActor{
+function initEnemyBeamGreenFunc(add: FactoryManager, scene:ActorScene):BeamActor{
     let info = AllProjectileData.ENEMY_BEAM_GREEN
     let entity = add.animatedSprite(BeamActor, info.LOAD[0].KEY, Layers.PRIMARY)
     entity.position.set(1200,1200)
