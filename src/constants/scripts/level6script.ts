@@ -57,7 +57,7 @@ export const level6 = {
     SCRIPT: [
         {type: Script_Type.SPAWN, options: {
             enemyType: AllEnemyKeys.TARGETED_MOOK,
-            path: [{y:0,x:0},{y:600, x:850, speed: 100, thresh: 300, wait:0}]
+            path: [{y:0,x:0},{y:600, x:850, speed: 10000, thresh: 300, wait:-1}]
         }},
         {type: Script_Type.WAIT, options: {wait_time: -1}},
         {type: Script_Type.SPAWN, options: {

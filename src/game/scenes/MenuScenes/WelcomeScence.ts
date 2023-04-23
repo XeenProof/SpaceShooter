@@ -38,7 +38,7 @@ export default class WelcomeScence extends Scene {
         super(viewport, sceneManager, renderingManager, options);
         let defaultCheats:string[] = options.cheats?options.cheats:[]
         for(let cheat of defaultCheats){
-            CheatCodes.triggerCheat(cheat)
+            CheatCodes.triggerCheat(cheat, true)
         }
     }
 

@@ -8,8 +8,8 @@ export default class CheatCodes{
         if(!this._instance){this._instance = new CheatCodes()}
         return this._instance
     }
-    public static triggerCheat(key: string, updateLocal:boolean = true){
-        this.instance.setCheat(key, !this.instance.getCheat(key))
+    public static triggerCheat(key: string, value: boolean = !this.instance.getCheat(key), updateLocal:boolean = true){
+        this.instance.setCheat(key, value)
         if(updateLocal){
             LocalStorageHandler.updateData(KEY, this.instance.cheats)
         }

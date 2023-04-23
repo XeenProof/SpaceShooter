@@ -14,11 +14,38 @@ export default abstract class SummonerSummon extends Summons{
 
 export class SummonerShieldWall extends SummonerSummon{
     private get paths():Record<string, any>[]{return [
-        {y:600, x:50, speed: 100, thresh: 300, wait:0},
-        {y:600, x:250, speed: 100, thresh: 300, wait:0},
-        {y:600, x:450, speed: 100, thresh: 300, wait:0},
-        {y:600, x:650, speed: 100, thresh: 300, wait:0},
-        {y:600, x:850, speed: 100, thresh: 300, wait:0},
+        {y:500, x:50, speed: 300, thresh: 300, repeat:-1},
+        {y:500, x:250, speed: 300, thresh: 300, repeat:-1},
+        {y:500, x:450, speed: 300, thresh: 300, repeat:-1},
+        {y:500, x:650, speed: 300, thresh: 300, repeat:-1},
+        {y:500, x:850, speed: 300, thresh: 300, repeat:-1},
+    ]}
+    private get defaultValues():Record<string, any>{
+        return {
+            summonKey:this.key,
+            src: this.owner.position
+        }
+    }
+    constructor(owner: SummonerActor, parent: SummonerBehavior, key:string){
+        super(owner, parent, key, 1)
+    }
+    public get summonsList():Record<string, any>[]{
+        let list  = this.paths.map((x)=>{return{
+            ...this.defaultValues,
+            enemyType: AllEnemyKeys.SHIELDED_MOOK,
+            path: [x]
+        }})
+        console.log(list)
+        return list
+    }
+}
+
+export class SummonerBackRank extends SummonerSummon{
+    private get paths():Record<string, any>[]{return [
+        {y:100, x:150, speed: 300, thresh: 300, repeat:-1},
+        {y:100, x:350, speed: 300, thresh: 300, repeat:-1},
+        {y:100, x:550, speed: 300, thresh: 300, repeat:-1},
+        {y:100, x:750, speed: 300, thresh: 300, repeat:-1},
     ]}
     private get defaultValues():Record<string, any>{
         return {
@@ -33,7 +60,7 @@ export class SummonerShieldWall extends SummonerSummon{
         console.log("before list")
         let list  = this.paths.map((x)=>{return{
             ...this.defaultValues,
-            enemyType: AllEnemyKeys.TARGETED_MOOK,
+            enemyType: AllEnemyKeys.COMMON_MOOK,
             path: [x]
         }})
         console.log(list)

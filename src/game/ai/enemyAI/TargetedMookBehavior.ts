@@ -50,7 +50,6 @@ export default class TargetedMookBehavior extends BasicEnemyAI {
     public get rotation():number{return Vec2.UP.angleToCCW(this.faceDir)}
 
     protected updateData(): void {
-        console.log("update data called");
         this.owner.rotation = this.rotation
         super.updateData()
     }

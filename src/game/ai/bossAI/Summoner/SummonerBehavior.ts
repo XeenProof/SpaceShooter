@@ -4,10 +4,11 @@ import { Events } from "../../../../constants/events";
 import SummonsManager from "../../../../utils/SummonsManager/SummonsManager";
 import SummonerActor from "../../../actors/BossActors/SummonerActor";
 import BasicEnemyAI from "../../abstractAI/BasicEnemyAI";
-import SummonerSummon, { SummonerShieldWall } from "./SummonerSummons";
+import SummonerSummon, { SummonerBackRank, SummonerShieldWall } from "./SummonerSummons";
 
 const SUMMONS = {
-    SHIELD: "SHIELD"
+    SHIELD: "SHIELD",
+    BACKRANK: "BACKRANK"
 }
 
 export default class SummonerBehavior extends BasicEnemyAI{
@@ -19,6 +20,7 @@ export default class SummonerBehavior extends BasicEnemyAI{
         super.initializeAI(owner, options)
         this.summons = new SummonsManager<SummonerSummon>()
         this.summons.add(new SummonerShieldWall(this.owner, this, SUMMONS.SHIELD), 1)
+        this.summons.add(new SummonerBackRank(this.owner, this, SUMMONS.BACKRANK), 2)
 
         this.summonsTimerShield = new Timer(2000, ()=>{this.handleSummons()}, true)
     }
