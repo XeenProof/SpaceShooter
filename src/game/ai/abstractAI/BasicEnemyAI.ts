@@ -43,6 +43,7 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
         this.owner.canDespawn = false;
         this.target = this.owner.getScene().player
         this.rushed = false
+        this.wait = false
 
         let inithp = options.stats?options.stats.hp:1;
         let hp_multi = options.mods?options.mods.hp_multi:1

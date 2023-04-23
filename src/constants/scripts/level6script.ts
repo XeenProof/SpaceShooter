@@ -55,23 +55,10 @@ export const level6 = {
         ]
     },
     SCRIPT: [
-        {type: Script_Type.SPAWN, options: {
-            enemyType: AllEnemyKeys.TARGETED_MOOK,
-            path: [{y:0,x:0},{y:600, x:850, speed: 10000, thresh: 300, wait:-1}]
-        }},
-        {type: Script_Type.WAIT, options: {wait_time: -1}},
-        {type: Script_Type.SPAWN, options: {
-            enemyType: AllEnemyKeys.SUMMONER,
-            rpsl: [spawnRandomizer, {
-                speed:{min: 150},
-                repeat:{min:-1},
-                generateAmount: 20
-            }]
-        }},
         {type: Script_Type.WAIT, options: {wait_time: -1}},
         {type: Script_Type.WAVE, options: {wavenum: 1, mods:{droprate_multi: 10}}},
         {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-300}},
-        ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.COMMON_MOOK], [recRoute.NORMAL, recRoute.REVERSE], 300, 2, 10),
+        ...generateRoundRobinScriptPart([AllEnemyKeys.TARGETED_MOOK, AllEnemyKeys.TARGETED_MOOK], [recRoute.NORMAL, recRoute.REVERSE], 300, 2, 10),
         {type: Script_Type.WAIT, options: {wait_time: -1}},
         {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-300}},
         ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.COMMON_MOOK], [DiamondRoute.NORMAL, DiamondRoute.REVERSE], 300, 2, 10),
