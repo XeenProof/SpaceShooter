@@ -27,13 +27,8 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
         this.owner = owner
         this.owner.canDespawn = false;
 
-        this.addState(enemyStates.IDLE, new Idle(this.owner, this))
-        this.addState(enemyStates.TAKING_DAMAGE, new TakingDamage(this.owner, this))
-        this.addState(enemyStates.DEAD, new Dying(this.owner, this))
-
-        this.receiver.subscribe(Events.PLAYER_ENEMY_COLLISION);
-        this.receiver.subscribe(Events.WEAPON_ENEMY_COLLISION);
-        this.receiver.subscribe(Events.NUKE)
+        this.initStates()
+        this.initReceiver()
 
         this.path = new PathQueue(options.pathLength?options.pathLength:30)
     }
@@ -144,4 +139,16 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
     }
 
     protected abstract stopAI():void;
+
+    protected initStates():void{
+        this.addState(enemyStates.IDLE, new Idle(this.owner, this))
+        this.addState(enemyStates.TAKING_DAMAGE, new TakingDamage(this.owner, this))
+        this.addState(enemyStates.DEAD, new Dying(this.owner, this))
+    }
+
+    protected initReceiver():void{
+        this.receiver.subscribe(Events.PLAYER_ENEMY_COLLISION);
+        this.receiver.subscribe(Events.WEAPON_ENEMY_COLLISION);
+        this.receiver.subscribe(Events.NUKE)
+    }
 }
