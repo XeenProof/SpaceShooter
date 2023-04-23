@@ -95,7 +95,8 @@ export default class BaseScene extends ActorScene{
 
 	// The padding of the world
 	protected worldPadding: Vec2;
-	protected pauseUI: Layer;
+
+	protected showControls:boolean;
 
 	public constructor(viewport: Viewport, sceneManager: SceneManager, renderingManager: RenderingManager, options: Record<string, any>) {
         super(viewport, sceneManager, renderingManager, {...options, physics: Physics});
@@ -153,6 +154,8 @@ export default class BaseScene extends ActorScene{
 		this.initUI();
 
 		this.receiver.subscribe(Events.PAUSE)
+		this.receiver.subscribe(Events.CONTROLS)
+		this.receiver.subscribe(Events.BACK_TO_PAUSE)
 	}
 	/**
 	 * @see Scene.updateScene 
@@ -166,7 +169,7 @@ export default class BaseScene extends ActorScene{
 			this.handleEvent(this.receiver.getNextEvent());
 		}
 
-		if(this.paused){
+		if(this.paused && !this.showControls){
 			this.getLayer(Layers.PAUSE).setHidden(false)
 			return; 
 		}
@@ -214,6 +217,40 @@ export default class BaseScene extends ActorScene{
 				this.paused = event.data.get("pausing");
 				break;
 			}
+			case Events.CONTROLS:{
+				this.getLayer(Layers.BACKGROUND).setHidden(true);
+				this.getLayer(Layers.PRIMARY).setHidden(true);
+				this.getLayer(Layers.HEALTHBARS).setHidden(true);
+				this.getLayer(Layers.EXTRABARS).setHidden(true);
+				this.getLayer(Layers.STATES).setHidden(true);
+				this.getLayer(Layers.GAMEEND).setHidden(true);
+				this.getLayer(Layers.UI).setHidden(true);
+				this.getLayer(Layers.PAUSE).setHidden(true);
+				this.getLayer(Layers.INFORMATION_BACKGROUND).setHidden(true);
+
+				this.showControls=true;
+				this.getLayer(Layers.CONTROLS).setHidden(false);
+				this.getLayer(Layers.CONTROLS_BACKGROUND).setHidden(false);
+				this.initControlScene();
+
+				break;
+			}
+			case Events.BACK_TO_PAUSE:{
+				this.getLayer(Layers.BACKGROUND).setHidden(false);
+				this.getLayer(Layers.PRIMARY).setHidden(false);
+				this.getLayer(Layers.HEALTHBARS).setHidden(false);
+				this.getLayer(Layers.EXTRABARS).setHidden(false);
+				this.getLayer(Layers.STATES).setHidden(false);
+				this.getLayer(Layers.GAMEEND).setHidden(false);
+				this.getLayer(Layers.UI).setHidden(false);
+				this.getLayer(Layers.PAUSE).setHidden(false);
+				this.getLayer(Layers.INFORMATION_BACKGROUND).setHidden(false);
+
+				this.showControls=false;
+				this.getLayer(Layers.CONTROLS).setHidden(true);
+				this.getLayer(Layers.CONTROLS_BACKGROUND).setHidden(true);
+				break;
+			}
 		}
 	}
 
@@ -227,7 +264,9 @@ export default class BaseScene extends ActorScene{
 		this.addLayer(Layers.GAMEEND, 10);
 		this.addUILayer(Layers.UI);
 
-		this.pauseUI=this.addLayer(Layers.PAUSE, 100);
+		this.addLayer(Layers.PAUSE, 100);
+		this.addLayer(Layers.CONTROLS_BACKGROUND, 10);
+		this.addLayer(Layers.CONTROLS, 102);
 	}
 	
 
@@ -411,10 +450,59 @@ export default class BaseScene extends ActorScene{
 
 	protected initPauseScene():void{
 		const center = this.viewport.getCenter();
-		const cont = <Button> this.add.uiElement(UIElementType.LABEL, Layers.PAUSE, {position: new Vec2(center.x, center.y), text: ""});
+		const cont = <Button> this.add.uiElement(UIElementType.LABEL, Layers.PAUSE, {position: new Vec2(center.x-100, center.y), text: ""});
 		cont.backgroundColor= Color.YELLOW
 		cont.text="CONTINUE"
 		cont.onClick = ()=>{this.emitter.fireEvent(Events.PAUSE, {pausing:false})};
+
+		const controls = <Button> this.add.uiElement(UIElementType.LABEL, Layers.PAUSE, {position: new Vec2(center.x-100, center.y+50), text: ""});
+		controls.backgroundColor= Color.YELLOW
+		controls.text="CONTROLS"
+		controls.onClickEventId=Events.CONTROLS;
+
+	}
+
+	protected initControlScene():void{
+		const bg3 = this.add.sprite(this.BACKGROUND.KEY, Layers.CONTROLS_BACKGROUND);
+		bg3.scale.set(this.BACKGROUND.SCALE.X, this.BACKGROUND.SCALE.Y);
+		bg3.position.copy(this.viewport.getCenter());
+
+		const center = this.viewport.getCenter();
+        const header = <Label>this.add.uiElement(UIElementType.LABEL, Layers.CONTROLS, {position: new Vec2(center.x, center.y - 250), text: "Controls"});
+        header.textColor = Color.YELLOW;
+        header.fontSize = 50;
+
+        const w = <Label>this.add.uiElement(UIElementType.LABEL, Layers.CONTROLS, {position: new Vec2(center.x, center.y - 150), text: "W - Move Up"});
+        w.textColor = Color.YELLOW;
+        w.fontSize = 50;
+        const a = <Label>this.add.uiElement(UIElementType.LABEL, Layers.CONTROLS, {position: new Vec2(center.x, center.y - 100), text: "A - Move Left"});
+        a.textColor = Color.YELLOW;
+        a.fontSize = 50;
+        const s = <Label>this.add.uiElement(UIElementType.LABEL, Layers.CONTROLS, {position: new Vec2(center.x, center.y - 50), text: "S - Move Down"});
+        s.textColor = Color.YELLOW;
+        s.fontSize = 50;
+        const d = <Label>this.add.uiElement(UIElementType.LABEL, Layers.CONTROLS, {position: new Vec2(center.x, center.y ), text: "D - Move Right"});
+        d.textColor = Color.YELLOW
+        d.fontSize = 50;
+        const space = <Label>this.add.uiElement(UIElementType.LABEL, Layers.CONTROLS, {position: new Vec2(center.x, center.y + 50), text: "Left Click - Shoot"});
+        space.textColor = Color.YELLOW;
+        space.fontSize = 50;
+        const E = <Label>this.add.uiElement(UIElementType.LABEL, Layers.CONTROLS, {position: new Vec2(center.x, center.y + 100), text: "E - Activate Shield"});
+        E.textColor = Color.YELLOW;
+        E.fontSize = 50;
+        const R = <Label>this.add.uiElement(UIElementType.LABEL, Layers.CONTROLS, {position: new Vec2(center.x, center.y + 150), text: "R - Activate Booster"});
+        R.textColor = Color.YELLOW;
+        R.fontSize = 50;
+        const ESC = <Label>this.add.uiElement(UIElementType.LABEL, Layers.CONTROLS, {position: new Vec2(center.x, center.y + 200), text: "ESC - Pause/Unpasue the Game"});
+        ESC.textColor = Color.YELLOW;
+        ESC.fontSize = 50;
+
+        const back = this.add.uiElement(UIElementType.BUTTON, Layers.CONTROLS, {position: new Vec2(center.x-400, center.y - 400), text: "Back"});
+        back.size.set(200, 50);
+        back.borderWidth = 2;
+        back.borderColor = Color.YELLOW;
+        back.backgroundColor = Color.TRANSPARENT;
+		back.onClickEventId = Events.BACK_TO_PAUSE;
 	}
 
 	/**
