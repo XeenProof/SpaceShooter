@@ -8,7 +8,8 @@ export const PlayerProjectileKeys = {
 }
 
 export const EnemyProjectileKeys = {
-    ENEMY_BEAM_GREEN: "ENEMY_BEAM_GREEN"
+    ENEMY_BEAM_GREEN: "ENEMY_BEAM_GREEN",
+    ENEMY_BEAM_ORANGE: "ENEMY_BEAM_ORANGE"
 }
 
 export const AllProjectileKeys = {
@@ -36,6 +37,13 @@ export const AllProjectileData = {
         DAMAGE: 2,
         SPEED: 500,
         LOAD:[LoadEnemyProjectile.ENEMY_BEAM_GREEN],
+        PHYSICS: PhysicGroups.ENEMY_WEAPON
+    },
+    ENEMY_BEAM_ORANGE:{
+        KEY: AllProjectileKeys.ENEMY_BEAM_ORANGE,
+        DAMAGE: 2,
+        SPEED: 500,
+        LOAD:[LoadEnemyProjectile.ENEMY_BEAM_ORANGE],
         PHYSICS: PhysicGroups.ENEMY_WEAPON
     }
 }
