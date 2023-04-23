@@ -9,6 +9,7 @@ export const Script_Type = {
     PLAY_SOUND:"PLAY_SOUND",
     /**
      * options: {
+     * type?: the type of sound to play (GameEventType.PLAY_MUSIC, GameEventType.PLAY_SOUND, GameEventType.PLAY_SFX)
      * index: the index of the audio in the AUDIO list
      * loop?: whether to infinitely loop or not
      * holdReference?: boolean

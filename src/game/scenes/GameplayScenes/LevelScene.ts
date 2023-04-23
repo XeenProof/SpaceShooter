@@ -176,16 +176,19 @@ export default class LevelScene extends BaseScene {
 
 	protected handlePlayAudio(options: Record<string, any>):void{
 		let key = options.key
+		let type = options.type
 		if(!key){return;}
 		let settings = {...audioDefaults, ...options}
-		this.emitter.fireEvent(GameEventType.PLAY_SOUND, settings)
+		this.emitter.fireEvent((type)?type:GameEventType.PLAY_MUSIC, settings)
 		this.currentAudio = key
 	}
 
+	protected stopCurrentAudio():void{
+		if(this.currentAudio){this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: this.currentAudio})}
+	}
+
 	protected endLevel():void{
-		if(this.currentAudio){
-			this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: this.currentAudio})
-		}
+		this.stopCurrentAudio()
 		this.sceneManager.changeToScene(SelectionScence)
 	}
 }
