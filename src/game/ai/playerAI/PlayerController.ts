@@ -32,6 +32,11 @@ const WeaponTypes = {
 	HOMINGBARRAGE: "HOMINGBARRAGE"
 }
 
+export const PlayerAudios = {
+	ATTACK: 0,
+	DEAD: 1
+} as const
+
 /**
  * A class for controlling the player in the HW2Scene.
  * @author PeteyLumpkins
@@ -228,6 +233,7 @@ export default class PlayerController extends StateMachineAI {
 	}
 
 	protected handleShoot():void {
+		this.owner.playSoundFX(PlayerAudios.ATTACK)
 		this.emitter.fireEvent(Events.PLAYER_SHOOTS, {
 			projectiles: 
 			this.weapons.getProjectiles()
@@ -236,11 +242,6 @@ export default class PlayerController extends StateMachineAI {
 
 	protected handleNuke():void {
 		this.emitter.fireEvent(Events.NUKE)
-	}
-
-	protected handlePlayerDeath = () => {
-		console.log("Handle player death")
-		this.owner.animation.playIfNotAlready(PlayerAnimations.DEATH, false);
 	}
 
 	protected handleRamDamage(enemyId:number):void {

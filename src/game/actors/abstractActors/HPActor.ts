@@ -11,6 +11,7 @@ import { TargetingEntity } from "../../../utils/Targeting/TargetingEntity";
 import SpawnableActor from "./SpawnableActor";
 import RandUtils from "../../../Wolfie2D/Utils/RandUtils";
 import { Events } from "../../../constants/events";
+import { GameEventType } from "../../../Wolfie2D/Events/GameEventType";
 
 
 export default abstract class HPActor extends SpawnableActor implements HealthBarUser {
@@ -20,6 +21,7 @@ export default abstract class HPActor extends SpawnableActor implements HealthBa
     private _dropRate: number = 0;
 
     private _healthBar: HealthbarHUD;
+    private _audioKeys: string[];
 
     constructor(sheet: Spritesheet){
         super(sheet);
@@ -50,6 +52,14 @@ export default abstract class HPActor extends SpawnableActor implements HealthBa
 
     get OHKODamage(): number{return this.maxHealth}
     get percentHealth(): number{return this.health/this.maxHealth}
+
+    get audioKeys(): string[] {return this._audioKeys;}
+    set audioKeys(value: string[]) {this._audioKeys = value;}
+    playSoundFX(index:number):void{
+        if(!this.audioKeys){return}
+        if(index < 0 || index >= this.audioKeys.length){return}
+        this.emitter.fireEvent(GameEventType.PLAY_SFX, {key:this.audioKeys[index]})
+    }
 
     updateHealthBar(deltaT: number){
         this.healthBar.update(deltaT)

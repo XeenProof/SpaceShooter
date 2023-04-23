@@ -1,4 +1,4 @@
-import { LoadPlayer } from "../load"
+import { LoadAudio, LoadPlayer } from "../load"
 import { PhysicGroups } from "../physics"
 import { PLAYER_STATS } from "./playerStats"
 
@@ -14,7 +14,8 @@ export const AllPlayerData = {
         LOAD: {
             SHIP: LoadPlayer.PLAYER,
             SHIELD: LoadPlayer.SHIELD,
-            FLAMES: LoadPlayer.FLAMES
+            FLAMES: LoadPlayer.FLAMES,
+            AUDIO: [LoadAudio.PLAYER_ATTACK, LoadAudio.PLAYER_DEAD]
         },
         PHYSICS: PhysicGroups.PLAYER
     }

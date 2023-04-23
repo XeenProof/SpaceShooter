@@ -1,11 +1,13 @@
 import EventReplayer from "../../../../Wolfie2D/Playback/EventReplayer";
 import { Events, LevelEndConst } from "../../../../constants/events";
+import { PlayerAudios } from "../../playerAI/PlayerController";
 import PlayerState, { PlayerAnimations } from "./PlayerState";
 
 
 export default class Dying extends PlayerState{
     private played:boolean;
     public onEnter(options: Record<string, any>): void {
+        this.owner.playSoundFX(PlayerAudios.DEAD);
         this.owner.animation.playIfNotAlready(PlayerAnimations.DYING, false)
         this.played = false;
     }

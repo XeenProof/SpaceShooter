@@ -12,12 +12,14 @@ import ActorScene from "../scenes/GameplayScenes/ActorScene";
 
 
 export function initPlayerFunc(add: FactoryManager, scene: ActorScene, info:Record<string, any>):PlayerActor{
-    let {SHIP, FLAMES, SHIELD} = info.LOAD
+    let {SHIP, FLAMES, SHIELD, AUDIO} = info.LOAD
+    let audiokeys = AUDIO.map((x)=>{return x.KEY})
     let player = add.animatedSprite(PlayerActor, SHIP.KEY, Layers.PRIMARY);
     player.setScene(scene)
 
     player.position.set(450, 750);
     player.scale.set(SHIP.SCALE.X, SHIP.SCALE.Y);
+    player.audioKeys = audiokeys
 
     let booster = add.animatedSprite(AnimatedSprite, FLAMES.KEY, Layers.PRIMARY);
     booster.position.copy(player.position)
