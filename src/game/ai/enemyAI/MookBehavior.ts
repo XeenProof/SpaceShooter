@@ -42,7 +42,7 @@ export default class MookBehavior extends BasicEnemyAI{
                 {src: this.owner.position, 
                 dir: Vec2.DOWN, 
                 id: this.owner.id, 
-                key: EnemyProjectileKeys.ENEMY_BEAM}]}
+                key: EnemyProjectileKeys.ENEMY_BEAM_GREEN}]}
             )
     }
 

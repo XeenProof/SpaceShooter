@@ -19,7 +19,7 @@ const Loads = {
     PLANE: {KEY: "PLANE", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Plane/Plane.json", SCALE:{X:1, Y:1}},
     FLAME: {KEY: "FLAME", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/flame/flame.json", SCALE: {X:1, Y:1}},
     SHIELD: {KEY: "SHIELD", TYPE: LoadType.IMAGE, PATH: "assets/sprites/purple_shield.png", SCALE:{X:1, Y:1}},
-    PLANE_BEAM: {KEY: "PLANE_BEAM", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Plane_Beam/Plane_Beam.json", SCALE:{X:1, Y:1}},
+    
     
     ENEMY_1: {KEY: "ENEMY_1", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Enemy_First/Enemy_First.json", SCALE:{X:1, Y:1}},
     ENEMY_2: {KEY: "ENEMY_2", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Enemy_Second/Enemy_Second.json", SCALE:{X:1, Y:1}},
@@ -28,9 +28,12 @@ const Loads = {
     ENEMY_5: {KEY: "ENEMY_5", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Enemy_Fifth/Enemy_Fifth.json", SCALE:{X:1, Y:1}},
     SPACE_THIEF: {KEY: "SPACE_THIEF", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Space_Thief/Space_Thief.json", SCALE:{X:1, Y:1}},
 
-    ENEMY1_BEAM: {KEY: "ENEMY1_BEAM", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Enemy1_Beam/Enemy1_Beam.json", SCALE:{X:1, Y:1}},
-    ENEMY2_BEAM: {KEY: "ENEMY2_BEAM", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Enemy2_Beam/Enemy2_Beam.json", SCALE:{X:1, Y:1}},
-
+    RED_BEAM: {KEY: "RED_BEAM", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Plane_Beam/Plane_Beam.json", SCALE:{X:1, Y:1}},
+    GREEN_BEAM: {KEY: "GREEN_BEAM", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Enemy1_Beam/Enemy1_Beam.json", SCALE:{X:1, Y:1}},
+    PURPLE_BEAM: {KEY: "PURPLE_BEAM", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Enemy2_Beam/Enemy2_Beam.json", SCALE:{X:1, Y:1}},
+    BLUE_BEAM: {KEY: "BLUE_BEAM", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Enemy3_Beam/Enemy3_Beam.json", SCALE:{X:1, Y:1}},
+    CYAN_BEAM: {KEY: "CYAN_BEAM", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Enemy4_Beam/Enemy4_Beam.json", SCALE:{X:1, Y:1}},
+    ORANGE_BEAM: {KEY: "ORANGE_BEAM", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Enemy5_Beam/Enemy5_Beam.json", SCALE:{X:1, Y:1}},
 
     WELCOME: {KEY: "WELCOME", TYPE: LoadType.IMAGE, PATH: "assets/sprites/welcome.png", SCALE:{X:1, Y:1}},
 
@@ -77,12 +80,12 @@ export const LoadEnemy = {
 }
 
 export const LoadProjectiles = {
-    BEAM: {...Loads.PLANE_BEAM, SCALE: {X:1, Y:1}},
-    TARGETED_BEAM: {...Loads.ENEMY2_BEAM}
+    BEAM: {...Loads.RED_BEAM, SCALE: {X:1, Y:1}},
+    TARGETED_BEAM: {...Loads.PURPLE_BEAM}
 }
 
 export const LoadEnemyProjectile = {
-    ENEMY_BEAM: {...Loads.ENEMY1_BEAM, SCALE: {X:1, Y:1}}
+    ENEMY_BEAM_GREEN: {...Loads.GREEN_BEAM, SCALE: {X:1, Y:1}}
 }
 
 export const LoadMusic = {
