@@ -46,6 +46,8 @@ const MainMenuEvent = {
     INFINITE_SHIELD: "INFINITE_SHIELD",
     UNLOCK_ALL_LEVEL: "UNLOCK_ALL_LEVEL",
     UNLOCK_ALL_WEAPON: "UNLOCK_ALL_WEAPON",
+    CLEAR_CHEATS_STORAGE: "CLEAR_CHEATS_STORAGE",
+
 
 } as const;
 
@@ -221,7 +223,7 @@ export default class MainMenu extends Scene {
         clearCheats.borderWidth = 2;
         clearCheats.borderColor = Color.YELLOW;
         clearCheats.backgroundColor = Color.TRANSPARENT;
-        clearCheats.onClickEventId = MainMenuEvent.CLEAR_LOCAL_STORAGE;
+        clearCheats.onClickEventId = MainMenuEvent.CLEAR_CHEATS_STORAGE;
 
 
         this.oneShootKillButton = <Button> this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x-450, center.y + 200), text: ""});
@@ -338,6 +340,8 @@ export default class MainMenu extends Scene {
         this.receiver.subscribe(MainMenuEvent.INFINITE_SHIELD);
         this.receiver.subscribe(MainMenuEvent.UNLOCK_ALL_LEVEL);
         this.receiver.subscribe(MainMenuEvent.UNLOCK_ALL_WEAPON);
+        this.receiver.subscribe(MainMenuEvent.CLEAR_CHEATS_STORAGE);
+
     }
 
     public override updateScene(){
@@ -405,6 +409,10 @@ export default class MainMenu extends Scene {
             }
             case MainMenuEvent.CLEAR_LOCAL_STORAGE:{
                 LocalStorageHandler.clearData()
+                break;
+            }
+            case MainMenuEvent.CLEAR_CHEATS_STORAGE:{
+                //LocalStorageHandler.clearData()
                 break;
             }
             case MainMenuEvent.ONE_SHOOT_KILL: {

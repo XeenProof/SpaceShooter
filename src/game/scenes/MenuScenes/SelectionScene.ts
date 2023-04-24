@@ -34,7 +34,9 @@ const SelectionEvent = {
     LEVEL_FOUR: "LEVEL_FOUR",
     LEVEL_FIVE: "LEVEL_FIVE",
     LEVEL_SIX: "LEVEL_SIX",
-    BACK: "BACK"
+    BACK: "BACK",
+    CLEAR_LEVELS_STORAGE: "CLEAR_LEVELS_STORAGE",
+
 } as const;
 
 export default class SelectionScence extends Scene {
@@ -268,6 +270,7 @@ export default class SelectionScence extends Scene {
         clearData.borderWidth = 2;
         clearData.borderColor = Color.YELLOW;
         clearData.backgroundColor = Color.TRANSPARENT;
+        clearData.onClickEventId = SelectionEvent.CLEAR_LEVELS_STORAGE;
 
         this.receiver.subscribe(SelectionEvent.LEVEL_ONE);
         this.receiver.subscribe(SelectionEvent.LEVEL_TWO);
@@ -276,6 +279,7 @@ export default class SelectionScence extends Scene {
         this.receiver.subscribe(SelectionEvent.LEVEL_FIVE);
         this.receiver.subscribe(SelectionEvent.LEVEL_SIX);
         this.receiver.subscribe(SelectionEvent.BACK);
+        this.receiver.subscribe(SelectionEvent.CLEAR_LEVELS_STORAGE)
     }
 
     public override updateScene(){
@@ -343,6 +347,11 @@ export default class SelectionScence extends Scene {
                 this.sceneManager.changeToScene(MainMenu);
                 break;
             }
+
+            case SelectionEvent.CLEAR_LEVELS_STORAGE: {
+                break;
+            }
+            
             default: {
                 throw new Error(`Unhandled event caught in MainMenu: "${event.type}"`);
             }
