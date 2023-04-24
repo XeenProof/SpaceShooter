@@ -35,6 +35,7 @@ export default class TargetedMookBehavior extends BasicEnemyAI {
     }
 
     protected actionPattern():void{
+        this.owner.playSoundFX(audio.ATTACK)
         this.owner.fireEvent(Events.ENEMY_SHOOTS, 
             {projectiles:[{src: this.owner.position, 
             dir: this.faceDir, 

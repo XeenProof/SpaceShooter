@@ -19,6 +19,12 @@ const SUMMONS = {
     REGULAR: "REGULAR-MEGAMOOK"
 }
 
+const audio = {
+    DAMAGED: 0,
+    DEAD: 1,
+    ATTACK: 2
+}
+
 export default class MegaMookBehavior extends BasicEnemyAI{
     protected override owner:MegaMookActor
 
@@ -50,6 +56,7 @@ export default class MegaMookBehavior extends BasicEnemyAI{
     }
 
     private handleWeaponFire():void{
+        this.owner.playSoundFX(audio.ATTACK)
         this.emitter.fireEvent(Events.ENEMY_SHOOTS, {
             projectiles: this.weapons.getProjectiles((this.firedCounter%2)+1)
         })
