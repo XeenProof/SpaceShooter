@@ -27,6 +27,7 @@ const Loads = {
     ENEMY_4: {KEY: "ENEMY_4", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Enemy_Fouth/Enemy_Fouth.json", SCALE:{X:1, Y:1}},
     ENEMY_5: {KEY: "ENEMY_5", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Enemy_Fifth/Enemy_Fifth.json", SCALE:{X:1, Y:1}},
     SPACE_THIEF: {KEY: "SPACE_THIEF", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Space_Thief/Space_Thief.json", SCALE:{X:1, Y:1}},
+    LEVEL1_BOSS: {KEY: "LEVEL1_BOSS", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Level1_Boss/Level1_Boss.json", SCALE:{X:1, Y:1}},
 
     RED_BEAM: {KEY: "RED_BEAM", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Plane_Beam/Plane_Beam.json", SCALE:{X:1, Y:1}},
     GREEN_BEAM: {KEY: "GREEN_BEAM", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Enemy1_Beam/Enemy1_Beam.json", SCALE:{X:1, Y:1}},
@@ -85,7 +86,8 @@ export const LoadEnemy = {
     HOARDER: {...Loads.SPACE_THIEF},
 
     MEGAMOOK: {...Loads.ENEMY_1, SCALE:{X:3, Y:3}},
-    SUMMONER: {...Loads.ENEMY_4, SCALE:{X:3, Y:3}}
+    SUMMONER: {...Loads.ENEMY_4, SCALE:{X:3, Y:3}},
+    LEVEL1MOOK: {...Loads.LEVEL1_BOSS, SCALE:{X:3,Y:3}},
 }
 
 export const LoadProjectiles = {

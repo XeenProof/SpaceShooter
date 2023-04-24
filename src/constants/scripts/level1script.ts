@@ -49,6 +49,7 @@ export const level1 = {
             {DATA: AllEnemyData.HOARDER, AMMOUNT: 20},
 
             {DATA: AllEnemyData.MEGAMOOK, AMMOUND: 1},
+            {DATA: AllEnemyData.LEVEL1MOOK, AMMOUND: 1},
 
             {DATA: AllItemData.SCRAP, AMMOUNT: 20},
         ]
@@ -56,6 +57,17 @@ export const level1 = {
     AUDIOLIST: [LoadMusic.SPACE_MUSIC],
     SCRIPT: [
         {type: Script_Type.PLAY_SOUND, options: {index: 0}},
+
+        {type: Script_Type.SPAWN, options: {
+            enemyType: AllEnemyKeys.LEVEL1MOOK,
+            rpsl: [spawnRandomizer, {
+                speed:{min: 300},
+                repeat:{min:-1},
+                generateAmount: 20
+            }]
+        }},
+        {type: Script_Type.WAIT, options: {wait_time: -1}},
+
         {type: Script_Type.WAVE, options: {wavenum: 1, mods:{droprate_multi: 1}}},
         ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK], [recRoute.NORMAL,recRoute.REVERSE], 1500, 2, 2),
         {type: Script_Type.WAIT, options: {wait_time: -1}},

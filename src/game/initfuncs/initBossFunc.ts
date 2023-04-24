@@ -10,11 +10,14 @@ import SummonerActor from "../actors/BossActors/SummonerActor"
 import MegaMookBehavior from "../ai/bossAI/MegaMook/MegaMookBehavior"
 import SummonerBehavior from "../ai/bossAI/Summoner/SummonerBehavior"
 import ActorScene from "../scenes/GameplayScenes/ActorScene"
+import Level1MookActor from "../actors/BossActors/Level1MookActor"
+import Level1MookBehavior from "../ai/bossAI/Level1Mook/Level1MookBehavior"
 
 
 export const initBossFunc = {
     MEGAMOOK: initMegaMookFunc,
-    SUMMONER: initSummonerFunc
+    SUMMONER: initSummonerFunc,
+    LEVEL1MOOK: initLevel1MookFunc,
 }
 
 function initMegaMookFunc(add: FactoryManager, scene: ActorScene):MegaMookActor{
@@ -51,6 +54,25 @@ function initSummonerFunc(add: FactoryManager, scene: ActorScene):SummonerActor{
     entity.visible = false;
     entity.scale.set(X, Y);
     entity.addAI(SummonerBehavior)
+    entity.audioKeys = audioKeys
+    entity.addPhysics();
+    entity.setGroup(PhysicGroups.ENEMY);
+    return entity;
+}
+
+function initLevel1MookFunc(add: FactoryManager, scene: ActorScene):Level1MookActor{
+    let info = AllEnemyData.LEVEL1MOOK
+    let AUDIO = info.AUDIO?info.AUDIO:[]
+    let audioKeys = AUDIO.map((x)=>{return x.KEY})
+    let {X, Y} = info.LOAD[0].SCALE
+    let entity = add.animatedSprite(Level1MookActor, info.LOAD[0].KEY, Layers.PRIMARY)
+    let healthBar = new HealthbarHUD(scene, entity, Layers.HEALTHBARS, {size: new Vec2(entity.size.x, 5), offset: entity.size.clone().scaled(0, -1/2)})
+    entity.position.set(1200,1200)
+    entity.healthBar = healthBar;
+    entity.setScene(scene)
+    entity.visible = false;
+    entity.scale.set(X, Y);
+    entity.addAI(Level1MookBehavior)
     entity.audioKeys = audioKeys
     entity.addPhysics();
     entity.setGroup(PhysicGroups.ENEMY);

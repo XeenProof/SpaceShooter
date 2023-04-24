@@ -11,7 +11,8 @@ export const AllEnemyKeys = {
     SHIELDED_MOOK: "SHIELDED_MOOK",
     HOARDER: "HOARDER",
     MEGAMOOK: "MEGAMOOK",
-    SUMMONER: "SUMMONER"
+    SUMMONER: "SUMMONER",
+    LEVEL1MOOK: "LEVEL1MOOK",
 }
 
 export const AllEnemyData = {
@@ -56,5 +57,12 @@ export const AllEnemyData = {
         LOAD: [LoadEnemy.SUMMONER],
         AUDIO: attackingAudioList,
         PHYSICS: PhysicGroups.ENEMY
-    }
+    },
+    LEVEL1MOOK:{
+        KEY: AllEnemyKeys.LEVEL1MOOK,
+        STATS: STATS.LEVEL1MOOK,
+        LOAD: [LoadEnemy.LEVEL1MOOK],
+        AUDIO: attackingAudioList,
+        PHYSICS: PhysicGroups.ENEMY
+    },
 }
