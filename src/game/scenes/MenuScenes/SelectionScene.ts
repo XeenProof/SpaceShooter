@@ -34,7 +34,9 @@ const SelectionEvent = {
     LEVEL_FOUR: "LEVEL_FOUR",
     LEVEL_FIVE: "LEVEL_FIVE",
     LEVEL_SIX: "LEVEL_SIX",
-    BACK: "BACK"
+    BACK: "BACK",
+    CLEAR_LEVELS_STORAGE: "CLEAR_LEVELS_STORAGE",
+
 } as const;
 
 export default class SelectionScence extends Scene {
@@ -109,7 +111,7 @@ export default class SelectionScence extends Scene {
         level2Img.scale.set(1, 1);
         level2Img.position.copy(new Vec2(center.x, center.y-80));
         
-        let level2text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x, center.y-175), text: "LEVEL TWO"});
+        let level2text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x, center.y-190), text: "LEVEL TWO"});
         level2text.size.set(300, 50);
         level2text.borderWidth = 2;
         level2text.fontSize = 30;
@@ -142,7 +144,7 @@ export default class SelectionScence extends Scene {
         level3Img.scale.set(1, 1);
         level3Img.position.copy(new Vec2(center.x+300, center.y-80));
         
-        let level3text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x+300, center.y-175), text: "LEVEL THREE"});
+        let level3text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x+300, center.y-190), text: "LEVEL THREE"});
         level3text.size.set(300, 50);
         level3text.borderWidth = 2;
         level3text.fontSize = 30;
@@ -262,6 +264,14 @@ export default class SelectionScence extends Scene {
             level6button.setPadding(level6Img.sizeWithZoom);
         }
 
+
+        const clearData = this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: new Vec2(center.x + 400, center.y - 400), text: "Clear Levels"});
+        clearData.size.set(200, 50);
+        clearData.borderWidth = 2;
+        clearData.borderColor = Color.YELLOW;
+        clearData.backgroundColor = Color.TRANSPARENT;
+        clearData.onClickEventId = SelectionEvent.CLEAR_LEVELS_STORAGE;
+
         this.receiver.subscribe(SelectionEvent.LEVEL_ONE);
         this.receiver.subscribe(SelectionEvent.LEVEL_TWO);
         this.receiver.subscribe(SelectionEvent.LEVEL_THREE);
@@ -269,6 +279,7 @@ export default class SelectionScence extends Scene {
         this.receiver.subscribe(SelectionEvent.LEVEL_FIVE);
         this.receiver.subscribe(SelectionEvent.LEVEL_SIX);
         this.receiver.subscribe(SelectionEvent.BACK);
+        this.receiver.subscribe(SelectionEvent.CLEAR_LEVELS_STORAGE)
     }
 
     public override updateScene(){
@@ -336,6 +347,11 @@ export default class SelectionScence extends Scene {
                 this.sceneManager.changeToScene(MainMenu);
                 break;
             }
+
+            case SelectionEvent.CLEAR_LEVELS_STORAGE: {
+                break;
+            }
+            
             default: {
                 throw new Error(`Unhandled event caught in MainMenu: "${event.type}"`);
             }

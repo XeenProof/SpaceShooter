@@ -59,6 +59,7 @@ export const level3 = {
     AUDIOLIST: [LoadMusic.SPACE_MUSIC],
     SCRIPT: [
         {type: Script_Type.PLAY_SOUND, options: {index: 0}},
+        {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-200}},
 
         {type: Script_Type.WAVE, options: {wavenum: 7, mods:{droprate_multi: 1}}},
         {type: Script_Type.SPAWN, options: {

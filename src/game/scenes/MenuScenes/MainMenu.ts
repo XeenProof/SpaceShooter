@@ -46,6 +46,8 @@ const MainMenuEvent = {
     INFINITE_SHIELD: "INFINITE_SHIELD",
     UNLOCK_ALL_LEVEL: "UNLOCK_ALL_LEVEL",
     UNLOCK_ALL_WEAPON: "UNLOCK_ALL_WEAPON",
+    CLEAR_CHEATS_STORAGE: "CLEAR_CHEATS_STORAGE",
+
 
 } as const;
 
@@ -128,6 +130,14 @@ export default class MainMenu extends Scene {
         about.backgroundColor = Color.TRANSPARENT;
         about.onClickEventId = MainMenuEvent.HELP;
 
+        const clearData = this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.MAIN_MENU, {position: new Vec2(center.x + 400, center.y - 400), text: "Clear Data"});
+        clearData.size.set(200, 50);
+        clearData.borderWidth = 2;
+        clearData.borderColor = Color.YELLOW;
+        clearData.backgroundColor = Color.TRANSPARENT;
+        clearData.onClickEventId = MainMenuEvent.CLEAR_LOCAL_STORAGE;
+
+
         this.initBackground(MainMenuLayer.CONTROLS_BACKGROUND);
 
         const header = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.CONTROLS, {position: new Vec2(center.x, center.y - 300), text: "Controls"});
@@ -208,12 +218,12 @@ export default class MainMenu extends Scene {
         helpBack.backgroundColor = Color.TRANSPARENT;
         helpBack.onClickEventId = MainMenuEvent.MENU;
 
-        const clearData = this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x + 400, center.y - 400), text: "Clear Data"});
-        clearData.size.set(200, 50);
-        clearData.borderWidth = 2;
-        clearData.borderColor = Color.YELLOW;
-        clearData.backgroundColor = Color.TRANSPARENT;
-        clearData.onClickEventId = MainMenuEvent.CLEAR_LOCAL_STORAGE;
+        const clearCheats = this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x + 400, center.y - 400), text: "Clear Cheats"});
+        clearCheats.size.set(200, 50);
+        clearCheats.borderWidth = 2;
+        clearCheats.borderColor = Color.YELLOW;
+        clearCheats.backgroundColor = Color.TRANSPARENT;
+        clearCheats.onClickEventId = MainMenuEvent.CLEAR_CHEATS_STORAGE;
 
 
         this.oneShootKillButton = <Button> this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x-450, center.y + 200), text: ""});
@@ -330,6 +340,8 @@ export default class MainMenu extends Scene {
         this.receiver.subscribe(MainMenuEvent.INFINITE_SHIELD);
         this.receiver.subscribe(MainMenuEvent.UNLOCK_ALL_LEVEL);
         this.receiver.subscribe(MainMenuEvent.UNLOCK_ALL_WEAPON);
+        this.receiver.subscribe(MainMenuEvent.CLEAR_CHEATS_STORAGE);
+
     }
 
     public override updateScene(){
@@ -397,6 +409,10 @@ export default class MainMenu extends Scene {
             }
             case MainMenuEvent.CLEAR_LOCAL_STORAGE:{
                 LocalStorageHandler.clearData()
+                break;
+            }
+            case MainMenuEvent.CLEAR_CHEATS_STORAGE:{
+                //LocalStorageHandler.clearData()
                 break;
             }
             case MainMenuEvent.ONE_SHOOT_KILL: {
