@@ -50,6 +50,10 @@ export default class SelectionScence extends Scene {
 
     public override loadScene(){
         this.load.image("Test","assets/sprites/welcome.png");
+        this.load.image("Level 1","assets/sprites/Level1_Boss_1.png");
+        this.load.image("Level 2","assets/sprites/Level2_Boss_1.png");
+        this.load.image("Level 3","assets/sprites/Level3_Boss_1.png");
+        this.load.image("Level 4","assets/sprites/Level4_Boss_1.png");
         this.load.image("Blank","assets/sprites/blank.png");
         this.loadBackground(LoadMainmenu.MAINMENU);
     }
@@ -79,8 +83,8 @@ export default class SelectionScence extends Scene {
         back.backgroundColor = Color.TRANSPARENT;
         back.onClickEventId = SelectionEvent.BACK;
 
-        let level1Img = this.add.sprite("Test", SelectionLayer.CONTROLS);
-        level1Img.scale.set(0.18, 0.2);
+        let level1Img = this.add.sprite("Level 1", SelectionLayer.CONTROLS);
+        level1Img.scale.set(1, 1);
         level1Img.position.copy(new Vec2(center.x-300, center.y-80));
         
         let level1 = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x-300, center.y-190), text: "LEVEL ONE"});
@@ -93,16 +97,16 @@ export default class SelectionScence extends Scene {
         const level1button = <Button> this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: level1Img.position, text: ""});
         level1button.size.set(220, 180);
         level1button.backgroundColor = Color.TRANSPARENT;
-        level1button.borderColor = Color.WHITE;
-        level1button.borderRadius = 2;
+        level1button.borderColor = Color.TRANSPARENT;
+        level1button.borderRadius = 0;
         level1button.fontSize = 0;
         level1button.setPadding(level1Img.sizeWithZoom);
         level1button.onClickEventId = SelectionEvent.LEVEL_ONE;
 
         
         // Level 2 game
-        let level2Img = this.add.sprite("Test", SelectionLayer.CONTROLS);
-        level2Img.scale.set(0.18, 0.2);
+        let level2Img = this.add.sprite("Level 2", SelectionLayer.CONTROLS);
+        level2Img.scale.set(1, 1);
         level2Img.position.copy(new Vec2(center.x, center.y-80));
         
         let level2text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x, center.y-175), text: "LEVEL TWO"});
@@ -134,8 +138,8 @@ export default class SelectionScence extends Scene {
 
 
         // Level 3 game
-        let level3Img = this.add.sprite("Blank", SelectionLayer.CONTROLS);
-        level3Img.scale.set(0.35, 0.35);
+        let level3Img = this.add.sprite("Level 3", SelectionLayer.CONTROLS);
+        level3Img.scale.set(1, 1);
         level3Img.position.copy(new Vec2(center.x+300, center.y-80));
         
         let level3text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x+300, center.y-175), text: "LEVEL THREE"});
@@ -166,8 +170,8 @@ export default class SelectionScence extends Scene {
 
 
         // Level 4 game
-        let level4Img = this.add.sprite("Blank", SelectionLayer.CONTROLS);
-        level4Img.scale.set(0.35, 0.35);
+        let level4Img = this.add.sprite("Level 4", SelectionLayer.CONTROLS);
+        level4Img.scale.set(1, 1);
         level4Img.position.copy(new Vec2(center.x-300, center.y+180));
         
         let level4text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x-300, center.y+75), text: "LEVEL FOUR"});
