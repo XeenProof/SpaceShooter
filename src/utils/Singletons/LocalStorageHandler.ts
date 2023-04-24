@@ -12,8 +12,8 @@ export default class LocalStorageHandler{
     static clearData(){
         localStorage.removeItem(LOCALSTORAGENAME)
     }
-    static updateData(key:string, settings:Map<string, any>){
-        let newSettings = {...this.localStorageData, [key]:Object.fromEntries(settings)}
+    static updateData(key:string, settings?:Map<string, any>){
+        let newSettings = {...this.localStorageData, [key]:settings?Object.fromEntries(settings):{}}
         this.localStorageData = newSettings
     }
     static getData(key:string):Record<string, any>{

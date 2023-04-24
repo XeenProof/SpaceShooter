@@ -19,6 +19,7 @@ import Button from "../../../Wolfie2D/Nodes/UIElements/Button";
 import CheatCodes from "../../../utils/Singletons/CheatCodes";
 import { cheats } from "../../../constants/gameoptions";
 import LocalStorageHandler from "../../../utils/Singletons/LocalStorageHandler";
+import ProgressTracker from "../../../utils/Singletons/ProgressTracker";
 
 
 // Layers in the main menu
@@ -409,10 +410,14 @@ export default class MainMenu extends Scene {
             }
             case MainMenuEvent.CLEAR_LOCAL_STORAGE:{
                 LocalStorageHandler.clearData()
+                CheatCodes.refresh()
+                ProgressTracker.refresh()
+                this.handleRefreshCheats();
                 break;
             }
             case MainMenuEvent.CLEAR_CHEATS_STORAGE:{
-                //LocalStorageHandler.clearData()
+                CheatCodes.clearData()
+                this.handleRefreshCheats();
                 break;
             }
             case MainMenuEvent.ONE_SHOOT_KILL: {
@@ -459,5 +464,15 @@ export default class MainMenu extends Scene {
                 throw new Error(`Unhandled event caught in MainMenu: "${event.type}"`);
             }
         }
+    }
+    handleRefreshCheats(){
+        this.oneShootKillButton.text = CheatCodes.getCheat(cheats.OHKO)?"X":""
+        this.invincibleButton.text = CheatCodes.getCheat(cheats.INVINSIBLE)?"X":""
+        this.nukeButton.text = CheatCodes.getCheat(cheats.NUKE_BUTTON)?"X":""
+        this.infiniteScrapButton.text = CheatCodes.getCheat(cheats.INFINITE_SCRAP)?"X":""
+        this.infiniteBoosterButton.text = CheatCodes.getCheat(cheats.INFINITE_BOOSTER)?"X":""
+        this.infiniteShieldButton.text = CheatCodes.getCheat(cheats.INFINITE_SHIELD)?"X":""
+        this.unlockAllLevelButton.text = CheatCodes.getCheat(cheats.UNLOCK_ALL_LEVELS)?"X":""
+        this.unlockAllWeaponButton.text = CheatCodes.getCheat(cheats.UNLOCK_ALL_WEAPONS)?"X":""
     }
 }

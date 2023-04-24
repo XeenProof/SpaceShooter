@@ -317,12 +317,10 @@ export default class SelectionScence extends Scene {
     protected handleEvent(event: GameEvent): void {
         switch(event.type) {
             case SelectionEvent.LEVEL_ONE: {
-                console.log("HI 1");
                 this.sceneManager.changeToScene(ScriptScene, {levelData: level1});
                 break;
             }
             case SelectionEvent.LEVEL_TWO: {
-                console.log("HI 2");
                 this.sceneManager.changeToScene(ScriptScene, {levelData: level2});
                 break;
             }
@@ -349,6 +347,8 @@ export default class SelectionScence extends Scene {
             }
 
             case SelectionEvent.CLEAR_LEVELS_STORAGE: {
+                ProgressTracker.clearData()
+                this.sceneManager.changeToScene(SelectionScence)
                 break;
             }
             
