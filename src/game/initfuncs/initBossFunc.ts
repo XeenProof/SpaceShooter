@@ -74,7 +74,9 @@ function initLevel1MookFunc(add: FactoryManager, scene: ActorScene):Level1MookAc
     entity.scale.set(X, Y);
     entity.addAI(Level1MookBehavior)
     entity.audioKeys = audioKeys
-    entity.addPhysics();
+    let center = entity.position.clone()
+    let halfSize = entity.boundary.getHalfSize().clone().scale(0.9,0.6);
+    entity.addPhysics(new AABB(center, halfSize));
     entity.setGroup(PhysicGroups.ENEMY);
     return entity;
 }
