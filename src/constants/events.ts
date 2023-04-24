@@ -89,6 +89,9 @@ export const Events = {
 
     CONTROLS: "CONTROLS",
 
-    BACK_TO_PAUSE: "BACK_TO_PAUSE"
+    BACK_TO_PAUSE: "BACK_TO_PAUSE",
+
+    EXIT: "EXIT",
+    
 
 }

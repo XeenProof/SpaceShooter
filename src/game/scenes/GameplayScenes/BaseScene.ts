@@ -25,6 +25,8 @@ import { GAMEPLAY_DIMENTIONS } from "../../../constants/dimenstions";
 import Button from "../../../Wolfie2D/Nodes/UIElements/Button";
 import Input from "../../../Wolfie2D/Input/Input";
 import Layer from "../../../Wolfie2D/Scene/Layer";
+import MainMenu from "../MenuScenes/MainMenu";
+import { GameEventType } from "../../../Wolfie2D/Events/GameEventType";
 
 /**
  * This is the base scene for our game.
@@ -39,6 +41,7 @@ export default class BaseScene extends ActorScene{
 		points_multi: 1
 	}
 	protected paused:boolean
+	protected currentAudio:string
 
 	protected endLevelTimer:Timer
 	protected endType:string
@@ -109,6 +112,7 @@ export default class BaseScene extends ActorScene{
         this.load.image("HealthIcon","assets/sprites/health.png");
 		this.load.image("ShieldIcon","assets/sprites/shield.png");
 		this.load.image("BoostIcon","assets/sprites/boost.png");
+		this.load.image("PauseBackground","assets/sprites/pausebackground.png");
     }
 
 	/** Scene lifecycle methods */
@@ -156,6 +160,7 @@ export default class BaseScene extends ActorScene{
 		this.receiver.subscribe(Events.PAUSE)
 		this.receiver.subscribe(Events.CONTROLS)
 		this.receiver.subscribe(Events.BACK_TO_PAUSE)
+		this.receiver.subscribe(Events.EXIT)
 	}
 	/**
 	 * @see Scene.updateScene 
@@ -171,10 +176,12 @@ export default class BaseScene extends ActorScene{
 
 		if(this.paused && !this.showControls){
 			this.getLayer(Layers.PAUSE).setHidden(false)
+			this.getLayer(Layers.PAUSE_BACKGROUND).setHidden(false)
 			return; 
 		}
 		else{
 			this.getLayer(Layers.PAUSE).setHidden(true)
+			this.getLayer(Layers.PAUSE_BACKGROUND).setHidden(true)
 		}
 
 		this.handleHealthChange(this.player.health,this.player.maxHealth);
@@ -214,6 +221,20 @@ export default class BaseScene extends ActorScene{
 			case Events.PAUSE:{
 				console.log(event.data.get("pausing"))
 				this.paused = event.data.get("pausing");
+
+				this.getLayer(Layers.BACKGROUND).setHidden(false);
+				this.getLayer(Layers.PRIMARY).setHidden(false);
+				this.getLayer(Layers.HEALTHBARS).setHidden(false);
+				this.getLayer(Layers.EXTRABARS).setHidden(false);
+				this.getLayer(Layers.STATES).setHidden(false);
+				this.getLayer(Layers.GAMEEND).setHidden(false);
+				this.getLayer(Layers.UI).setHidden(false);
+				this.getLayer(Layers.PAUSE).setHidden(false);
+				this.getLayer(Layers.INFORMATION_BACKGROUND).setHidden(false);
+
+				this.showControls=false;
+				this.getLayer(Layers.CONTROLS).setHidden(true);
+				this.getLayer(Layers.CONTROLS_BACKGROUND).setHidden(true);
 				break;
 			}
 			case Events.CONTROLS:{
@@ -250,6 +271,11 @@ export default class BaseScene extends ActorScene{
 				this.getLayer(Layers.CONTROLS_BACKGROUND).setHidden(true);
 				break;
 			}
+			case Events.EXIT:{
+				if(this.currentAudio){this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: this.currentAudio})}
+				this.sceneManager.changeToScene(MainMenu,{},{});
+				break;
+			}
 		}
 	}
 
@@ -263,6 +289,7 @@ export default class BaseScene extends ActorScene{
 		this.addLayer(Layers.GAMEEND, 10);
 		this.addUILayer(Layers.UI);
 
+		this.addLayer(Layers.PAUSE_BACKGROUND, 99);
 		this.addLayer(Layers.PAUSE, 100);
 		this.addLayer(Layers.CONTROLS_BACKGROUND, 10);
 		this.addLayer(Layers.CONTROLS, 102);
@@ -449,15 +476,34 @@ export default class BaseScene extends ActorScene{
 
 	protected initPauseScene():void{
 		const center = this.viewport.getCenter();
-		const cont = <Button> this.add.uiElement(UIElementType.LABEL, Layers.PAUSE, {position: new Vec2(center.x-100, center.y), text: ""});
+
+		const bg4 = this.add.sprite("PauseBackground", Layers.PAUSE_BACKGROUND);
+		bg4.scale.set(0.5, 0.5);
+		bg4.position.copy(new Vec2(center.x-100, center.y));
+
+		const pauseText = <Label> this.add.uiElement(UIElementType.LABEL, Layers.PAUSE, {position: new Vec2(center.x-100, center.y - 120), text: "PAUSE"});
+		pauseText.textColor = Color.WHITE
+
+		const cont = this.add.uiElement(UIElementType.LABEL, Layers.PAUSE, {position: new Vec2(center.x-100, center.y - 40), text: "CONTINUE"});
+		cont.size.set(200, 50);
 		cont.backgroundColor= Color.YELLOW
-		cont.text="CONTINUE"
+		cont.borderWidth=5;
+		cont.borderColor=Color.BLACK;
 		cont.onClick = ()=>{this.emitter.fireEvent(Events.PAUSE, {pausing:false})};
 
-		const controls = <Button> this.add.uiElement(UIElementType.LABEL, Layers.PAUSE, {position: new Vec2(center.x-100, center.y+50), text: ""});
-		controls.backgroundColor= Color.YELLOW
-		controls.text="CONTROLS"
+		const controls = this.add.uiElement(UIElementType.LABEL, Layers.PAUSE, {position: new Vec2(center.x-100, center.y + 20), text: "CONTROLS"});
+		controls.size.set(200, 50);
+		controls.backgroundColor= Color.YELLOW;
+		controls.borderWidth=5;
+		controls.borderColor=Color.BLACK;
 		controls.onClickEventId=Events.CONTROLS;
+
+		const exit = <Button> this.add.uiElement(UIElementType.LABEL, Layers.PAUSE, {position: new Vec2(center.x-100, center.y+80), text: "EXIT"});
+		exit.size.set(200, 50);
+		exit.backgroundColor= Color.YELLOW;
+		exit.borderWidth=5;
+		exit.borderColor=Color.BLACK;
+		exit.onClickEventId=Events.EXIT;
 
 	}
 
