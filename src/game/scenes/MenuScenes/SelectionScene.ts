@@ -101,8 +101,8 @@ export default class SelectionScence extends Scene {
 
         
         // Level 2 game
-        let level2Img = this.add.sprite("Blank", SelectionLayer.CONTROLS);
-        level2Img.scale.set(0.35, 0.35);
+        let level2Img = this.add.sprite("Test", SelectionLayer.CONTROLS);
+        level2Img.scale.set(0.18, 0.2);
         level2Img.position.copy(new Vec2(center.x, center.y-80));
         
         let level2text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x, center.y-175), text: "LEVEL TWO"});

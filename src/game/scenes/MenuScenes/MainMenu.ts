@@ -299,9 +299,9 @@ export default class MainMenu extends Scene {
         this.unlockAllWeaponButton.onClickEventId = MainMenuEvent.UNLOCK_ALL_WEAPON;
         this.unlockAllWeaponButton.text = CheatCodes.getCheat(cheats.UNLOCK_ALL_WEAPONS)?"X":""
 
-        const unlockAllWeapon = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x + 80, center.y + 400), text: "Unlock all levels"});
+        const unlockAllWeapon = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x + 80, center.y + 400), text: "Unlock all Weapons"});
         unlockAllWeapon.textColor = Color.YELLOW;
-        unlockAllWeapon.fontSize = 40;
+        unlockAllWeapon.fontSize = 32;
 
 
         // Subscribe to the button events
