@@ -28,6 +28,9 @@ const Loads = {
     ENEMY_5: {KEY: "ENEMY_5", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Enemy_Fifth/Enemy_Fifth.json", SCALE:{X:1, Y:1}},
     SPACE_THIEF: {KEY: "SPACE_THIEF", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Space_Thief/Space_Thief.json", SCALE:{X:1, Y:1}},
     LEVEL1_BOSS: {KEY: "LEVEL1_BOSS", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Level1_Boss/Level1_Boss.json", SCALE:{X:1, Y:1}},
+    LEVEL2_BOSS: {KEY: "LEVEL2_BOSS", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Level2_Boss/Level2_Boss.json", SCALE:{X:1, Y:1}},
+    LEVEL3_BOSS: {KEY: "LEVEL3_BOSS", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Level3_Boss/Level3_Boss.json", SCALE:{X:1, Y:1}},
+    LEVEL4_BOSS: {KEY: "LEVEL4_BOSS", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Level4_Boss/Level4_Boss.json", SCALE:{X:1, Y:1}},
 
     RED_BEAM: {KEY: "RED_BEAM", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Plane_Beam/Plane_Beam.json", SCALE:{X:1, Y:1}},
     GREEN_BEAM: {KEY: "GREEN_BEAM", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Enemy1_Beam/Enemy1_Beam.json", SCALE:{X:1, Y:1}},
@@ -82,11 +85,12 @@ export const LoadEnemy = {
     COMMON_MOOK: {...Loads.ENEMY_1, SCALE:{X:1, Y:1}},
     TARGETED_MOOK: {...Loads.ENEMY_2},
     SHIELDED_MOOK: {...Loads.ENEMY_3},
+    PERSON_MOOK: {...Loads.ENEMY_4, SCALE:{X:1, Y:1}},
     SHIELD: {...Loads.SHIELD, SCALE:{X:1.5, Y:1.5}},
     HOARDER: {...Loads.SPACE_THIEF},
 
-    MEGAMOOK: {...Loads.ENEMY_1, SCALE:{X:3, Y:3}},
-    SUMMONER: {...Loads.ENEMY_4, SCALE:{X:3, Y:3}},
+    MEGAMOOK: {...Loads.LEVEL2_BOSS, SCALE:{X:3, Y:3}},
+    SUMMONER: {...Loads.LEVEL4_BOSS, SCALE:{X:3, Y:3}},
     LEVEL1MOOK: {...Loads.LEVEL1_BOSS, SCALE:{X:3,Y:3}},
 }
 

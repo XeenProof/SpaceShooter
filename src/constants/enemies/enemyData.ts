@@ -9,6 +9,7 @@ export const AllEnemyKeys = {
     COMMON_MOOK: "COMMON_MOOK",
     TARGETED_MOOK: "TARGETED_MOOK",
     SHIELDED_MOOK: "SHIELDED_MOOK",
+    PERSON_MOOK: "PERSON_MOOK",
     HOARDER: "HOARDER",
     MEGAMOOK: "MEGAMOOK",
     SUMMONER: "SUMMONER",
@@ -55,6 +56,13 @@ export const AllEnemyData = {
         KEY: AllEnemyKeys.SUMMONER,
         STATS: STATS.SUMMONER,
         LOAD: [LoadEnemy.SUMMONER],
+        AUDIO: attackingAudioList,
+        PHYSICS: PhysicGroups.ENEMY
+    },
+    PERSON_MOOK:{
+        KEY: AllEnemyKeys.PERSON_MOOK,
+        STATS: STATS.PERSON_MOOK,
+        LOAD: [LoadEnemy.PERSON_MOOK],
         AUDIO: attackingAudioList,
         PHYSICS: PhysicGroups.ENEMY
     },

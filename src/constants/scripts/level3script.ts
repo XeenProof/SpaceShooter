@@ -28,8 +28,8 @@ const RandomHoarderScript = {
         enemyType: AllEnemyKeys.HOARDER,
         rpsl: [spawnRandomizer, RandomizedSettings]
     },
-    chance: 0.0,
-    repeat: 0.0,
+    chance: 0.05,
+    repeat: 3,
 }
 
 export const level3 = {
@@ -96,8 +96,17 @@ export const level3 = {
         ...generateRoundRobinScriptPart([AllEnemyKeys.TARGETED_MOOK], [diagonalRoute.NORMAL, diagonalRoute.REVERSE], 500, 2, 4),
         {type: Script_Type.WAIT, options: {wait_time: -1}},
 
-
+        {type: Script_Type.WAVE, options: {wavenum: 7, mods:{droprate_multi: 1}}},
+        {type: Script_Type.SPAWN, options: {
+            enemyType: AllEnemyKeys.MEGAMOOK,
+            rpsl: [spawnRandomizer, {
+                speed:{min: 300},
+                repeat:{min:-1},
+                generateAmount: 20
+            }]
+        }},
         {type: Script_Type.WAIT, options: {wait_time: -1}},
+
         {type: Script_Type.LEVEL_ENDS, options: {endtype: LevelEndConst.LEVEL_CLEARED}}
 
     ],

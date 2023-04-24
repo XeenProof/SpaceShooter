@@ -48,6 +48,13 @@ const SUMMONER = {
     speed: 150,
     points: 100
 }
+const PERSON_MOOK ={
+    hp: 10,
+    droprate: 0.15,
+    speed: 150,
+    attack: 2,
+    points: 15
+}
 
 export const STATS = {
     COMMON_MOOK: COMMON_MOOK,
@@ -57,4 +64,6 @@ export const STATS = {
     MEGAMOOK: MEGAMOOK,
     SUMMONER: SUMMONER,
     LEVEL1MOOK:LEVEL1MOOK,
+    PERSON_MOOK:PERSON_MOOK,
+
 }

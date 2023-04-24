@@ -24,6 +24,6 @@ export class RegularMookSummons extends MegaMookSummon{
     }
     public get summonsList(): Record<string, any>[] {
         return [
-            {...this.defaultValues, enemyType: AllEnemyKeys.COMMON_MOOK},]
+            {...this.defaultValues, enemyType: AllEnemyKeys.TARGETED_MOOK},]
     }
 }

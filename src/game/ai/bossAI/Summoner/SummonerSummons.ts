@@ -60,7 +60,7 @@ export class SummonerBackRank extends SummonerSummon{
         console.log("before list")
         let list  = this.paths.map((x)=>{return{
             ...this.defaultValues,
-            enemyType: AllEnemyKeys.COMMON_MOOK,
+            enemyType: AllEnemyKeys.PERSON_MOOK,
             path: [x]
         }})
         console.log(list)
