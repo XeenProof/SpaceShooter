@@ -16,6 +16,8 @@ import HPShield from "../actors/miscActors/HPShield"
 import Color from "../../Wolfie2D/Utils/Color"
 import HoarderActor from "../actors/EnemyActors/HoarderActor"
 import HoarderBehavior from "../ai/enemyAI/HoarderBehavior"
+import PersonMookActor from "../actors/EnemyActors/PersonMookActor"
+import PersonMookBehavior from "../ai/enemyAI/PersonMookBehavior"
 
 
 export const initEnemyFunc = {
@@ -121,19 +123,19 @@ function initHoarderFunc(add: FactoryManager, scene: ActorScene):MookActor{
     return entity;
 }
 
-function initPersonMookFunc(add: FactoryManager, scene: ActorScene):MookActor {
+function initPersonMookFunc(add: FactoryManager, scene: ActorScene):PersonMookActor {
     let info = AllEnemyData.PERSON_MOOK
     let AUDIO = info.AUDIO?info.AUDIO:[]
     let audioKeys = AUDIO.map((x)=>{return x.KEY})
     let {X, Y} = info.LOAD[0].SCALE
-    let entity = add.animatedSprite(MookActor, info.LOAD[0].KEY, Layers.PRIMARY)
+    let entity = add.animatedSprite(PersonMookActor, info.LOAD[0].KEY, Layers.PRIMARY)
     let healthBar = new HealthbarHUD(scene, entity, Layers.HEALTHBARS, {size: new Vec2(entity.size.x, 5), offset: entity.size.clone().scaled(0, -1/2)})
     entity.position.set(1200,1200)
     entity.healthBar = healthBar;
     entity.setScene(scene)
     entity.visible = false;
     entity.scale.set(X, Y);
-    entity.addAI(MookBehavior)
+    entity.addAI(PersonMookBehavior)
     entity.audioKeys = audioKeys
     let center = entity.position.clone()
     let halfSize = entity.boundary.getHalfSize().clone().scale(0.9,0.6);

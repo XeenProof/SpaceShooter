@@ -52,7 +52,7 @@ const PERSON_MOOK ={
     hp: 10,
     droprate: 0.15,
     speed: 150,
-    attack: 2,
+    attack: 1,
     points: 15
 }
 
