@@ -102,7 +102,10 @@ export const LoadProjectiles = {
 
 export const LoadEnemyProjectile = {
     ENEMY_BEAM_GREEN: {...Loads.GREEN_BEAM, SCALE: {X:1, Y:1}},
-    ENEMY_BEAM_ORANGE: {...Loads.ORANGE_BEAM, SCALE: {X:1, Y:1}}
+    ENEMY_BEAM_PURPLE: {...Loads.PURPLE_BEAM, SCALE: {X:1, Y:1}},
+    ENEMY_BEAM_BLUE: {...Loads.BLUE_BEAM, SCALE: {X:1, Y:1}},
+    ENEMY_BEAM_CYAN: {...Loads.CYAN_BEAM, SCALE: {X:1, Y:1}},
+    ENEMY_BEAM_ORANGE: {...Loads.ORANGE_BEAM, SCALE: {X:1, Y:1}},
 }
 
 export const LoadMusic = {
