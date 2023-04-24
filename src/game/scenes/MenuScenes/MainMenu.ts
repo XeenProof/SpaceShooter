@@ -45,6 +45,8 @@ const MainMenuEvent = {
     INFINITE_BOOSTER: "INFINITE_BOOSTER",
     INFINITE_SHIELD: "INFINITE_SHIELD",
     UNLOCK_ALL_LEVEL: "UNLOCK_ALL_LEVEL",
+    UNLOCK_ALL_WEAPON: "UNLOCK_ALL_WEAPON",
+
 } as const;
 
 export default class MainMenu extends Scene {
@@ -66,6 +68,7 @@ export default class MainMenu extends Scene {
     protected infiniteBoosterButton: Button;
     protected infiniteShieldButton: Button;
     protected unlockAllLevelButton: Button;
+    protected unlockAllWeaponButton: Button;
 
     public override loadScene(){
         // this.autoloader(LoadAPPLE.APPLE);
@@ -284,9 +287,22 @@ export default class MainMenu extends Scene {
         this.unlockAllLevelButton.onClickEventId = MainMenuEvent.UNLOCK_ALL_LEVEL;
         this.unlockAllLevelButton.text = CheatCodes.getCheat(cheats.UNLOCK_ALL_LEVELS)?"X":""
 
-        const unlockAllLevel = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x - 260, center.y + 400), text: "Unlock all levels"});
+        const unlockAllLevel = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x - 280, center.y + 400), text: "Unlock all levels"});
         unlockAllLevel.textColor = Color.YELLOW;
-        unlockAllLevel.fontSize = 40;
+        unlockAllLevel.fontSize = 35;
+
+        this.unlockAllWeaponButton = <Button> this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x - 100, center.y + 400), text: ""});
+        this.unlockAllWeaponButton.size.set(50, 50);
+        this.unlockAllWeaponButton.borderWidth = 2;
+        this.unlockAllWeaponButton.borderColor = Color.YELLOW;
+        this.unlockAllWeaponButton.backgroundColor = Color.TRANSPARENT;
+        this.unlockAllWeaponButton.onClickEventId = MainMenuEvent.UNLOCK_ALL_WEAPON;
+        this.unlockAllWeaponButton.text = CheatCodes.getCheat(cheats.UNLOCK_ALL_WEAPONS)?"X":""
+
+        const unlockAllWeapon = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x + 80, center.y + 400), text: "Unlock all levels"});
+        unlockAllWeapon.textColor = Color.YELLOW;
+        unlockAllWeapon.fontSize = 40;
+
 
         // Subscribe to the button events
         this.receiver.subscribe(MainMenuEvent.PLAY_GAME);
@@ -301,6 +317,7 @@ export default class MainMenu extends Scene {
         this.receiver.subscribe(MainMenuEvent.INFINITE_BOOSTER);
         this.receiver.subscribe(MainMenuEvent.INFINITE_SHIELD);
         this.receiver.subscribe(MainMenuEvent.UNLOCK_ALL_LEVEL);
+        this.receiver.subscribe(MainMenuEvent.UNLOCK_ALL_WEAPON);
     }
 
     public override updateScene(){
@@ -403,6 +420,11 @@ export default class MainMenu extends Scene {
             case MainMenuEvent.UNLOCK_ALL_LEVEL: {
                 CheatCodes.triggerCheat(cheats.UNLOCK_ALL_LEVELS)
                 this.unlockAllLevelButton.text = CheatCodes.getCheat(cheats.UNLOCK_ALL_LEVELS)?"X":""
+                break;
+            }
+            case MainMenuEvent.UNLOCK_ALL_WEAPON: {
+                CheatCodes.triggerCheat(cheats.UNLOCK_ALL_WEAPONS)
+                this.unlockAllWeaponButton.text = CheatCodes.getCheat(cheats.UNLOCK_ALL_WEAPONS)?"X":""
                 break;
             }
             default: {
