@@ -58,7 +58,7 @@ export default class MegaMookBehavior extends BasicEnemyAI{
     private handleWeaponFire():void{
         this.owner.playSoundFX(audio.ATTACK)
         this.emitter.fireEvent(Events.ENEMY_SHOOTS, {
-            projectiles: this.weapons.getProjectiles((this.firedCounter%2)+1)
+            projectiles: this.weapons.getProjectiles((this.owner.percentHealth > .25)?(this.firedCounter%2)+1:3)
         })
         this.firedCounter+=1;
     }
