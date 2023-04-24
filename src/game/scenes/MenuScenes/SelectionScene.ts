@@ -109,7 +109,7 @@ export default class SelectionScence extends Scene {
         level2Img.scale.set(1, 1);
         level2Img.position.copy(new Vec2(center.x, center.y-80));
         
-        let level2text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x, center.y-175), text: "LEVEL TWO"});
+        let level2text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x, center.y-190), text: "LEVEL TWO"});
         level2text.size.set(300, 50);
         level2text.borderWidth = 2;
         level2text.fontSize = 30;
@@ -142,7 +142,7 @@ export default class SelectionScence extends Scene {
         level3Img.scale.set(1, 1);
         level3Img.position.copy(new Vec2(center.x+300, center.y-80));
         
-        let level3text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x+300, center.y-175), text: "LEVEL THREE"});
+        let level3text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x+300, center.y-190), text: "LEVEL THREE"});
         level3text.size.set(300, 50);
         level3text.borderWidth = 2;
         level3text.fontSize = 30;
