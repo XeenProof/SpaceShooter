@@ -18,6 +18,7 @@ export default class ScrapBehavior extends MovementAI{
 
         this.receiver.subscribe(Events.TRAVEL_SPEED_CHANGE)
         this.receiver.subscribe(Events.PLAYER_SCRAP_COLLISION)
+        this.receiver.subscribe(Events.PAUSE)
     }
     activate(options: Record<string, any>): void {
         this.owner.position.copy(options.src)
@@ -43,6 +44,10 @@ export default class ScrapBehavior extends MovementAI{
                 this.handleCollected(event.data.get("other"))
                 break;
             }
+            case Events.PAUSE: {
+				this.handlePause(event.data.get("pausing"))
+				break
+			}
             default:{
                 console.log("Unused Type:", event.type)
             }
@@ -61,4 +66,19 @@ export default class ScrapBehavior extends MovementAI{
         this.owner.visible = false;
         this.owner.position.set(1200,1200)
     }
+
+    public handlePause(pausing: boolean):void{
+        if(pausing){this.pause()}
+		else{this.resume()}
+    }
+
+    public pause():void{
+		this.owner.freeze()
+		// this.owner.TimerPause()
+	}
+    public resume():void{
+		this.owner.unfreeze()
+		// this.owner.TimerResume()
+	}
+
 }
