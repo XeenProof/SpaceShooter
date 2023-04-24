@@ -92,6 +92,7 @@ export const LoadEnemy = {
     MEGAMOOK: {...Loads.LEVEL2_BOSS, SCALE:{X:3, Y:3}},
     SUMMONER: {...Loads.LEVEL4_BOSS, SCALE:{X:3, Y:3}},
     LEVEL1MOOK: {...Loads.LEVEL1_BOSS, SCALE:{X:3,Y:3}},
+    LEVEL3MOOK: {...Loads.LEVEL3_BOSS, SCALE:{X:3,Y:3}},
 }
 
 export const LoadProjectiles = {

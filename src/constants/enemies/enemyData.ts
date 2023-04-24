@@ -14,6 +14,7 @@ export const AllEnemyKeys = {
     MEGAMOOK: "MEGAMOOK",
     SUMMONER: "SUMMONER",
     LEVEL1MOOK: "LEVEL1MOOK",
+    LEVEL3MOOK: "LEVEL3MOOK",
 }
 
 export const AllEnemyData = {
@@ -70,6 +71,13 @@ export const AllEnemyData = {
         KEY: AllEnemyKeys.LEVEL1MOOK,
         STATS: STATS.LEVEL1MOOK,
         LOAD: [LoadEnemy.LEVEL1MOOK],
+        AUDIO: attackingAudioList,
+        PHYSICS: PhysicGroups.ENEMY
+    },
+    LEVEL3MOOK:{
+        KEY: AllEnemyKeys.LEVEL3MOOK,
+        STATS: STATS.LEVEL3MOOK,
+        LOAD: [LoadEnemy.LEVEL3MOOK],
         AUDIO: attackingAudioList,
         PHYSICS: PhysicGroups.ENEMY
     },

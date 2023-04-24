@@ -50,6 +50,7 @@ export const level3 = {
             {DATA: AllEnemyData.HOARDER, AMMOUNT: 20},
 
             {DATA: AllEnemyData.MEGAMOOK, AMMOUND: 1},
+            {DATA: AllEnemyData.LEVEL3MOOK, AMMOUND: 1},
 
             {DATA: AllItemData.SCRAP, AMMOUNT: 20},
         ]
@@ -57,6 +58,16 @@ export const level3 = {
     AUDIOLIST: [LoadMusic.SPACE_MUSIC],
     SCRIPT: [
         {type: Script_Type.PLAY_SOUND, options: {index: 0}},
+
+        {type: Script_Type.WAVE, options: {wavenum: 7, mods:{droprate_multi: 1}}},
+        {type: Script_Type.SPAWN, options: {
+            enemyType: AllEnemyKeys.LEVEL3MOOK,
+            rpsl: [spawnRandomizer, {
+                speed:{min: 300},
+                repeat:{min:-1},
+                generateAmount: 20
+            }]
+        }},
 
         {type: Script_Type.WAVE, options: {wavenum: 1, mods:{droprate_multi: 1}}},
         ...generateRoundRobinScriptPart([AllEnemyKeys.SHIELDED_MOOK], [TriangleRoute.NORMAL,TriangleRoute.REVERSE], 1500, 2, 2),
@@ -96,15 +107,15 @@ export const level3 = {
         ...generateRoundRobinScriptPart([AllEnemyKeys.TARGETED_MOOK], [diagonalRoute.NORMAL, diagonalRoute.REVERSE], 500, 2, 4),
         {type: Script_Type.WAIT, options: {wait_time: -1}},
 
-        {type: Script_Type.WAVE, options: {wavenum: 7, mods:{droprate_multi: 1}}},
-        {type: Script_Type.SPAWN, options: {
-            enemyType: AllEnemyKeys.MEGAMOOK,
-            rpsl: [spawnRandomizer, {
-                speed:{min: 300},
-                repeat:{min:-1},
-                generateAmount: 20
-            }]
-        }},
+        // {type: Script_Type.WAVE, options: {wavenum: 7, mods:{droprate_multi: 1}}},
+        // {type: Script_Type.SPAWN, options: {
+        //     enemyType: AllEnemyKeys.LEVEL3MOOK,
+        //     rpsl: [spawnRandomizer, {
+        //         speed:{min: 300},
+        //         repeat:{min:-1},
+        //         generateAmount: 20
+        //     }]
+        // }},
         {type: Script_Type.WAIT, options: {wait_time: -1}},
 
         {type: Script_Type.LEVEL_ENDS, options: {endtype: LevelEndConst.LEVEL_CLEARED}}
