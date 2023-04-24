@@ -55,6 +55,14 @@ export const level6 = {
         ]
     },
     SCRIPT: [
+        {type: Script_Type.SPAWN, options: {
+                    enemyType: AllEnemyKeys.SUMMONER,
+                    rpsl: [spawnRandomizer, {
+                        speed:{min: 150},
+                        repeat:{min:-1},
+                        generateAmount: 20
+                    }]
+                }},
         {type: Script_Type.WAIT, options: {wait_time: -1}},
         {type: Script_Type.WAVE, options: {wavenum: 1, mods:{droprate_multi: 1}}},
         {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-300}},
