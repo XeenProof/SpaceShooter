@@ -40,7 +40,7 @@ export default class TargetedMookBehavior extends BasicEnemyAI {
             {projectiles:[{src: this.owner.position, 
             dir: this.faceDir, 
             id: this.owner.id, 
-            key: EnemyProjectileKeys.ENEMY_BEAM_GREEN}]})
+            key: EnemyProjectileKeys.ENEMY_BEAM_PURPLE}]})
     }
 
     public update(deltaT: number){

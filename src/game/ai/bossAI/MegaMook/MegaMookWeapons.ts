@@ -18,7 +18,7 @@ export class OctoShot extends MegaMookWeapon{
     ]
     private get defaultValues(): Record<string, any>{
         return {
-            key: EnemyProjectileKeys.ENEMY_BEAM_GREEN,
+            key: EnemyProjectileKeys.ENEMY_BEAM_PURPLE,
             src: this.owner.position,
             id: this.owner.id
         }
@@ -44,7 +44,7 @@ export class OctoShotV2 extends MegaMookWeapon{
     ]
     private get defaultValues(): Record<string, any>{
         return {
-            key: EnemyProjectileKeys.ENEMY_BEAM_GREEN,
+            key: EnemyProjectileKeys.ENEMY_BEAM_PURPLE,
             src: this.owner.position,
             id: this.owner.id
         }
