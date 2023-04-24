@@ -40,8 +40,11 @@ export const level3 = {
         BACKGROUND: LoadBackground.SPACE,
         PLAYER: AllPlayerData.PLAYER_V1.LOAD,
         OTHERS: [
+            {DATA: AllProjectileData.ENEMY_BEAM_GREEN, AMMOUNT: 20},
+            {DATA: AllProjectileData.ENEMY_BEAM_PURPLE, AMMOUNT: 20},
             {DATA: AllProjectileData.ENEMY_BEAM_BLUE, AMMOUNT: 20},
             {DATA: AllProjectileData.LEVEL3_BOSS_BEAM, AMMOUNT: 20},
+            
             {DATA: AllProjectileData.BEAM, AMMOUNT: 200},
             {DATA: AllProjectileData.TARGETED_BEAM, AMMOUNT: 20},
 
@@ -60,16 +63,6 @@ export const level3 = {
     SCRIPT: [
         {type: Script_Type.PLAY_SOUND, options: {index: 0}},
         {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-200}},
-
-        {type: Script_Type.WAVE, options: {wavenum: 7, mods:{droprate_multi: 1}}},
-        {type: Script_Type.SPAWN, options: {
-            enemyType: AllEnemyKeys.LEVEL3MOOK,
-            rpsl: [spawnRandomizer, {
-                speed:{min: 300},
-                repeat:{min:-1},
-                generateAmount: 20
-            }]
-        }},
 
         {type: Script_Type.WAVE, options: {wavenum: 1, mods:{droprate_multi: 1}}},
         ...generateRoundRobinScriptPart([AllEnemyKeys.SHIELDED_MOOK], [TriangleRoute.NORMAL,TriangleRoute.REVERSE], 1500, 2, 2),
@@ -109,15 +102,15 @@ export const level3 = {
         ...generateRoundRobinScriptPart([AllEnemyKeys.TARGETED_MOOK], [diagonalRoute.NORMAL, diagonalRoute.REVERSE], 500, 2, 4),
         {type: Script_Type.WAIT, options: {wait_time: -1}},
 
-        // {type: Script_Type.WAVE, options: {wavenum: 7, mods:{droprate_multi: 1}}},
-        // {type: Script_Type.SPAWN, options: {
-        //     enemyType: AllEnemyKeys.LEVEL3MOOK,
-        //     rpsl: [spawnRandomizer, {
-        //         speed:{min: 300},
-        //         repeat:{min:-1},
-        //         generateAmount: 20
-        //     }]
-        // }},
+        {type: Script_Type.WAVE, options: {wavenum: 7, mods:{droprate_multi: 1}}},
+        {type: Script_Type.SPAWN, options: {
+            enemyType: AllEnemyKeys.LEVEL3MOOK,
+            rpsl: [spawnRandomizer, {
+                speed:{min: 300},
+                repeat:{min:-1},
+                generateAmount: 20
+            }]
+        }},
         {type: Script_Type.WAIT, options: {wait_time: -1}},
 
         {type: Script_Type.LEVEL_ENDS, options: {endtype: LevelEndConst.LEVEL_CLEARED}}

@@ -19,7 +19,7 @@ export class ConeShot extends PersonMookWeapons{
     ]
     private get defaultValues(): Record<string, any>{
         return {
-            key: EnemyProjectileKeys.ENEMY_BEAM_GREEN,
+            key: EnemyProjectileKeys.ENEMY_BEAM_CYAN,
             src: this.owner.position,
             id: this.owner.id
         }
