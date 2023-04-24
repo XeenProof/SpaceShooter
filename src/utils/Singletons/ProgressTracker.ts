@@ -5,7 +5,7 @@ const KEY = "PROGRESS"
 export default class ProgressTracker{
     private static _instance:ProgressTracker
     private static get instance():ProgressTracker{
-        if(!this._instance){this._instance = new ProgressTracker()}
+        if(!this._instance){this.refresh()}
         return this._instance
     }
     public static getProgress(key:string):number{return this.instance.getProgress(key)}
@@ -16,6 +16,11 @@ export default class ProgressTracker{
         }
     }
     public static getBool(key:string):boolean{return !!this.getProgress(key)}
+    public static refresh(){this._instance = new ProgressTracker()}
+    public static clearData(){
+        LocalStorageHandler.updateData(KEY)
+        this.refresh()
+    }
     /**Instantanious methods */
     private progress:Map<string, number>
     constructor(){

@@ -24,12 +24,12 @@ export default class Level1MookBehavior extends BasicEnemyAI{
     protected override owner:Level1MookActor
 
     private weaponsTimer:Timer
-    private weapons:WeaponsManager<Level3MookWeapon>
     private firedCounter:number;
+    private weapons:WeaponsManager<Level3MookWeapon>
 
     public initializeAI(owner: Level1MookActor, options: Record<string, any> = {}): void {
         super.initializeAI(owner, options)
-        // this.firedCounter = 0;
+        this.firedCounter = 0;
         this.weaponsTimer = new Timer(1500,()=>{this.handleWeaponFire()}, true)
 
         this.weapons = new WeaponsManager<Level3MookWeapon>()
@@ -45,9 +45,9 @@ export default class Level1MookBehavior extends BasicEnemyAI{
     private handleWeaponFire():void{
         this.owner.playSoundFX(audio.ATTACK)
         this.emitter.fireEvent(Events.ENEMY_SHOOTS, {
-            projectiles: this.weapons.getProjectiles()
+            projectiles: this.weapons.getProjectiles((this.firedCounter%2)+1)
         })
-        // this.firedCounter+=1;
+        this.firedCounter+=1;
     }
 
     protected stopAI(): void {

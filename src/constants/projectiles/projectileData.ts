@@ -9,7 +9,9 @@ export const PlayerProjectileKeys = {
 
 export const EnemyProjectileKeys = {
     ENEMY_BEAM_GREEN: "ENEMY_BEAM_GREEN",
-    ENEMY_BEAM_ORANGE: "ENEMY_BEAM_ORANGE"
+    ENEMY_BEAM_ORANGE: "ENEMY_BEAM_ORANGE",
+    ENEMY_BEAM_BLUE: "ENEMY_BEAM_BLUE",
+    LEVEL3_BOSS_BEAM: "LEVEL3_BOSS_BEAM",
 }
 
 export const AllProjectileKeys = {
@@ -39,11 +41,26 @@ export const AllProjectileData = {
         LOAD:[LoadEnemyProjectile.ENEMY_BEAM_GREEN],
         PHYSICS: PhysicGroups.ENEMY_WEAPON
     },
+    ENEMY_BEAM_BLUE:{
+        KEY: AllProjectileKeys.ENEMY_BEAM_BLUE,
+        DAMAGE: 2,
+        SPEED: 500,
+        LOAD:[LoadEnemyProjectile.ENEMY_BEAM_BLUE],
+        PHYSICS: PhysicGroups.ENEMY_WEAPON
+    },
     ENEMY_BEAM_ORANGE:{
         KEY: AllProjectileKeys.ENEMY_BEAM_ORANGE,
         DAMAGE: 2,
         SPEED: 500,
         LOAD:[LoadEnemyProjectile.ENEMY_BEAM_ORANGE],
         PHYSICS: PhysicGroups.ENEMY_WEAPON
+    },
+    LEVEL3_BOSS_BEAM:{
+        KEY: AllProjectileKeys.LEVEL3_BOSS_BEAM,
+        DAMAGE: 10,
+        SPEED: 300,
+        LOAD:[LoadEnemyProjectile.LEVEL3_BOSS_BEAM],
+        PHYSICS: PhysicGroups.ENEMY_WEAPON
     }
+
 }

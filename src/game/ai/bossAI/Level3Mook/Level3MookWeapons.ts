@@ -13,12 +13,12 @@ export default abstract class Level3MookWeapons extends Weapon{
 }
 
 export class OctoShot extends Level3MookWeapons{
-    private list:Vec2[] = [Vec2.UP, Vec2.DOWN, Vec2.LEFT, Vec2.RIGHT,
-        new Vec2(-1,-1).normalize(),new Vec2(1,-1).normalize(),new Vec2(-1,1).normalize(),new Vec2(1,1).normalize(),
+    private list:Vec2[] = [Vec2.DOWN,
+        new Vec2(-1,1).normalize(),new Vec2(1,1).normalize(),
     ]
     private get defaultValues(): Record<string, any>{
         return {
-            key: EnemyProjectileKeys.ENEMY_BEAM_GREEN,
+            key: EnemyProjectileKeys.LEVEL3_BOSS_BEAM,
             src: this.owner.position,
             id: this.owner.id
         }
@@ -32,19 +32,17 @@ export class OctoShot extends Level3MookWeapons{
 }
 
 export class OctoShotV2 extends Level3MookWeapons{
-    private list:Vec2[] = [
-        new Vec2(-1,-2).normalize(),
+    private list:Vec2[] = [Vec2.DOWN,
         new Vec2(-1,2).normalize(),
-        new Vec2(1,-2).normalize(),
         new Vec2(1,2).normalize(),
-        new Vec2(-2,-1).normalize(),
         new Vec2(-2,1).normalize(),
-        new Vec2(2,-1).normalize(),
         new Vec2(2,1).normalize(),
+        new Vec2(1,1).normalize(),
+        new Vec2(-1,1).normalize(),
     ]
     private get defaultValues(): Record<string, any>{
         return {
-            key: EnemyProjectileKeys.ENEMY_BEAM_GREEN,
+            key: EnemyProjectileKeys.ENEMY_BEAM_BLUE,
             src: this.owner.position,
             id: this.owner.id
         }

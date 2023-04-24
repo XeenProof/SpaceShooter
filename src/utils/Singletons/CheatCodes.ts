@@ -15,6 +15,11 @@ export default class CheatCodes{
         }
     }
     public static getCheat(key: string):boolean{return this.instance.getCheat(key)}
+    public static refresh(){this._instance = new CheatCodes()}
+    public static clearData(){
+        LocalStorageHandler.updateData(KEY)
+        this.refresh()
+    }
 
     private constructor(){
         this.cheats = new Map<string, boolean>()

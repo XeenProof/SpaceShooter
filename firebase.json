@@ -21,7 +21,7 @@
       },
       {
         "source": "/benchmark3",
-        "destination": "/benchmarks/bm1/benchmark1.html"
+        "destination": "/benchmarks/bm3/index.html"
       }
     ]
   }

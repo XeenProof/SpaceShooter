@@ -40,7 +40,8 @@ export const level3 = {
         BACKGROUND: LoadBackground.SPACE,
         PLAYER: AllPlayerData.PLAYER_V1.LOAD,
         OTHERS: [
-            {DATA: AllProjectileData.ENEMY_BEAM_GREEN, AMMOUNT: 20},
+            {DATA: AllProjectileData.ENEMY_BEAM_BLUE, AMMOUNT: 20},
+            {DATA: AllProjectileData.LEVEL3_BOSS_BEAM, AMMOUNT: 20},
             {DATA: AllProjectileData.BEAM, AMMOUNT: 200},
             {DATA: AllProjectileData.TARGETED_BEAM, AMMOUNT: 20},
 
