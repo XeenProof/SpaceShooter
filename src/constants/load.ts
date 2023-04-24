@@ -106,6 +106,7 @@ export const LoadEnemyProjectile = {
     ENEMY_BEAM_BLUE: {...Loads.BLUE_BEAM, SCALE: {X:1, Y:1}},
     ENEMY_BEAM_CYAN: {...Loads.CYAN_BEAM, SCALE: {X:1, Y:1}},
     ENEMY_BEAM_ORANGE: {...Loads.ORANGE_BEAM, SCALE: {X:1, Y:1}},
+    LEVEL3_BOSS_BEAM: {...Loads.BLUE_BEAM, SCALE: {X:3, Y:3}},
 }
 
 export const LoadMusic = {
