@@ -262,6 +262,13 @@ export default class SelectionScence extends Scene {
             level6button.setPadding(level6Img.sizeWithZoom);
         }
 
+
+        const clearData = this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: new Vec2(center.x + 400, center.y - 400), text: "Clear Levels"});
+        clearData.size.set(200, 50);
+        clearData.borderWidth = 2;
+        clearData.borderColor = Color.YELLOW;
+        clearData.backgroundColor = Color.TRANSPARENT;
+
         this.receiver.subscribe(SelectionEvent.LEVEL_ONE);
         this.receiver.subscribe(SelectionEvent.LEVEL_TWO);
         this.receiver.subscribe(SelectionEvent.LEVEL_THREE);
