@@ -139,6 +139,7 @@ export default class SelectionScence extends Scene {
 
     private initUI():void{
         const center = this.viewport.getCenter();
+        const hoverBackground = new Color(255,255,255,0.25)
 
         const text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x, center.y-275), text: "LEVEL SELECTION"});
         text.size.set(300, 50);
@@ -146,19 +147,24 @@ export default class SelectionScence extends Scene {
         text.textColor = Color.YELLOW;
         text.backgroundColor = Color.TRANSPARENT;
 
-        const back = this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: new Vec2(center.x-440, center.y - 400), text: "Back"});
+        const back = <Button>this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: new Vec2(center.x-440, center.y - 400), text: "Back"});
         back.size.set(200, 50);
         back.borderWidth = 2;
         back.borderColor = Color.YELLOW;
         back.backgroundColor = Color.TRANSPARENT;
         back.onClickEventId = SelectionEvent.BACK;
+        back.onEnter = ()=>{back.backgroundColor = hoverBackground}
+        back.onLeave = ()=>{back.backgroundColor = Color.TRANSPARENT}
 
-        const clearData = this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: new Vec2(center.x + 400, center.y - 400), text: "Clear Levels"});
+
+        const clearData = <Button>this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: new Vec2(center.x + 400, center.y - 400), text: "Clear Levels"});
         clearData.size.set(200, 50);
         clearData.borderWidth = 2;
         clearData.borderColor = Color.YELLOW;
         clearData.backgroundColor = Color.TRANSPARENT;
         clearData.onClickEventId = SelectionEvent.CLEAR_LEVELS_STORAGE;
+        clearData.onEnter = ()=>{clearData.backgroundColor = hoverBackground}
+        clearData.onLeave = ()=>{clearData.backgroundColor = Color.TRANSPARENT}
 
         let level1text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x-300, center.y-190), text: "LEVEL ONE"});
         let level1Img = this.add.sprite("Level 1", SelectionLayer.CONTROLS);
