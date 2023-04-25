@@ -61,216 +61,8 @@ export default class SelectionScence extends Scene {
     }
     
     public override startScene(){
-        const center = this.viewport.getCenter();
-        // this.level1Img=LoadTest.TEST;
-
-        this.selection = this.addLayer(SelectionLayer.BACKGROUND,0);
-        this.initBackground(SelectionLayer.BACKGROUND);
-
-        this.controls = this.addLayer(SelectionLayer.CONTROLS,1);
-
-        const text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x, center.y-275), text: "LEVEL SELECTION"});
-        text.size.set(300, 50);
-        // text.borderWidth = 2;
-        text.fontSize = 80;
-        text.textColor = Color.YELLOW;
-        text.backgroundColor = Color.TRANSPARENT;
-
-        // this.controls = this.addLayer(SelectionLayer.CONTROLS,1);
-
-        const back = this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: new Vec2(center.x-440, center.y - 400), text: "Back"});
-        back.size.set(200, 50);
-        back.borderWidth = 2;
-        back.borderColor = Color.YELLOW;
-        back.backgroundColor = Color.TRANSPARENT;
-        back.onClickEventId = SelectionEvent.BACK;
-
-        let level1Img = this.add.sprite("Level 1", SelectionLayer.CONTROLS);
-        level1Img.scale.set(1, 1);
-        level1Img.position.copy(new Vec2(center.x-300, center.y-80));
-        
-        let level1 = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x-300, center.y-190), text: "LEVEL ONE"});
-        level1.size.set(300, 50);
-        level1.borderWidth = 2;
-        level1.fontSize = 30;
-        level1.textColor = Color.YELLOW;
-        level1.backgroundColor = Color.TRANSPARENT;
-
-        const level1button = <Button> this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: level1Img.position, text: ""});
-        level1button.size.set(220, 180);
-        level1button.backgroundColor = Color.TRANSPARENT;
-        level1button.borderColor = Color.TRANSPARENT;
-        level1button.borderRadius = 0;
-        level1button.fontSize = 0;
-        level1button.setPadding(level1Img.sizeWithZoom);
-        level1button.onClickEventId = SelectionEvent.LEVEL_ONE;
-
-        
-        // Level 2 game
-        let level2Img = this.add.sprite("Level 2", SelectionLayer.CONTROLS);
-        level2Img.scale.set(1, 1);
-        level2Img.position.copy(new Vec2(center.x, center.y-80));
-        
-        let level2text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x, center.y-190), text: "LEVEL TWO"});
-        level2text.size.set(300, 50);
-        level2text.borderWidth = 2;
-        level2text.fontSize = 30;
-        level2text.textColor = Color.YELLOW;
-        level2text.backgroundColor = Color.TRANSPARENT;
-
-        const level2button = <Button> this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: level2Img.position, text: ""});
-        if(this.levelIsUnlocked(level2)){
-            level2button.size.set(220, 180);
-            level2button.backgroundColor = Color.TRANSPARENT;
-            level2button.borderColor = Color.TRANSPARENT;
-            level2button.borderRadius = 0;
-            level2button.fontSize = 0;
-            level2button.setPadding(level2Img.sizeWithZoom);
-            level2button.onClickEventId = SelectionEvent.LEVEL_TWO;
-        }
-        else{
-            level2button.size.set(220, 180);
-            level2button.backgroundColor = Color.BLACK;
-            level2button.borderColor = Color.BLACK;
-            level2button.borderRadius = 0;
-            level2button.fontSize = 0;
-            level2button.setPadding(level2Img.sizeWithZoom);
-        }
-
-
-
-        // Level 3 game
-        let level3Img = this.add.sprite("Level 3", SelectionLayer.CONTROLS);
-        level3Img.scale.set(1, 1);
-        level3Img.position.copy(new Vec2(center.x+300, center.y-80));
-        
-        let level3text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x+300, center.y-190), text: "LEVEL THREE"});
-        level3text.size.set(300, 50);
-        level3text.borderWidth = 2;
-        level3text.fontSize = 30;
-        level3text.textColor = Color.YELLOW;
-        level3text.backgroundColor = Color.TRANSPARENT;
-
-        const level3button = <Button> this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: level3Img.position, text: ""});
-        if(this.levelIsUnlocked(level3)){
-            level3button.size.set(220, 180);
-            level3button.backgroundColor = Color.TRANSPARENT;
-            level3button.borderColor = Color.TRANSPARENT;
-            level3button.borderRadius = 0;
-            level3button.fontSize = 0;
-            level3button.setPadding(level3Img.sizeWithZoom);
-            level3button.onClickEventId = SelectionEvent.LEVEL_THREE;
-        }
-        else{
-            level3button.size.set(220, 180);
-            level3button.backgroundColor = Color.BLACK;
-            level3button.borderColor = Color.BLACK;
-            level3button.borderRadius = 0;
-            level3button.fontSize = 0;
-            level3button.setPadding(level3Img.sizeWithZoom);
-        }
-
-
-        // Level 4 game
-        let level4Img = this.add.sprite("Level 4", SelectionLayer.CONTROLS);
-        level4Img.scale.set(1, 1);
-        level4Img.position.copy(new Vec2(center.x-300, center.y+180));
-        
-        let level4text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x-300, center.y+75), text: "LEVEL FOUR"});
-        level4text.size.set(300, 50);
-        level4text.borderWidth = 2;
-        level4text.fontSize = 30;
-        level4text.textColor = Color.YELLOW;
-        level4text.backgroundColor = Color.TRANSPARENT;
-
-        const level4button = <Button> this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: level4Img.position, text: ""});
-        if(this.levelIsUnlocked(level4)){
-            level4button.size.set(220, 180);
-            level4button.backgroundColor = Color.TRANSPARENT;
-            level4button.borderColor = Color.TRANSPARENT;
-            level4button.borderRadius = 0;
-            level4button.fontSize = 0;
-            level4button.setPadding(level1Img.sizeWithZoom);
-            level4button.onClickEventId = SelectionEvent.LEVEL_FOUR;
-        }
-        else{
-            level4button.size.set(220, 180);
-            level4button.backgroundColor = Color.BLACK;
-            level4button.borderColor = Color.BLACK;
-            level4button.borderRadius = 0;
-            level4button.fontSize = 0;
-            level4button.setPadding(level4Img.sizeWithZoom);
-        }
-
-        // Level 5 game
-        let level5Img = this.add.sprite("Blank", SelectionLayer.CONTROLS);
-        level5Img.scale.set(0.35, 0.35);
-        level5Img.position.copy(new Vec2(center.x, center.y+180));
-        
-        let level5text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x, center.y+75), text: "LEVEL FIVE"});
-        level5text.size.set(300, 50);
-        level5text.borderWidth = 2;
-        level5text.fontSize = 30;
-        level5text.textColor = Color.YELLOW;
-        level5text.backgroundColor = Color.TRANSPARENT;
-
-        const level5button = <Button> this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: level5Img.position, text: ""});
-        if(this.levelIsUnlocked(level5)){
-            level5button.size.set(220, 180);
-            level5button.backgroundColor = Color.TRANSPARENT;
-            level5button.borderColor = Color.TRANSPARENT;
-            level5button.borderRadius = 0;
-            level5button.fontSize = 0;
-            level5button.setPadding(level5Img.sizeWithZoom);
-            level5button.onClickEventId = SelectionEvent.LEVEL_FIVE;
-        }
-        else{
-            level5button.size.set(220, 180);
-            level5button.backgroundColor = Color.BLACK;
-            level5button.borderColor = Color.BLACK;
-            level5button.borderRadius = 0;
-            level5button.fontSize = 0;
-            level5button.setPadding(level5Img.sizeWithZoom);
-        }
-
-        // Level 6 game
-        let level6Img = this.add.sprite("Blank", SelectionLayer.CONTROLS);
-        level6Img.scale.set(0.35, 0.35);
-        level6Img.position.copy(new Vec2(center.x+300, center.y+180));
-        
-        let level6text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x+300, center.y+75), text: "LEVEL SIX"});
-        level6text.size.set(300, 50);
-        level6text.borderWidth = 2;
-        level6text.fontSize = 30;
-        level6text.textColor = Color.YELLOW;
-        level6text.backgroundColor = Color.TRANSPARENT;
-
-        const level6button = <Button> this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: level6Img.position, text: ""});
-        if(this.levelIsUnlocked(level6)){
-            level6button.size.set(220, 180);
-            level6button.backgroundColor = Color.TRANSPARENT;
-            level6button.borderColor = Color.TRANSPARENT;
-            level6button.borderRadius = 0;
-            level6button.fontSize = 0;
-            level6button.setPadding(level6Img.sizeWithZoom);
-            level6button.onClickEventId = SelectionEvent.LEVEL_SIX;
-        }
-        else{
-            level6button.size.set(220, 180);
-            level6button.backgroundColor = Color.BLACK;
-            level6button.borderColor = Color.BLACK;
-            level6button.borderRadius = 0;
-            level6button.fontSize = 0;
-            level6button.setPadding(level6Img.sizeWithZoom);
-        }
-
-
-        const clearData = this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: new Vec2(center.x + 400, center.y - 400), text: "Clear Levels"});
-        clearData.size.set(200, 50);
-        clearData.borderWidth = 2;
-        clearData.borderColor = Color.YELLOW;
-        clearData.backgroundColor = Color.TRANSPARENT;
-        clearData.onClickEventId = SelectionEvent.CLEAR_LEVELS_STORAGE;
+        this.initLayers()
+        this.initUI()
 
         this.receiver.subscribe(SelectionEvent.LEVEL_ONE);
         this.receiver.subscribe(SelectionEvent.LEVEL_TWO);
@@ -366,5 +158,191 @@ export default class SelectionScence extends Scene {
             if(!ProgressTracker.getBool(s)){return false}
         }
         return true
+    }
+
+    private initLayers():void{
+        this.selection = this.addLayer(SelectionLayer.BACKGROUND,0);
+        this.initBackground(SelectionLayer.BACKGROUND);
+        this.controls = this.addLayer(SelectionLayer.CONTROLS,1);
+    }
+
+    private initUI():void{
+        const center = this.viewport.getCenter();
+
+        const text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x, center.y-275), text: "LEVEL SELECTION"});
+        text.size.set(300, 50);
+        text.fontSize = 80;
+        text.textColor = Color.YELLOW;
+        text.backgroundColor = Color.TRANSPARENT;
+
+        const back = this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: new Vec2(center.x-440, center.y - 400), text: "Back"});
+        back.size.set(200, 50);
+        back.borderWidth = 2;
+        back.borderColor = Color.YELLOW;
+        back.backgroundColor = Color.TRANSPARENT;
+        back.onClickEventId = SelectionEvent.BACK;
+
+        let level1Img = this.add.sprite("Level 1", SelectionLayer.CONTROLS);
+        level1Img.scale.set(1, 1);
+        level1Img.position.copy(new Vec2(center.x-300, center.y-80));
+        
+        let level1 = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x-300, center.y-190), text: "LEVEL ONE"});
+        level1.size.set(300, 50);
+        level1.borderWidth = 2;
+        level1.fontSize = 30;
+        level1.textColor = Color.YELLOW;
+        level1.backgroundColor = Color.TRANSPARENT;
+
+        const level1button = <Button> this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: level1Img.position, text: ""});
+        level1button.size.set(220, 180);
+        level1button.backgroundColor = Color.TRANSPARENT;
+        level1button.borderColor = Color.TRANSPARENT;
+        level1button.borderRadius = 0;
+        level1button.fontSize = 0;
+        level1button.setPadding(level1Img.sizeWithZoom);
+        level1button.onClickEventId = SelectionEvent.LEVEL_ONE;
+
+        // Level 2 game
+        let level2Img = this.add.sprite("Level 2", SelectionLayer.CONTROLS);
+        level2Img.scale.set(1, 1);
+        level2Img.position.copy(new Vec2(center.x, center.y-80));
+        
+        let level2text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x, center.y-190), text: "LEVEL TWO"});
+        level2text.size.set(300, 50);
+        level2text.borderWidth = 2;
+        level2text.fontSize = 30;
+        level2text.textColor = Color.YELLOW;
+        level2text.backgroundColor = Color.TRANSPARENT;
+
+        const level2button = <Button> this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: level2Img.position, text: ""});
+        level2button.size.set(220, 180);
+        level2button.borderRadius = 0;
+        level2button.fontSize = 0;
+        level2button.setPadding(level2Img.sizeWithZoom);
+        if(this.levelIsUnlocked(level2)){
+            level2button.backgroundColor = Color.TRANSPARENT;
+            level2button.borderColor = Color.TRANSPARENT;
+            level2button.onClickEventId = SelectionEvent.LEVEL_TWO;
+        }
+        else{
+            level2button.backgroundColor = Color.BLACK;
+            level2button.borderColor = Color.BLACK;
+        }
+
+        // Level 3 game
+        let level3Img = this.add.sprite("Level 3", SelectionLayer.CONTROLS);
+        level3Img.scale.set(1, 1);
+        level3Img.position.copy(new Vec2(center.x+300, center.y-80));
+        
+        let level3text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x+300, center.y-190), text: "LEVEL THREE"});
+        level3text.size.set(300, 50);
+        level3text.borderWidth = 2;
+        level3text.fontSize = 30;
+        level3text.textColor = Color.YELLOW;
+        level3text.backgroundColor = Color.TRANSPARENT;
+
+        const level3button = <Button> this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: level3Img.position, text: ""});
+        level3button.size.set(220, 180);
+        level3button.borderRadius = 0;
+        level3button.fontSize = 0;
+        level3button.setPadding(level3Img.sizeWithZoom);
+        if(this.levelIsUnlocked(level3)){
+            level3button.backgroundColor = Color.TRANSPARENT;
+            level3button.borderColor = Color.TRANSPARENT;
+            level3button.onClickEventId = SelectionEvent.LEVEL_THREE;
+        }
+        else{
+            level3button.backgroundColor = Color.BLACK;
+            level3button.borderColor = Color.BLACK;
+        }
+
+
+        // Level 4 game
+        let level4Img = this.add.sprite("Level 4", SelectionLayer.CONTROLS);
+        level4Img.scale.set(1, 1);
+        level4Img.position.copy(new Vec2(center.x-300, center.y+180));
+        
+        let level4text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x-300, center.y+75), text: "LEVEL FOUR"});
+        level4text.size.set(300, 50);
+        level4text.borderWidth = 2;
+        level4text.fontSize = 30;
+        level4text.textColor = Color.YELLOW;
+        level4text.backgroundColor = Color.TRANSPARENT;
+
+        const level4button = <Button> this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: level4Img.position, text: ""});
+        level4button.size.set(220, 180);
+        level4button.borderRadius = 0;
+        level4button.fontSize = 0;
+        level4button.setPadding(level4Img.sizeWithZoom);
+        if(this.levelIsUnlocked(level4)){
+            level4button.backgroundColor = Color.TRANSPARENT;
+            level4button.borderColor = Color.TRANSPARENT;
+            level4button.onClickEventId = SelectionEvent.LEVEL_FOUR;
+        }
+        else{
+            level4button.backgroundColor = Color.BLACK;
+            level4button.borderColor = Color.BLACK;
+        }
+
+        // Level 5 game
+        let level5Img = this.add.sprite("Blank", SelectionLayer.CONTROLS);
+        level5Img.scale.set(0.35, 0.35);
+        level5Img.position.copy(new Vec2(center.x, center.y+180));
+        
+        let level5text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x, center.y+75), text: "LEVEL FIVE"});
+        level5text.size.set(300, 50);
+        level5text.borderWidth = 2;
+        level5text.fontSize = 30;
+        level5text.textColor = Color.YELLOW;
+        level5text.backgroundColor = Color.TRANSPARENT;
+
+        const level5button = <Button> this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: level5Img.position, text: ""});
+        level5button.size.set(220, 180);
+        level5button.borderRadius = 0;
+        level5button.fontSize = 0;
+        level5button.setPadding(level5Img.sizeWithZoom);
+        if(this.levelIsUnlocked(level5)){
+            level5button.backgroundColor = Color.TRANSPARENT;
+            level5button.borderColor = Color.TRANSPARENT;
+            level5button.onClickEventId = SelectionEvent.LEVEL_FIVE;
+        }
+        else{
+            level5button.backgroundColor = Color.BLACK;
+            level5button.borderColor = Color.BLACK;
+        }
+
+        // Level 6 game
+        let level6Img = this.add.sprite("Blank", SelectionLayer.CONTROLS);
+        level6Img.scale.set(0.35, 0.35);
+        level6Img.position.copy(new Vec2(center.x+300, center.y+180));
+        
+        let level6text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x+300, center.y+75), text: "LEVEL SIX"});
+        level6text.size.set(300, 50);
+        level6text.borderWidth = 2;
+        level6text.fontSize = 30;
+        level6text.textColor = Color.YELLOW;
+        level6text.backgroundColor = Color.TRANSPARENT;
+
+        const level6button = <Button> this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: level6Img.position, text: ""});
+        level6button.size.set(220, 180);
+        level6button.borderRadius = 0;
+        level6button.fontSize = 0;
+        level6button.setPadding(level6Img.sizeWithZoom);
+        if(this.levelIsUnlocked(level6)){
+            level6button.backgroundColor = Color.TRANSPARENT;
+            level6button.borderColor = Color.TRANSPARENT;
+            level6button.onClickEventId = SelectionEvent.LEVEL_SIX;
+        }
+        else{
+            level6button.backgroundColor = Color.BLACK;
+            level6button.borderColor = Color.BLACK;
+        }
+
+        const clearData = this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: new Vec2(center.x + 400, center.y - 400), text: "Clear Levels"});
+        clearData.size.set(200, 50);
+        clearData.borderWidth = 2;
+        clearData.borderColor = Color.YELLOW;
+        clearData.backgroundColor = Color.TRANSPARENT;
+        clearData.onClickEventId = SelectionEvent.CLEAR_LEVELS_STORAGE;
     }
 }
