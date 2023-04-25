@@ -163,12 +163,10 @@ export default class BaseScene extends ActorScene{
 	public override updateScene(deltaT: number){
 		this.handleEndType()
 		if(this.levelEnded){return;}
-		
 		// Handle events
 		while (this.receiver.hasNextEvent()) {
 			this.handleEvent(this.receiver.getNextEvent());
 		}
-
 		if(this.paused){return}
 
 		this.handleHealthChange(this.player.health,this.player.maxHealth);
@@ -180,7 +178,6 @@ export default class BaseScene extends ActorScene{
 
 		this.moveBackgrounds(deltaT);
 		this.lockPlayer(this.player, this.viewport.getCenter(), this.viewport.getHalfSize())
-
 	}
 
     /**
