@@ -394,7 +394,7 @@ export default class BaseScene extends ActorScene{
 		this.waveLabel.font = "Courier";
 		this.waveLabel.textColor = Color.WHITE;
 
-		this.wave = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+125, GAMEPLAY_DIMENTIONS.YSTART+590), text: "0"});
+		this.wave = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+200, GAMEPLAY_DIMENTIONS.YSTART+590), text: "0"});
 		this.wave.size.set(30, 30);
 		this.wave.fontSize = 30;
 		this.wave.font = "Courier";
@@ -408,7 +408,7 @@ export default class BaseScene extends ActorScene{
 		this.scrapIronLabel.font = "Courier";
 		this.scrapIronLabel.textColor = Color.WHITE;
 
-		this.scrapIron = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+160, GAMEPLAY_DIMENTIONS.YSTART+640), text: `0`});
+		this.scrapIron = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+200, GAMEPLAY_DIMENTIONS.YSTART+640), text: `0`});
 		this.scrapIron.size.set(30, 30);
 		this.scrapIron.fontSize = 30;
 		this.scrapIron.font = "Courier";
@@ -422,7 +422,7 @@ export default class BaseScene extends ActorScene{
 		this.pointsLabel.font = "Courier";
 		this.pointsLabel.textColor = Color.WHITE;
 
-		this.points = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+155, GAMEPLAY_DIMENTIONS.YSTART+690), text: `0`});
+		this.points = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+200, GAMEPLAY_DIMENTIONS.YSTART+690), text: `0`});
 		this.points.size.set(30, 30);
 		this.points.fontSize = 30;
 		this.points.font = "Courier";
@@ -440,7 +440,7 @@ export default class BaseScene extends ActorScene{
 		healthButton.onClickEventId = Events.HEALTH;
 
 		//increase max health button
-		const maxHealthButton = <Button> this.add.uiElement(UIElementType.BUTTON, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+150, GAMEPLAY_DIMENTIONS.YSTART+800), text: "UPGRADE HEALTH (WIP)"});
+		const maxHealthButton = <Button> this.add.uiElement(UIElementType.BUTTON, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+150, GAMEPLAY_DIMENTIONS.YSTART+800), text: "UPGRADE HEALTH"});
         maxHealthButton.size.set(200, 50);
         maxHealthButton.borderWidth = 0.5;
         maxHealthButton.borderColor = Color.BLACK;
@@ -449,7 +449,7 @@ export default class BaseScene extends ActorScene{
 		maxHealthButton.onClickEventId = Events.UPGRADE_HEALTH;
 
 		//upgrade weapon button
-		const upgradeWeaponButton = <Button> this.add.uiElement(UIElementType.BUTTON, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+150, GAMEPLAY_DIMENTIONS.YSTART+860), text: "UPGRADE WEAPON (WIP)"});
+		const upgradeWeaponButton = <Button> this.add.uiElement(UIElementType.BUTTON, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+150, GAMEPLAY_DIMENTIONS.YSTART+860), text: "UPGRADE WEAPON"});
         upgradeWeaponButton.size.set(200, 50);
         upgradeWeaponButton.borderWidth = 0.5;
         upgradeWeaponButton.borderColor = Color.BLACK;
@@ -601,7 +601,7 @@ export default class BaseScene extends ActorScene{
 	public get player(): PlayerActor {return this._player;}
 	public get isScreenCleared(): boolean {return this.entities.countInUse((x)=>{return x.PHYSICS == PhysicGroups.ENEMY}) <= 0}
 	public get TravelSpeed():Vec2 {return this.backgroundSpeed}
-	public get collectScrap():number {return RandUtils.randInt(10,21)}
+	public get collectScrap():number {return RandUtils.randInt(50,101)}
 	public get isPaused():boolean{return this.paused}
 
 	public getEnemy(id: number): HPActor {return <HPActor>this.entities.getEntityById(id, PhysicGroups.ENEMY)}
