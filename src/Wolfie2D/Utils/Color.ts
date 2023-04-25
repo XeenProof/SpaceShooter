@@ -61,6 +61,14 @@ export default class Color {
 	}
 
 	/**	
+	 * Blue color
+	 * @returns rgb(0, 0, 255)
+	 */
+	static get LIGHT_BLUE(): Color {
+		return new Color(0, 0, 125, 1);
+	}
+
+	/**	
 	 * Yellow color
 	 * @returns rgb(255, 255, 0)
 	 */

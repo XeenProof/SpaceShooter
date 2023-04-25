@@ -404,7 +404,6 @@ export default class BaseScene extends ActorScene{
 		cont.backgroundColor= Color.YELLOW
 		cont.borderWidth=5;
 		cont.borderColor=Color.BLACK;
-		//cont.onClick = ()=>{this.emitter.fireEvent(Events.PAUSE, {pausing:false})};
 		cont.onClickEventId = Events.PAUSE
 		cont.onClickEventData = {pausing: false}
 
