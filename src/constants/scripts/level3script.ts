@@ -44,7 +44,8 @@ export const level3 = {
             {DATA: AllProjectileData.ENEMY_BEAM_PURPLE, AMMOUNT: 20},
             {DATA: AllProjectileData.ENEMY_BEAM_BLUE, AMMOUNT: 20},
             {DATA: AllProjectileData.LEVEL3_BOSS_BEAM, AMMOUNT: 20},
-            
+            {DATA: AllProjectileData.LEVEL3_BOSS_LARGEBEAM, AMMOUNT: 20},
+
             {DATA: AllProjectileData.BEAM, AMMOUNT: 200},
             {DATA: AllProjectileData.TARGETED_BEAM, AMMOUNT: 20},
 
@@ -111,6 +112,7 @@ export const level3 = {
                 generateAmount: 20
             }]
         }},
+        ...generateRoundRobinScriptPart([AllEnemyKeys.SHIELDED_MOOK], [recRoute.NORMAL, recRoute.REVERSE], 500, 2, 4),
         {type: Script_Type.WAIT, options: {wait_time: -1}},
 
         {type: Script_Type.LEVEL_ENDS, options: {endtype: LevelEndConst.LEVEL_CLEARED}}

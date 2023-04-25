@@ -7,11 +7,12 @@ import WeaponsManager from "../../../../utils/WeaponManager/WeaponsManager";
 import Level1MookActor from "../../../actors/BossActors/Level1MookActor";
 import HPActor from "../../../actors/abstractActors/HPActor";
 import BasicEnemyAI from "../../abstractAI/BasicEnemyAI";
-import Level3MookWeapon, { OctoShot, OctoShotV2 } from "./Level3MookWeapons";
+import Level3MookWeapon, { OctoShot, OctoShotV2, DownShot } from "./Level3MookWeapons";
 
 const WEAPONS = {
     OCTOSHOT: "OCTOSHOT",
-    OCTOSHOTV2: "OCTOSHOTV2"
+    OCTOSHOTV2: "OCTOSHOTV2",
+    DOWNSHOT: "DOWNSHOT",
 }
 
 const audio = {
@@ -30,11 +31,12 @@ export default class Level1MookBehavior extends BasicEnemyAI{
     public initializeAI(owner: Level1MookActor, options: Record<string, any> = {}): void {
         super.initializeAI(owner, options)
         this.firedCounter = 0;
-        this.weaponsTimer = new Timer(1500,()=>{this.handleWeaponFire()}, true)
+        this.weaponsTimer = new Timer(1000,()=>{this.handleWeaponFire()}, true)
 
         this.weapons = new WeaponsManager<Level3MookWeapon>()
-        this.weapons.add(WEAPONS.OCTOSHOT, new OctoShot(this.owner, this), 1, 3)
-        this.weapons.add(WEAPONS.OCTOSHOTV2, new OctoShotV2(this.owner, this), 2, 3)
+        this.weapons.add(WEAPONS.DOWNSHOT, new DownShot(this.owner, this), 1, 4)
+        this.weapons.add(WEAPONS.OCTOSHOT, new OctoShot(this.owner, this), 2, 4)
+        this.weapons.add(WEAPONS.OCTOSHOTV2, new OctoShotV2(this.owner, this), 3, 4)
     }
 
     public activate(options: Record<string, any>): void {
@@ -45,7 +47,7 @@ export default class Level1MookBehavior extends BasicEnemyAI{
     private handleWeaponFire():void{
         this.owner.playSoundFX(audio.ATTACK)
         this.emitter.fireEvent(Events.ENEMY_SHOOTS, {
-            projectiles: this.weapons.getProjectiles((this.firedCounter%2)+1)
+            projectiles: this.weapons.getProjectiles((this.firedCounter%3)+1)
         })
         this.firedCounter+=1;
     }

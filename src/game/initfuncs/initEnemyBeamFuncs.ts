@@ -17,6 +17,7 @@ export const initEnemyBeamFuncs = {
     ENEMY_BEAM_CYAN: initEnemyBeamCyanFunc,
     ENEMY_BEAM_ORANGE: initEnemyBeamOrangeFunc,
     LEVEL3_BOSS_BEAM: initLevel3BOSSBeamFunc,
+    LEVEL3_BOSS_LARGEBEAM: initLevel3BOSSLargeBeamFunc,
 }
 
 function initEnemyBeamGreenFunc(add: FactoryManager, scene:ActorScene):BeamActor{
@@ -91,6 +92,22 @@ function initEnemyBeamCyanFunc(add: FactoryManager, scene:ActorScene):BeamActor{
 
 function initLevel3BOSSBeamFunc(add: FactoryManager, scene:ActorScene):BeamActor{
     let info = AllProjectileData.LEVEL3_BOSS_BEAM
+    let entity = add.animatedSprite(BeamActor, info.LOAD[0].KEY, Layers.PRIMARY)
+    let {X, Y} = info.LOAD[0].SCALE
+    entity.position.set(1200,1200)
+    entity.damage_key = info.KEY
+    entity.scale.set(X, Y);
+    entity.setScene(scene)
+    entity.visible = false;
+    entity.addAI(BasicWeaponAI, {src: inactivePos, dir: Vec2.DOWN, speed: info.SPEED})
+    entity.addPhysics();
+    entity.setGroup(PhysicGroups.ENEMY_WEAPON)
+    entity.setTrigger(PhysicGroups.PLAYER, Events.WEAPON_PLAYER_COLLISION, null)
+    return entity;
+}
+
+function initLevel3BOSSLargeBeamFunc(add: FactoryManager, scene:ActorScene):BeamActor{
+    let info = AllProjectileData.LEVEL3_BOSS_LARGEBEAM
     let entity = add.animatedSprite(BeamActor, info.LOAD[0].KEY, Layers.PRIMARY)
     let {X, Y} = info.LOAD[0].SCALE
     entity.position.set(1200,1200)

@@ -12,6 +12,23 @@ export default abstract class Level3MookWeapons extends Weapon{
     }
 }
 
+export class DownShot extends Level3MookWeapons{
+    private list:Vec2[] = [Vec2.DOWN]
+    private get defaultValues(): Record<string, any>{
+        return {
+            key: EnemyProjectileKeys.LEVEL3_BOSS_LARGEBEAM,
+            src: this.owner.position,
+            id: this.owner.id
+        }
+    }
+    public get projectileList(): Record<string, any>[] {
+        return this.list.map((x)=>{return{
+            ...this.defaultValues,
+            dir: x
+        }})
+    }
+}
+
 export class OctoShot extends Level3MookWeapons{
     private list:Vec2[] = [Vec2.DOWN,
         new Vec2(-1,1).normalize(),new Vec2(1,1).normalize(),

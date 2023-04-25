@@ -14,6 +14,7 @@ export const EnemyProjectileKeys = {
     ENEMY_BEAM_CYAN:"ENEMY_BEAM_CYAN",
     ENEMY_BEAM_ORANGE: "ENEMY_BEAM_ORANGE",
     LEVEL3_BOSS_BEAM: "LEVEL3_BOSS_BEAM",
+    LEVEL3_BOSS_LARGEBEAM: "LEVEL3_BOSS_LARGEBEAM",
 }
 
 export const AllProjectileKeys = {
@@ -73,9 +74,16 @@ export const AllProjectileData = {
     },
     LEVEL3_BOSS_BEAM:{
         KEY: AllProjectileKeys.LEVEL3_BOSS_BEAM,
-        DAMAGE: 10,
+        DAMAGE: 5,
         SPEED: 300,
         LOAD:[LoadEnemyProjectile.LEVEL3_BOSS_BEAM],
+        PHYSICS: PhysicGroups.ENEMY_WEAPON
+    },
+    LEVEL3_BOSS_LARGEBEAM:{
+        KEY: AllProjectileKeys.LEVEL3_BOSS_LARGEBEAM,
+        DAMAGE: 10,
+        SPEED: 150,
+        LOAD:[LoadEnemyProjectile.LEVEL3_BOSS_LARGEBEAM],
         PHYSICS: PhysicGroups.ENEMY_WEAPON
     }
 
