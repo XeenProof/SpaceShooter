@@ -404,7 +404,8 @@ export default class BaseScene extends ActorScene{
 		cont.backgroundColor= Color.YELLOW
 		cont.borderWidth=5;
 		cont.borderColor=Color.BLACK;
-		cont.onClick = ()=>{this.emitter.fireEvent(Events.PAUSE, {pausing:false})};
+		cont.onClickEventId = Events.PAUSE
+		cont.onClickEventData = {pausing: false}
 
 		const controls = this.add.uiElement(UIElementType.LABEL, Layers.PAUSE, {position: new Vec2(this.center.x-100, this.center.y + 20), text: "CONTROLS"});
 		controls.size.set(200, 50);
