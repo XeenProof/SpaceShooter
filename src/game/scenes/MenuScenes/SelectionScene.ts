@@ -182,6 +182,13 @@ export default class SelectionScence extends Scene {
         back.backgroundColor = Color.TRANSPARENT;
         back.onClickEventId = SelectionEvent.BACK;
 
+        const clearData = this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: new Vec2(center.x + 400, center.y - 400), text: "Clear Levels"});
+        clearData.size.set(200, 50);
+        clearData.borderWidth = 2;
+        clearData.borderColor = Color.YELLOW;
+        clearData.backgroundColor = Color.TRANSPARENT;
+        clearData.onClickEventId = SelectionEvent.CLEAR_LEVELS_STORAGE;
+
         let level1Img = this.add.sprite("Level 1", SelectionLayer.CONTROLS);
         level1Img.scale.set(1, 1);
         level1Img.position.copy(new Vec2(center.x-300, center.y-80));
@@ -337,12 +344,5 @@ export default class SelectionScence extends Scene {
             level6button.backgroundColor = Color.BLACK;
             level6button.borderColor = Color.BLACK;
         }
-
-        const clearData = this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: new Vec2(center.x + 400, center.y - 400), text: "Clear Levels"});
-        clearData.size.set(200, 50);
-        clearData.borderWidth = 2;
-        clearData.borderColor = Color.YELLOW;
-        clearData.backgroundColor = Color.TRANSPARENT;
-        clearData.onClickEventId = SelectionEvent.CLEAR_LEVELS_STORAGE;
     }
 }
