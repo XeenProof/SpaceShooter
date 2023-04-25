@@ -110,8 +110,10 @@ export const level4 = {
             enemyType: AllEnemyKeys.SUMMONER,
             rpsl: [spawnRandomizer, {
                 speed:{min: 150},
+                thresh:{min:200},
                 repeat:{min:-1},
-                generateAmount: 20
+                generateAmount: 20,
+                y: {min: 0, max: 300}
             }]
         }},
         {type: Script_Type.WAIT, options: {wait_time: -1}},
