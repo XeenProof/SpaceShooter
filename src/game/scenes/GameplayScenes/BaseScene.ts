@@ -184,14 +184,6 @@ export default class BaseScene extends ActorScene{
 
 	}
 
-	public handleEndType(){
-		if (this.endType === LevelEndConst.GAME_OVER){
-			this.endText.text="GAME OVER"
-		}
-		else if (this.endType === LevelEndConst.LEVEL_CLEARED){
-			this.endText.text="VICTORY"
-		}
-	}
     /**
      * @see Scene.unloadScene()
      */
@@ -233,28 +225,10 @@ export default class BaseScene extends ActorScene{
 		}
 	}
 
-	protected set gameplayScreenHidden(value:boolean){
-		this.getLayer(Layers.BACKGROUND).setHidden(value);
-		this.getLayer(Layers.INFORMATION_BACKGROUND).setHidden(value);
-		this.getLayer(Layers.PRIMARY).setHidden(value);
-		this.getLayer(Layers.HEALTHBARS).setHidden(value);
-		this.getLayer(Layers.EXTRABARS).setHidden(value);
-		this.getLayer(Layers.STATES).setHidden(value);
-		this.getLayer(Layers.UI).setHidden(value);
-		this.getLayer(Layers.GAMEEND).setHidden(value);
+	public handleEndType(){
+		if (this.endType === LevelEndConst.GAME_OVER){this.endText.text="GAME OVER"}
+		else if (this.endType === LevelEndConst.LEVEL_CLEARED){this.endText.text="VICTORY"}
 	}
-
-	protected set pauseScreenHidden(value:boolean){
-		this.getLayer(Layers.PAUSE).setHidden(value)
-		this.getLayer(Layers.PAUSE_BACKGROUND).setHidden(value)
-	}
-
-	protected set controlScreenHidden(value:boolean){
-		this.getLayer(Layers.CONTROLS).setHidden(value);
-		this.getLayer(Layers.CONTROLS_BACKGROUND).setHidden(value);
-	}
-	
-	protected get center():Vec2{return this.viewport.getCenter()}
 
 	/**
 	 * To create the illusion of an endless background, we maintain two identical background sprites and move them as the game 
@@ -331,6 +305,33 @@ export default class BaseScene extends ActorScene{
 			this.boostBars[i].backgroundColor = Color.fromStringHex("#f74134");
 		}
 	}
+
+	/**
+	 * Mini Helper functions beyond this point
+	 */
+	
+	protected set gameplayScreenHidden(value:boolean){
+		this.getLayer(Layers.BACKGROUND).setHidden(value);
+		this.getLayer(Layers.INFORMATION_BACKGROUND).setHidden(value);
+		this.getLayer(Layers.PRIMARY).setHidden(value);
+		this.getLayer(Layers.HEALTHBARS).setHidden(value);
+		this.getLayer(Layers.EXTRABARS).setHidden(value);
+		this.getLayer(Layers.STATES).setHidden(value);
+		this.getLayer(Layers.UI).setHidden(value);
+		this.getLayer(Layers.GAMEEND).setHidden(value);
+	}
+
+	protected set pauseScreenHidden(value:boolean){
+		this.getLayer(Layers.PAUSE).setHidden(value)
+		this.getLayer(Layers.PAUSE_BACKGROUND).setHidden(value)
+	}
+
+	protected set controlScreenHidden(value:boolean){
+		this.getLayer(Layers.CONTROLS).setHidden(value);
+		this.getLayer(Layers.CONTROLS_BACKGROUND).setHidden(value);
+	}
+	
+	protected get center():Vec2{return this.viewport.getCenter()}
 
 	/**
 	 * Init Functions beyond this part-----------------------------------------------------
