@@ -68,7 +68,6 @@ export default class BaseScene extends ActorScene{
 
 	// boost labels
 	protected boostLabel: Label;
-	// protected boostBar: Label;
 	protected boostBars: Array<Label>;
 	protected boostBarBg: Label;
 
