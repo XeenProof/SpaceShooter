@@ -80,14 +80,13 @@ export default class MainMenu extends Scene {
     
     public override startScene(){
         const center = this.viewport.getCenter();
+        const hoverBackground = new Color(255,255,255,0.25)
 
         // Main menu screen
         this.mainMenu_background = this.addLayer(MainMenuLayer.BACKGROUND,0);
         this.mainMenu = this.addLayer(MainMenuLayer.MAIN_MENU,1);
 
 		this.initBackground(MainMenuLayer.BACKGROUND);
-        // this.initBackground(MainMenuLayer.CONTROLS);
-        // this.initBackground(MainMenuLayer.ABOUT);
 
         // Controls screen
         this.controls = this.addLayer(MainMenuLayer.CONTROLS_BACKGROUND,0);
@@ -114,6 +113,9 @@ export default class MainMenu extends Scene {
         play.borderColor = Color.YELLOW;
         play.backgroundColor = Color.TRANSPARENT;
         play.onClickEventId = MainMenuEvent.PLAY_GAME;
+        play.onEnter = ()=>{play.backgroundColor = hoverBackground}
+        play.onLeave = ()=>{play.backgroundColor = Color.TRANSPARENT}
+        //play.onEnter = ()=>{play.backgroundColor = ba}
 
         // Add controls button
         const controls = this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.MAIN_MENU, {position: new Vec2(center.x, center.y + 100), text: "CONTROLS"});
@@ -122,6 +124,8 @@ export default class MainMenu extends Scene {
         controls.borderColor = Color.YELLOW;
         controls.backgroundColor = Color.TRANSPARENT;
         controls.onClickEventId = MainMenuEvent.CONTROLS;
+        controls.onEnter = ()=>{controls.backgroundColor = hoverBackground}
+        controls.onLeave = ()=>{controls.backgroundColor = Color.TRANSPARENT}
 
         // Add event button
         const about =  this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.MAIN_MENU, {position: new Vec2(center.x, center.y + 200), text: "HELP"});
@@ -130,6 +134,8 @@ export default class MainMenu extends Scene {
         about.borderColor = Color.YELLOW;
         about.backgroundColor = Color.TRANSPARENT;
         about.onClickEventId = MainMenuEvent.HELP;
+        about.onEnter = ()=>{about.backgroundColor = hoverBackground}
+        about.onLeave = ()=>{about.backgroundColor = Color.TRANSPARENT}
 
         const clearData = this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.MAIN_MENU, {position: new Vec2(center.x + 400, center.y - 400), text: "Clear Data"});
         clearData.size.set(200, 50);
@@ -137,6 +143,8 @@ export default class MainMenu extends Scene {
         clearData.borderColor = Color.YELLOW;
         clearData.backgroundColor = Color.TRANSPARENT;
         clearData.onClickEventId = MainMenuEvent.CLEAR_LOCAL_STORAGE;
+        clearData.onEnter = ()=>{clearData.backgroundColor = hoverBackground}
+        clearData.onLeave = ()=>{clearData.backgroundColor = Color.TRANSPARENT}
 
 
         this.initBackground(MainMenuLayer.CONTROLS_BACKGROUND);
@@ -188,6 +196,8 @@ export default class MainMenu extends Scene {
         back.borderColor = Color.YELLOW;
         back.backgroundColor = Color.TRANSPARENT;
         back.onClickEventId = MainMenuEvent.MENU;
+        back.onEnter = ()=>{back.backgroundColor = hoverBackground}
+        back.onLeave = ()=>{back.backgroundColor = Color.TRANSPARENT}
 
         this.initBackground(MainMenuLayer.HELP_BACKGROUND);
         const helpHeader = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x, center.y - 300), text: "HELP"});
@@ -218,6 +228,8 @@ export default class MainMenu extends Scene {
         helpBack.borderColor = Color.YELLOW;
         helpBack.backgroundColor = Color.TRANSPARENT;
         helpBack.onClickEventId = MainMenuEvent.MENU;
+        helpBack.onEnter = ()=>{helpBack.backgroundColor = hoverBackground}
+        helpBack.onLeave = ()=>{helpBack.backgroundColor = Color.TRANSPARENT}
 
         const clearCheats = this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x + 400, center.y - 400), text: "Clear Cheats"});
         clearCheats.size.set(200, 50);
@@ -225,6 +237,8 @@ export default class MainMenu extends Scene {
         clearCheats.borderColor = Color.YELLOW;
         clearCheats.backgroundColor = Color.TRANSPARENT;
         clearCheats.onClickEventId = MainMenuEvent.CLEAR_CHEATS_STORAGE;
+        clearCheats.onEnter = ()=>{clearCheats.backgroundColor = hoverBackground}
+        clearCheats.onLeave = ()=>{clearCheats.backgroundColor = Color.TRANSPARENT}
 
 
         this.oneShootKillButton = <Button> this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x-450, center.y + 200), text: ""});
