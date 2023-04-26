@@ -45,7 +45,7 @@ export default class MookActor extends HPActor{
         console.log(this.dropRate)
         this.emitter.fireEvent(Events.ENEMY_DIED, {points: this.points})
         if(RandUtils.randomChance(this.dropRate)){
-            this.emitter.fireEvent(Events.DROP_SCRAP, {src: this.position})
+            this.emitter.fireEvent(Events.DROP_SCRAP, {src: this.position.clone()})
         }
         super.dying()
     }
