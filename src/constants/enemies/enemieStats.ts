@@ -24,7 +24,7 @@ const SHIELDED_MOOK = {
     points: 15
 }
 const HOARDER = {
-    hp: 100,
+    hp: 50,
     droprate: 1,
     speed: 500,
     points: 50
