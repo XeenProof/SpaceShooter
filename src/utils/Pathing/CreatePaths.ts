@@ -5,14 +5,15 @@ import PathNode from "./PathNode";
 
 export default class PathMemory extends MemoryList<PathNode>{
     private static instance:PathMemory
-    static preallocate(size:number = 500){this.instance = new PathMemory(size)}
+    static preallocate(size:number = 0){this.instance = new PathMemory(size)}
     static newPathNode(x:number = 0, y:number = 0, r:number = 0, s:number = -1, d: number = 20, w: number = 0):PathNode{
         let node:PathNode = this.instance.getMemory()
+        if(!node){node = new PathNode()}
         node.reinit(x, y, r, s, d, w)
         return node
     }
     static recycle(node:PathNode):void{this.instance.recycle(node)}
-    constructor(size:number = 500){super(size)}
+    constructor(size:number = 0){super(size)}
     protected newMemory(): PathNode {return new PathNode()}
 }
 

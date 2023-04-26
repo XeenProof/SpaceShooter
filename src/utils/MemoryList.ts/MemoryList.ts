@@ -7,7 +7,9 @@ export default abstract class MemoryList<T>{
     protected preallocated:MemoryQueue<T>
     protected empty:MemoryQueue<T>
 
-    constructor(size:number = 500){
+    constructor(size:number = 0){
+        this.preallocated = new MemoryQueue()
+        this.empty = new MemoryQueue()
         this.initMore(size)
     }
 
@@ -19,7 +21,7 @@ export default abstract class MemoryList<T>{
 
     public initMore(size:number){
         let prevSize = this.size?this.size:0
-        this.size = size
+        this.size = Math.max(size,prevSize)
         this.initNodes(prevSize)
     }
 
@@ -27,7 +29,7 @@ export default abstract class MemoryList<T>{
 
     public getMemory():T{
         let node = this.preallocated.dequeue()
-        if(!node){console.error("No memory Left")}
+        if(!node){return null}
         let item = node.getMemory()
         this.empty.enqueue(node)
         return item
