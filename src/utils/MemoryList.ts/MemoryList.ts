@@ -15,6 +15,7 @@ export default abstract class MemoryList<T>{
 
     private initNodes(prevSize){
         for(let i = prevSize; i < this.size; i++){
+            console.log("allocated")
             this.preallocated.enqueue(new MemoryNode<T>(this.newMemory()))
         }
     }
