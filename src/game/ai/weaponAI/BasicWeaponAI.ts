@@ -38,9 +38,15 @@ export default class BasicWeaponAI extends ComplexPatternAI{
     }
 
     public update(deltaT: number): void {
-        if(!this.owner.visible){return;}
+        if(!this.owner.visible){
+            this.receiver.ignoreEvents()
+            return;
+        }
         this.owner.attemptDespawn();
-        if(!this.owner.visible){return;}
+        if(!this.owner.visible){
+            this.receiver.ignoreEvents()
+            return;
+        }
         while(this.receiver.hasNextEvent()){
             this.handleEvent(this.receiver.getNextEvent());
         }

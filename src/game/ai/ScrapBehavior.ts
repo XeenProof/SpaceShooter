@@ -25,9 +25,9 @@ export default class ScrapBehavior extends MovementAI{
         this.speed = (options.speed)?Math.abs(options.speed.y):this.speed
     }
     update(deltaT: number): void {
-        if(!this.owner.visible){return;}
+        if(!this.owner.visible){this.receiver.ignoreEvents(); return;}
         if(this.isOffScreen()){this.despawn()}
-        if(!this.owner.visible){return;}
+        if(!this.owner.visible){this.receiver.ignoreEvents(); return;}
         while(this.receiver.hasNextEvent()){
             this.handleEvent(this.receiver.getNextEvent())
         }

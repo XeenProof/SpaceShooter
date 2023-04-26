@@ -125,6 +125,9 @@ export default class PlayerController extends StateMachineAI {
 	 * @param deltaT - the amount of time that has passed since the last update
 	 */
 	public update(deltaT: number): void {
+		if(this.isState(playerstates.DYING)){
+			this.receiver.ignoreEvents()
+		}
         // First, handle all events 
 		while(this.receiver.hasNextEvent()){
 			this.handleEvent(this.receiver.getNextEvent());

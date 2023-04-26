@@ -37,6 +37,7 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
 
     public activate(options: Record<string, any>): void {
         super.activate(options)
+        this.receiver.ignoreEvents();
         this.initialize(enemyStates.IDLE)
         this.owner.healthBar.visible = this.owner.visible
         this.owner.animation.playIfNotAlready(animations.IDLE, true)
@@ -64,7 +65,10 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
 
 
     public update(deltaT: number){
-        if(!this.owner.visible){return;}
+        if(!this.owner.visible){
+            this.receiver.ignoreEvents()
+            return;
+        }
         while(this.receiver.hasNextEvent()){
 			this.handleEvent(this.receiver.getNextEvent());
 		}
