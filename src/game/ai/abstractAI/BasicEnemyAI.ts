@@ -141,12 +141,14 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
         this.owner.dying();
         this.receiver.deactivate()
         this.stopAI();
+        this.path.clear()
     }
 
     protected despawn(){
         this.owner.despawn();
         this.receiver.deactivate()
         this.stopAI();
+        this.path.clear()
     }
 
     protected abstract stopAI():void;
