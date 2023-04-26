@@ -19,6 +19,7 @@ export default class BasicWeaponAI extends ComplexPatternAI{
         super.initializeAI(owner, options)
         this.owner = owner
         this.path = new PathQueue(options.pathLength?options.pathLength:10)
+        this.receiver.deactivate()
 
         this.addState(enemyStates.IDLE, new Attack(this.owner, this))
         this.activate(options);
@@ -32,19 +33,18 @@ export default class BasicWeaponAI extends ComplexPatternAI{
         super.activate(options)
         this.nextDir = (options.dir)?options.dir:Vec2.UP
         this.nextSpeed = (options.speed)?options.speed:500
-        this.receiver.ignoreEvents();
         this.initialize(enemyStates.IDLE)
         this.owner.rotation = this.rotation
+        this.receiver.ignoreEvents();
+        this.receiver.activate()
     }
 
     public update(deltaT: number): void {
         if(!this.owner.visible){
-            this.receiver.ignoreEvents()
             return;
         }
         this.owner.attemptDespawn();
         if(!this.owner.visible){
-            this.receiver.ignoreEvents()
             return;
         }
         while(this.receiver.hasNextEvent()){
@@ -76,6 +76,7 @@ export default class BasicWeaponAI extends ComplexPatternAI{
 
     protected handleWeaponCollision(id: number):void{
         if(this.owner.id != id){return;}
+        this.receiver.deactivate()
         this.owner.despawn()
     }
 

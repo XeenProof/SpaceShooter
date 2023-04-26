@@ -25,6 +25,7 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
 
     public initializeAI(owner: MookActor, options: Record<string, any> = {}): void {
         super.initializeAI(owner, options)
+        this.receiver.deactivate()
         this.owner = owner
         this.owner.canDespawn = false;
         this.rushed = false
@@ -38,6 +39,7 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
     public activate(options: Record<string, any>): void {
         super.activate(options)
         this.receiver.ignoreEvents();
+        this.receiver.activate()
         this.initialize(enemyStates.IDLE)
         this.owner.healthBar.visible = this.owner.visible
         this.owner.animation.playIfNotAlready(animations.IDLE, true)
@@ -66,7 +68,6 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
 
     public update(deltaT: number){
         if(!this.owner.visible){
-            this.receiver.ignoreEvents()
             return;
         }
         while(this.receiver.hasNextEvent()){
@@ -138,11 +139,13 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
 
     public dying(){
         this.owner.dying();
+        this.receiver.deactivate()
         this.stopAI();
     }
 
     protected despawn(){
         this.owner.despawn();
+        this.receiver.deactivate()
         this.stopAI();
     }
 

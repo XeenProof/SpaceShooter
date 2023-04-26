@@ -104,6 +104,7 @@ export default class PlayerController extends StateMachineAI {
 
         // Play the idle animation by default
 		this.owner.animation.play(PlayerAnimations.IDLE, true);
+		this.receiver.activate()
 	};
 	/**
 	 * Handles updates to the player 
@@ -125,9 +126,6 @@ export default class PlayerController extends StateMachineAI {
 	 * @param deltaT - the amount of time that has passed since the last update
 	 */
 	public update(deltaT: number): void {
-		if(this.isState(playerstates.DYING)){
-			this.receiver.ignoreEvents()
-		}
         // First, handle all events 
 		while(this.receiver.hasNextEvent()){
 			this.handleEvent(this.receiver.getNextEvent());
@@ -276,6 +274,10 @@ export default class PlayerController extends StateMachineAI {
         if(pausing){this.pause()}
 		else{this.resume()}
     }
+
+	public handleDeath():void{
+		this.receiver.deactivate()
+	}
 
     public pause():void{
 		this.owner.freeze()

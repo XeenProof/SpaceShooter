@@ -11,6 +11,7 @@ export default class Receiver {
 
 	/** The inbox of the Receiver */
 	private q: Queue<GameEvent>;
+	private activated:boolean = true
 
 	/** Creates a new Receiver */
 	constructor(){
@@ -37,7 +38,8 @@ export default class Receiver {
 	 */
 	receive(event: GameEvent): void {
 		try{
-		this.q.enqueue(event);
+			if(!this.activated){return}
+			this.q.enqueue(event);
 		} catch(e){
 			console.warn("Receiver overflow for event " + event.toString());
 			throw e;
@@ -74,4 +76,11 @@ export default class Receiver {
 	ignoreEvents(): void {
 		this.q.clear();
 	}
+
+	/**
+	 * activate the receiver
+	 */
+	public activate():void{this.activated = true}
+	public deactivate():void{this.activated = false}
+
 }

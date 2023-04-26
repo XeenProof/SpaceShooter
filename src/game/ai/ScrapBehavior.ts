@@ -15,6 +15,7 @@ export default class ScrapBehavior extends MovementAI{
         this.speed = (options.speed)?Math.abs(options.speed.y):150
         this.dir = Vec2.UP //I have no clue why this is backwards
         this.ignoreStates = true
+        this.receiver.deactivate()
 
         this.receiver.subscribe(Events.TRAVEL_SPEED_CHANGE)
         this.receiver.subscribe(Events.PLAYER_SCRAP_COLLISION)
@@ -23,11 +24,12 @@ export default class ScrapBehavior extends MovementAI{
     activate(options: Record<string, any>): void {
         this.owner.position.copy(options.src)
         this.speed = (options.speed)?Math.abs(options.speed.y):this.speed
+        this.receiver.activate()
     }
     update(deltaT: number): void {
-        if(!this.owner.visible){this.receiver.ignoreEvents(); return;}
+        if(!this.owner.visible){return;}
         if(this.isOffScreen()){this.despawn()}
-        if(!this.owner.visible){this.receiver.ignoreEvents(); return;}
+        if(!this.owner.visible){return;}
         while(this.receiver.hasNextEvent()){
             this.handleEvent(this.receiver.getNextEvent())
         }
@@ -64,6 +66,7 @@ export default class ScrapBehavior extends MovementAI{
 
     protected despawn():void{
         this.owner.visible = false;
+        this.receiver.deactivate()
         this.owner.position.set(1200,1200)
     }
 
