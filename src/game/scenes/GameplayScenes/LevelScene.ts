@@ -12,7 +12,7 @@ import PlayerActor from "../../actors/PlayerActor";
 import { initPlayerFunc } from "../../initfuncs/initPlayerFunc";
 import SelectionScence from "../MenuScenes/SelectionScene";
 import { AllEnemyData } from "../../../constants/enemies/enemyData";
-import { generateRandomPathFuncList, spawnRandomizer } from "../../../utils/Pathing/CreatePaths";
+import PathMemory, { generateRandomPathFuncList, spawnRandomizer } from "../../../utils/Pathing/CreatePaths";
 import ScriptScene from "./ScriptScene";
 
 import { GameEventType } from "../../../Wolfie2D/Events/GameEventType";

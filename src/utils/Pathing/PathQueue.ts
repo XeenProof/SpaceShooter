@@ -1,4 +1,5 @@
 import Queue from "../../Wolfie2D/DataTypes/Collections/Queue";
+import PathMemory from "./CreatePaths";
 import PathNode from "./PathNode";
 
 export default class PathQueue{
@@ -19,8 +20,7 @@ export default class PathQueue{
     }
 
     public clear(): void {
-        this.path.clear();
-        this.repeats.clear();
+        while(this.peek){PathMemory.recycle(this.dequeue())}
     }
 
     public merge(other: PathQueue):PathQueue{

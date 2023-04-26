@@ -1,6 +1,20 @@
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
 import RandUtils from "../../Wolfie2D/Utils/RandUtils";
+import MemoryList from "../MemoryList.ts/MemoryList";
 import PathNode from "./PathNode";
+
+export default class PathMemory extends MemoryList<PathNode>{
+    private static instance:PathMemory
+    static preallocate(size:number = 500){this.instance = new PathMemory(size)}
+    static newPathNode(x:number = 0, y:number = 0, r:number = 0, s:number = -1, d: number = 20, w: number = 0):PathNode{
+        let node:PathNode = this.instance.getMemory()
+        node.reinit(x, y, r, s, d, w)
+        return node
+    }
+    static recycle(node:PathNode):void{this.instance.recycle(node)}
+    constructor(size:number = 500){super(size)}
+    protected newMemory(): PathNode {return new PathNode()}
+}
 
 export interface Range{
     min:number,
@@ -79,7 +93,7 @@ export function generatePathFromList(list: Array<Positions>, default_speed: numb
         let s = (speed)?speed:default_speed;
         let t = (thresh)?thresh:s
         let w = (wait)?wait:0
-        return new PathNode(new Vec2(x,y), r, s, t, w)
+        return PathMemory.newPathNode(x,y, r, s, t, w)
     })
 }
 

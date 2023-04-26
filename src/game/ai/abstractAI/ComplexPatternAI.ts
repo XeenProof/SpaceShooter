@@ -3,7 +3,7 @@ import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 import GameNode from "../../../Wolfie2D/Nodes/GameNode";
 import Timer from "../../../Wolfie2D/Timing/Timer";
 import Spawnable from "../../../utils/Interface/Spawnable";
-import { generatePathFromList } from "../../../utils/Pathing/CreatePaths";
+import PathMemory, { generatePathFromList } from "../../../utils/Pathing/CreatePaths";
 import PathNode from "../../../utils/Pathing/PathNode";
 import PathQueue from "../../../utils/Pathing/PathQueue";
 import MovementAI from "./MovementAI";
@@ -55,11 +55,12 @@ export default abstract class ComplexPatternAI extends MovementAI {
             this.currDest = null;
             return
         }
-        this.currDest = node.position;
+        this.currDest = node.position.clone();
         this.dir = this.owner.position.dirTo(this.currDest)
         this.speed = (node.speed > 0)?node.speed:this.speed;
         this.threshold = (node.distanceThreshold > 0)?node.distanceThreshold:this.threshold;
         this.waitTime = (node.wait)?node.wait:0
+        PathMemory.recycle(node)
     }
 
     protected get wait(): boolean {return this._wait;}

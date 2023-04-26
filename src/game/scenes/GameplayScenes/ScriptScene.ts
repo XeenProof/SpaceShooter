@@ -5,7 +5,7 @@ import { AllEnemyData } from "../../../constants/enemies/enemyData";
 import { Events, LevelEndConst } from "../../../constants/events";
 import { LoadData } from "../../../constants/load";
 import { Script_Type, scriptFormat } from "../../../constants/scripts/scriptTypes";
-import { generatePathFromList } from "../../../utils/Pathing/CreatePaths";
+import PathMemory, { generatePathFromList } from "../../../utils/Pathing/CreatePaths";
 import ScriptNode from "../../../utils/ScriptQueue/ScriptNode";
 import ScriptQueue, { generateScriptQueue } from "../../../utils/ScriptQueue/ScriptQueue";
 import ProgressTracker from "../../../utils/Singletons/ProgressTracker";
@@ -60,6 +60,7 @@ export default class ScriptScene extends LevelScene{
     }
 
     public startScene(): void {
+        PathMemory.preallocate(this.levelData.PATHNODE)
         super.startScene()
         //this.initLayers()
         this.initBackground()
