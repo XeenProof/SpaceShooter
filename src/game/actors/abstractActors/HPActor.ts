@@ -77,6 +77,7 @@ export default abstract class HPActor extends SpawnableActor implements HealthBa
 
     despawn(): void {
         super.despawn()
+        this.position.set(0, 1200)
         this.healthBar.visible = false;
     }
 
