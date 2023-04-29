@@ -255,7 +255,6 @@ export default class MainMenu extends Scene {
         const oneShootKill = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x-270, center.y + 200), text: "One Shoot Kill"});
         const oneShootKillCheckbox = this.generateCheckbox(oneShootKillButton, oneShootKill, cheats.OHKO, {})
 
-
         const invincibleButton = <Button> this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x-450, center.y + 300), text: ""});
         const invincible = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x-320, center.y + 300), text: "Invincible"});
         const invincibleCheckbox = this.generateCheckbox(invincibleButton, invincible, cheats.INVINSIBLE, {})
@@ -290,16 +289,6 @@ export default class MainMenu extends Scene {
         this.receiver.subscribe(MainMenuEvent.HELP);
         this.receiver.subscribe(MainMenuEvent.MENU);
         this.receiver.subscribe(MainMenuEvent.CLEAR_LOCAL_STORAGE);
-        this.receiver.subscribe(MainMenuEvent.ONE_SHOOT_KILL);
-        this.receiver.subscribe(MainMenuEvent.INVINCIBLE);
-        this.receiver.subscribe(MainMenuEvent.NUKE);
-        this.receiver.subscribe(MainMenuEvent.INFINITE_SCRAP);
-        this.receiver.subscribe(MainMenuEvent.INFINITE_BOOSTER);
-        this.receiver.subscribe(MainMenuEvent.INFINITE_SHIELD);
-        this.receiver.subscribe(MainMenuEvent.UNLOCK_ALL_LEVEL);
-        this.receiver.subscribe(MainMenuEvent.UNLOCK_ALL_WEAPON);
-        this.receiver.subscribe(MainMenuEvent.CLEAR_CHEATS_STORAGE);
-
     }
 
     public override updateScene(){
@@ -377,53 +366,12 @@ export default class MainMenu extends Scene {
                 this.handleRefreshCheats();
                 break;
             }
-            case MainMenuEvent.ONE_SHOOT_KILL: {
-                CheatCodes.triggerCheat(cheats.OHKO)
-                this.oneShootKillButton.text = CheatCodes.getCheat(cheats.OHKO)?"X":""
-                break;
-            }
-            case MainMenuEvent.INVINCIBLE: {
-                CheatCodes.triggerCheat(cheats.INVINSIBLE)
-                this.invincibleButton.text = CheatCodes.getCheat(cheats.INVINSIBLE)?"X":""
-                break;
-            }
-            case MainMenuEvent.NUKE: {
-                CheatCodes.triggerCheat(cheats.NUKE_BUTTON)
-                this.nukeButton.text = CheatCodes.getCheat(cheats.NUKE_BUTTON)?"X":""
-                break;
-            }
-            case MainMenuEvent.INFINITE_SCRAP: {
-                CheatCodes.triggerCheat(cheats.INFINITE_SCRAP)
-                this.infiniteScrapButton.text = CheatCodes.getCheat(cheats.INFINITE_SCRAP)?"X":""
-                break;
-            }
-            case MainMenuEvent.INFINITE_BOOSTER: {
-                CheatCodes.triggerCheat(cheats.INFINITE_BOOSTER)
-                this.infiniteBoosterButton.text = CheatCodes.getCheat(cheats.INFINITE_BOOSTER)?"X":""
-                break;
-            }
-            case MainMenuEvent.INFINITE_SHIELD: {
-                CheatCodes.triggerCheat(cheats.INFINITE_SHIELD)
-                this.infiniteShieldButton.text = CheatCodes.getCheat(cheats.INFINITE_SHIELD)?"X":""
-                break;
-            }
-            case MainMenuEvent.UNLOCK_ALL_LEVEL: {
-                CheatCodes.triggerCheat(cheats.UNLOCK_ALL_LEVELS)
-                this.unlockAllLevelButton.text = CheatCodes.getCheat(cheats.UNLOCK_ALL_LEVELS)?"X":""
-                break;
-            }
-            case MainMenuEvent.UNLOCK_ALL_WEAPON: {
-                CheatCodes.triggerCheat(cheats.UNLOCK_ALL_WEAPONS)
-                this.unlockAllWeaponButton.text = CheatCodes.getCheat(cheats.UNLOCK_ALL_WEAPONS)?"X":""
-                break;
-            }
             default: {
                 throw new Error(`Unhandled event caught in MainMenu: "${event.type}"`);
             }
         }
     }
     handleRefreshCheats(){
-        console.log("handled total freresh")
         for(let c of this.checkboxes){
             c.handleDisplayUpdate()
         }
