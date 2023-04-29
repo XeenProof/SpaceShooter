@@ -47,9 +47,11 @@ const MainMenuEvent = {
 export default class MainMenu extends Scene {
     // Layers, for multiple main menu screens
     private mainMenu: Layer;
-    private controls: Layer;
-    private about: Layer;
     private mainMenu_background: Layer;
+    private controls: Layer;
+    private controlsBg: Layer;
+    private about: Layer;
+    private aboutBg: Layer
     
     protected BACKGROUND: LoadData;
     // Sprites for the background images
@@ -79,13 +81,15 @@ export default class MainMenu extends Scene {
 		this.initBackground(MainMenuLayer.BACKGROUND);
 
         // Controls screen
-        this.controls = this.addLayer(MainMenuLayer.CONTROLS_BACKGROUND,0);
+        this.controlsBg = this.addLayer(MainMenuLayer.CONTROLS_BACKGROUND,0);
         this.controls = this.addLayer(MainMenuLayer.CONTROLS,1);
+        this.controlsBg.setHidden(true)
         this.controls.setHidden(true);
         // About screen
 
-        this.about = this.addLayer(MainMenuLayer.HELP_BACKGROUND,0);
+        this.aboutBg = this.addLayer(MainMenuLayer.HELP_BACKGROUND,0);
         this.about = this.addLayer(MainMenuLayer.HELP,1);
+        this.aboutBg.setHidden(true)
         this.about.setHidden(true);
 
         const text = <Label> this.add.uiElement(UIElementType.LABEL, MainMenuLayer.MAIN_MENU, {position: new Vec2(center.x, center.y-200), text: "Main Menu"});
@@ -259,6 +263,10 @@ export default class MainMenu extends Scene {
         const unlockAllWeapon = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x + 80, center.y + 400), text: "Unlock all Weapons"});
         const unlockAllWeaponCheckbox = this.generateCheckbox(unlockAllWeaponButton, unlockAllWeapon, cheats.UNLOCK_ALL_WEAPONS, {fontSize:32})
 
+        this.initSubscribe()
+    }
+
+    private initSubscribe(){
         // Subscribe to the button events
         this.receiver.subscribe(MainMenuEvent.PLAY_GAME);
         this.receiver.subscribe(MainMenuEvent.CONTROLS);
@@ -316,18 +324,22 @@ export default class MainMenu extends Scene {
             }
             case MainMenuEvent.CONTROLS: {
                 this.controls.setHidden(false);
+                this.controlsBg.setHidden(false);
                 this.mainMenu.setHidden(true);
                 break;
             }
             case MainMenuEvent.HELP: {
                 this.about.setHidden(false);
+                this.aboutBg.setHidden(false);
                 this.mainMenu.setHidden(true);
                 break;
             }
             case MainMenuEvent.MENU: {
                 this.mainMenu.setHidden(false);
                 this.controls.setHidden(true);
+                this.controlsBg.setHidden(true);
                 this.about.setHidden(true);
+                this.aboutBg.setHidden(true);
                 break;
             }
             case MainMenuEvent.CLEAR_LOCAL_STORAGE:{
