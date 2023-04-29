@@ -12,7 +12,7 @@ export default class CheatsCheckBox extends Checkbox{
     private _button: Button;
     private _text: Label;
     private defaultBackground:Color = Color.TRANSPARENT
-    private hoverbackground:Color = new Color(255,255,255,0.25);
+    private hoverBackground:Color = new Color(255,255,255,0.25);
     
     constructor(button: Button, text:Label, cheat:string, options:Record<string, any>={}){
         super()
@@ -26,17 +26,28 @@ export default class CheatsCheckBox extends Checkbox{
         this.button.size.set(50, 50);
         this.button.borderWidth = 2;
         this.button.borderColor = Color.YELLOW;
-        this.button.backgroundColor = Color.TRANSPARENT;
+        this.button.backgroundColor = this.defaultBackground;
         this.button.onClick = () => {this.clickEvent()}
+        this.button.onEnter = () => {this.onHover()}
+        this.button.onLeave = () => {this.onLeave()}
 
         this.text.textColor = Color.YELLOW
         this.text.fontSize = options.fontSize?options.fontSize:40
-        
+
         this.handleDisplayUpdate()
     }
 
+    private onHover():void{
+        this.button.backgroundColor = this.hoverBackground
+        this.text.textColor = Color.fromStringHex("#66FFFF")
+    }
+
+    private onLeave():void{
+        this.button.backgroundColor = this.defaultBackground
+        this.text.textColor = Color.YELLOW
+    }
+
     private clickEvent():void{
-        console.log("Clicked", this.cheat)
         CheatCodes.triggerCheat(this.cheat)
         this.handleDisplayUpdate()
     }
