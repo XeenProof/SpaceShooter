@@ -20,6 +20,8 @@ import CheatCodes from "../../../utils/Singletons/CheatCodes";
 import { cheats } from "../../../constants/gameoptions";
 import LocalStorageHandler from "../../../utils/Singletons/LocalStorageHandler";
 import ProgressTracker from "../../../utils/Singletons/ProgressTracker";
+import Checkbox from "../../../utils/SelectionUtils/Checkbox";
+import CheatsCheckBox from "./LevelSelect/CheatsCheckbox";
 
 
 // Layers in the main menu
@@ -72,6 +74,14 @@ export default class MainMenu extends Scene {
     protected infiniteShieldButton: Button;
     protected unlockAllLevelButton: Button;
     protected unlockAllWeaponButton: Button;
+
+    private checkboxes:Checkbox[]
+    private generateCheckbox(button: Button, text:Label, cheat:string, options:Record<string, any>={}):CheatsCheckBox{
+        if(!this.checkboxes){this.checkboxes = []}
+        let checkbox = new CheatsCheckBox(button, text, cheat, options)
+        this.checkboxes.push(checkbox)
+        return checkbox
+    }
 
     public override loadScene(){
         // this.autoloader(LoadAPPLE.APPLE);
@@ -241,105 +251,38 @@ export default class MainMenu extends Scene {
         clearCheats.onLeave = ()=>{clearCheats.backgroundColor = Color.TRANSPARENT}
 
 
-        this.oneShootKillButton = <Button> this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x-450, center.y + 200), text: ""});
-        this.oneShootKillButton.size.set(50, 50);
-        this.oneShootKillButton.borderWidth = 2;
-        this.oneShootKillButton.borderColor = Color.YELLOW;
-        this.oneShootKillButton.backgroundColor = Color.TRANSPARENT;
-        this.oneShootKillButton.onClickEventId = MainMenuEvent.ONE_SHOOT_KILL;
-        this.oneShootKillButton.text = CheatCodes.getCheat(cheats.OHKO)?"X":""
-
+        const oneShootKillButton = <Button> this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x-450, center.y + 200), text: ""});
         const oneShootKill = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x-270, center.y + 200), text: "One Shoot Kill"});
-        oneShootKill.textColor = Color.YELLOW;
-        oneShootKill.fontSize = 40;
+        const oneShootKillCheckbox = this.generateCheckbox(oneShootKillButton, oneShootKill, cheats.OHKO, {})
 
 
-        this.invincibleButton = <Button> this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x-450, center.y + 300), text: ""});
-        this.invincibleButton.size.set(50, 50);
-        this.invincibleButton.borderWidth = 2;
-        this.invincibleButton.borderColor = Color.YELLOW;
-        this.invincibleButton.backgroundColor = Color.TRANSPARENT;
-        this.invincibleButton.onClickEventId = MainMenuEvent.INVINCIBLE;
-        this.invincibleButton.text = CheatCodes.getCheat(cheats.INVINSIBLE)?"X":""
-
+        const invincibleButton = <Button> this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x-450, center.y + 300), text: ""});
         const invincible = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x-320, center.y + 300), text: "Invincible"});
-        invincible.textColor = Color.YELLOW;
-        invincible.fontSize = 40;
+        const invincibleCheckbox = this.generateCheckbox(invincibleButton, invincible, cheats.INVINSIBLE, {})
 
-        this.nukeButton = <Button> this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x - 100, center.y + 200), text: ""});
-        this.nukeButton.size.set(50, 50);
-        this.nukeButton.borderWidth = 2;
-        this.nukeButton.borderColor = Color.YELLOW;
-        this.nukeButton.backgroundColor = Color.TRANSPARENT;
-        this.nukeButton.onClickEventId = MainMenuEvent.NUKE;
-        this.nukeButton.text = CheatCodes.getCheat(cheats.NUKE_BUTTON)?"X":""
-
+        const nukeButton = <Button> this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x - 100, center.y + 200), text: ""});
         const nuke = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x + 30, center.y + 200), text: "NUKE ( - )"});
-        nuke.textColor = Color.YELLOW;
-        nuke.fontSize = 40;
+        const nukeCheckbox = this.generateCheckbox(nukeButton, nuke, cheats.NUKE_BUTTON, {})
 
-        this.infiniteScrapButton = <Button> this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x - 100, center.y + 300), text: ""});
-        this.infiniteScrapButton.size.set(50, 50);
-        this.infiniteScrapButton.borderWidth = 2;
-        this.infiniteScrapButton.borderColor = Color.YELLOW;
-        this.infiniteScrapButton.backgroundColor = Color.TRANSPARENT;
-        this.infiniteScrapButton.onClickEventId = MainMenuEvent.INFINITE_SCRAP;
-        this.infiniteScrapButton.text = CheatCodes.getCheat(cheats.INFINITE_SCRAP)?"X":""
-
+        const infiniteScrapButton = <Button> this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x - 100, center.y + 300), text: ""});
         const infiniteScrap = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x + 60, center.y + 300), text: "Infinite Scrap"});
-        infiniteScrap.textColor = Color.YELLOW;
-        infiniteScrap.fontSize = 40;
+        const infiniteScrapCheckbox = this.generateCheckbox(infiniteScrapButton, infiniteScrap, cheats.INFINITE_SCRAP, {})
 
-        this.infiniteBoosterButton = <Button> this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x + 240, center.y + 300), text: ""});
-        this.infiniteBoosterButton.size.set(50, 50);
-        this.infiniteBoosterButton.borderWidth = 2;
-        this.infiniteBoosterButton.borderColor = Color.YELLOW;
-        this.infiniteBoosterButton.backgroundColor = Color.TRANSPARENT;
-        this.infiniteBoosterButton.onClickEventId = MainMenuEvent.INFINITE_BOOSTER;
-        this.infiniteBoosterButton.text = CheatCodes.getCheat(cheats.INFINITE_BOOSTER)?"X":""
-
-
+        const infiniteBoosterButton = <Button> this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x + 240, center.y + 300), text: ""});
         const infiniteBooster = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x + 420, center.y + 300), text: "Infinite Booster"});
-        infiniteBooster.textColor = Color.YELLOW;
-        infiniteBooster.fontSize = 40;
+        const infiniteBoosterCheckbox = this.generateCheckbox(infiniteBoosterButton, infiniteBooster, cheats.INFINITE_BOOSTER, {})
 
-        this.infiniteShieldButton = <Button> this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x + 240, center.y + 200), text: ""});
-        this.infiniteShieldButton.size.set(50, 50);
-        this.infiniteShieldButton.borderWidth = 2;
-        this.infiniteShieldButton.borderColor = Color.YELLOW;
-        this.infiniteShieldButton.backgroundColor = Color.TRANSPARENT;
-        this.infiniteShieldButton.onClickEventId = MainMenuEvent.INFINITE_SHIELD;
-        this.infiniteShieldButton.text = CheatCodes.getCheat(cheats.INFINITE_SHIELD)?"X":""
-
+        const infiniteShieldButton = <Button> this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x + 240, center.y + 200), text: ""});
         const infiniteShield = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x + 420, center.y + 200), text: "Infinite Shield"});
-        infiniteShield.textColor = Color.YELLOW;
-        infiniteShield.fontSize = 40;
+        const infiniteShieldCheckbox = this.generateCheckbox(infiniteShieldButton, infiniteShield, cheats.INFINITE_SHIELD, {})
 
-
-        this.unlockAllLevelButton = <Button> this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x - 450, center.y + 400), text: ""});
-        this.unlockAllLevelButton.size.set(50, 50);
-        this.unlockAllLevelButton.borderWidth = 2;
-        this.unlockAllLevelButton.borderColor = Color.YELLOW;
-        this.unlockAllLevelButton.backgroundColor = Color.TRANSPARENT;
-        this.unlockAllLevelButton.onClickEventId = MainMenuEvent.UNLOCK_ALL_LEVEL;
-        this.unlockAllLevelButton.text = CheatCodes.getCheat(cheats.UNLOCK_ALL_LEVELS)?"X":""
-
+        const unlockAllLevelButton = <Button> this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x - 450, center.y + 400), text: ""});
         const unlockAllLevel = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x - 280, center.y + 400), text: "Unlock all levels"});
-        unlockAllLevel.textColor = Color.YELLOW;
-        unlockAllLevel.fontSize = 35;
+        const unlockAllLevelCheckbox = this.generateCheckbox(unlockAllLevelButton, unlockAllLevel, cheats.UNLOCK_ALL_LEVELS, {fontSize:35})
 
-        this.unlockAllWeaponButton = <Button> this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x - 100, center.y + 400), text: ""});
-        this.unlockAllWeaponButton.size.set(50, 50);
-        this.unlockAllWeaponButton.borderWidth = 2;
-        this.unlockAllWeaponButton.borderColor = Color.YELLOW;
-        this.unlockAllWeaponButton.backgroundColor = Color.TRANSPARENT;
-        this.unlockAllWeaponButton.onClickEventId = MainMenuEvent.UNLOCK_ALL_WEAPON;
-        this.unlockAllWeaponButton.text = CheatCodes.getCheat(cheats.UNLOCK_ALL_WEAPONS)?"X":""
-
+        const unlockAllWeaponButton = <Button> this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.HELP, {position: new Vec2(center.x - 100, center.y + 400), text: ""});
         const unlockAllWeapon = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.HELP, {position: new Vec2(center.x + 80, center.y + 400), text: "Unlock all Weapons"});
-        unlockAllWeapon.textColor = Color.YELLOW;
-        unlockAllWeapon.fontSize = 32;
-
+        const unlockAllWeaponCheckbox = this.generateCheckbox(unlockAllWeaponButton, unlockAllWeapon, cheats.UNLOCK_ALL_WEAPONS, {fontSize:32})
 
         // Subscribe to the button events
         this.receiver.subscribe(MainMenuEvent.PLAY_GAME);
@@ -480,13 +423,9 @@ export default class MainMenu extends Scene {
         }
     }
     handleRefreshCheats(){
-        this.oneShootKillButton.text = CheatCodes.getCheat(cheats.OHKO)?"X":""
-        this.invincibleButton.text = CheatCodes.getCheat(cheats.INVINSIBLE)?"X":""
-        this.nukeButton.text = CheatCodes.getCheat(cheats.NUKE_BUTTON)?"X":""
-        this.infiniteScrapButton.text = CheatCodes.getCheat(cheats.INFINITE_SCRAP)?"X":""
-        this.infiniteBoosterButton.text = CheatCodes.getCheat(cheats.INFINITE_BOOSTER)?"X":""
-        this.infiniteShieldButton.text = CheatCodes.getCheat(cheats.INFINITE_SHIELD)?"X":""
-        this.unlockAllLevelButton.text = CheatCodes.getCheat(cheats.UNLOCK_ALL_LEVELS)?"X":""
-        this.unlockAllWeaponButton.text = CheatCodes.getCheat(cheats.UNLOCK_ALL_WEAPONS)?"X":""
+        console.log("handled total freresh")
+        for(let c of this.checkboxes){
+            c.handleDisplayUpdate()
+        }
     }
 }
