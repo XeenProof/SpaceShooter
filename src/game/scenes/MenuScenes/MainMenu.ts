@@ -39,19 +39,9 @@ const MainMenuEvent = {
     PLAY_GAME: "PLAY_GAME",
 	CONTROLS: "CONTROLS",
 	HELP: "HELP",
-    ONE_SHOOT_KILL: "ONE_SHOOT_KILL",
 	MENU: "MENU",
     CLEAR_LOCAL_STORAGE: "CLEAR_LOCAL_STORAGE",
-    INVINCIBLE: "INVINCIBLE",
-    NUKE: "NUKE",
-    INFINITE_SCRAP: "INFINITE_SCRAP",
-    INFINITE_BOOSTER: "INFINITE_BOOSTER",
-    INFINITE_SHIELD: "INFINITE_SHIELD",
-    UNLOCK_ALL_LEVEL: "UNLOCK_ALL_LEVEL",
-    UNLOCK_ALL_WEAPON: "UNLOCK_ALL_WEAPON",
     CLEAR_CHEATS_STORAGE: "CLEAR_CHEATS_STORAGE",
-
-
 } as const;
 
 export default class MainMenu extends Scene {
@@ -86,7 +76,6 @@ export default class MainMenu extends Scene {
         // Main menu screen
         this.mainMenu_background = this.addLayer(MainMenuLayer.BACKGROUND,0);
         this.mainMenu = this.addLayer(MainMenuLayer.MAIN_MENU,1);
-
 		this.initBackground(MainMenuLayer.BACKGROUND);
 
         // Controls screen
@@ -101,11 +90,8 @@ export default class MainMenu extends Scene {
 
         const text = <Label> this.add.uiElement(UIElementType.LABEL, MainMenuLayer.MAIN_MENU, {position: new Vec2(center.x, center.y-200), text: "Main Menu"});
         text.size.set(300, 50);
-        // text.borderWidth = 2;
         text.fontSize = 100;
         text.textColor = Color.YELLOW;
-        // text.backgroundColor = Color.TRANSPARENT;
-        // text.onClickEventId = MainMenuEvent.PLAY_GAME;
 
         // Add play button, and give it an event to emit on press
         const play = this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.MAIN_MENU, {position: new Vec2(center.x, center.y), text: "LEVEL SELECTION"});
@@ -116,7 +102,6 @@ export default class MainMenu extends Scene {
         play.onClickEventId = MainMenuEvent.PLAY_GAME;
         play.onEnter = ()=>{play.backgroundColor = hoverBackground}
         play.onLeave = ()=>{play.backgroundColor = Color.TRANSPARENT}
-        //play.onEnter = ()=>{play.backgroundColor = ba}
 
         // Add controls button
         const controls = this.add.uiElement(UIElementType.BUTTON, MainMenuLayer.MAIN_MENU, {position: new Vec2(center.x, center.y + 100), text: "CONTROLS"});
