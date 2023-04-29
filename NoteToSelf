@@ -1,3 +1,7 @@
+arcTo error might be the health bars
+
+font - import your own fonts
+
 moveOnPath- moves it bit by bit as you call update
 
 Physic Notes:
