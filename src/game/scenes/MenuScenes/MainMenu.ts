@@ -66,15 +66,6 @@ export default class MainMenu extends Scene {
 	protected bg1: Sprite;
 	protected bg2: Sprite;
 
-    protected oneShootKillButton: Button;
-    protected invincibleButton: Button;
-    protected nukeButton: Button;
-    protected infiniteScrapButton: Button;
-    protected infiniteBoosterButton: Button;
-    protected infiniteShieldButton: Button;
-    protected unlockAllLevelButton: Button;
-    protected unlockAllWeaponButton: Button;
-
     private checkboxes:Checkbox[]
     private generateCheckbox(button: Button, text:Label, cheat:string, options:Record<string, any>={}):CheatsCheckBox{
         if(!this.checkboxes){this.checkboxes = []}
