@@ -9,12 +9,6 @@ import UpgradableStat from "../../utils/HUD/UpgradableStat";
 import CheatCodes from "../../utils/Singletons/CheatCodes";
 import HPActor from "./abstractActors/HPActor";
 
-
-const animations = {
-    IDLE: "IDLE",
-    TAKING_DAMAGE: "TAKING_DAMAGE"
-}
-
 const booster_animations = {
     LOW: "LOW",
     HIGH: "HIGH"
@@ -82,12 +76,15 @@ export default class PlayerActor extends HPActor{
     public set scrap(value: number) {this._scrap = value;}
     public collectedScrap(value: number):void{if(this.scrap != -1){this.scrap+=value}}
     public useScrap(value: number):void{if(this.scrap != -1){this.scrap-=value}}
-    public canAfford(cost: number):boolean{return (this.scrap >= cost || this.scrap == -1 || CheatCodes.getCheat(cheats.INFINITE_SCRAP))}
+    public canAfford(cost: number):boolean{return (this.scrap >= cost || CheatCodes.getCheat(cheats.INFINITE_SCRAP))}
 
     /**Healing related */
     public get canHeal(): boolean {return this.canAfford(10) && this.health < this.maxHealth && this.health > 0}
     public heal(value: number = this.maxHealth){this.health = Math.min(this.health + value, this.maxHealth)}
-    public handlePlayerHeal(): void {if(this.canHeal){this.heal(10)}}
+    public handlePlayerHeal(): void {if(this.canHeal){
+        this.useScrap(10)
+        this.heal(10)}
+    }
 
     /**Health Upgrade and all it's related stuff */
     private _basehealth: number;
@@ -101,8 +98,8 @@ export default class PlayerActor extends HPActor{
     public get canUpgradeHealth():boolean {return this.canAfford(this.healthUpgradeCost)}
     public handleUpgradeHealth(value:number = 1, ignoreCost:boolean = false){
         if(this.canUpgradeHealth || ignoreCost){
-            this.healthUpgrade.upgrade(value)
             this.useScrap((ignoreCost)?0:this.healthUpgradeCost)
+            this.healthUpgrade.upgrade(value)
             let currentMax = (this.healthUpgradeLevel*2)+this.basehealth
             let prevMax = this.maxHealth
             let difference = currentMax - prevMax
@@ -123,8 +120,8 @@ export default class PlayerActor extends HPActor{
     public get canUpgradeAttack():boolean {return this.canAfford(this.attackUpgradeCost) || CheatCodes.getCheat(cheats.INFINITE_SCRAP)}
     public handleUpgradeAttack(value:number = 1, ignoreCost:boolean = false){
         if(this.canUpgradeAttack || ignoreCost){
-            this.attackUpgrade.upgrade(value)
             this.useScrap((ignoreCost)?0:this.attackUpgradeCost)
+            this.attackUpgrade.upgrade(value)
             this.damageMulti = (this.attackUpgradeLevel*0.5)+1
         }
     }
@@ -152,7 +149,6 @@ export default class PlayerActor extends HPActor{
 
     takeDamage(damage: number, options:Record<string, any> = {}): boolean {
         let received = super.takeDamage(CheatCodes.getCheat(cheats.INVINSIBLE)?0:damage)
-        console.log(this.health)
         if(!received){return false}
         //this.iTimer.reset()
         //this.iTimer.start()
