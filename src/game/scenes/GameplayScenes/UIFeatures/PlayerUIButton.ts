@@ -13,6 +13,7 @@ export default abstract class PlayerUIButton extends EventButton{
         super()
         this.scene = scene
         this.button = button
+        this.button.textColor = Color.BLACK
     }
 
     public handleDisplayUpdate(): void {
@@ -22,8 +23,14 @@ export default abstract class PlayerUIButton extends EventButton{
 
     protected get player():PlayerActor{return this.scene.player}
 
-    settingsIfLocked(): void {this.button.textColor = Color.RED}
-    settingsIfUnlocked(): void {this.button.textColor = Color.WHITE}
+    settingsIfLocked(): void {
+        this.button.textColor.a = 0.5
+        this.button.disable = true
+    }
+    settingsIfUnlocked(): void {
+        this.button.textColor.a = 1
+        this.button.disable = false
+    }
 }
 
 export class HealButton extends PlayerUIButton{

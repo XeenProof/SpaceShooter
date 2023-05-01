@@ -44,6 +44,7 @@ export default class ScriptedLevel extends LevelSelect<ScriptScene>{
     settingsIfLocked(): void {
         this.button.backgroundColor = Color.BLACK;
         this.button.borderColor = Color.BLACK;
+        this.button.disable = true
         this.button.onClick = null;
         this.button.onEnter = null;
         this.button.onLeave = null;
@@ -51,6 +52,7 @@ export default class ScriptedLevel extends LevelSelect<ScriptScene>{
     settingsIfUnlocked(): void {
         this.button.backgroundColor = Color.TRANSPARENT;
         this.button.borderColor = Color.TRANSPARENT;
+        this.button.disable = false
         this.button.onClick = ()=>{this.onClick()};
         this.button.onEnter = ()=>{this.onEnter()};
         this.button.onLeave = ()=>{this.onLeave()};
