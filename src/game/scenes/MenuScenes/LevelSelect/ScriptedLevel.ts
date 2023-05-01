@@ -1,3 +1,4 @@
+import Vec2 from "../../../../Wolfie2D/DataTypes/Vec2";
 import Sprite from "../../../../Wolfie2D/Nodes/Sprites/Sprite";
 import Button from "../../../../Wolfie2D/Nodes/UIElements/Button";
 import Label from "../../../../Wolfie2D/Nodes/UIElements/Label";
@@ -17,6 +18,7 @@ export default class ScriptedLevel extends LevelSelect<ScriptScene>{
     private defaultText:string
     private script:Record<string, any>
     private unlockConditions:string[]
+    private scale:Vec2
 
     constructor(text:Label, image:Sprite, button:Button, script:Record<string, any>, manager:SceneManager){
         super(manager, ScriptScene, {levelData: script})
@@ -24,6 +26,7 @@ export default class ScriptedLevel extends LevelSelect<ScriptScene>{
         this.defaultText = text.text
         this.button = button
         this.image = image
+        this.scale = image.scale.clone()
         this.script = script
         this.unlockConditions = script.UNLOCK_CONDITION
         this.sceneManager = manager
@@ -69,6 +72,12 @@ export default class ScriptedLevel extends LevelSelect<ScriptScene>{
     }
 
     onClick():void {this.sceneManager.changeToScene(this.scene, this.options)}
-    onEnter():void{this.text.textColor = Color.fromStringHex("#66FFFF")}
-    onLeave():void{this.text.textColor = Color.YELLOW}
+    onEnter():void{
+        this.text.textColor = Color.fromStringHex("#66FFFF")
+        this.image.scale.set(this.scale.x*1.4, this.scale.y*1.4)
+    }
+    onLeave():void{
+        this.text.textColor = Color.YELLOW
+        this.image.scale.set(this.scale.x, this.scale.y)
+    }
 }
