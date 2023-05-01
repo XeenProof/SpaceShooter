@@ -27,6 +27,7 @@ import Input from "../../../Wolfie2D/Input/Input";
 import Layer from "../../../Wolfie2D/Scene/Layer";
 import MainMenu from "../MenuScenes/MainMenu";
 import { GameEventType } from "../../../Wolfie2D/Events/GameEventType";
+import PlayerUIButton, { HealButton, UpgradeHealthButton, UpgradeWeaponButton } from "./UIFeatures/PlayerUIButton";
 
 /**
  * This is the base scene for our game.
@@ -91,8 +92,9 @@ export default class BaseScene extends ActorScene{
 	protected scrapIron: Label;
 	protected points: Label;
 
-	protected endText: Label;
+	protected playerUIButtons:PlayerUIButton[]
 
+	protected endText: Label;
 	protected informationBackground: Label;
 
 	// The padding of the world
@@ -175,6 +177,7 @@ export default class BaseScene extends ActorScene{
 		this.wave.setText(this.wavenum.toString());
 		this.scrapIron.setText(this.player.scrap.toString());
 		this.points.setText(this.player.points.toString());
+		this.updateUIButtons(deltaT)
 
 		this.moveBackgrounds(deltaT);
 		this.lockPlayer(this.player, this.viewport.getCenter(), this.viewport.getHalfSize())
@@ -218,6 +221,12 @@ export default class BaseScene extends ActorScene{
 				this.sceneManager.changeToScene(MainMenu,{},{});
 				break;
 			}
+		}
+	}
+
+	public updateUIButtons(deltaT:number):void{
+		for(let b of this.playerUIButtons){
+			b.update(deltaT)
 		}
 	}
 
@@ -368,6 +377,7 @@ export default class BaseScene extends ActorScene{
 		this.initScrapCount()
 		this.initPointsCount()
 		/**Buttons */
+		this.playerUIButtons = []
 		this.initHealthButton()
 		this.initUpgradeHealthButton()
 		this.initUpgradeWeaponButton()
@@ -623,8 +633,9 @@ export default class BaseScene extends ActorScene{
         healthButton.borderColor = Color.BLACK;
 		healthButton.fontSize = 30;
         healthButton.backgroundColor = Color.fromStringHex("#07E3D6");
-		healthButton.onClick
 		healthButton.onClickEventId = Events.HEALTH;
+		const buttonHandler = new HealButton(this, healthButton)
+		this.playerUIButtons.push(buttonHandler)
 	}
 
 	protected initUpgradeHealthButton():void{
@@ -636,6 +647,8 @@ export default class BaseScene extends ActorScene{
 		maxHealthButton.fontSize = 18;
         maxHealthButton.backgroundColor = Color.fromStringHex("#07E3D6");
 		maxHealthButton.onClickEventId = Events.UPGRADE_HEALTH;
+		const buttonHandler = new UpgradeHealthButton(this, maxHealthButton)
+		this.playerUIButtons.push(buttonHandler)
 	}
 
 	protected initUpgradeWeaponButton():void{
@@ -647,5 +660,7 @@ export default class BaseScene extends ActorScene{
 		upgradeWeaponButton.fontSize = 18;
         upgradeWeaponButton.backgroundColor = Color.fromStringHex("#07E3D6");
 		upgradeWeaponButton.onClickEventId = Events.UPGRADE_WEAPON;
+		const buttonHandler = new UpgradeWeaponButton(this, upgradeWeaponButton)
+		this.playerUIButtons.push(buttonHandler)
 	}
 }

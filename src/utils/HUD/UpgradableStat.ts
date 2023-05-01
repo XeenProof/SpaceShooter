@@ -17,8 +17,10 @@ export default class UpgradableStat{
     public set cost(value: number) {this._cost = value}
 
     public upgrade(by:number = 1){
+        console.log("upgrade clicked")
         this.level += by;
         for(let i = 0; i < 1; i++){
+            console.log("loop")
             this.cost = this.costUpdater(this.cost)
         }
     }
