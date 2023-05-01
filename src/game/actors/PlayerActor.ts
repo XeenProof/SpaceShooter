@@ -78,7 +78,7 @@ export default class PlayerActor extends HPActor{
 
     /**The scrap cost and all it's related functions */
     private _scrap: number;
-    public get scrap(): number {return this._scrap;}
+    public get scrap(): number {return CheatCodes.getCheat(cheats.INFINITE_SCRAP)?Infinity:this._scrap;}
     public set scrap(value: number) {this._scrap = value;}
     public collectedScrap(value: number):void{if(this.scrap != -1){this.scrap+=value}}
     public useScrap(value: number):void{if(this.scrap != -1){this.scrap-=value}}
