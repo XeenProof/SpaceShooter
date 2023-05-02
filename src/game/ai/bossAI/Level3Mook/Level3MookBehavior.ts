@@ -5,6 +5,7 @@ import SummonsManager from "../../../../utils/SummonsManager/SummonsManager";
 import Weapon from "../../../../utils/WeaponManager/Weapon";
 import WeaponsManager from "../../../../utils/WeaponManager/WeaponsManager";
 import Level1MookActor from "../../../actors/BossActors/Level1MookActor";
+import Level3MookActor from "../../../actors/BossActors/Level3MookActor";
 import HPActor from "../../../actors/abstractActors/HPActor";
 import BasicEnemyAI from "../../abstractAI/BasicEnemyAI";
 import Level3MookWeapon, { OctoShot, OctoShotV2, DownShot } from "./Level3MookWeapons";
@@ -21,14 +22,14 @@ const audio = {
     ATTACK: 2
 }
 
-export default class Level1MookBehavior extends BasicEnemyAI{
-    protected override owner:Level1MookActor
+export default class Level3MookBehavior extends BasicEnemyAI{
+    protected override owner:Level3MookActor
 
     private weaponsTimer:Timer
     private firedCounter:number;
     private weapons:WeaponsManager<Level3MookWeapon>
 
-    public initializeAI(owner: Level1MookActor, options: Record<string, any> = {}): void {
+    public initializeAI(owner: Level3MookActor, options: Record<string, any> = {}): void {
         super.initializeAI(owner, options)
         this.firedCounter = 0;
         this.weaponsTimer = new Timer(1000,()=>{this.handleWeaponFire()}, true)

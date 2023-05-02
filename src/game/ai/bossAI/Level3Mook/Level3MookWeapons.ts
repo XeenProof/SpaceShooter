@@ -1,7 +1,7 @@
 import Vec2 from "../../../../Wolfie2D/DataTypes/Vec2";
 import { EnemyProjectileKeys } from "../../../../constants/projectiles/projectileData";
 import Weapon from "../../../../utils/WeaponManager/Weapon";
-import Level3MookActor from "../../../actors/BossActors/Level1MookActor";
+import Level3MookActor from "../../../actors/BossActors/Level3MookActor";
 import Level3MookBehavior from "./Level3MookBehavior";
 
 export default abstract class Level3MookWeapons extends Weapon{

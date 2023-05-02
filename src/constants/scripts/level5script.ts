@@ -1,10 +1,11 @@
 import { AllEnemyKeys, AllEnemyData} from "../enemies/enemyData";
 
 import { recRoute } from "../formations/RectangleForm";
-import { diagonalRoute } from "../formations/DiagonalForm";
-import { TriangleRoute } from "../formations/TriangleForm";
-import { VtypeRoute } from "../formations/VtypeForm";
-import { DiamondRoute } from "../formations/DiamondForm";
+import { CircleRoute } from "../formations/CircleForm";
+// import { diagonalRoute } from "../formations/DiagonalForm";
+// import { TriangleRoute } from "../formations/TriangleForm";
+// import { VtypeRoute } from "../formations/VtypeForm";
+// import { DiamondRoute } from "../formations/DiamondForm";
 
 import { LoadBackground} from "../load";
 import { AllPlayerData } from "../player/playerData";
@@ -34,7 +35,7 @@ const RandomHoarderScript = {
 export const level5 = {
     NAME: "Level 5",
     KEY: "LEVEL5",
-    UNLOCK_CONDITION: ["LEVEL4"],
+    UNLOCK_CONDITION: ["LEVEL5"],
     LOAD: {
         BACKGROUND: LoadBackground.SPACE,
         PLAYER: AllPlayerData.PLAYER_V1.LOAD,
@@ -56,16 +57,16 @@ export const level5 = {
     SCRIPT: [
         {type: Script_Type.WAVE, options: {wavenum: 1, mods:{droprate_multi: 1}}},
         {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-300}},
-        ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.COMMON_MOOK], [recRoute.NORMAL, recRoute.REVERSE], 300, 2, 10),
+        ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK], [CircleRoute.NORMAL], 300, 2, 1),
         {type: Script_Type.WAIT, options: {wait_time: -1}},
-        {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-300}},
-        ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.COMMON_MOOK], [DiamondRoute.NORMAL, DiamondRoute.REVERSE], 300, 2, 10),
-        {type: Script_Type.WAIT, options: {wait_time: -1}},
-        ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.TARGETED_MOOK, AllEnemyKeys.TARGETED_MOOK], [diagonalRoute.NORMAL, diagonalRoute.REVERSE], 300, 2, 10),
-        {type: Script_Type.WAIT, options: {wait_time: -1}},
-        ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.TARGETED_MOOK, AllEnemyKeys.TARGETED_MOOK], [TriangleRoute.NORMAL, TriangleRoute.REVERSE], 300, 2, 10),
-        {type: Script_Type.WAIT, options: {wait_time: -1}},
-        ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.TARGETED_MOOK, AllEnemyKeys.SHIELDED_MOOK], [VtypeRoute.NORMAL, VtypeRoute.REVERSE], 300, 2, 10),
+        // {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-300}},
+        // ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.COMMON_MOOK], [DiamondRoute.NORMAL, DiamondRoute.REVERSE], 300, 2, 10),
+        // {type: Script_Type.WAIT, options: {wait_time: -1}},
+        // ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.TARGETED_MOOK, AllEnemyKeys.TARGETED_MOOK], [diagonalRoute.NORMAL, diagonalRoute.REVERSE], 300, 2, 10),
+        // {type: Script_Type.WAIT, options: {wait_time: -1}},
+        // ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.TARGETED_MOOK, AllEnemyKeys.TARGETED_MOOK], [TriangleRoute.NORMAL, TriangleRoute.REVERSE], 300, 2, 10),
+        // {type: Script_Type.WAIT, options: {wait_time: -1}},
+        // ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.TARGETED_MOOK, AllEnemyKeys.SHIELDED_MOOK], [VtypeRoute.NORMAL, VtypeRoute.REVERSE], 300, 2, 10),
         {type: Script_Type.WAIT, options: {wait_time: -1}},
         {type: Script_Type.LEVEL_ENDS, options: {endtype: LevelEndConst.LEVEL_CLEARED}}
 
