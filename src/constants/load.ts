@@ -31,6 +31,7 @@ const Loads = {
     LEVEL2_BOSS: {KEY: "LEVEL2_BOSS", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Level2_Boss/Level2_Boss.json", SCALE:{X:1, Y:1}},
     LEVEL3_BOSS: {KEY: "LEVEL3_BOSS", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Level3_Boss/Level3_Boss.json", SCALE:{X:1, Y:1}},
     LEVEL4_BOSS: {KEY: "LEVEL4_BOSS", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Level4_Boss/Level4_Boss.json", SCALE:{X:1, Y:1}},
+    STAR: {KEY: "STAR",TYPE: LoadType.SPRITESHEET,PATH: "assets/spritesheets/STAR/star.json", SCALE:{X:1, Y:1}},
 
     RED_BEAM: {KEY: "RED_BEAM", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Plane_Beam/Plane_Beam.json", SCALE:{X:1, Y:1}},
     
@@ -89,6 +90,7 @@ export const LoadEnemy = {
     PERSON_MOOK: {...Loads.ENEMY_4, SCALE:{X:1, Y:1}},
     SHIELD: {...Loads.SHIELD, SCALE:{X:1.5, Y:1.5}},
     HOARDER: {...Loads.SPACE_THIEF},
+    STAR: {...Loads.STAR, SCALE:{X:1,Y:1}},
 
     MEGAMOOK: {...Loads.LEVEL2_BOSS, SCALE:{X:3, Y:3}},
     SUMMONER: {...Loads.LEVEL4_BOSS, SCALE:{X:3, Y:3}},

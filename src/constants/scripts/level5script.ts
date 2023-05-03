@@ -1,7 +1,7 @@
 import { AllEnemyKeys, AllEnemyData} from "../enemies/enemyData";
 
 import { recRoute } from "../formations/RectangleForm";
-import { CircleRoute } from "../formations/CircleForm";
+import { RushRoute } from "../formations/RushForm";
 // import { diagonalRoute } from "../formations/DiagonalForm";
 // import { TriangleRoute } from "../formations/TriangleForm";
 // import { VtypeRoute } from "../formations/VtypeForm";
@@ -28,8 +28,8 @@ const RandomHoarderScript = {
         enemyType: AllEnemyKeys.HOARDER,
         rpsl: [spawnRandomizer, RandomizedSettings]
     },
-    chance: 0.0,
-    repeat: 0.0,
+    chance: 0.001,
+    repeat: 0.001,
 }
 
 export const level5 = {
@@ -48,17 +48,32 @@ export const level5 = {
             {DATA: AllEnemyData.TARGETED_MOOK, AMMOUNT: 20},
             {DATA: AllEnemyData.SHIELDED_MOOK, AMMOUNT: 20},
             {DATA: AllEnemyData.HOARDER, AMMOUNT: 20},
+            {DATA: AllEnemyData.STAR, AMMOUNT: 20},
 
             {DATA: AllEnemyData.MEGAMOOK, AMMOUND: 1},
 
             {DATA: AllItemData.SCRAP, AMMOUNT: 20},
+            {DATA: AllEnemyData.LEVEL5MOOK, AMMOUND: 1},
         ]
     },
     SCRIPT: [
         {type: Script_Type.WAVE, options: {wavenum: 1, mods:{droprate_multi: 1}}},
         {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-300}},
-        ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK], [CircleRoute.NORMAL], 300, 2, 1),
+        ...generateRoundRobinScriptPart([AllEnemyKeys.STAR], [RushRoute.NORMAL], 300, 2, 1),
+        ...generateRoundRobinScriptPart([AllEnemyKeys.STAR], [RushRoute.REVERSE], 300, 2, 1),
         {type: Script_Type.WAIT, options: {wait_time: -1}},
+
+        {type: Script_Type.WAVE, options: {wavenum: 2, mods:{droprate_multi: 1}}},
+        {type: Script_Type.SPAWN, options: {
+            enemyType: AllEnemyKeys.LEVEL5MOOK,
+            rpsl: [spawnRandomizer, {
+                speed:{min: 150},
+                thresh:{min:200},
+                repeat:{min:-1},
+                generateAmount: 20,
+                y: {min: 0, max: 300}
+            }]
+        }},
         // {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-300}},
         // ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.COMMON_MOOK], [DiamondRoute.NORMAL, DiamondRoute.REVERSE], 300, 2, 10),
         // {type: Script_Type.WAIT, options: {wait_time: -1}},

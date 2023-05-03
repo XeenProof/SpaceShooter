@@ -100,7 +100,7 @@ export default class PlayerActor extends HPActor{
         if(this.canUpgradeHealth || ignoreCost){
             this.useScrap((ignoreCost)?0:this.healthUpgradeCost)
             this.healthUpgrade.upgrade(value)
-            let currentMax = (this.healthUpgradeLevel*2)+this.basehealth
+            let currentMax = (this.healthUpgradeLevel*10)+this.basehealth
             let prevMax = this.maxHealth
             let difference = currentMax - prevMax
             this.maxHealth+=difference
@@ -148,6 +148,7 @@ export default class PlayerActor extends HPActor{
     }
 
     takeDamage(damage: number, options:Record<string, any> = {}): boolean {
+        console.log(damage);
         let received = super.takeDamage(CheatCodes.getCheat(cheats.INVINSIBLE)?0:damage)
         if(!received){return false}
         //this.iTimer.reset()

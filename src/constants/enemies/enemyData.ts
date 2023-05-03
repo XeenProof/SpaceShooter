@@ -15,6 +15,8 @@ export const AllEnemyKeys = {
     SUMMONER: "SUMMONER",
     LEVEL1MOOK: "LEVEL1MOOK",
     LEVEL3MOOK: "LEVEL3MOOK",
+    STAR: "STAR",
+    LEVEL5MOOK: "LEVEL5MOOK"
 }
 
 export const AllEnemyData = {
@@ -22,6 +24,13 @@ export const AllEnemyData = {
         KEY: AllEnemyKeys.COMMON_MOOK,
         STATS:STATS.COMMON_MOOK,
         LOAD:[LoadEnemy.COMMON_MOOK],
+        AUDIO:attackingAudioList,
+        PHYSICS: PhysicGroups.ENEMY
+    },
+    STAR:{
+        KEY: AllEnemyKeys.STAR,
+        STATS:STATS.STAR,
+        LOAD:[LoadEnemy.STAR],
         AUDIO:attackingAudioList,
         PHYSICS: PhysicGroups.ENEMY
     },
@@ -56,6 +65,13 @@ export const AllEnemyData = {
     SUMMONER:{
         KEY: AllEnemyKeys.SUMMONER,
         STATS: STATS.SUMMONER,
+        LOAD: [LoadEnemy.SUMMONER],
+        AUDIO: attackingAudioList,
+        PHYSICS: PhysicGroups.ENEMY
+    },
+    LEVEL5MOOK:{
+        KEY: AllEnemyKeys.LEVEL5MOOK,
+        STATS: STATS.LEVEL5MOOK,
         LOAD: [LoadEnemy.SUMMONER],
         AUDIO: attackingAudioList,
         PHYSICS: PhysicGroups.ENEMY
