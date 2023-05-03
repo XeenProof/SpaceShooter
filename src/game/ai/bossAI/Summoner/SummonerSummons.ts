@@ -14,11 +14,11 @@ export default abstract class SummonerSummon extends Summons{
 
 export class SummonerShieldWall extends SummonerSummon{
     private get paths():Record<string, any>[]{return [
-        {y:500, x:50, speed: 300, thresh: 300, repeat:-1},
-        {y:500, x:250, speed: 300, thresh: 300, repeat:-1},
-        {y:500, x:450, speed: 300, thresh: 300, repeat:-1},
-        {y:500, x:650, speed: 300, thresh: 300, repeat:-1},
-        {y:500, x:850, speed: 300, thresh: 300, repeat:-1},
+        [{y:500, x:50, speed: 300, thresh: 300}, {y:500, x:50, speed: 1, thresh: 300, repeat:-1}],
+        [{y:500, x:250, speed: 300, thresh: 300}, {y:500, x:50, speed: 1, thresh: 300, repeat:-1}],
+        [{y:500, x:450, speed: 300, thresh: 300}, {y:500, x:50, speed: 1, thresh: 300, repeat:-1}],
+        [{y:500, x:650, speed: 300, thresh: 300}, {y:500, x:50, speed: 1, thresh: 300, repeat:-1}],
+        [{y:500, x:850, speed: 300, thresh: 300}, {y:500, x:50, speed: 1, thresh: 300, repeat:-1}],
     ]}
     private get defaultValues():Record<string, any>{
         return {
@@ -33,7 +33,7 @@ export class SummonerShieldWall extends SummonerSummon{
         let list  = this.paths.map((x)=>{return{
             ...this.defaultValues,
             enemyType: AllEnemyKeys.SHIELDED_MOOK,
-            path: [x]
+            path: x
         }})
         console.log(list)
         return list
@@ -42,10 +42,10 @@ export class SummonerShieldWall extends SummonerSummon{
 
 export class SummonerBackRank extends SummonerSummon{
     private get paths():Record<string, any>[]{return [
-        {y:100, x:150, speed: 300, thresh: 300, repeat:-1},
-        {y:100, x:350, speed: 300, thresh: 300, repeat:-1},
-        {y:100, x:550, speed: 300, thresh: 300, repeat:-1},
-        {y:100, x:750, speed: 300, thresh: 300, repeat:-1},
+        [{y:100, x:150, speed: 300, thresh: 300}, {y:100, x:150, speed: 1, thresh: 300, repeat:-1}],
+        [{y:100, x:350, speed: 300, thresh: 300}, {y:100, x:150, speed: 1, thresh: 300, repeat:-1}],
+        [{y:100, x:550, speed: 300, thresh: 300}, {y:100, x:150, speed: 1, thresh: 300, repeat:-1}],
+        [{y:100, x:750, speed: 300, thresh: 300}, {y:100, x:150, speed: 1, thresh: 300, repeat:-1}],
     ]}
     private get defaultValues():Record<string, any>{
         return {
@@ -57,13 +57,11 @@ export class SummonerBackRank extends SummonerSummon{
         super(owner, parent, key, 1)
     }
     public get summonsList():Record<string, any>[]{
-        console.log("before list")
         let list  = this.paths.map((x)=>{return{
             ...this.defaultValues,
             enemyType: AllEnemyKeys.PERSON_MOOK,
-            path: [x]
+            path: x
         }})
-        console.log(list)
         return list
     }
 }
