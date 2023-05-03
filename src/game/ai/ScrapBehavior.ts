@@ -13,7 +13,7 @@ export default class ScrapBehavior extends MovementAI{
     initializeAI(owner: Sprite, options: Record<string, any>): void {
         this.owner = owner
         this.speed = (options.speed)?Math.abs(options.speed.y):150
-        this.dir = Vec2.UP //I have no clue why this is backwards
+        this.dir = Vec2.DOWN 
         this.ignoreStates = true
         this.receiver.deactivate()
 
@@ -33,13 +33,14 @@ export default class ScrapBehavior extends MovementAI{
         while(this.receiver.hasNextEvent()){
             this.handleEvent(this.receiver.getNextEvent())
         }
+        console.log(this.dir.clone().scale(this.speed*deltaT));
         super.update(deltaT)
     }
     handleEvent(event: GameEvent): void {
         console.log(event.type)
         switch(event.type){
             case Events.TRAVEL_SPEED_CHANGE:{
-                this.speed = event.data.get("speed").y
+                this.speed = Math.abs(event.data.get("speed").y)
                 break;
             }
             case Events.PLAYER_SCRAP_COLLISION:{
