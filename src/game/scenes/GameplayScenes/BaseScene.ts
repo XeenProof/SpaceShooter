@@ -202,6 +202,7 @@ export default class BaseScene extends ActorScene{
 				this.gameplayScreenHidden = false
 				this.pauseScreenHidden = !this.paused
 				this.controlScreenHidden = true
+				this.handlePause()
 				break;
 			}
 			case Events.CONTROLS:{
@@ -223,6 +224,8 @@ export default class BaseScene extends ActorScene{
 			}
 		}
 	}
+
+	public handlePause():void{}
 
 	public updateUIButtons(deltaT:number):void{
 		for(let b of this.playerUIButtons){

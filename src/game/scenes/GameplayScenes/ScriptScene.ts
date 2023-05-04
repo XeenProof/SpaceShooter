@@ -27,6 +27,7 @@ export default class ScriptScene extends LevelScene{
 
     private timer:Timer
     private wait:boolean
+    private TimerWasActive:boolean
 
     public initScene(options: Record<string, any>): void {
         this.levelData = options.levelData;
@@ -69,6 +70,7 @@ export default class ScriptScene extends LevelScene{
 
     public updateScene(deltaT: number): void {
         super.updateScene(deltaT)
+        if(this.paused){return}
         if(this.isScreenCleared && this.wait){
             console.log("stopped waiting by force")
             this.stopWaiting();
@@ -106,6 +108,16 @@ export default class ScriptScene extends LevelScene{
                 this.handleScriptedAudio(node.options)
                 break;
             }
+        }
+    }
+
+    public handlePause():void{
+        console.log("paused")
+        if(this.paused){
+            this.timer.pause()
+        }
+        if(this.TimerWasActive && !this.paused){
+            this.timer.start()
         }
     }
 
@@ -147,6 +159,7 @@ export default class ScriptScene extends LevelScene{
         this.timer.reset()
         this.timer.reinit(wait_time, ()=>{this.stopWaiting()})
         this.timer.start()
+        this.TimerWasActive = true
     }
 
     protected HandleWave(options: Record<string, any>){
@@ -160,6 +173,7 @@ export default class ScriptScene extends LevelScene{
         this.wait = false;
         if(this.timer.isActive()){
             this.timer.pause();
+            this.TimerWasActive = false
         }
         this.timer.reset()
     }

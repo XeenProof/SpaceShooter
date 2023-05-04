@@ -33,11 +33,9 @@ export default class ScrapBehavior extends MovementAI{
         while(this.receiver.hasNextEvent()){
             this.handleEvent(this.receiver.getNextEvent())
         }
-        console.log(this.dir.clone().scale(this.speed*deltaT));
         super.update(deltaT)
     }
     handleEvent(event: GameEvent): void {
-        console.log(event.type)
         switch(event.type){
             case Events.TRAVEL_SPEED_CHANGE:{
                 this.speed = Math.abs(event.data.get("speed").y)
