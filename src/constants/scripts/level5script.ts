@@ -35,7 +35,7 @@ const RandomHoarderScript = {
 export const level5 = {
     NAME: "Level 5",
     KEY: "LEVEL5",
-    UNLOCK_CONDITION: ["LEVEL5"],
+    UNLOCK_CONDITION: ["LEVEL4"],
     LOAD: {
         BACKGROUND: LoadBackground.SPACE,
         PLAYER: AllPlayerData.PLAYER_V1.LOAD,
@@ -50,6 +50,7 @@ export const level5 = {
             {DATA: AllEnemyData.SHIELDED_MOOK, AMMOUNT: 20},
             {DATA: AllEnemyData.HOARDER, AMMOUNT: 20},
             {DATA: AllEnemyData.STAR, AMMOUNT: 20},
+            {DATA: AllEnemyData.MAGICIAN_MOOK, AMMOUNT: 20},
 
             {DATA: AllEnemyData.MEGAMOOK, AMMOUND: 1},
 
@@ -65,6 +66,7 @@ export const level5 = {
         {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-300}},
         ...generateRoundRobinScriptPart([AllEnemyKeys.STAR], [RushRoute.NORMAL], 300, 2, 1),
         ...generateRoundRobinScriptPart([AllEnemyKeys.STAR], [RushRoute.REVERSE], 300, 2, 1),
+        // ...generateRoundRobinScriptPart([AllEnemyKeys.MAGICIAN_MOOK], [recRoute.NORMAL], 300, 2, 1),
         {type: Script_Type.WAIT, options: {wait_time: -1}},
 
         {type: Script_Type.WAVE, options: {wavenum: 2, mods:{droprate_multi: 1}}},

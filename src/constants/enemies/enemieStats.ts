@@ -72,6 +72,14 @@ const STAR ={
     attack: 5,
 }
 
+const MAGICIAN_MOOK ={
+    hp: 40,
+    droprate: 0.5,
+    speed: 150,
+    points: 50,
+    attack: 5,
+}
+
 const LEVEL5MOOK = {
     hp: 500,
     droprate: 1,
@@ -91,4 +99,5 @@ export const STATS = {
     PERSON_MOOK:PERSON_MOOK,
     STAR:STAR,
     LEVEL5MOOK:LEVEL5MOOK,
+    MAGICIAN_MOOK:MAGICIAN_MOOK,
 }

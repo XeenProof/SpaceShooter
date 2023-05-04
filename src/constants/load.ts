@@ -26,6 +26,7 @@ const Loads = {
     ENEMY_3: {KEY: "ENEMY_3", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Enemy_Third/Enemy_Third.json", SCALE:{X:1, Y:1}},
     ENEMY_4: {KEY: "ENEMY_4", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Enemy_Fouth/Enemy_Fouth.json", SCALE:{X:1, Y:1}},
     ENEMY_5: {KEY: "ENEMY_5", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Enemy_Fifth/Enemy_Fifth.json", SCALE:{X:1, Y:1}},
+
     SPACE_THIEF: {KEY: "SPACE_THIEF", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Space_Thief/Space_Thief.json", SCALE:{X:1, Y:1}},
     LEVEL1_BOSS: {KEY: "LEVEL1_BOSS", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Level1_Boss/Level1_Boss.json", SCALE:{X:1, Y:1}},
     LEVEL2_BOSS: {KEY: "LEVEL2_BOSS", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Level2_Boss/Level2_Boss.json", SCALE:{X:1, Y:1}},
@@ -87,6 +88,7 @@ export const LoadEnemy = {
     COMMON_MOOK: {...Loads.ENEMY_1, SCALE:{X:1, Y:1}},
     TARGETED_MOOK: {...Loads.ENEMY_2},
     SHIELDED_MOOK: {...Loads.ENEMY_3},
+    MAGICIAN_MOOK: {...Loads.ENEMY_5, SCALE:{X:1, Y:1}},
     PERSON_MOOK: {...Loads.ENEMY_4, SCALE:{X:1, Y:1}},
     SHIELD: {...Loads.SHIELD, SCALE:{X:1.5, Y:1.5}},
     HOARDER: {...Loads.SPACE_THIEF},
