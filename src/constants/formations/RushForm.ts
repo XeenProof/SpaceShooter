@@ -1,12 +1,12 @@
 import { GAMEPLAY_DIMENTIONS } from "../dimenstions"
 
 const regularRushRoute = [
-    {x: 80, y: 80, speed: 400, thresh: 300,repeat:500},
-    {x: 400, y: 700, speed: 400, thresh: 300, wait:0},
-    {x: 900, y: 80, speed: 200, thresh: 300, wait:300},
-    {x: 400, y: 700, speed: 400, thresh: 300, wait:0},
-    {x: 80, y: 80, speed: 500, thresh: 300,repeat: 1},
-    {x: 80, y: 80, speed: 1, thresh: 300,repeat: 300},
+    {x: 120, y: 80, speed: 400,repeat:400},
+    {x: 400, y: 700, speed: 400, wait:0},
+    {x: 900, y: 80, speed: 200, wait:300},
+    {x: 400, y: 700, speed: 400, wait:0},
+    {x: 120, y: 80, speed: 500,repeat: 1},
+    {x: 120, y: 80, speed: 1,repeat: 200},
     // {x: 400, y: 700, speed: 400, tresh: 300, wait:0},
     // {x: 800, y: 50, speed: 400, tresh: 300, wait:0},
     // {x: 50, y: 50, speed: 500, repeat:300},

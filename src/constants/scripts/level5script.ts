@@ -7,7 +7,7 @@ import { RushRoute } from "../formations/RushForm";
 // import { VtypeRoute } from "../formations/VtypeForm";
 // import { DiamondRoute } from "../formations/DiamondForm";
 
-import { LoadBackground} from "../load";
+import { LoadBackground, LoadMusic} from "../load";
 import { AllPlayerData } from "../player/playerData";
 import { AllProjectileKeys, AllProjectileData} from "../projectiles/projectileData";
 import { generateRoundRobinScriptPart } from "./scriptGenerator";
@@ -41,6 +41,7 @@ export const level5 = {
         PLAYER: AllPlayerData.PLAYER_V1.LOAD,
         OTHERS: [
             {DATA: AllProjectileData.ENEMY_BEAM_GREEN, AMMOUNT: 20},
+            {DATA: AllProjectileData.ENEMY_BEAM_PURPLE, AMMOUNT: 20},
             {DATA: AllProjectileData.BEAM, AMMOUNT: 200},
             {DATA: AllProjectileData.TARGETED_BEAM, AMMOUNT: 20},
 
@@ -56,7 +57,10 @@ export const level5 = {
             {DATA: AllEnemyData.LEVEL5MOOK, AMMOUND: 1},
         ]
     },
+    AUDIOLIST: [LoadMusic.SPACE_MUSIC],
     SCRIPT: [
+        {type: Script_Type.PLAY_SOUND, options: {index: 0}},
+
         {type: Script_Type.WAVE, options: {wavenum: 1, mods:{droprate_multi: 1}}},
         {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-300}},
         ...generateRoundRobinScriptPart([AllEnemyKeys.STAR], [RushRoute.NORMAL], 300, 2, 1),

@@ -65,8 +65,8 @@ const LEVEL3MOOK ={
 }
 
 const STAR ={
-    hp: 50,
-    droprate: 0.01,
+    hp: 40,
+    droprate: 0.5,
     speed: 400,
     points: 50,
     attack: 5,

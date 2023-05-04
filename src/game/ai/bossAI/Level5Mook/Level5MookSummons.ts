@@ -14,11 +14,11 @@ export default abstract class Level5MookSummons extends Summons{
 
 export class Level5ShieldWall extends Level5MookSummons{
     private get paths():Record<string, any>[]{return [
-        {y:500, x:50, speed: 300, thresh: 300, repeat:200},
-        {y:500, x:250, speed: 300, thresh: 300, repeat:300},
-        {y:500, x:450, speed: 300, thresh: 300, repeat:400},
-        {y:500, x:650, speed: 300, thresh: 300, repeat:300},
-        {y:500, x:850, speed: 300, thresh: 300, repeat:200},
+        [{y:200, x:50, speed: 300, thresh: 300},{y:200, x:50, speed: 1, thresh: 300, repeat:200}],
+        [{y:300, x:50, speed: 300, thresh: 300},{y:300, x:50, speed: 1, thresh: 300, repeat:300}],
+        [{y:200, x:850, speed: 300, thresh: 300},{y:200, x:850, speed: 1, thresh: 300, repeat:400}],
+        // {y:500, x:650, speed: 300, thresh: 300, repeat:300},
+        [{y:300, x:850, speed: 300, thresh: 300},{y:300, x:850, speed: 1, thresh: 300, repeat:200}],
     ]}
     private get defaultValues():Record<string, any>{
         return {
@@ -33,7 +33,7 @@ export class Level5ShieldWall extends Level5MookSummons{
         let list  = this.paths.map((x)=>{return{
             ...this.defaultValues,
             enemyType: AllEnemyKeys.STAR,
-            path: [x]
+            path: x
         }})
         console.log(list)
         return list
@@ -42,10 +42,10 @@ export class Level5ShieldWall extends Level5MookSummons{
 
 export class Level5BackRank extends Level5MookSummons{
     private get paths():Record<string, any>[]{return [
-        {y:100, x:150, speed: 300, thresh: 300, repeat:-1},
-        {y:100, x:350, speed: 300, thresh: 300, repeat:-1},
-        {y:100, x:550, speed: 300, thresh: 300, repeat:-1},
-        {y:100, x:750, speed: 300, thresh: 300, repeat:-1},
+        [{y:100, x:150, speed: 300, thresh: 300},{y:100, x:150, speed: 1, thresh: 300, repeat:-1}],
+        [{y:100, x:350, speed: 300, thresh: 300},{y:100, x:350, speed: 1, thresh: 300, repeat:-1}],
+        [{y:100, x:550, speed: 300, thresh: 300},{y:100, x:550, speed: 1, thresh: 300, repeat:-1}],
+        [{y:100, x:750, speed: 300, thresh: 300},{y:100, x:750, speed: 1, thresh: 300, repeat:-1}],
     ]}
     private get defaultValues():Record<string, any>{
         return {
@@ -61,7 +61,7 @@ export class Level5BackRank extends Level5MookSummons{
         let list  = this.paths.map((x)=>{return{
             ...this.defaultValues,
             enemyType: AllEnemyKeys.TARGETED_MOOK,
-            path: [x]
+            path: x
         }})
         console.log(list)
         return list
