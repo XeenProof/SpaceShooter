@@ -5,7 +5,7 @@ import Weapon from "../../../utils/WeaponManager/Weapon";
 import WeaponsManager from "../../../utils/WeaponManager/WeaponsManager";
 import BasicEnemyAI from "../abstractAI/BasicEnemyAI";
 import MagicianActor from "../../actors/EnemyActors/MagicianActor";
-import MagicianWeapons, { OctoShot, OctoShotV2,DownShot }from "./MagicianWeapons";
+import MagicianWeapons, { OctoShot, OctoShotV2,DownShot,OctoShotV3 }from "./MagicianWeapons";
 import PlayerActor from "../../actors/PlayerActor";
 import Vec2 from "../../../Wolfie2D/DataTypes/Vec2";
 import SummonsManager from "../../../utils/SummonsManager/SummonsManager";
@@ -16,7 +16,8 @@ import MagicianSummon, { StarSummons } from "./MagicianSummons";
 const WEAPONS = {
     OCTOSHOT: "OCTOSHOT",
     OCTOSHOTV2: "OCTOSHOTV2",
-    DOWNSHOT: "DOWNSHOT"
+    DOWNSHOT: "DOWNSHOT",
+    OCTOSHOTV3: "OCTOSHOTV3",
 }
 
 const SUMMONS = {
@@ -49,6 +50,7 @@ export default class MagicianBehavior extends BasicEnemyAI{
         this.weapons.add(WEAPONS.DOWNSHOT, new DownShot(this.owner, this), 1, 4)
         this.weapons.add(WEAPONS.OCTOSHOT, new OctoShot(this.owner, this), 2, 4)
         this.weapons.add(WEAPONS.OCTOSHOTV2, new OctoShotV2(this.owner, this), 3, 4)
+        this.weapons.add(WEAPONS.OCTOSHOTV3, new OctoShotV3(this.owner, this), 4, 4)
 
 
         this.summons = new SummonsManager<MagicianSummon>()
@@ -115,10 +117,16 @@ export default class MagicianBehavior extends BasicEnemyAI{
         for(let n of percents){this.summonsChart.set(n,true)}
     }
 
-    protected handleRamDamage(enemyId):void {}
+    // protected handleRamDamage(enemyId):void {}
 
     protected OwnerTakeDamage(damage:number):boolean{
         let receivedDamage = super.OwnerTakeDamage(damage)
+        console.log(this.owner.health)
+        if (this.owner.health<=0){
+            this.emitter.fireEvent(Events.ENEMY_SHOOTS, {
+                projectiles: this.weapons.getProjectiles(4)
+            })
+        }
         return receivedDamage
     }
 
@@ -135,7 +143,7 @@ export default class MagicianBehavior extends BasicEnemyAI{
         super.initReceiver()
         this.receiver.subscribe(Events.SUMMONING_COMPLETED)
     }
-    
+
     protected updateData(){
         super.updateData()
     }
