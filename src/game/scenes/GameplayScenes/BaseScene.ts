@@ -29,11 +29,19 @@ import MainMenu from "../MenuScenes/MainMenu";
 import { GameEventType } from "../../../Wolfie2D/Events/GameEventType";
 import PlayerUIButton, { HealButton, UpgradeHealthButton, UpgradeWeaponButton } from "./UIFeatures/PlayerUIButton";
 import MathUtils from "../../../Wolfie2D/Utils/MathUtils";
+import SubsceneManager from "../../../utils/Subscenes/SubsceneManager";
+import Subscene from "../../../utils/Subscenes/Subscene";
+import PauseScreen from "../SPSubscenes/PauseScreen";
 
 /**
  * This is the base scene for our game.
  * It handles all the initializations 
  */
+
+const SUBSCENES = {
+	PAUSE: "PAUSE"
+}
+
 export default class BaseScene extends ActorScene{
 	protected BACKGROUND: LoadData;
 	protected statMods:Record<string, number> = {
@@ -57,7 +65,6 @@ export default class BaseScene extends ActorScene{
 	protected bg1: Sprite;
 	protected bg2: Sprite;
 	protected bgControl: Sprite;
-	protected bgPaused: Sprite;
 
 	protected entities: EntityManager<CanvasNode>;
 	protected damages: Map<String, number>;
@@ -101,6 +108,8 @@ export default class BaseScene extends ActorScene{
 	// The padding of the world
 	protected worldPadding: Vec2;
 
+	protected subscenes:SubsceneManager<Subscene>
+
 	public constructor(viewport: Viewport, sceneManager: SceneManager, renderingManager: RenderingManager, options: Record<string, any>) {
         super(viewport, sceneManager, renderingManager, {...options, physics: Physics});
 		this.entities = new EntityManager<CanvasNode>();
@@ -109,17 +118,25 @@ export default class BaseScene extends ActorScene{
     }
 
 	public override loadScene(){
+		this.subscenes.loadSubscenes()
         this.load.image("HealthIcon","assets/sprites/health.png");
 		this.load.image("ShieldIcon","assets/sprites/shield.png");
 		this.load.image("BoostIcon","assets/sprites/boost.png");
-		this.load.image("PauseBackground","assets/sprites/pausebackground.png");
     }
 
 	/** Scene lifecycle methods */
 	/**
 	 * @see Scene.initScene()
 	 */
-	public override initScene(options: Record<string, any>): void {}
+	public override initScene(options: Record<string, any>): void {
+		console.log("initscene")
+		this.subscenes = new SubsceneManager<Subscene>()
+		console.log("initscene 2")
+		let pauseScreen = new PauseScreen(this, this.add, this.viewport)
+		console.log("initscene 3")
+		this.subscenes.add(SUBSCENES.PAUSE, pauseScreen)
+		console.log("initscene 4")
+	}
 
 	protected loadList(list:LoadData[]){
 		for(let data of list){this.autoloader(data);}
@@ -155,6 +172,8 @@ export default class BaseScene extends ActorScene{
 		this.initLayers();
 		this.initUI();
 
+		this.subscenes.startSubscenes()
+
 		this.receiver.subscribe(Events.PAUSE)
 		this.receiver.subscribe(Events.CONTROLS)
 		this.receiver.subscribe(Events.BACK_TO_PAUSE)
@@ -171,6 +190,7 @@ export default class BaseScene extends ActorScene{
 			this.handleEvent(this.receiver.getNextEvent());
 		}
 		if(this.paused){return}
+		//this.subscenes.updateSubscenes(deltaT)
 
 		this.handleHealthChange(this.player.health,this.player.maxHealth);
 		this.handleShieldChange((this.player.shieldCharge.value/this.player.shieldCharge.maxValue)*5);
@@ -332,8 +352,7 @@ export default class BaseScene extends ActorScene{
 	}
 
 	protected set pauseScreenHidden(value:boolean){
-		this.getLayer(Layers.PAUSE).setHidden(value)
-		this.getLayer(Layers.PAUSE_BACKGROUND).setHidden(value)
+		this.subscenes.get(SUBSCENES.PAUSE).active = !value
 	}
 
 	protected set controlScreenHidden(value:boolean){
@@ -357,9 +376,6 @@ export default class BaseScene extends ActorScene{
 		this.addLayer(Layers.STATES, 9);
 		this.addLayer(Layers.GAMEEND, 10);
 		this.addUILayer(Layers.UI);
-		/**PAUSE SCREEN RELATED*/
-		this.addLayer(Layers.PAUSE_BACKGROUND, 99);
-		this.addLayer(Layers.PAUSE, 100);
 		/**CONTROL SCREEN RELATED*/
 		this.addLayer(Layers.CONTROLS_BACKGROUND, 101);
 		this.addLayer(Layers.CONTROLS, 102);
@@ -388,7 +404,6 @@ export default class BaseScene extends ActorScene{
 		this.initUpgradeWeaponButton()
 
 		// initial PAUSE SCENE
-		this.initPauseScene();
 		this.initControlScene();
 	}
 	/**
@@ -403,44 +418,6 @@ export default class BaseScene extends ActorScene{
 		this.bg2.scale.set(this.BACKGROUND.SCALE.X, this.BACKGROUND.SCALE.Y);
 		this.bg2.position = this.bg1.position.clone();
 		this.bg2.position.add(this.bg1.sizeWithZoom.scale(0, -2));
-	}
-
-	protected initPauseScene():void{
-		this.pauseScreenHidden = true
-		const bgPaused = this.add.sprite("PauseBackground", Layers.PAUSE_BACKGROUND);
-		bgPaused.scale.set(0.5, 0.5);
-		bgPaused.position.copy(new Vec2(this.center.x-100, this.center.y));
-
-		const pauseText = <Label> this.add.uiElement(UIElementType.LABEL, Layers.PAUSE, {position: new Vec2(this.center.x-100, this.center.y - 120), text: "PAUSE"});
-		pauseText.textColor = Color.WHITE
-
-		const cont = this.add.uiElement(UIElementType.LABEL, Layers.PAUSE, {position: new Vec2(this.center.x-100, this.center.y - 40), text: "CONTINUE"});
-		cont.size.set(200, 50);
-		cont.backgroundColor= Color.YELLOW
-		cont.borderWidth=5;
-		cont.borderColor=Color.BLACK;
-		cont.onClickEventId = Events.PAUSE
-		cont.onClickEventData = {pausing: false}
-		cont.onEnter = () => {
-			cont.backgroundColor = Color.RED
-		}
-		cont.onLeave = () => {
-			cont.backgroundColor = Color.YELLOW
-		}
-
-		const controls = this.add.uiElement(UIElementType.LABEL, Layers.PAUSE, {position: new Vec2(this.center.x-100, this.center.y + 20), text: "CONTROLS"});
-		controls.size.set(200, 50);
-		controls.backgroundColor= Color.YELLOW;
-		controls.borderWidth=5;
-		controls.borderColor=Color.BLACK;
-		controls.onClickEventId=Events.CONTROLS;
-
-		const exit = <Button> this.add.uiElement(UIElementType.LABEL, Layers.PAUSE, {position: new Vec2(this.center.x-100, this.center.y+80), text: "EXIT"});
-		exit.size.set(200, 50);
-		exit.backgroundColor= Color.YELLOW;
-		exit.borderWidth=5;
-		exit.borderColor=Color.BLACK;
-		exit.onClickEventId=Events.EXIT;
 	}
 
 	protected initControlScene():void{

@@ -34,6 +34,7 @@ export default class LevelScene extends BaseScene {
 
 	public override initScene(options: Record<string, any>): void {
 		this.endLevelTimer = new Timer(5000, ()=>{this.endLevel()})
+		super.initScene(options)
 	}
 
 	public override startScene(): void {
