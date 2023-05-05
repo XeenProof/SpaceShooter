@@ -79,12 +79,6 @@ export default class LevelScene extends BaseScene {
 		}
 	}
 
-	public unloadScene(): void {
-		// if(this.currentAudio){
-		// 	//this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: this.currentAudio})
-		// }
-	}
-
 	/** 
 	 * This method initializes the player.
 	 * 

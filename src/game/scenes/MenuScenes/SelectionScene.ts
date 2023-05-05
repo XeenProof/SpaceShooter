@@ -22,6 +22,7 @@ import ProgressTracker from "../../../utils/Singletons/ProgressTracker";
 import LevelSelect from "../../../utils/SelectionUtils/Level";
 import ScriptedLevel from "./LevelSelect/ScriptedLevel";
 import AnimatedSprite from "../../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
+import SPScene from "../SPScene";
 
 // Layers in the main menu
 const SelectionLayer = {
@@ -36,7 +37,7 @@ const SelectionEvent = {
 
 } as const;
 
-export default class SelectionScence extends Scene {
+export default class SelectionScence extends SPScene {
     // Layers, for multiple main menu screens
     private selection: Layer;
     private ui: Layer;

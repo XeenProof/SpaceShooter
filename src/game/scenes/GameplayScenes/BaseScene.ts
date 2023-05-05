@@ -184,11 +184,6 @@ export default class BaseScene extends ActorScene{
 		this.lockPlayer(this.player, this.viewport.getCenter(), this.viewport.getHalfSize())
 	}
 
-    /**
-     * @see Scene.unloadScene()
-     */
-    public override unloadScene(): void {}
-
 	/**
 	 * This method helps with handling events. 
 	 * Student Edited

@@ -17,6 +17,7 @@ import Viewport from "../../../Wolfie2D/SceneGraph/Viewport";
 import SceneManager from "../../../Wolfie2D/Scene/SceneManager";
 import RenderingManager from "../../../Wolfie2D/Rendering/RenderingManager";
 import CheatCodes from "../../../utils/Singletons/CheatCodes";
+import SPScene from "../SPScene";
 
 // Layers in the main menu
 const WelcomeLayer = {
@@ -29,7 +30,7 @@ const WelcomeEvent = {
     PLAY_GAME: "PLAY_GAME",
 } as const;
 
-export default class WelcomeScence extends Scene {
+export default class WelcomeScence extends SPScene {
     // Layers, for multiple main menu screens
     private welcome: Layer;
     private ui: Layer;
@@ -97,6 +98,7 @@ export default class WelcomeScence extends Scene {
 
     public unloadScene(): void {
         this.load.keepImage(LoadMainmenu.MAINMENU.KEY)
+        super.unloadScene()
     }
 
     protected loadBackground(data: LoadData){

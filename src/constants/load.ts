@@ -131,3 +131,7 @@ export const LoadAudio = {
     ENEMY_TAKINGDAMAGE: {...Loads.ENEMY_TAKINGDAMAGE},
     ENEMY_DEAD: {...Loads.ENEMY_DEAD},
 }
+
+export const neverUnload:LoadData[] = [
+    Loads.SPACE_MUSIC
+]

@@ -3,9 +3,10 @@ import PlayerActor from "../../actors/PlayerActor";
 import DamageActor from "../../actors/abstractActors/DamageActor";
 import HPActor from "../../actors/abstractActors/HPActor";
 import Vec2 from "../../../Wolfie2D/DataTypes/Vec2";
+import SPScene from "../SPScene";
 
 
-export default abstract class ActorScene extends Scene{
+export default abstract class ActorScene extends SPScene{
 
     public abstract get player(): PlayerActor
     public abstract get TravelSpeed(): Vec2

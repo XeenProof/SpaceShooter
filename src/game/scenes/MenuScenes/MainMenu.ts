@@ -22,6 +22,7 @@ import LocalStorageHandler from "../../../utils/Singletons/LocalStorageHandler";
 import ProgressTracker from "../../../utils/Singletons/ProgressTracker";
 import Checkbox from "../../../utils/SelectionUtils/Checkbox";
 import CheatsCheckBox from "./LevelSelect/CheatsCheckbox";
+import SPScene from "../SPScene";
 
 
 // Layers in the main menu
@@ -44,7 +45,7 @@ const MainMenuEvent = {
     CLEAR_CHEATS_STORAGE: "CLEAR_CHEATS_STORAGE",
 } as const;
 
-export default class MainMenu extends Scene {
+export default class MainMenu extends SPScene {
     // Layers, for multiple main menu screens
     private mainMenu: Layer;
     private mainMenu_background: Layer;
@@ -314,6 +315,7 @@ export default class MainMenu extends Scene {
 
     public unloadScene(): void {
         this.load.keepImage(LoadMainmenu.MAINMENU.KEY)
+        super.unloadScene()
     }
 
     protected handleEvent(event: GameEvent): void {
