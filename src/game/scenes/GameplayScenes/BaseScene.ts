@@ -56,8 +56,8 @@ export default class BaseScene extends ActorScene{
 	// Sprites for the background images
 	protected bg1: Sprite;
 	protected bg2: Sprite;
-	protected bg3: Sprite;
-	protected bg4: Sprite;
+	protected bgControl: Sprite;
+	protected bgPaused: Sprite;
 
 	protected entities: EntityManager<CanvasNode>;
 	protected damages: Map<String, number>;
@@ -407,9 +407,9 @@ export default class BaseScene extends ActorScene{
 
 	protected initPauseScene():void{
 		this.pauseScreenHidden = true
-		const bg4 = this.add.sprite("PauseBackground", Layers.PAUSE_BACKGROUND);
-		bg4.scale.set(0.5, 0.5);
-		bg4.position.copy(new Vec2(this.center.x-100, this.center.y));
+		const bgPaused = this.add.sprite("PauseBackground", Layers.PAUSE_BACKGROUND);
+		bgPaused.scale.set(0.5, 0.5);
+		bgPaused.position.copy(new Vec2(this.center.x-100, this.center.y));
 
 		const pauseText = <Label> this.add.uiElement(UIElementType.LABEL, Layers.PAUSE, {position: new Vec2(this.center.x-100, this.center.y - 120), text: "PAUSE"});
 		pauseText.textColor = Color.WHITE
@@ -421,6 +421,12 @@ export default class BaseScene extends ActorScene{
 		cont.borderColor=Color.BLACK;
 		cont.onClickEventId = Events.PAUSE
 		cont.onClickEventData = {pausing: false}
+		cont.onEnter = () => {
+			cont.backgroundColor = Color.RED
+		}
+		cont.onLeave = () => {
+			cont.backgroundColor = Color.YELLOW
+		}
 
 		const controls = this.add.uiElement(UIElementType.LABEL, Layers.PAUSE, {position: new Vec2(this.center.x-100, this.center.y + 20), text: "CONTROLS"});
 		controls.size.set(200, 50);
@@ -439,15 +445,15 @@ export default class BaseScene extends ActorScene{
 
 	protected initControlScene():void{
 		this.controlScreenHidden = true
-		const bg3 = this.add.sprite(this.BACKGROUND.KEY, Layers.CONTROLS_BACKGROUND);
-		bg3.scale.set(this.BACKGROUND.SCALE.X, this.BACKGROUND.SCALE.Y);
-		bg3.position.copy(this.viewport.getCenter());
+		const bgControl = this.add.sprite(this.BACKGROUND.KEY, Layers.CONTROLS_BACKGROUND);
+		bgControl.scale.set(this.BACKGROUND.SCALE.X, this.BACKGROUND.SCALE.Y);
+		bgControl.position.copy(this.viewport.getCenter());
 		
         const header = <Label>this.add.uiElement(UIElementType.LABEL,  Layers.CONTROLS, {position: new Vec2(this.center.x, this.center.y - 300), text: "Controls"});
         header.textColor = Color.YELLOW;
         header.fontSize = 50;
 
-        const health = <Label>this.add.uiElement(UIElementType.LABEL,  Layers.CONTROLS, {position: new Vec2(this.center.x, this.center.y -200), text: "1 - heal"});
+        const health = <Label>this.add.uiElement(UIElementType.LABEL,  Layers.CONTROLS, {position: new Vec2(this.center.x, this.center.y -200), text: "1 - Heal"});
         health.textColor = Color.YELLOW;
         health.fontSize = 50;
 
@@ -480,7 +486,7 @@ export default class BaseScene extends ActorScene{
         const R = <Label>this.add.uiElement(UIElementType.LABEL, Layers.CONTROLS, {position: new Vec2(this.center.x, this.center.y + 300), text: "R - Activate Booster"});
         R.textColor = Color.YELLOW;
         R.fontSize = 50;
-        const ESC = <Label>this.add.uiElement(UIElementType.LABEL, Layers.CONTROLS, {position: new Vec2(this.center.x, this.center.y + 350), text: "ESC - Pause/Unpasue the Game"});
+        const ESC = <Label>this.add.uiElement(UIElementType.LABEL, Layers.CONTROLS, {position: new Vec2(this.center.x, this.center.y + 350), text: "ESC - Pause/Unpause the Game"});
         ESC.textColor = Color.YELLOW;
         ESC.fontSize = 50;
 
