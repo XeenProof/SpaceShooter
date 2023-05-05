@@ -1,3 +1,4 @@
+import Vec2 from "../../../../Wolfie2D/DataTypes/Vec2";
 import { AllEnemyKeys } from "../../../../constants/enemies/enemyData";
 import Summons from "../../../../utils/SummonsManager/Summons";
 import Level6MookActor from "../../../actors/BossActors/Level6MookActor";
@@ -73,6 +74,40 @@ export class Level6BackRank extends Level6MookSummons{
             path: x
         }})
         console.log(list)
+        return list
+    }
+}
+
+export class Level6AtTarget extends Level6MookSummons{
+    private counter:number
+    private possibleEnemies:string[] = [AllEnemyKeys.TARGETED_MOOK, AllEnemyKeys.PERSON_MOOK]
+    private get targetPost():{x:number, y:number}{
+        let pos:Vec2 = this.parent.targetPosition
+        return {x:pos.x, y:pos.y}
+    }
+    private get nextEnemyType():string{
+        let type = this.possibleEnemies[this.counter%this.possibleEnemies.length]
+        this.counter++;
+        return type;
+    }
+    private get defaultValues():Record<string, any>{
+        return {
+            summonKey:this.key,
+            src: this.owner.position
+        }
+    }
+    constructor(owner: Level6MookActor, parent: Level6MookBehavior, key:string){
+        super(owner, parent, key, 1)
+        this.counter = 0
+    }
+    public get summonsList():Record<string, any>[]{
+        let enemyType = this.nextEnemyType
+        let pos = this.targetPost
+        let list  = [{
+            ...this.defaultValues,
+            enemyType: enemyType,
+            path:  [{speed: 300, thresh: 300, ...pos},{speed: 1, thresh: 300, repeat:-1, ...pos}]
+        }]
         return list
     }
 }

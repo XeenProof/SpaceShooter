@@ -1,3 +1,4 @@
+import Vec2 from "../../../../Wolfie2D/DataTypes/Vec2";
 import GameEvent from "../../../../Wolfie2D/Events/GameEvent";
 import Timer from "../../../../Wolfie2D/Timing/Timer";
 import { Events } from "../../../../constants/events";
@@ -16,6 +17,8 @@ export default class Level6MookBehavior extends BasicEnemyAI{
     private summons:SummonsManager<Level6MookSummons>
     private summonsTimerShield:Timer
     private summonsCount: number;
+
+    public get targetPosition():Vec2 {return this.target.position}
 
     public initializeAI(owner: Level6MookActor, options?: Record<string, any>): void {
         super.initializeAI(owner, options)
