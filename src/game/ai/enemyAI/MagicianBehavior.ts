@@ -41,7 +41,7 @@ export default class MagicianBehavior extends BasicEnemyAI{
     private summonsChart:Map<number, boolean>
 
     public initializeAI(owner: MagicianActor, options: Record<string, any> = {}): void {
-        super.initializeAI(owner, options) //why it is not work?
+        super.initializeAI(owner, options)
         this.firedCounter = 0;
         this.weaponsTimer = new Timer(1500,()=>{this.handleWeaponFire()}, true)
 
@@ -134,5 +134,9 @@ export default class MagicianBehavior extends BasicEnemyAI{
     protected initReceiver(): void {
         super.initReceiver()
         this.receiver.subscribe(Events.SUMMONING_COMPLETED)
+    }
+    
+    protected updateData(){
+        super.updateData()
     }
 }

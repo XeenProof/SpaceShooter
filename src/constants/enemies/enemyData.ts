@@ -46,7 +46,7 @@ export const AllEnemyData = {
     },
     MAGICIAN_MOOK:{
         KEY: AllEnemyKeys.MAGICIAN_MOOK,
-        STATS:STATS.MAGICIAN_MOOK,
+        STATS: STATS.MAGICIAN_MOOK,
         LOAD: [LoadEnemy.MAGICIAN_MOOK],
         AUDIO: attackingAudioList,
         PHYSICS: PhysicGroups.ENEMY

@@ -67,3 +67,31 @@ export class Level6BackRank extends Level6MookSummons{
         return list
     }
 }
+
+export class Level6PersonMook extends Level6MookSummons{
+    private get paths():Record<string, any>[]{return [
+        [{y:100, x:150, speed: 300, thresh: 300},{y:100, x:150, speed: 1, thresh: 300, repeat:-1}],
+        [{y:100, x:350, speed: 300, thresh: 300},{y:100, x:350, speed: 1, thresh: 300, repeat:-1}],
+        [{y:100, x:550, speed: 300, thresh: 300},{y:100, x:550, speed: 1, thresh: 300, repeat:-1}],
+        [{y:100, x:750, speed: 300, thresh: 300},{y:100, x:750, speed: 1, thresh: 300, repeat:-1}],
+    ]}
+    private get defaultValues():Record<string, any>{
+        return {
+            summonKey:this.key,
+            src: this.owner.position
+        }
+    }
+    constructor(owner: Level6MookActor, parent: Level6MookBehavior, key:string){
+        super(owner, parent, key, 1)
+    }
+    public get summonsList():Record<string, any>[]{
+        console.log("before list")
+        let list  = this.paths.map((x)=>{return{
+            ...this.defaultValues,
+            enemyType: AllEnemyKeys.PERSON_MOOK,
+            path: x
+        }})
+        console.log(list)
+        return list
+    }
+}

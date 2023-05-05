@@ -42,8 +42,9 @@ export const level6 = {
         OTHERS: [
             {DATA: AllProjectileData.ENEMY_BEAM_GREEN, AMMOUNT: 20},
             {DATA: AllProjectileData.ENEMY_BEAM_PURPLE, AMMOUNT: 20},
+            {DATA: AllProjectileData.ENEMY_BEAM_BLUE, AMMOUNT: 20},
+            {DATA: AllProjectileData.ENEMY_BEAM_CYAN, AMMOUNT: 20},
             {DATA: AllProjectileData.BEAM, AMMOUNT: 200},
-            {DATA: AllProjectileData.TARGETED_BEAM, AMMOUNT: 20},
 
             {DATA: AllEnemyData.COMMON_MOOK, AMMOUNT: 20},
             {DATA: AllEnemyData.TARGETED_MOOK, AMMOUNT: 20},
@@ -51,6 +52,7 @@ export const level6 = {
             {DATA: AllEnemyData.HOARDER, AMMOUNT: 20},
             {DATA: AllEnemyData.STAR, AMMOUNT: 20},
             {DATA: AllEnemyData.MAGICIAN_MOOK, AMMOUNT: 20},
+            {DATA: AllEnemyData.PERSON_MOOK, AMMOUNT: 20},
 
             {DATA: AllEnemyData.MEGAMOOK, AMMOUND: 1},
 
