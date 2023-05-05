@@ -81,6 +81,8 @@ export default class ScriptedLevel extends LevelSelect<ScriptScene>{
         this.button.borderRadius = 0;
         this.button.fontSize = 0;
         this.button.setPadding(this.image.sizeWithZoom);
+        this.image.animation.play(this.animation, true)
+        this.image.animation.pause()
 
         this.handleDisplayUpdate()
     }
@@ -89,11 +91,12 @@ export default class ScriptedLevel extends LevelSelect<ScriptScene>{
     onEnter():void{
         this.text.textColor = Color.fromStringHex("#66FFFF")
         this.image.scale.set(this.scale.x*1.4, this.scale.y*1.4)
-        this.image.animation.playIfNotAlready(this.animation, true)
+        this.image.animation.resume()
     }
     onLeave():void{
         this.text.textColor = Color.YELLOW
         this.image.scale.set(this.scale.x, this.scale.y)
-        this.image.animation.playIfNotAlready("", false)
+        this.image.animation.play(this.animation, true)
+        this.image.animation.pause()
     }
 }
