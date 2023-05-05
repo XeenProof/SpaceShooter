@@ -73,3 +73,29 @@ export class OctoShotV2 extends MagicianWeapons{
         }})
     }
 }
+
+export class OctoShotV3 extends MagicianWeapons{
+    private list:Vec2[] = [
+        new Vec2(-1,-2).normalize(),
+        new Vec2(-1,2).normalize(),
+        new Vec2(1,-2).normalize(),
+        new Vec2(1,2).normalize(),
+        new Vec2(-2,-1).normalize(),
+        new Vec2(-2,1).normalize(),
+        new Vec2(2,-1).normalize(),
+        new Vec2(2,1).normalize(),
+    ]
+    private get defaultValues(): Record<string, any>{
+        return {
+            key: EnemyProjectileKeys.ENEMY_BEAM_BLUE,
+            src: this.owner.position,
+            id: this.owner.id
+        }
+    }
+    public get projectileList(): Record<string, any>[] {
+        return this.list.map((x)=>{return{
+            ...this.defaultValues,
+            dir: x
+        }})
+    }
+}
