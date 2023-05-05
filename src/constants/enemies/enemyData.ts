@@ -81,7 +81,7 @@ export const AllEnemyData = {
     LEVEL5MOOK:{
         KEY: AllEnemyKeys.LEVEL5MOOK,
         STATS: STATS.LEVEL5MOOK,
-        LOAD: [LoadEnemy.SUMMONER],
+        LOAD: [LoadEnemy.LEVEL5BOSS],
         AUDIO: attackingAudioList,
         PHYSICS: PhysicGroups.ENEMY
     },

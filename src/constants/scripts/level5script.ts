@@ -2,10 +2,10 @@ import { AllEnemyKeys, AllEnemyData} from "../enemies/enemyData";
 
 import { recRoute } from "../formations/RectangleForm";
 import { RushRoute } from "../formations/RushForm";
-// import { diagonalRoute } from "../formations/DiagonalForm";
-// import { TriangleRoute } from "../formations/TriangleForm";
-// import { VtypeRoute } from "../formations/VtypeForm";
-// import { DiamondRoute } from "../formations/DiamondForm";
+import { diagonalRoute } from "../formations/DiagonalForm";
+import { TriangleRoute } from "../formations/TriangleForm";
+import { VtypeRoute } from "../formations/VtypeForm";
+import { DiamondRoute } from "../formations/DiamondForm";
 
 import { LoadBackground, LoadMusic} from "../load";
 import { AllPlayerData } from "../player/playerData";
@@ -50,7 +50,7 @@ export const level5 = {
             {DATA: AllEnemyData.SHIELDED_MOOK, AMMOUNT: 20},
             {DATA: AllEnemyData.HOARDER, AMMOUNT: 20},
             {DATA: AllEnemyData.STAR, AMMOUNT: 20},
-            {DATA: AllEnemyData.MAGICIAN_MOOK, AMMOUNT: 20},
+            {DATA: AllEnemyData.PERSON_MOOK, AMMOUNT: 20},
 
             {DATA: AllEnemyData.MEGAMOOK, AMMOUND: 1},
 
@@ -66,7 +66,8 @@ export const level5 = {
         {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-300}},
         ...generateRoundRobinScriptPart([AllEnemyKeys.STAR], [RushRoute.NORMAL], 300, 2, 1),
         ...generateRoundRobinScriptPart([AllEnemyKeys.STAR], [RushRoute.REVERSE], 300, 2, 1),
-        // ...generateRoundRobinScriptPart([AllEnemyKeys.MAGICIAN_MOOK], [recRoute.NORMAL], 300, 2, 1),
+        ...generateRoundRobinScriptPart([AllEnemyKeys.SHIELDED_MOOK,AllEnemyKeys.SHIELDED_MOOK], [recRoute.NORMAL,recRoute.REVERSE], 300, 2, 2),
+        ...generateRoundRobinScriptPart([AllEnemyKeys.PERSON_MOOK,AllEnemyKeys.PERSON_MOOK], [DiamondRoute.NORMAL,DiamondRoute.REVERSE], 300, 2, 2),
         {type: Script_Type.WAIT, options: {wait_time: -1}},
 
         {type: Script_Type.WAVE, options: {wavenum: 2, mods:{droprate_multi: 1}}},

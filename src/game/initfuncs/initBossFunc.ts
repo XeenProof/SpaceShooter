@@ -108,7 +108,7 @@ function initLevel3MookFunc(add: FactoryManager, scene: ActorScene):Level3MookAc
 }
 
 function initLevel5MookFunc(add: FactoryManager, scene: ActorScene):Level5MookActor{
-    let info = AllEnemyData.SUMMONER
+    let info = AllEnemyData.LEVEL5MOOK
     let AUDIO = info.AUDIO?info.AUDIO:[]
     let audioKeys = AUDIO.map((x)=>{return x.KEY})
     let {X, Y} = info.LOAD[0].SCALE
