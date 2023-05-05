@@ -188,6 +188,15 @@ export default class PlayerActor extends HPActor{
         //this.iframe = false
     }
 
+    public pause():void{
+        this.TimerPause()
+        this.booster.animation.pause()
+    }
+    public resume():void{
+        this.TimerResume()
+        this.booster.animation.resume()
+    }
+
     public TimerPause():void{
         this.boosterCharge.pause()
         this.shieldCharge.pause()
@@ -197,7 +206,7 @@ export default class PlayerActor extends HPActor{
     public TimerResume():void{
         this.boosterCharge.resume()
         this.shieldCharge.resume()
-        if(this.shielded){this.shieldTimer.start()}
-        if(this.boosted){this.boostTimer.start()}
+        if(this.shielded){this.shieldTimer.start();}
+        if(this.boosted){this.boostTimer.start();}
     }
 }

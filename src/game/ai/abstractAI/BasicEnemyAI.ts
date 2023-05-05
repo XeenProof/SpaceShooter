@@ -153,6 +153,15 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
 
     protected abstract stopAI():void;
 
+    public pause():void{
+        this.owner.animation.pause()
+        super.pause()
+    }
+    public resume():void{
+        this.owner.animation.resume()
+        super.resume()
+    }
+
     protected initStates():void{
         this.addState(enemyStates.IDLE, new Idle(this.owner, this))
         this.addState(enemyStates.TAKING_DAMAGE, new TakingDamage(this.owner, this))

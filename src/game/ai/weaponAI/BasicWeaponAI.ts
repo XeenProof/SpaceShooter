@@ -80,5 +80,14 @@ export default class BasicWeaponAI extends ComplexPatternAI{
         this.owner.despawn()
     }
 
+    public pause():void{
+        this.owner.animation.pause()
+        super.pause()
+    }
+    public resume():void{
+        this.owner.animation.resume()
+        super.resume()
+    }
+
     protected get rotation():number{return Vec2.UP.angleToCCW((this.dir)?this.dir:this.nextDir)}
 }

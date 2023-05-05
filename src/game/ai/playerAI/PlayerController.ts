@@ -281,11 +281,11 @@ export default class PlayerController extends StateMachineAI {
 
     public pause():void{
 		this.owner.freeze()
-		this.owner.TimerPause()
+		this.owner.pause()
 	}
     public resume():void{
 		this.owner.unfreeze()
-		this.owner.TimerResume()
+		this.owner.resume()
 	}
 } 
 
