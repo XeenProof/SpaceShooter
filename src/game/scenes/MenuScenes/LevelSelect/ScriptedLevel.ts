@@ -81,11 +81,17 @@ export default class ScriptedLevel extends LevelSelect<ScriptScene>{
         this.button.borderRadius = 0;
         this.button.fontSize = 0;
         this.button.setPadding(this.image.sizeWithZoom);
-        
+
         this.image.animation.play(this.animation, true)
         this.image.animation.pause()
 
         this.handleDisplayUpdate()
+    }
+
+    public handleDisplayUpdate(): void {
+        super.handleDisplayUpdate()
+        this.image.animation.play(this.animation, true)
+        this.image.animation.pause()
     }
 
     onClick():void {this.sceneManager.changeToScene(this.scene, this.options)}
