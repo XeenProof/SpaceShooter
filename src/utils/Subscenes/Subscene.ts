@@ -33,6 +33,7 @@ export default class Subscene{
         else{this.deactivate()}
     }
 
+    public initScene(options: Record<string,any> = {}):void {}
     public loadScene(): void {}
     public startScene(): void {}
     public updateScene(deltaT: number): void {}

@@ -32,6 +32,7 @@ import MathUtils from "../../../Wolfie2D/Utils/MathUtils";
 import SubsceneManager from "../../../utils/Subscenes/SubsceneManager";
 import Subscene from "../../../utils/Subscenes/Subscene";
 import PauseScreen from "../SPSubscenes/PauseScreen";
+import ControlScreen from "../SPSubscenes/ControlScreen";
 
 /**
  * This is the base scene for our game.
@@ -39,7 +40,8 @@ import PauseScreen from "../SPSubscenes/PauseScreen";
  */
 
 const SUBSCENES = {
-	PAUSE: "PAUSE"
+	PAUSE: "PAUSE",
+	CONTROLS: "CONTROLS"
 }
 
 export default class BaseScene extends ActorScene{
@@ -118,6 +120,7 @@ export default class BaseScene extends ActorScene{
     }
 
 	public override loadScene(){
+		this.subscenes.initSubscenes({bg: this.BACKGROUND})
 		this.subscenes.loadSubscenes()
         this.load.image("HealthIcon","assets/sprites/health.png");
 		this.load.image("ShieldIcon","assets/sprites/shield.png");
@@ -129,13 +132,13 @@ export default class BaseScene extends ActorScene{
 	 * @see Scene.initScene()
 	 */
 	public override initScene(options: Record<string, any>): void {
-		console.log("initscene")
 		this.subscenes = new SubsceneManager<Subscene>()
-		console.log("initscene 2")
+
 		let pauseScreen = new PauseScreen(this, this.add, this.viewport)
-		console.log("initscene 3")
 		this.subscenes.add(SUBSCENES.PAUSE, pauseScreen)
-		console.log("initscene 4")
+
+		let controlScreen = new ControlScreen(this, this.add, this.viewport)
+		this.subscenes.add(SUBSCENES.CONTROLS, controlScreen)
 	}
 
 	protected loadList(list:LoadData[]){
@@ -356,8 +359,7 @@ export default class BaseScene extends ActorScene{
 	}
 
 	protected set controlScreenHidden(value:boolean){
-		this.getLayer(Layers.CONTROLS).setHidden(value);
-		this.getLayer(Layers.CONTROLS_BACKGROUND).setHidden(value);
+		this.subscenes.get(SUBSCENES.CONTROLS).active = !value
 	}
 	
 	protected get center():Vec2{return this.viewport.getCenter()}
@@ -376,9 +378,6 @@ export default class BaseScene extends ActorScene{
 		this.addLayer(Layers.STATES, 9);
 		this.addLayer(Layers.GAMEEND, 10);
 		this.addUILayer(Layers.UI);
-		/**CONTROL SCREEN RELATED*/
-		this.addLayer(Layers.CONTROLS_BACKGROUND, 101);
-		this.addLayer(Layers.CONTROLS, 102);
 	}
 
 	
@@ -402,9 +401,6 @@ export default class BaseScene extends ActorScene{
 		this.initHealthButton()
 		this.initUpgradeHealthButton()
 		this.initUpgradeWeaponButton()
-
-		// initial PAUSE SCENE
-		this.initControlScene();
 	}
 	/**
 	 * Initializes the background image sprites for the game.
@@ -418,61 +414,6 @@ export default class BaseScene extends ActorScene{
 		this.bg2.scale.set(this.BACKGROUND.SCALE.X, this.BACKGROUND.SCALE.Y);
 		this.bg2.position = this.bg1.position.clone();
 		this.bg2.position.add(this.bg1.sizeWithZoom.scale(0, -2));
-	}
-
-	protected initControlScene():void{
-		this.controlScreenHidden = true
-		const bgControl = this.add.sprite(this.BACKGROUND.KEY, Layers.CONTROLS_BACKGROUND);
-		bgControl.scale.set(this.BACKGROUND.SCALE.X, this.BACKGROUND.SCALE.Y);
-		bgControl.position.copy(this.viewport.getCenter());
-		
-        const header = <Label>this.add.uiElement(UIElementType.LABEL,  Layers.CONTROLS, {position: new Vec2(this.center.x, this.center.y - 300), text: "Controls"});
-        header.textColor = Color.YELLOW;
-        header.fontSize = 50;
-
-        const health = <Label>this.add.uiElement(UIElementType.LABEL,  Layers.CONTROLS, {position: new Vec2(this.center.x, this.center.y -200), text: "1 - Heal"});
-        health.textColor = Color.YELLOW;
-        health.fontSize = 50;
-
-        const upgradeHealth = <Label>this.add.uiElement(UIElementType.LABEL, Layers.CONTROLS, {position: new Vec2(this.center.x, this.center.y -150), text: "2 - Upgrade Health"});
-        upgradeHealth.textColor = Color.YELLOW;
-        upgradeHealth.fontSize = 50;
-
-        const upgradeWeapon = <Label>this.add.uiElement(UIElementType.LABEL, Layers.CONTROLS, {position: new Vec2(this.center.x, this.center.y -100), text: "3 - Upgrade Weapon"});
-        upgradeWeapon.textColor = Color.YELLOW;
-        upgradeWeapon.fontSize = 50;
-
-        const w = <Label>this.add.uiElement(UIElementType.LABEL, Layers.CONTROLS, {position: new Vec2(this.center.x, this.center.y ), text: "W - Move Up"});
-        w.textColor = Color.YELLOW;
-        w.fontSize = 50;
-        const a = <Label>this.add.uiElement(UIElementType.LABEL, Layers.CONTROLS, {position: new Vec2(this.center.x, this.center.y + 50), text: "A - Move Left"});
-        a.textColor = Color.YELLOW;
-        a.fontSize = 50;
-        const s = <Label>this.add.uiElement(UIElementType.LABEL, Layers.CONTROLS, {position: new Vec2(this.center.x, this.center.y + 100), text: "S - Move Down"});
-        s.textColor = Color.YELLOW;
-        s.fontSize = 50;
-        const d = <Label>this.add.uiElement(UIElementType.LABEL, Layers.CONTROLS, {position: new Vec2(this.center.x, this.center.y + 150), text: "D - Move Right"});
-        d.textColor = Color.YELLOW
-        d.fontSize = 50;
-        const space = <Label>this.add.uiElement(UIElementType.LABEL, Layers.CONTROLS, {position: new Vec2(this.center.x, this.center.y + 200), text: "Left Click - Shoot"});
-        space.textColor = Color.YELLOW;
-        space.fontSize = 50;
-        const E = <Label>this.add.uiElement(UIElementType.LABEL, Layers.CONTROLS, {position: new Vec2(this.center.x, this.center.y + 250), text: "E - Activate Shield"});
-        E.textColor = Color.YELLOW;
-        E.fontSize = 50;
-        const R = <Label>this.add.uiElement(UIElementType.LABEL, Layers.CONTROLS, {position: new Vec2(this.center.x, this.center.y + 300), text: "R - Activate Booster"});
-        R.textColor = Color.YELLOW;
-        R.fontSize = 50;
-        const ESC = <Label>this.add.uiElement(UIElementType.LABEL, Layers.CONTROLS, {position: new Vec2(this.center.x, this.center.y + 350), text: "ESC - Pause/Unpause the Game"});
-        ESC.textColor = Color.YELLOW;
-        ESC.fontSize = 50;
-
-        const back = this.add.uiElement(UIElementType.BUTTON, Layers.CONTROLS, {position: new Vec2(this.center.x-400, this.center.y - 400), text: "Back"});
-        back.size.set(200, 50);
-        back.borderWidth = 2;
-        back.borderColor = Color.YELLOW;
-        back.backgroundColor = Color.TRANSPARENT;
-		back.onClickEventId = Events.BACK_TO_PAUSE;
 	}
 
 	protected initEndText(): void{

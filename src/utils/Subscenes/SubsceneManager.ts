@@ -17,6 +17,7 @@ export default class SubsceneManager<T extends Subscene>{
     public get(key):T{
         return this.map.get(key)
     }
+    public initSubscenes(options:Record<string, any> = {}){for(let s of this.list){s.initScene(options)}}
     public loadSubscenes():void{for(let s of this.list){s.loadScene()}}
     public startSubscenes():void{for(let s of this.list){s.startScene()}}
     public updateSubscenes(delta:number):void{

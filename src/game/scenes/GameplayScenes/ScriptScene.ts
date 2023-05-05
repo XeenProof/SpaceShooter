@@ -47,8 +47,8 @@ export default class ScriptScene extends LevelScene{
     }
 
     public loadScene(): void {
-        super.loadScene()
         this.loadBackground(this.LOAD.BACKGROUND)
+        super.loadScene()
         let {PLAYER, OTHERS} = this.LOAD
         let {SHIP, FLAMES, SHIELD, AUDIO} = PLAYER
         let otherlist:LoadData[][] = OTHERS.map((x)=>{return x.DATA.LOAD})
