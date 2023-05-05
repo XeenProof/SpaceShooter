@@ -38,7 +38,7 @@ export default abstract class HPActor extends SpawnableActor implements HealthBa
     get maxHealth(): number {return this.battler.maxHealth}
     set maxHealth(value: number) {this.battler.maxHealth = value}
 
-    get health(): number {return this.battler.health}
+    get health(): number {return Math.max(this.battler.health, 0)}
     set health(value: number) {this.battler.health = value}
 
     get battlerActive(): boolean {return this.battler.battlerActive}
