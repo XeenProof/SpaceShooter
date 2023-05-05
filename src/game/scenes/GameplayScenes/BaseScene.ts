@@ -422,9 +422,11 @@ export default class BaseScene extends ActorScene{
 		cont.onClickEventId = Events.PAUSE
 		cont.onClickEventData = {pausing: false}
 		cont.onEnter = () => {
+			if(this.getLayer(Layers.PAUSE).isHidden()){return;}
 			cont.backgroundColor = Color.RED
 		}
 		cont.onLeave = () => {
+			if(this.getLayer(Layers.PAUSE).isHidden()){return;}
 			cont.backgroundColor = Color.YELLOW
 		}
 
@@ -434,6 +436,13 @@ export default class BaseScene extends ActorScene{
 		controls.borderWidth=5;
 		controls.borderColor=Color.BLACK;
 		controls.onClickEventId=Events.CONTROLS;
+		controls.onEnter = () => {
+			if(this.getLayer(Layers.PAUSE).isHidden()){return;}
+			controls.backgroundColor = Color.RED
+		}
+		controls.onLeave = () => {
+			controls.backgroundColor = Color.YELLOW
+		}
 
 		const exit = <Button> this.add.uiElement(UIElementType.LABEL, Layers.PAUSE, {position: new Vec2(this.center.x-100, this.center.y+80), text: "EXIT"});
 		exit.size.set(200, 50);
@@ -441,6 +450,14 @@ export default class BaseScene extends ActorScene{
 		exit.borderWidth=5;
 		exit.borderColor=Color.BLACK;
 		exit.onClickEventId=Events.EXIT;
+		exit.onEnter = () => {
+			if(this.getLayer(Layers.PAUSE).isHidden()){return;}
+			exit.backgroundColor = Color.RED
+		}
+		exit.onLeave = () => {
+			if(this.getLayer(Layers.PAUSE).isHidden()){return;}
+			exit.backgroundColor = Color.YELLOW
+		}
 	}
 
 	protected initControlScene():void{
@@ -496,6 +513,14 @@ export default class BaseScene extends ActorScene{
         back.borderColor = Color.YELLOW;
         back.backgroundColor = Color.TRANSPARENT;
 		back.onClickEventId = Events.BACK_TO_PAUSE;
+		back.onEnter = () => {
+			if(this.getLayer(Layers.CONTROLS).isHidden()){return;}
+			back.backgroundColor = new Color(255,255,255,0.25)
+		}
+		back.onLeave = () => {
+			if(this.getLayer(Layers.CONTROLS).isHidden()){return;}
+			back.backgroundColor = Color.TRANSPARENT;
+		}
 	}
 
 	protected initEndText(): void{
