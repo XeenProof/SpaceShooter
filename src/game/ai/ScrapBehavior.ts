@@ -4,15 +4,18 @@ import GameNode from "../../Wolfie2D/Nodes/GameNode";
 import Sprite from "../../Wolfie2D/Nodes/Sprites/Sprite";
 import { GAMEPLAY_DIMENTIONS } from "../../constants/dimenstions";
 import { Events } from "../../constants/events";
+import ActorScene from "../scenes/GameplayScenes/ActorScene";
 import MovementAI from "./abstractAI/MovementAI";
 
 
 export default class ScrapBehavior extends MovementAI{
     protected override owner: Sprite
+    private get scene():ActorScene{return <ActorScene>this.owner.getScene()}
+    private get baseSpeed():number{return Math.abs(this.scene.TravelSpeed.y)}
 
     initializeAI(owner: Sprite, options: Record<string, any>): void {
         this.owner = owner
-        this.speed = (options.speed)?Math.abs(options.speed.y):150
+        this.speed = (options.speed)?Math.abs(options.speed.y):this.baseSpeed
         this.dir = Vec2.DOWN 
         this.ignoreStates = true
         this.receiver.deactivate()
