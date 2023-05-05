@@ -28,6 +28,7 @@ import Layer from "../../../Wolfie2D/Scene/Layer";
 import MainMenu from "../MenuScenes/MainMenu";
 import { GameEventType } from "../../../Wolfie2D/Events/GameEventType";
 import PlayerUIButton, { HealButton, UpgradeHealthButton, UpgradeWeaponButton } from "./UIFeatures/PlayerUIButton";
+import MathUtils from "../../../Wolfie2D/Utils/MathUtils";
 
 /**
  * This is the base scene for our game.
@@ -289,6 +290,7 @@ export default class BaseScene extends ActorScene{
 	
 	protected handleHealthChange(currentHealth: number, maxHealth: number): void {
 		let unit = this.healthBarBg.size.y / maxHealth;
+		currentHealth = MathUtils.clamp(currentHealth, 0, maxHealth)
 
 		this.healthBar.size.set(this.healthBarBg.size.x, this.healthBarBg.size.y - unit * (maxHealth - currentHealth));
 		this.healthBar.position.set(this.healthBarBg.position.x, this.healthBarBg.position.y + (unit / 2) * (maxHealth - currentHealth));
@@ -631,39 +633,21 @@ export default class BaseScene extends ActorScene{
 	protected initHealthButton():void{
 		//health button
 		const healthButton = <Button> this.add.uiElement(UIElementType.BUTTON, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+150, GAMEPLAY_DIMENTIONS.YSTART+740), text: "HEALTH"});
-        healthButton.size.set(200, 50);
-        healthButton.borderWidth = 0.5;
-        healthButton.borderColor = Color.BLACK;
-		healthButton.fontSize = 30;
-        healthButton.backgroundColor = Color.fromStringHex("#07E3D6");
-		healthButton.onClickEventId = Events.HEALTH;
-		const buttonHandler = new HealButton(this, healthButton)
+		const buttonHandler = new HealButton(this, Events.HEALTH, healthButton)
 		this.playerUIButtons.push(buttonHandler)
 	}
 
 	protected initUpgradeHealthButton():void{
 		//increase max health button
 		const maxHealthButton = <Button> this.add.uiElement(UIElementType.BUTTON, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+150, GAMEPLAY_DIMENTIONS.YSTART+800), text: "UPGRADE HEALTH"});
-        maxHealthButton.size.set(200, 50);
-        maxHealthButton.borderWidth = 0.5;
-        maxHealthButton.borderColor = Color.BLACK;
-		maxHealthButton.fontSize = 18;
-        maxHealthButton.backgroundColor = Color.fromStringHex("#07E3D6");
-		maxHealthButton.onClickEventId = Events.UPGRADE_HEALTH;
-		const buttonHandler = new UpgradeHealthButton(this, maxHealthButton)
+		const buttonHandler = new UpgradeHealthButton(this, Events.UPGRADE_HEALTH, maxHealthButton)
 		this.playerUIButtons.push(buttonHandler)
 	}
 
 	protected initUpgradeWeaponButton():void{
 		//upgrade weapon button
 		const upgradeWeaponButton = <Button> this.add.uiElement(UIElementType.BUTTON, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+150, GAMEPLAY_DIMENTIONS.YSTART+860), text: "UPGRADE WEAPON"});
-        upgradeWeaponButton.size.set(200, 50);
-        upgradeWeaponButton.borderWidth = 0.5;
-        upgradeWeaponButton.borderColor = Color.BLACK;
-		upgradeWeaponButton.fontSize = 18;
-        upgradeWeaponButton.backgroundColor = Color.fromStringHex("#07E3D6");
-		upgradeWeaponButton.onClickEventId = Events.UPGRADE_WEAPON;
-		const buttonHandler = new UpgradeWeaponButton(this, upgradeWeaponButton)
+		const buttonHandler = new UpgradeWeaponButton(this, Events.UPGRADE_WEAPON, upgradeWeaponButton)
 		this.playerUIButtons.push(buttonHandler)
 	}
 }
