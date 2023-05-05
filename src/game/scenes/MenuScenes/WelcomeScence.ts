@@ -53,6 +53,7 @@ export default class WelcomeScence extends Scene {
     
     public override startScene(){
         const center = this.viewport.getCenter();
+        const screenSize = this.viewport.getHalfSize().clone().scale(2,2)
 
         // Main menu screen
         this.welcome = this.addLayer(WelcomeLayer.WELCOME,0);
@@ -62,8 +63,8 @@ export default class WelcomeScence extends Scene {
 
         this.ui = this.addLayer(WelcomeLayer.UI,1);
 
-        const clickLabel = <Button>this.add.uiElement(UIElementType.BUTTON, WelcomeLayer.UI, {position: new Vec2(center.x, center.y + 330), text: "Click To Start"});
-        clickLabel.size.set(250, 50);
+        const clickLabel = <Button>this.add.uiElement(UIElementType.BUTTON, WelcomeLayer.UI, {position: new Vec2(center.x, center.y + 330), text: "Click Anywhere To Start"});
+        clickLabel.size.set(400, 50);
         clickLabel.borderWidth = 2;
         clickLabel.borderColor = Color.WHITE;
         clickLabel.backgroundColor = Color.TRANSPARENT;
@@ -77,6 +78,14 @@ export default class WelcomeScence extends Scene {
             clickLabel.textColor = Color.WHITE
         }
 
+        const clickAnywhere = <Button>this.add.uiElement(UIElementType.BUTTON, WelcomeLayer.UI, {position: new Vec2(center.x, center.y), text: ""});
+        clickAnywhere.borderWidth = 0
+        clickAnywhere.size.copy(screenSize)
+        clickAnywhere.borderRadius = 0
+        clickAnywhere.backgroundColor = Color.TRANSPARENT
+        clickAnywhere.borderColor = Color.TRANSPARENT
+        clickAnywhere.onClickEventId = WelcomeEvent.PLAY_GAME
+        
         this.receiver.subscribe(WelcomeEvent.PLAY_GAME);
     }
 
