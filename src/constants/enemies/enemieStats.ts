@@ -87,6 +87,13 @@ const LEVEL5MOOK = {
     points: 100
 }
 
+const LEVEL6MOOK = {
+    hp: 500,
+    droprate: 1,
+    speed: 150,
+    points: 100
+}
+
 export const STATS = {
     COMMON_MOOK: COMMON_MOOK,
     TARGETED_MOOK: TARGETED_MOOK,
@@ -99,5 +106,6 @@ export const STATS = {
     PERSON_MOOK:PERSON_MOOK,
     STAR:STAR,
     LEVEL5MOOK:LEVEL5MOOK,
+    LEVEL6MOOK:LEVEL6MOOK,
     MAGICIAN_MOOK:MAGICIAN_MOOK,
 }

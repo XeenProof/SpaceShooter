@@ -17,6 +17,7 @@ export const AllEnemyKeys = {
     LEVEL3MOOK: "LEVEL3MOOK",
     STAR: "STAR",
     LEVEL5MOOK: "LEVEL5MOOK",
+    LEVEL6MOOK: "LEVEL6MOOK",
     MAGICIAN_MOOK: "MAGICIAN_MOOK",
 
 }
@@ -84,6 +85,13 @@ export const AllEnemyData = {
         LOAD: [LoadEnemy.LEVEL5BOSS],
         AUDIO: attackingAudioList,
         PHYSICS: PhysicGroups.ENEMY
+    },
+    LEVEL6MOOK:{
+        KEY: AllEnemyKeys.LEVEL6MOOK,
+        STATS: STATS.LEVEL6MOOK,
+        LOAD: [LoadEnemy.LEVEL6BOSS],
+        AUDIO: attackingAudioList,
+        PHYSICS: PhysicGroups.ENEMY,
     },
     PERSON_MOOK:{
         KEY: AllEnemyKeys.PERSON_MOOK,

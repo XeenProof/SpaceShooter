@@ -55,7 +55,7 @@ export const level6 = {
             {DATA: AllEnemyData.MEGAMOOK, AMMOUND: 1},
 
             {DATA: AllItemData.SCRAP, AMMOUNT: 20},
-            {DATA: AllEnemyData.LEVEL5MOOK, AMMOUND: 1},
+            {DATA: AllEnemyData.LEVEL6MOOK, AMMOUND: 1},
         ]
     },
     AUDIOLIST: [LoadMusic.SPACE_MUSIC],
@@ -70,17 +70,18 @@ export const level6 = {
         ...generateRoundRobinScriptPart([AllEnemyKeys.MAGICIAN_MOOK], [recRoute.REVERSE], 300, 2, 1),
         {type: Script_Type.WAIT, options: {wait_time: -1}},
 
-        // {type: Script_Type.WAVE, options: {wavenum: 2, mods:{droprate_multi: 1}}},
-        // {type: Script_Type.SPAWN, options: {
-        //     enemyType: AllEnemyKeys.LEVEL5MOOK,
-        //     rpsl: [spawnRandomizer, {
-        //         speed:{min: 150},
-        //         thresh:{min:200},
-        //         repeat:{min:-1},
-        //         generateAmount: 20,
-        //         y: {min: 0, max: 300}
-        //     }]
-        // }},
+        {type: Script_Type.WAVE, options: {wavenum: 2, mods:{droprate_multi: 1}}},
+        {type: Script_Type.SPAWN, options: {
+            enemyType: AllEnemyKeys.LEVEL6MOOK,
+            rpsl: [spawnRandomizer, {
+                speed:{min: 150},
+                thresh:{min:200},
+                repeat:{min:-1},
+                generateAmount: 20,
+                y: {min: 0, max: 300}
+            }]
+        }},
+        {type: Script_Type.WAIT, options: {wait_time: -1}},
         // {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-300}},
         // ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK, AllEnemyKeys.COMMON_MOOK], [DiamondRoute.NORMAL, DiamondRoute.REVERSE], 300, 2, 10),
         // {type: Script_Type.WAIT, options: {wait_time: -1}},

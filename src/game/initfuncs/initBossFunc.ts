@@ -16,6 +16,8 @@ import Level3MookActor from "../actors/BossActors/Level3MookActor"
 import Level3MookBehavior from "../ai/bossAI/Level3Mook/Level3MookBehavior"
 import Level5MookActor from "../actors/BossActors/Level5MookActor"
 import Level5MookBehavior from "../ai/bossAI/Level5Mook/Level5MookBehavior"
+import Level6MookActor from "../actors/BossActors/Level6MookActor"
+import Level6MookBehavior from "../ai/bossAI/Level6Mook/Level6MookBehavior"
 
 export const initBossFunc = {
     MEGAMOOK: initMegaMookFunc,
@@ -23,6 +25,7 @@ export const initBossFunc = {
     LEVEL1MOOK: initLevel1MookFunc,
     LEVEL3MOOK: initLevel3MookFunc,
     LEVEL5MOOK: initLevel5MookFunc,
+    LEVEL6MOOK: initLevel6MookFunc,
 }
 
 function initMegaMookFunc(add: FactoryManager, scene: ActorScene):MegaMookActor{
@@ -120,6 +123,25 @@ function initLevel5MookFunc(add: FactoryManager, scene: ActorScene):Level5MookAc
     entity.visible = false;
     entity.scale.set(X, Y);
     entity.addAI(Level5MookBehavior)
+    entity.audioKeys = audioKeys
+    entity.addPhysics();
+    entity.setGroup(PhysicGroups.ENEMY);
+    return entity;
+}
+
+function initLevel6MookFunc(add: FactoryManager, scene: ActorScene):Level6MookActor{
+    let info = AllEnemyData.LEVEL6MOOK
+    let AUDIO = info.AUDIO?info.AUDIO:[]
+    let audioKeys = AUDIO.map((x)=>{return x.KEY})
+    let {X, Y} = info.LOAD[0].SCALE
+    let entity = add.animatedSprite(Level6MookActor, info.LOAD[0].KEY, Layers.PRIMARY)
+    let healthBar = new HealthbarHUD(scene, entity, Layers.HEALTHBARS, {size: new Vec2(entity.size.x, 5), offset: entity.size.clone().scaled(0, -1/2)})
+    entity.position.set(1200,1200)
+    entity.healthBar = healthBar;
+    entity.setScene(scene)
+    entity.visible = false;
+    entity.scale.set(X, Y);
+    entity.addAI(Level6MookBehavior)
     entity.audioKeys = audioKeys
     entity.addPhysics();
     entity.setGroup(PhysicGroups.ENEMY);
