@@ -8,12 +8,19 @@ import MagicianActor from "../../actors/EnemyActors/MagicianActor";
 import MagicianWeapons, { OctoShot, OctoShotV2,DownShot }from "./MagicianWeapons";
 import PlayerActor from "../../actors/PlayerActor";
 import Vec2 from "../../../Wolfie2D/DataTypes/Vec2";
+import SummonsManager from "../../../utils/SummonsManager/SummonsManager";
+import SummonerActor from "../../actors/BossActors/SummonerActor";
+import MagicianSummon, { StarSummons } from "./MagicianSummons";
 // import Level1MookWeapon, { OctoShot, OctoShotV2 } from "./Level1MookWeapons";
 
 const WEAPONS = {
     OCTOSHOT: "OCTOSHOT",
     OCTOSHOTV2: "OCTOSHOTV2",
     DOWNSHOT: "DOWNSHOT"
+}
+
+const SUMMONS = {
+    REGULAR: "REGULAR-MEGAMOOK"
 }
 
 const audio = {
@@ -30,6 +37,9 @@ export default class MagicianBehavior extends BasicEnemyAI{
     private firedCounter:number;
     public get shootDir():Vec2{return this.owner.position.dirTo(this.target.position)}
 
+    private summons:SummonsManager<MagicianSummon>
+    private summonsChart:Map<number, boolean>
+
     public initializeAI(owner: MagicianActor, options: Record<string, any> = {}): void {
         super.initializeAI(owner, options) //why it is not work?
         this.firedCounter = 0;
@@ -39,11 +49,18 @@ export default class MagicianBehavior extends BasicEnemyAI{
         this.weapons.add(WEAPONS.DOWNSHOT, new DownShot(this.owner, this), 1, 4)
         this.weapons.add(WEAPONS.OCTOSHOT, new OctoShot(this.owner, this), 2, 4)
         this.weapons.add(WEAPONS.OCTOSHOTV2, new OctoShotV2(this.owner, this), 3, 4)
+
+
+        this.summons = new SummonsManager<MagicianSummon>()
+        this.summons.add(new StarSummons(this.owner, this, SUMMONS.REGULAR))
+        this.summonsChart = new Map<number, boolean>()
+
     }
 
     public activate(options: Record<string, any>): void {
         super.activate(options)
         this.weaponsTimer.start()
+        this.initSummonsChart(.50, .50, .50, .50, .50, .50, .50, .50, .50, .50)
     }
 
     private handleWeaponFire():void{
@@ -52,6 +69,9 @@ export default class MagicianBehavior extends BasicEnemyAI{
         this.emitter.fireEvent(Events.ENEMY_SHOOTS, {
             projectiles: this.weapons.getProjectiles((this.firedCounter%3)+1)
         })
+        if(Math.random()>=0.40){
+            this.handleSummoning()
+        }
         this.firedCounter+=1;
     }
 
@@ -60,13 +80,40 @@ export default class MagicianBehavior extends BasicEnemyAI{
         this.weaponsTimer.reset()
     }
 
-    // public handleEvent(event: GameEvent): void {
-    //     switch(event.type){
-    //         default:{
-    //             super.handleEvent(event)
-    //         }
-    //     }
-    // }
+    public handleEvent(event: GameEvent): void {
+        switch(event.type){
+            case Events.SUMMONING_COMPLETED:{
+                this.handleSummonsTracking(event)
+                break;
+            }
+            default:{
+                super.handleEvent(event)
+            }
+        }
+    }
+
+    protected handleSummonsTracking(event):void{
+        let id = event.data.get("id")
+        if(this.owner.id != id){return;}
+        this.summons.addTrackedSummons(event.data.get("summoned"))
+    }
+
+    protected handleSummoning(){
+        for(let [key, value] of this.summonsChart){
+            if(this.owner.percentHealth <= key && value){
+                this.emitter.fireEvent(Events.ENEMY_SUMMONS, {
+                    id:this.owner.id, 
+                    summons: this.summons.getSummons()
+                })
+                this.summonsChart.set(key, false)
+            }
+        }
+    }
+
+    private initSummonsChart(...percents:number[]){
+        this.summonsChart.clear();
+        for(let n of percents){this.summonsChart.set(n,true)}
+    }
 
     protected handleRamDamage(enemyId):void {}
 
@@ -86,5 +133,6 @@ export default class MagicianBehavior extends BasicEnemyAI{
 
     protected initReceiver(): void {
         super.initReceiver()
+        this.receiver.subscribe(Events.SUMMONING_COMPLETED)
     }
 }

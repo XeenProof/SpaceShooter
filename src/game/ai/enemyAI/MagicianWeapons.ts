@@ -16,7 +16,7 @@ export class DownShot extends MagicianWeapons{
     //private list:Vec2[] = [this.parent.shootDir]
     private get defaultValues(): Record<string, any>{
         return {
-            key: EnemyProjectileKeys.ENEMY_BEAM_GREEN,
+            key: EnemyProjectileKeys.ENEMY_BEAM_PURPLE,
             src: this.owner.position,
             id: this.owner.id
         }

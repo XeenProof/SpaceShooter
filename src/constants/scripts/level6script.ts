@@ -67,6 +67,7 @@ export const level6 = {
         // ...generateRoundRobinScriptPart([AllEnemyKeys.STAR], [RushRoute.NORMAL], 300, 2, 1),
         // ...generateRoundRobinScriptPart([AllEnemyKeys.STAR], [RushRoute.REVERSE], 300, 2, 1),
         ...generateRoundRobinScriptPart([AllEnemyKeys.MAGICIAN_MOOK], [recRoute.NORMAL], 300, 2, 1),
+        ...generateRoundRobinScriptPart([AllEnemyKeys.MAGICIAN_MOOK], [recRoute.REVERSE], 300, 2, 1),
         {type: Script_Type.WAIT, options: {wait_time: -1}},
 
         // {type: Script_Type.WAVE, options: {wavenum: 2, mods:{droprate_multi: 1}}},
