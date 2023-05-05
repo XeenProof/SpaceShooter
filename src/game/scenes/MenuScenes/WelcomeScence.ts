@@ -63,7 +63,7 @@ export default class WelcomeScence extends Scene {
         this.ui = this.addLayer(WelcomeLayer.UI,1);
 
         const clickLabel = <Button>this.add.uiElement(UIElementType.BUTTON, WelcomeLayer.UI, {position: new Vec2(center.x, center.y + 330), text: "Click To Start"});
-        clickLabel.size.set(200, 50);
+        clickLabel.size.set(250, 50);
         clickLabel.borderWidth = 2;
         clickLabel.borderColor = Color.WHITE;
         clickLabel.backgroundColor = Color.TRANSPARENT;

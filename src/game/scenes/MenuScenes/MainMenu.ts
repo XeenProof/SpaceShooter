@@ -143,7 +143,7 @@ export default class MainMenu extends Scene {
         header.textColor = Color.YELLOW;
         header.fontSize = 50;
 
-        const health = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.CONTROLS, {position: new Vec2(center.x, center.y -200), text: "1 - heal"});
+        const health = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.CONTROLS, {position: new Vec2(center.x, center.y -200), text: "1 - Heal"});
         health.textColor = Color.YELLOW;
         health.fontSize = 50;
 
@@ -176,7 +176,7 @@ export default class MainMenu extends Scene {
         const R = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.CONTROLS, {position: new Vec2(center.x, center.y + 300), text: "R - Activate Booster"});
         R.textColor = Color.YELLOW;
         R.fontSize = 50;
-        const ESC = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.CONTROLS, {position: new Vec2(center.x, center.y + 350), text: "ESC - Pause/Unpasue the Game"});
+        const ESC = <Label>this.add.uiElement(UIElementType.LABEL, MainMenuLayer.CONTROLS, {position: new Vec2(center.x, center.y + 350), text: "ESC - Pause/Unpause the Game"});
         ESC.textColor = Color.YELLOW;
         ESC.fontSize = 50;
 
