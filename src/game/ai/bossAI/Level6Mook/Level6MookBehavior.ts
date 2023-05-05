@@ -4,12 +4,11 @@ import { Events } from "../../../../constants/events";
 import SummonsManager from "../../../../utils/SummonsManager/SummonsManager";
 import Level6MookActor from "../../../actors/BossActors/Level5MookActor";
 import BasicEnemyAI from "../../abstractAI/BasicEnemyAI";
-import Level6MookSummons, { Level6BackRank, Level6ShieldWall,Level6PersonMook } from "./Level6MookSummons";
+import Level6MookSummons, { Level6BackRank, Level6ShieldWall} from "./Level6MookSummons";
 
 const SUMMONS = {
     SHIELD: "SHIELD",
     BACKRANK: "BACKRANK",
-    PERSON: "PERSON"
 }
 
 export default class Level6MookBehavior extends BasicEnemyAI{
@@ -24,7 +23,6 @@ export default class Level6MookBehavior extends BasicEnemyAI{
         this.summons = new SummonsManager<Level6MookSummons>()
         this.summons.add(new Level6ShieldWall(this.owner, this, SUMMONS.SHIELD), 1)
         this.summons.add(new Level6BackRank(this.owner, this, SUMMONS.BACKRANK), 2)
-        this.summons.add(new Level6PersonMook(this.owner, this, SUMMONS.PERSON), 3)
         this.summonsTimerShield = new Timer(3000, ()=>{this.handleSummons()}, true)
     }
 
