@@ -21,6 +21,7 @@ import { cheats } from "../../../constants/gameoptions";
 import ProgressTracker from "../../../utils/Singletons/ProgressTracker";
 import LevelSelect from "../../../utils/SelectionUtils/Level";
 import ScriptedLevel from "./LevelSelect/ScriptedLevel";
+import AnimatedSprite from "../../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 
 // Layers in the main menu
 const SelectionLayer = {
@@ -50,11 +51,13 @@ export default class SelectionScence extends Scene {
 
     public override loadScene(){
         this.load.image("Test","assets/sprites/welcome.png");
-        this.load.image("Level 1","assets/sprites/Level1_Boss_1.png");
-        this.load.image("Level 2","assets/sprites/Level2_Boss_1.png");
-        this.load.image("Level 3","assets/sprites/Level3_Boss_1.png");
-        this.load.image("Level 4","assets/sprites/Level4_Boss_1.png");
-        this.load.image("Blank","assets/sprites/blank.png");
+        this.load.spritesheet("Level 1","assets/spritesheets/Level1_Boss/Level1_Boss.json");
+        this.load.spritesheet("Level 2","assets/spritesheets/Level2_Boss/Level2_Boss.json");
+        this.load.spritesheet("Level 3","assets/spritesheets/Level3_Boss/Level3_Boss.json");
+        this.load.spritesheet("Level 4","assets/spritesheets/Level4_Boss/Level4_Boss.json");
+        this.load.spritesheet("Level 5","assets/spritesheets/Level5_Boss/Level5_Boss.json");
+        this.load.spritesheet("Level 6","assets/spritesheets/Level1_Boss/Level1_Boss.json")
+        //this.load.image("Blank","assets/sprites/blank.png");
         this.loadBackground(LoadMainmenu.MAINMENU);
     }
     
@@ -130,7 +133,7 @@ export default class SelectionScence extends Scene {
         this.controls = this.addLayer(SelectionLayer.CONTROLS,1);
     }
 
-    private createScriptButton(text:Label, image:Sprite, button:Button, script:Record<string, any>):LevelSelect<ScriptScene>{
+    private createScriptButton(text:Label, image:AnimatedSprite, button:Button, script:Record<string, any>):LevelSelect<ScriptScene>{
         if(!this.levels){this.levels = []}
         let newLevel = new ScriptedLevel(text, image, button, script, this.sceneManager)
         this.levels.push(newLevel)
@@ -167,7 +170,7 @@ export default class SelectionScence extends Scene {
         clearData.onLeave = ()=>{clearData.backgroundColor = Color.TRANSPARENT}
 
         let level1text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x-300, center.y-190), text: "LEVEL ONE"});
-        let level1Img = this.add.sprite("Level 1", SelectionLayer.CONTROLS);
+        let level1Img = this.add.animatedSprite(AnimatedSprite, "Level 1", SelectionLayer.CONTROLS);
         level1Img.scale.set(1, 1);
         level1Img.position.copy(new Vec2(center.x-300, center.y-80));
         const level1button = <Button> this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: level1Img.position, text: ""});
@@ -175,7 +178,7 @@ export default class SelectionScence extends Scene {
 
         // Level 2 game
         let level2text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x, center.y-190), text: "LEVEL TWO"});
-        let level2Img = this.add.sprite("Level 2", SelectionLayer.CONTROLS);
+        let level2Img = this.add.animatedSprite(AnimatedSprite, "Level 2", SelectionLayer.CONTROLS);
         level2Img.scale.set(1, 1);
         level2Img.position.copy(new Vec2(center.x, center.y-80));
         const level2button = <Button> this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: level2Img.position, text: ""});
@@ -183,7 +186,7 @@ export default class SelectionScence extends Scene {
 
         // Level 3 game
         let level3text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x+300, center.y-190), text: "LEVEL THREE"});
-        let level3Img = this.add.sprite("Level 3", SelectionLayer.CONTROLS);
+        let level3Img = this.add.animatedSprite(AnimatedSprite, "Level 3", SelectionLayer.CONTROLS);
         level3Img.scale.set(1, 1);
         level3Img.position.copy(new Vec2(center.x+300, center.y-80));
         const level3button = <Button> this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: level3Img.position, text: ""});
@@ -192,7 +195,7 @@ export default class SelectionScence extends Scene {
 
         // Level 4 game
         let level4text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x-300, center.y+75), text: "LEVEL FOUR"});
-        let level4Img = this.add.sprite("Level 4", SelectionLayer.CONTROLS);
+        let level4Img = this.add.animatedSprite(AnimatedSprite, "Level 4", SelectionLayer.CONTROLS);
         level4Img.scale.set(1, 1);
         level4Img.position.copy(new Vec2(center.x-300, center.y+180));
         const level4button = <Button> this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: level4Img.position, text: ""});
@@ -200,16 +203,16 @@ export default class SelectionScence extends Scene {
 
         // Level 5 game
         let level5text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x, center.y+75), text: "LEVEL FIVE"});
-        let level5Img = this.add.sprite("Blank", SelectionLayer.CONTROLS);
-        level5Img.scale.set(0.35, 0.35);
+        let level5Img = this.add.animatedSprite(AnimatedSprite, "Level 5", SelectionLayer.CONTROLS);
+        level5Img.scale.set(1, 1);
         level5Img.position.copy(new Vec2(center.x, center.y+180));
         const level5button = <Button> this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: level5Img.position, text: ""});
         let level5Select = this.createScriptButton(level5text, level5Img, level5button, level5)
 
         // Level 6 game
         let level6text = <Label> this.add.uiElement(UIElementType.LABEL, SelectionLayer.CONTROLS, {position: new Vec2(center.x+300, center.y+75), text: "LEVEL SIX"});
-        let level6Img = this.add.sprite("Blank", SelectionLayer.CONTROLS);
-        level6Img.scale.set(0.35, 0.35);
+        let level6Img = this.add.animatedSprite(AnimatedSprite, "Level 6", SelectionLayer.CONTROLS);
+        level6Img.scale.set(1, 1);
         level6Img.position.copy(new Vec2(center.x+300, center.y+180));
         const level6button = <Button> this.add.uiElement(UIElementType.BUTTON, SelectionLayer.CONTROLS, {position: level6Img.position, text: ""});
         let level6Select = this.createScriptButton(level6text, level6Img, level6button, level6)
