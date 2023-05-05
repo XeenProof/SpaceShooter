@@ -71,7 +71,7 @@ export default class ScriptScene extends LevelScene{
     public updateScene(deltaT: number): void {
         super.updateScene(deltaT)
         if(this.paused){return}
-        if(this.isScreenCleared && this.wait){
+        if(this.isScreenCleared && this.wait && !this.paused){
             console.log("stopped waiting by force")
             this.stopWaiting();
         }
@@ -113,12 +113,9 @@ export default class ScriptScene extends LevelScene{
 
     public handlePause():void{
         console.log("paused")
-        if(this.paused){
-            this.timer.pause()
-        }
-        if(this.TimerWasActive && !this.paused){
-            this.timer.start()
-        }
+        if(!this.TimerWasActive){return;}
+        if(this.paused){this.timer.pause()}
+        if(!this.paused){this.timer.start()}
     }
 
     protected handleScriptedLevelEnds(type: string):void{
@@ -170,11 +167,12 @@ export default class ScriptScene extends LevelScene{
     }
 
     protected stopWaiting(){
+        console.log("stop watting called")
         this.wait = false;
         if(this.timer.isActive()){
             this.timer.pause();
-            this.TimerWasActive = false
         }
+        this.TimerWasActive = false
         this.timer.reset()
     }
 }
