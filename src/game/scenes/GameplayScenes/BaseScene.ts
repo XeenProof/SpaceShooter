@@ -84,8 +84,7 @@ export default class BaseScene extends ActorScene{
 	protected shieldIcon: Sprite;
 	protected boostIcon: Sprite;
 
-	// wave, scrap iron, points lables, (health/upgrade health/upgrade weapon) buttons cost,
-	// current health/ max health/ weapon level
+	// wave, scrap iron, points lables,
 	protected waveLabel: Label;
 	protected scrapIronLabel: Label;
 	protected pointsLabel: Label;
@@ -96,12 +95,6 @@ export default class BaseScene extends ActorScene{
 	protected wave: Label;
 	protected scrapIron: Label;
 	protected points: Label;
-	// protected healthCostValue: Label;
-	// protected upgradeHealthCostValue: Label;
-	// protected upgradeWeaponLevelCostValue: Label;
-	// protected currentHealth: Label;
-	// protected currentMaxhealth: Label;
-	// protected currentWeaponLevel: Label;
 
 	protected playerUIButtons:PlayerUIButton[]
 
@@ -188,13 +181,6 @@ export default class BaseScene extends ActorScene{
 		this.wave.setText(this.wavenum.toString());
 		this.scrapIron.setText(this.player.scrap.toString());
 		this.points.setText(this.player.points.toString());
-		//this.currentHealth.setText(this.player.health.toString());
-		//this.currentMaxhealth.setText(this.player.maxHealth.toString());
-		//this.currentWeaponLevel.setText(this.player.attackUpgradeLevel.toString());
-
-		//this.healthCostValue.setText("10");
-		//this.upgradeHealthCostValue.setText(this.player.healthUpgradeCost.toString());
-		//this.upgradeWeaponLevelCostValue.setText(this.player.attackUpgradeCost.toString());
 
 		this.updateUIButtons(deltaT)
 
@@ -408,15 +394,6 @@ export default class BaseScene extends ActorScene{
 		// initial PAUSE SCENE
 		this.initPauseScene();
 		this.initControlScene();
-
-		//
-		// this.initHealthButtonCost();
-		// this.initUpgradeMaxHealthButtonCost();
-		// this.initUpgradeWeaponLevelButtonCost();
-		// this.initCurrentHealth();
-		// this.initCurrentMaxHealth();
-		// this.initCurrentWeaponLevel();
-		//
 	}
 	/**
 	 * Initializes the background image sprites for the game.
