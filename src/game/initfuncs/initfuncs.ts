@@ -28,6 +28,7 @@ function initScrapFunc(add: FactoryManager, scene: ActorScene):Sprite{
     item.position.set(1200,1200)
     item.addAI(ScrapBehavior, {speed: scene.TravelSpeed})
     item.addPhysics();
+    item.disablePhysics()
     item.setScene(scene)
     item.setGroup(PhysicGroups.DROPS)
     item.setTrigger(PhysicGroups.PLAYER, Events.PLAYER_SCRAP_COLLISION, null)

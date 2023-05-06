@@ -16,15 +16,14 @@ const booster_animations = {
 
 export default class PlayerActor extends HPActor{
 
-    //private iframe:boolean = false
-    private iTimer:Timer = new Timer(500, ()=>{this.handleIframeEnds()}, false);
-
     /**The booster and all it's related functions */
     private _booster: AnimatedSprite;
     private _boosted: boolean = false;
     private boostTimer: Timer;
     public get booster(): AnimatedSprite {return this._booster;}
-    public set booster(value: AnimatedSprite) {this._booster = value;}
+    public set booster(value: AnimatedSprite) {
+        this._booster = value;
+    }
     public get boosted(): boolean {return this._boosted;}
     private set boosted(value: boolean) {this._boosted = value;}
 
@@ -47,7 +46,9 @@ export default class PlayerActor extends HPActor{
     private _shield: Sprite;
     private shieldTimer: Timer;
     public get shield(): Sprite {return this._shield;}
-    public set shield(value: Sprite) {this._shield = value;}
+    public set shield(value: Sprite) {
+        this._shield = value;
+    }
     public get shielded(): boolean {return (this.shield)?this.shield.visible:false}
 
     /**The shield charge and all it's related functions */
@@ -148,12 +149,7 @@ export default class PlayerActor extends HPActor{
     }
 
     takeDamage(damage: number, options:Record<string, any> = {}): boolean {
-        console.log(damage);
-        let received = super.takeDamage(CheatCodes.getCheat(cheats.INVINSIBLE)?0:damage)
-        if(!received){return false}
-        //this.iTimer.reset()
-        //this.iTimer.start()
-        return true;
+        return super.takeDamage(CheatCodes.getCheat(cheats.INVINSIBLE)?0:damage)
     }
 
     public activateShield(){
@@ -178,22 +174,20 @@ export default class PlayerActor extends HPActor{
         this.boosted = false
     }
 
-    move(velocity: Vec2): void {
-        super.move(velocity)
+    finishMove(): void {
+        super.finishMove()
         this.booster.position.copy(this.position)
         if(this.shield.visible){this.shield.position.copy(this.position)}
     }
 
-    public handleIframeEnds(): void {
-        //this.iframe = false
-    }
-
     public pause():void{
         this.TimerPause()
+        this.animation.pause()
         this.booster.animation.pause()
     }
     public resume():void{
         this.TimerResume()
+        this.animation.resume()
         this.booster.animation.resume()
     }
 

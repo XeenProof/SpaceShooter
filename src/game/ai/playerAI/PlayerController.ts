@@ -87,7 +87,6 @@ export default class PlayerController extends StateMachineAI {
 
 		this.receiver.subscribe(Events.PAUSE)
 
-		this.initialize(playerstates.IDLE)
 		this.activate(options);
 	}
 	public activate(options: Record<string,any>): void {
@@ -103,7 +102,7 @@ export default class PlayerController extends StateMachineAI {
 		this.owner.points = 0
 
         // Play the idle animation by default
-		this.owner.animation.play(PlayerAnimations.IDLE, true);
+		this.initialize(playerstates.IDLE)
 		this.receiver.activate()
 	};
 	/**

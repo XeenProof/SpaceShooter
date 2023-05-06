@@ -34,7 +34,7 @@ const Loads = {
     LEVEL4_BOSS: {KEY: "LEVEL4_BOSS", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Level4_Boss/Level4_Boss.json", SCALE:{X:1, Y:1}},
     LEVEL5_BOSS: {KEY: "LEVEL5_BOSS", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Level5_Boss/Level5_Boss.json", SCALE:{X:1, Y:1}},
     LEVEL6_BOSS: {KEY: "LEVEL6_BOSS", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Level5_Boss/Level5_Boss.json", SCALE:{X:1, Y:1}},
-    STAR: {KEY: "STAR",TYPE: LoadType.SPRITESHEET,PATH: "assets/spritesheets/STAR/star.json", SCALE:{X:1, Y:1}},
+    STAR: {KEY: "STAR",TYPE: LoadType.SPRITESHEET,PATH: "assets/spritesheets/Star/star.json", SCALE:{X:1, Y:1}},
 
     RED_BEAM: {KEY: "RED_BEAM", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Plane_Beam/Plane_Beam.json", SCALE:{X:1, Y:1}},
     
