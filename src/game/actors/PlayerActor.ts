@@ -80,12 +80,14 @@ export default class PlayerActor extends HPActor{
     public canAfford(cost: number):boolean{return (this.scrap >= cost || CheatCodes.getCheat(cheats.INFINITE_SCRAP))}
 
     /**Healing related */
-    public get canHeal(): boolean {return this.canAfford(10) && this.health < this.maxHealth && this.health > 0}
+    public get canHeal(): boolean {return this.canAfford(this.healCost) && this.health < this.maxHealth && this.health > 0}
     public heal(value: number = this.maxHealth){this.health = Math.min(this.health + value, this.maxHealth)}
     public handlePlayerHeal(): void {if(this.canHeal){
-        this.useScrap(10)
-        this.heal(10)}
+        this.useScrap(this.healCost)
+        this.heal(this.healAmount)}
     }
+    public get healCost():number{return 10}
+    public get healAmount():number{return 10}
 
     /**Health Upgrade and all it's related stuff */
     private _basehealth: number;
