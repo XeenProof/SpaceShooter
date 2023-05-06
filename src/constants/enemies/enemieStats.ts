@@ -81,14 +81,14 @@ const MAGICIAN_MOOK ={
 }
 
 const LEVEL5MOOK = {
-    hp: 500,
+    hp: 800,
     droprate: 1,
     speed: 150,
     points: 100
 }
 
 const LEVEL6MOOK = {
-    hp: 500,
+    hp: 1000,
     droprate: 1,
     speed: 150,
     points: 100

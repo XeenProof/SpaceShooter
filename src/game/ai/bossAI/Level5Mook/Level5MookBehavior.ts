@@ -4,11 +4,12 @@ import { Events } from "../../../../constants/events";
 import SummonsManager from "../../../../utils/SummonsManager/SummonsManager";
 import Level5MookActor from "../../../actors/BossActors/Level5MookActor";
 import BasicEnemyAI from "../../abstractAI/BasicEnemyAI";
-import Level5MookSummons, { Level5BackRank, Level5ShieldWall } from "./Level5MookSummons";
+import Level5MookSummons, { Level5BackRank, Level5Star,Level5Sheild } from "./Level5MookSummons";
 
 const SUMMONS = {
     SHIELD: "SHIELD",
-    BACKRANK: "BACKRANK"
+    BACKRANK: "BACKRANK",
+    STAR: "STAR"
 }
 
 export default class Level5MookBehavior extends BasicEnemyAI{
@@ -19,8 +20,9 @@ export default class Level5MookBehavior extends BasicEnemyAI{
     public initializeAI(owner: Level5MookActor, options?: Record<string, any>): void {
         super.initializeAI(owner, options)
         this.summons = new SummonsManager<Level5MookSummons>()
-        this.summons.add(new Level5ShieldWall(this.owner, this, SUMMONS.SHIELD), 1)
+        this.summons.add(new Level5Star(this.owner, this, SUMMONS.STAR), 1)
         this.summons.add(new Level5BackRank(this.owner, this, SUMMONS.BACKRANK), 2)
+        this.summons.add(new Level5Sheild(this.owner, this, SUMMONS.SHIELD), 3)
 
         this.summonsTimerShield = new Timer(2000, ()=>{this.handleSummons()}, true)
     }
