@@ -83,15 +83,30 @@ export default class BaseScene extends ActorScene{
 	protected shieldIcon: Sprite;
 	protected boostIcon: Sprite;
 
-	// wave, scrap iron, points lables
+	// wave, scrap iron, points lables, (health/upgrade health/upgrade weapon) buttons cost,
+	// current health/ max health/ weapon level
 	protected waveLabel: Label;
 	protected scrapIronLabel: Label;
 	protected pointsLabel: Label;
+	protected healthCost: Label;
+	protected upgradeHealthCost: Label;
+	protected upgradeWeaponCost: Label;
+	protected currentHealthLabel: Label;
+	protected currentMaxHealthLabel: Label;
+	protected currentWeaponLevelLabel: Label;
+	protected keyForShield: Label;
+	protected keyForBooster: Label;
 
-	// wave, scrap iron, points values
+	// wave, scrap iron, points values, 
 	protected wave: Label;
 	protected scrapIron: Label;
 	protected points: Label;
+	protected healthCostValue: Label;
+	protected upgradeHealthCostValue: Label;
+	protected upgradeWeaponLevelCostValue: Label;
+	protected currentHealth: Label;
+	protected currentMaxhealth: Label;
+	protected currentWeaponLevel: Label;
 
 	protected playerUIButtons:PlayerUIButton[]
 
@@ -178,6 +193,14 @@ export default class BaseScene extends ActorScene{
 		this.wave.setText(this.wavenum.toString());
 		this.scrapIron.setText(this.player.scrap.toString());
 		this.points.setText(this.player.points.toString());
+		this.currentHealth.setText(this.player.health.toString());
+		this.currentMaxhealth.setText(this.player.maxHealth.toString());
+		this.currentWeaponLevel.setText(this.player.attackUpgradeLevel.toString());
+
+		this.healthCostValue.setText("10");
+		this.upgradeHealthCostValue.setText(this.player.healthUpgradeCost.toString());
+		this.upgradeWeaponLevelCostValue.setText(this.player.attackUpgradeCost.toString());
+
 		this.updateUIButtons(deltaT)
 
 		this.moveBackgrounds(deltaT);
@@ -390,6 +413,15 @@ export default class BaseScene extends ActorScene{
 		// initial PAUSE SCENE
 		this.initPauseScene();
 		this.initControlScene();
+
+		//
+		this.initHealthButtonCost();
+		this.initUpgradeMaxHealthButtonCost();
+		this.initUpgradeWeaponLevelButtonCost();
+		this.initCurrentHealth();
+		this.initCurrentMaxHealth();
+		this.initCurrentWeaponLevel();
+		//
 	}
 	/**
 	 * Initializes the background image sprites for the game.
@@ -571,6 +603,12 @@ export default class BaseScene extends ActorScene{
 		this.shieldLabel.fontSize = 24;
 		this.shieldLabel.font = "Courier";
 		this.shieldLabel.textColor = Color.WHITE;
+		//key 
+		this.keyForShield = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+150, GAMEPLAY_DIMENTIONS.YSTART+540), text: "(E)"});
+		this.keyForShield.size.set(30, 30);
+		this.keyForShield.fontSize = 30;
+		this.keyForShield.font = "Courier";
+		this.keyForShield.textColor = Color.BLACK;
 		//shield bar
 		this.shieldBars = new Array(5);
 		for (let i = 0; i < this.shieldBars.length; i++) {
@@ -598,6 +636,12 @@ export default class BaseScene extends ActorScene{
 		this.boostLabel.fontSize = 24;
 		this.boostLabel.font = "Courier";
 		this.boostLabel.textColor = Color.WHITE;
+		//key
+		this.keyForBooster = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+240, GAMEPLAY_DIMENTIONS.YSTART+540), text: "(R)"});
+		this.keyForBooster.size.set(30, 30);
+		this.keyForBooster.fontSize = 30;
+		this.keyForBooster.font = "Courier";
+		this.keyForBooster.textColor = Color.BLACK;
 		// boost bar
 		this.boostBars = new Array(5);
 		for (let i = 0; i < this.boostBars.length; i++) {
@@ -663,22 +707,106 @@ export default class BaseScene extends ActorScene{
 
 	protected initHealthButton():void{
 		//health button
-		const healthButton = <Button> this.add.uiElement(UIElementType.BUTTON, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+150, GAMEPLAY_DIMENTIONS.YSTART+740), text: "HEALTH"});
+		const healthButton = <Button> this.add.uiElement(UIElementType.BUTTON, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+45, GAMEPLAY_DIMENTIONS.YSTART+740), text: "+"});
 		const buttonHandler = new HealButton(this, Events.HEALTH, healthButton)
 		this.playerUIButtons.push(buttonHandler)
 	}
 
 	protected initUpgradeHealthButton():void{
 		//increase max health button
-		const maxHealthButton = <Button> this.add.uiElement(UIElementType.BUTTON, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+150, GAMEPLAY_DIMENTIONS.YSTART+800), text: "UPGRADE HEALTH"});
+		const maxHealthButton = <Button> this.add.uiElement(UIElementType.BUTTON, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+45, GAMEPLAY_DIMENTIONS.YSTART+800), text: "+"});
 		const buttonHandler = new UpgradeHealthButton(this, Events.UPGRADE_HEALTH, maxHealthButton)
 		this.playerUIButtons.push(buttonHandler)
 	}
 
 	protected initUpgradeWeaponButton():void{
 		//upgrade weapon button
-		const upgradeWeaponButton = <Button> this.add.uiElement(UIElementType.BUTTON, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+150, GAMEPLAY_DIMENTIONS.YSTART+860), text: "UPGRADE WEAPON"});
+		const upgradeWeaponButton = <Button> this.add.uiElement(UIElementType.BUTTON, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+45, GAMEPLAY_DIMENTIONS.YSTART+860), text: "+"});
 		const buttonHandler = new UpgradeWeaponButton(this, Events.UPGRADE_WEAPON, upgradeWeaponButton)
 		this.playerUIButtons.push(buttonHandler)
+	}
+
+	protected initHealthButtonCost():void{
+		this.healthCost = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+130, GAMEPLAY_DIMENTIONS.YSTART+725), text: "(1)Cost:"});
+		this.healthCost.size.set(30, 30);
+		this.healthCost.fontSize = 24;
+		this.healthCost.font = "Courier";
+		this.healthCost.textColor = Color.WHITE;
+
+		this.healthCostValue = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+220, GAMEPLAY_DIMENTIONS.YSTART+725), text: "0"});
+		this.healthCostValue.size.set(30, 30);
+		this.healthCostValue.fontSize = 24;
+		this.healthCostValue.font = "Courier";
+		this.healthCostValue.textColor = Color.WHITE;
+	}
+
+	protected initUpgradeMaxHealthButtonCost():void{
+		this.upgradeHealthCost = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+130, GAMEPLAY_DIMENTIONS.YSTART+785), text: "(2)Cost:"});
+		this.upgradeHealthCost.size.set(30, 30);
+		this.upgradeHealthCost.fontSize = 24;
+		this.upgradeHealthCost.font = "Courier";
+		this.upgradeHealthCost.textColor = Color.WHITE;
+
+		this.upgradeHealthCostValue = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+220, GAMEPLAY_DIMENTIONS.YSTART+785), text: "0"});
+		this.upgradeHealthCostValue.size.set(30, 30);
+		this.upgradeHealthCostValue.fontSize = 24;
+		this.upgradeHealthCostValue.font = "Courier";
+		this.upgradeHealthCostValue.textColor = Color.WHITE;
+	}
+
+	protected initUpgradeWeaponLevelButtonCost():void{
+		this.upgradeWeaponCost = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+130, GAMEPLAY_DIMENTIONS.YSTART+845), text: "(3)Cost:"});
+		this.upgradeWeaponCost.size.set(30, 30);
+		this.upgradeWeaponCost.fontSize = 24;
+		this.upgradeWeaponCost.font = "Courier";
+		this.upgradeWeaponCost.textColor = Color.WHITE;
+
+		this.upgradeWeaponLevelCostValue = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+220, GAMEPLAY_DIMENTIONS.YSTART+845), text: "0"});
+		this.upgradeWeaponLevelCostValue.size.set(30, 30);
+		this.upgradeWeaponLevelCostValue.fontSize = 24;
+		this.upgradeWeaponLevelCostValue.font = "Courier";
+		this.upgradeWeaponLevelCostValue.textColor = Color.WHITE;
+	}
+
+	protected initCurrentHealth():void{
+		this.currentHealthLabel = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+155, GAMEPLAY_DIMENTIONS.YSTART+750), text: "Current Health:"});
+		this.currentHealthLabel.size.set(30, 30);
+		this.currentHealthLabel.fontSize = 18;
+		this.currentHealthLabel.font = "Courier";
+		this.currentHealthLabel.textColor = Color.WHITE;
+
+		this.currentHealth = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+260, GAMEPLAY_DIMENTIONS.YSTART+750), text: "0"});
+		this.currentHealth.size.set(30, 30);
+		this.currentHealth.fontSize = 18;
+		this.currentHealth.font = "Courier";
+		this.currentHealth.textColor = Color.WHITE;
+	}
+
+	protected initCurrentMaxHealth():void{
+		this.currentMaxHealthLabel = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+135, GAMEPLAY_DIMENTIONS.YSTART+810), text: "Max Health:"});
+		this.currentMaxHealthLabel.size.set(30, 30);
+		this.currentMaxHealthLabel.fontSize = 18;
+		this.currentMaxHealthLabel.font = "Courier";
+		this.currentMaxHealthLabel.textColor = Color.WHITE;
+
+		this.currentMaxhealth = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+240, GAMEPLAY_DIMENTIONS.YSTART+810), text: "0"});
+		this.currentMaxhealth.size.set(30, 30);
+		this.currentMaxhealth.fontSize = 18;
+		this.currentMaxhealth.font = "Courier";
+		this.currentMaxhealth.textColor = Color.WHITE;
+	}
+
+	protected initCurrentWeaponLevel():void{
+		this.currentWeaponLevelLabel = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+145, GAMEPLAY_DIMENTIONS.YSTART+870), text: "Weapon Level:"});
+		this.currentWeaponLevelLabel.size.set(30, 30);
+		this.currentWeaponLevelLabel.fontSize = 18;
+		this.currentWeaponLevelLabel.font = "Courier";
+		this.currentWeaponLevelLabel.textColor = Color.WHITE;
+
+		this.currentWeaponLevel = <Label>this.add.uiElement(UIElementType.LABEL, Layers.STATES, {position: new Vec2(GAMEPLAY_DIMENTIONS.XEND+250, GAMEPLAY_DIMENTIONS.YSTART+870), text: "0"});
+		this.currentWeaponLevel.size.set(30, 30);
+		this.currentWeaponLevel.fontSize = 18;
+		this.currentWeaponLevel.font = "Courier";
+		this.currentWeaponLevel.textColor = Color.WHITE;
 	}
 }
