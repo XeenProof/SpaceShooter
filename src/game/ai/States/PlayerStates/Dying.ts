@@ -7,6 +7,7 @@ import PlayerState, { PlayerAnimations } from "./PlayerState";
 export default class Dying extends PlayerState{
     public onEnter(options: Record<string, any>): void {
         this.parent.handleDeath()
+        this.owner.disablePhysics()
         this.owner.playSoundFX(PlayerAudios.DEAD);
         this.owner.animation.playIfNotAlready(PlayerAnimations.DYING, false)
         this.owner.animation.queue(PlayerAnimations.DEAD, true)

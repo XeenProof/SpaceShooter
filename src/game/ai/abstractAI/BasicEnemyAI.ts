@@ -114,7 +114,7 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
     }
 
     protected handleRamDamage(enemyId):void {
-        if(this.isState(enemyStates.DEAD)){return;}
+        if(this.isDead){return;}
         if(enemyId != this.owner.id){return;}
         let enemy = this.owner
         let player = this.owner.getScene().player
@@ -123,7 +123,7 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
     }
 
     protected handleDamage(enemyId, shotid):void{
-        if(this.isState(enemyStates.DEAD)){return;}
+        if(this.isDead){return;}
         if(enemyId != this.owner.id){return;}
         let bullet = this.owner.getScene().getShot(shotid)
         if(!bullet){console.error("bullet not found, check for errors")}
@@ -132,11 +132,13 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
     }
 
     protected OwnerTakeDamage(damage:number):boolean{
-        if(this.isState(enemyStates.DEAD)){return;}
+        if(this.isDead){return;}
         let receivedDamage = this.owner.takeDamage((CheatCodes.getCheat(cheats.OHKO))?this.owner.OHKODamage:damage)
         if(receivedDamage){this.changeState(enemyStates.TAKING_DAMAGE)}
         return receivedDamage
     }
+
+    protected get isDead():boolean{return this.isState(enemyStates.DEAD) || !this.owner.visible}
 
     public dying(){
         this.owner.dying();
