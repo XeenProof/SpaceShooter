@@ -25,7 +25,6 @@ export default class PlayerActor extends HPActor{
     private boostTimer: Timer;
     public get booster(): AnimatedSprite {return this._booster;}
     public set booster(value: AnimatedSprite) {
-        value.position = this.position
         this._booster = value;
     }
     public get boosted(): boolean {return this._boosted;}
@@ -52,7 +51,6 @@ export default class PlayerActor extends HPActor{
     public get shield(): Sprite {return this._shield;}
     public set shield(value: Sprite) {
         this._shield = value;
-        value.position = this.position
     }
     public get shielded(): boolean {return (this.shield)?this.shield.visible:false}
 
@@ -192,8 +190,8 @@ export default class PlayerActor extends HPActor{
 
     finishMove(): void {
         super.finishMove()
-        //this.booster.position.copy(this.position)
-        //if(this.shield.visible){this.shield.position.copy(this.position)}
+        this.booster.position.copy(this.position)
+        if(this.shield.visible){this.shield.position.copy(this.position)}
     }
 
     public handleIframeEnds(): void {
