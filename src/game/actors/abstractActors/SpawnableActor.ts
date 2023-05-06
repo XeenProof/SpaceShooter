@@ -19,6 +19,7 @@ export default abstract class SpawnableActor extends AnimatedSprite{
     despawn(): void {
         this.visible = false;
         this.disablePhysics()
+        this.animation.stop()
     }
 
     abstract despawnConditions(options: Record<string, any>): boolean
