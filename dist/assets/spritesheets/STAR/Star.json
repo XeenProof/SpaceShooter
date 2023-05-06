@@ -25,9 +25,9 @@
                 {"index":4,"duration":12}]},
         {"name":"DYING","repeat":true,
             "frames":
-                [{"index":5,"duration":36},
-                {"index":6,"duration":36},
-                {"index":7,"duration":36}]},
+                [{"index":5,"duration":12},
+                {"index":6,"duration":12},
+                {"index":7,"duration":12}]},
         {"name":"DEAD","repeat":true,
             "frames":
                 [{"index":7,"duration":12}]}

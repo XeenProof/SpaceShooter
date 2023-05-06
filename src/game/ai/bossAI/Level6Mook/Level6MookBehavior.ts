@@ -5,12 +5,27 @@ import { Events } from "../../../../constants/events";
 import SummonsManager from "../../../../utils/SummonsManager/SummonsManager";
 import Level6MookActor from "../../../actors/BossActors/Level5MookActor";
 import BasicEnemyAI from "../../abstractAI/BasicEnemyAI";
-import Level6MookSummons, { Level6BackRank, Level6ShieldWall,Level6AtTarget} from "./Level6MookSummons";
+import Level6MookSummons, { Level6BackRank, Level6Star,Level6AtTarget,Level6Magician,Level6Sheild} from "./Level6MookSummons";
+import Level6MookWeapons, {DownShot, OctoShot, OctoShotV2} from "./Level6MookWeapons";
+import WeaponsManager from "../../../../utils/WeaponManager/WeaponsManager";
 
 const SUMMONS = {
     SHIELD: "SHIELD",
     BACKRANK: "BACKRANK",
     ATTARGET: "ATTARGET",
+    STAR:"STAR",
+}
+
+const WEAPONS = {
+    OCTOSHOT: "OCTOSHOT",
+    OCTOSHOTV2: "OCTOSHOTV2",
+    DOWNSHOT: "DOWNSHOT",
+}
+
+const audio = {
+    DAMAGED: 0,
+    DEAD: 1,
+    ATTACK: 2
 }
 
 export default class Level6MookBehavior extends BasicEnemyAI{
@@ -18,22 +33,44 @@ export default class Level6MookBehavior extends BasicEnemyAI{
     private summons:SummonsManager<Level6MookSummons>
     private summonsTimerShield:Timer
     private summonsCount: number;
+    private firedCounter: number;
+    private weaponsTimer:Timer
+    private weapons:WeaponsManager<Level6MookWeapons>
 
     public get targetPosition():Vec2 {return this.target.position}
 
     public initializeAI(owner: Level6MookActor, options?: Record<string, any>): void {
         super.initializeAI(owner, options)
+
+        this.firedCounter = 0;
+        this.weaponsTimer = new Timer(1000,()=>{this.handleWeaponFire()}, true)
+
+        this.weapons = new WeaponsManager<Level6MookWeapons>()
+        this.weapons.add(WEAPONS.DOWNSHOT, new DownShot(this.owner, this), 1, 4)
+        this.weapons.add(WEAPONS.OCTOSHOT, new OctoShot(this.owner, this), 2, 4)
+        this.weapons.add(WEAPONS.OCTOSHOTV2, new OctoShotV2(this.owner, this), 3, 4)
+        
         this.summonsCount = 0;
         this.summons = new SummonsManager<Level6MookSummons>()
-        this.summons.add(new Level6ShieldWall(this.owner, this, SUMMONS.SHIELD), 1)
+        this.summons.add(new Level6Star(this.owner, this, SUMMONS.STAR), 1)
         this.summons.add(new Level6BackRank(this.owner, this, SUMMONS.BACKRANK), 2)
         this.summons.add(new Level6AtTarget(this.owner, this, SUMMONS.ATTARGET), 3)
-        this.summonsTimerShield = new Timer(9000, ()=>{this.handleSummons()}, true)
+        this.summons.add(new Level6Sheild(this.owner, this, SUMMONS.SHIELD), 4)
+        this.summonsTimerShield = new Timer(5000, ()=>{this.handleSummons()}, true)
     }
 
     public activate(options: Record<string, any>): void {
         super.activate(options)
         this.summonsTimerShield.start()
+        this.weaponsTimer.start()
+    }
+
+    private handleWeaponFire():void{
+        this.owner.playSoundFX(audio.ATTACK)
+        this.emitter.fireEvent(Events.ENEMY_SHOOTS, {
+            projectiles: this.weapons.getProjectiles((this.firedCounter%3)+1)
+        })
+        this.firedCounter+=1;
     }
 
     public handleEvent(event: GameEvent): void {
@@ -49,6 +86,8 @@ export default class Level6MookBehavior extends BasicEnemyAI{
     }
 
     protected stopAI(): void {
+        this.weaponsTimer.pause()
+        this.weaponsTimer.reset()
         this.summonsTimerShield.pause()
         this.summonsTimerShield.reset()
     }
@@ -72,10 +111,12 @@ export default class Level6MookBehavior extends BasicEnemyAI{
     public pause(): void {
         super.pause()
         this.summonsTimerShield.pause()
+        this.weaponsTimer.pause()
     }
     public resume(): void {
         super.resume()
         this.summonsTimerShield.start()
+        this.weaponsTimer.start()
     }
 
     /**Override*/
