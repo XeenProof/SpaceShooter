@@ -37,10 +37,10 @@ export default abstract class PlayerUIButton extends EventButton{
 
     protected initDefaults(){
         if(this.button){
-            this.button.size.set(200, 50);
+            this.button.size.set(50, 50);
             this.button.borderWidth = 0.5;
             this.button.borderColor = Color.BLACK;
-            this.button.fontSize = 30;
+            this.button.fontSize = 24;
             this.button.backgroundColor = Color.fromStringHex("#07E3D6");
             this.button.onClickEventId = this.clickId
         }
@@ -55,7 +55,7 @@ export class UpgradeHealthButton extends PlayerUIButton{
     get unlocked():boolean{return this.player.canUpgradeHealth}
     protected initDefaults(): void {
         super.initDefaults()
-        this.button.fontSize = 18
+        // this.button.fontSize = 14
     }
 }
 
@@ -63,6 +63,6 @@ export class UpgradeWeaponButton extends PlayerUIButton{
     get unlocked():boolean{return this.player.canUpgradeAttack}
     protected initDefaults(): void {
         super.initDefaults()
-        this.button.fontSize = 18
+        // this.button.fontSize = 14
     }
 }
