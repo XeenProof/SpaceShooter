@@ -184,6 +184,14 @@ export default class PlayerActor extends HPActor{
         if(this.shield.visible){this.shield.position.copy(this.position)}
     }
 
+    finishMove(): void {
+        let moved:boolean = !!this.moving
+        super.finishMove()
+        if(!moved){return;}
+        this.booster.position.copy(this.position)
+        if(this.shield.visible){this.shield.position.copy(this.position)}
+    }
+
     public handleIframeEnds(): void {
         //this.iframe = false
     }
