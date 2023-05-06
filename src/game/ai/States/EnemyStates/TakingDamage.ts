@@ -6,9 +6,10 @@ import EnemyState from "./EnemyState";
 export default class TakingDamage extends EnemyState{
     public onEnter(options: Record<string, any>): void {
         this.owner.animation.play(enemyAnimations.TAKING_DAMAGE, false)
+        this.owner.animation.queue(enemyAnimations.IDLE, true)
     }
     public update(deltaT: number): void {
-        if(!this.owner.animation.isPlaying(enemyAnimations.TAKING_DAMAGE)){
+        if(this.owner.animation.isPlaying(enemyAnimations.IDLE)){
             this.finished(enemyStates.IDLE);
         }
         if(this.owner.health <= 0){
