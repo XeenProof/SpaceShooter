@@ -17,7 +17,6 @@ export default class TakingDamage extends EnemyState{
         }
     }
     public onExit(): Record<string, any> {
-        this.owner.animation.stop()
         return{};
     }
 }

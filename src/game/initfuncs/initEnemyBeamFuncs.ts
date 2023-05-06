@@ -28,7 +28,8 @@ function initEnemyBeamGreenFunc(add: FactoryManager, scene:ActorScene):BeamActor
     entity.setScene(scene)
     entity.visible = false;
     entity.addAI(BasicWeaponAI, {src: inactivePos, dir: Vec2.DOWN, speed: info.SPEED})
-    entity.addPhysics();
+    entity.addPhysics()
+    entity.disablePhysics()
     entity.setGroup(PhysicGroups.ENEMY_WEAPON)
     entity.setTrigger(PhysicGroups.PLAYER, Events.WEAPON_PLAYER_COLLISION, null)
     return entity;
@@ -42,7 +43,8 @@ function initEnemyBeamBlueFunc(add: FactoryManager, scene:ActorScene):BeamActor{
     entity.setScene(scene)
     entity.visible = false;
     entity.addAI(BasicWeaponAI, {src: inactivePos, dir: Vec2.DOWN, speed: info.SPEED})
-    entity.addPhysics();
+    entity.addPhysics()
+    entity.disablePhysics()
     entity.setGroup(PhysicGroups.ENEMY_WEAPON)
     entity.setTrigger(PhysicGroups.PLAYER, Events.WEAPON_PLAYER_COLLISION, null)
     return entity;
@@ -56,7 +58,8 @@ function initEnemyBeamPurpleFunc(add: FactoryManager, scene:ActorScene):BeamActo
     entity.setScene(scene)
     entity.visible = false;
     entity.addAI(BasicWeaponAI, {src: inactivePos, dir: Vec2.DOWN, speed: info.SPEED})
-    entity.addPhysics();
+    entity.addPhysics()
+    entity.disablePhysics()
     entity.setGroup(PhysicGroups.ENEMY_WEAPON)
     entity.setTrigger(PhysicGroups.PLAYER, Events.WEAPON_PLAYER_COLLISION, null)
     return entity;
@@ -70,7 +73,8 @@ function initEnemyBeamOrangeFunc(add: FactoryManager, scene:ActorScene):BeamActo
     entity.setScene(scene)
     entity.visible = false;
     entity.addAI(BasicWeaponAI, {src: inactivePos, dir: Vec2.DOWN, speed: info.SPEED})
-    entity.addPhysics();
+    entity.addPhysics()
+    entity.disablePhysics()
     entity.setGroup(PhysicGroups.ENEMY_WEAPON)
     entity.setTrigger(PhysicGroups.PLAYER, Events.WEAPON_PLAYER_COLLISION, null)
     return entity;
@@ -84,7 +88,8 @@ function initEnemyBeamCyanFunc(add: FactoryManager, scene:ActorScene):BeamActor{
     entity.setScene(scene)
     entity.visible = false;
     entity.addAI(BasicWeaponAI, {src: inactivePos, dir: Vec2.DOWN, speed: info.SPEED})
-    entity.addPhysics();
+    entity.addPhysics()
+    entity.disablePhysics()
     entity.setGroup(PhysicGroups.ENEMY_WEAPON)
     entity.setTrigger(PhysicGroups.PLAYER, Events.WEAPON_PLAYER_COLLISION, null)
     return entity;
@@ -100,7 +105,8 @@ function initLevel3BOSSBeamFunc(add: FactoryManager, scene:ActorScene):BeamActor
     entity.setScene(scene)
     entity.visible = false;
     entity.addAI(BasicWeaponAI, {src: inactivePos, dir: Vec2.DOWN, speed: info.SPEED})
-    entity.addPhysics();
+    entity.addPhysics()
+    entity.disablePhysics()
     entity.setGroup(PhysicGroups.ENEMY_WEAPON)
     entity.setTrigger(PhysicGroups.PLAYER, Events.WEAPON_PLAYER_COLLISION, null)
     return entity;
@@ -116,7 +122,8 @@ function initLevel3BOSSLargeBeamFunc(add: FactoryManager, scene:ActorScene):Beam
     entity.setScene(scene)
     entity.visible = false;
     entity.addAI(BasicWeaponAI, {src: inactivePos, dir: Vec2.DOWN, speed: info.SPEED})
-    entity.addPhysics();
+    entity.addPhysics()
+    entity.disablePhysics()
     entity.setGroup(PhysicGroups.ENEMY_WEAPON)
     entity.setTrigger(PhysicGroups.PLAYER, Events.WEAPON_PLAYER_COLLISION, null)
     return entity;

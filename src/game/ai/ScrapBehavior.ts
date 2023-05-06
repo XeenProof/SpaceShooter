@@ -26,6 +26,7 @@ export default class ScrapBehavior extends MovementAI{
     }
     activate(options: Record<string, any>): void {
         this.owner.position.copy(options.src)
+        this.owner.enablePhysics()
         this.speed = (options.speed)?Math.abs(options.speed.y):this.speed
         this.receiver.activate()
     }

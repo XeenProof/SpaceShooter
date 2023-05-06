@@ -30,6 +30,7 @@ function initBeamFunc(add: FactoryManager, scene:ActorScene):BeamActor{
     entity.visible = false;
     entity.addAI(BasicWeaponAI, {src: inactivePos, speed: info.SPEED})
     entity.addPhysics();
+    entity.disablePhysics()
     entity.setGroup(PhysicGroups.PLAYER_WEAPON)
     entity.setTrigger(PhysicGroups.ENEMY, Events.WEAPON_ENEMY_COLLISION, null)
     return entity;
@@ -44,6 +45,7 @@ function initTargetedBeamFunc(add: FactoryManager, scene:ActorScene):BeamActor{
     entity.visible = false;
     entity.addAI(HomingWeaponAI, {src: inactivePos, speed: info.SPEED})
     entity.addPhysics();
+    entity.disablePhysics()
     entity.setGroup(PhysicGroups.PLAYER_WEAPON)
     entity.setTrigger(PhysicGroups.ENEMY, Events.WEAPON_ENEMY_COLLISION, null)
     return entity

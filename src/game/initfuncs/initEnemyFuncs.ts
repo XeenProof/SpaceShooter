@@ -50,6 +50,7 @@ function initCommomMookFunc(add: FactoryManager, scene: ActorScene):MookActor{
     let center = entity.position.clone()
     let halfSize = entity.boundary.getHalfSize().clone().scale(0.9,0.6);
     entity.addPhysics(new AABB(center, halfSize));
+    entity.disablePhysics()
     entity.setGroup(PhysicGroups.ENEMY);
     return entity;
 }
@@ -71,6 +72,7 @@ function initMagicianFunc(add: FactoryManager, scene: ActorScene):MagicianActor{
     let center = entity.position.clone()
     let halfSize = entity.boundary.getHalfSize().clone().scale(0.9,0.6);
     entity.addPhysics(new AABB(center, halfSize));
+    entity.disablePhysics()
     entity.setGroup(PhysicGroups.ENEMY);
     return entity;
 }
@@ -92,6 +94,7 @@ function initStarFunc(add: FactoryManager, scene: ActorScene):StarActor{
     let center = entity.position.clone()
     let halfSize = entity.boundary.getHalfSize().clone().scale(0.9,0.6);
     entity.addPhysics(new AABB(center, halfSize));
+    entity.disablePhysics()
     entity.setGroup(PhysicGroups.ENEMY);
     return entity;
 }
@@ -113,6 +116,7 @@ function initTargetedMookFunc(add: FactoryManager, scene: ActorScene):TargetedMo
     let center = entity.position.clone()
     let halfSize = entity.boundary.getHalfSize().clone();
     entity.addPhysics(new AABB(center, halfSize));
+    entity.disablePhysics()
     entity.setGroup(PhysicGroups.ENEMY);
     return entity;
 }
@@ -145,6 +149,7 @@ function initShieldedMookFunc(add: FactoryManager, scene: ActorScene):ShieldMook
     let center = entity.position.clone()
     let halfSize = entity.boundary.getHalfSize().clone();
     entity.addPhysics(new AABB(center, halfSize));
+    entity.disablePhysics()
     entity.setGroup(PhysicGroups.ENEMY);
     return entity
 }
@@ -166,6 +171,7 @@ function initHoarderFunc(add: FactoryManager, scene: ActorScene):MookActor{
     let center = entity.position.clone()
     let halfSize = entity.boundary.getHalfSize().clone().scale(0.9,0.6);
     entity.addPhysics(new AABB(center, halfSize));
+    entity.disablePhysics()
     entity.setGroup(PhysicGroups.ENEMY);
     return entity;
 }
@@ -187,6 +193,7 @@ function initPersonMookFunc(add: FactoryManager, scene: ActorScene):PersonMookAc
     let center = entity.position.clone()
     let halfSize = entity.boundary.getHalfSize().clone().scale(0.9,0.6);
     entity.addPhysics(new AABB(center, halfSize));
+    entity.disablePhysics()
     entity.setGroup(PhysicGroups.ENEMY);
     return entity;
 }

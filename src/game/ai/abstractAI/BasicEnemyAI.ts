@@ -44,6 +44,7 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
         this.owner.healthBar.visible = this.owner.visible
         this.owner.animation.playIfNotAlready(animations.IDLE, true)
         this.owner.canDespawn = false;
+        this.owner.enablePhysics()
         this.target = this.owner.getScene().player
         this.rushed = false
         this.wait = false

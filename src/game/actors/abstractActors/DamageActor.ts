@@ -5,7 +5,7 @@ export default abstract class DamageActor extends SpawnableActor{
     abstract despawnConditions(options: Record<string, any>): boolean
     despawn(): void {
         super.despawn()
-        this.position.set(1200, 1200)
+        //this.position.set(1200, 1200)
     }
 
     private _damage_key: String;

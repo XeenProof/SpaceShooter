@@ -40,12 +40,13 @@ function initMegaMookFunc(add: FactoryManager, scene: ActorScene):MegaMookActor{
     entity.setScene(scene)
     entity.visible = false;
     entity.scale.set(X, Y);
-    entity.addAI(MegaMookBehavior)
     entity.audioKeys = audioKeys
     let center = entity.position.clone()
     let halfSize = entity.boundary.getHalfSize().clone().scale(0.9,0.6);
     entity.addPhysics(new AABB(center, halfSize));
+    entity.disablePhysics()
     entity.setGroup(PhysicGroups.ENEMY);
+    entity.addAI(MegaMookBehavior)
     return entity;
 }
 
@@ -61,10 +62,11 @@ function initSummonerFunc(add: FactoryManager, scene: ActorScene):SummonerActor{
     entity.setScene(scene)
     entity.visible = false;
     entity.scale.set(X, Y);
-    entity.addAI(SummonerBehavior)
     entity.audioKeys = audioKeys
-    entity.addPhysics();
+    entity.addPhysics()
+    entity.disablePhysics()
     entity.setGroup(PhysicGroups.ENEMY);
+    entity.addAI(SummonerBehavior)
     return entity;
 }
 
@@ -80,12 +82,13 @@ function initLevel1MookFunc(add: FactoryManager, scene: ActorScene):Level1MookAc
     entity.setScene(scene)
     entity.visible = false;
     entity.scale.set(X, Y);
-    entity.addAI(Level1MookBehavior)
     entity.audioKeys = audioKeys
     let center = entity.position.clone()
     let halfSize = entity.boundary.getHalfSize().clone().scale(0.9,0.6);
     entity.addPhysics(new AABB(center, halfSize));
+    entity.disablePhysics()
     entity.setGroup(PhysicGroups.ENEMY);
+    entity.addAI(Level1MookBehavior)
     return entity;
 }
 
@@ -101,12 +104,13 @@ function initLevel3MookFunc(add: FactoryManager, scene: ActorScene):Level3MookAc
     entity.setScene(scene)
     entity.visible = false;
     entity.scale.set(X, Y);
-    entity.addAI(Level3MookBehavior)
     entity.audioKeys = audioKeys
     let center = entity.position.clone()
     let halfSize = entity.boundary.getHalfSize().clone().scale(0.9,0.6);
     entity.addPhysics(new AABB(center, halfSize));
+    entity.disablePhysics()
     entity.setGroup(PhysicGroups.ENEMY);
+    entity.addAI(Level3MookBehavior)
     return entity;
 }
 
@@ -122,10 +126,11 @@ function initLevel5MookFunc(add: FactoryManager, scene: ActorScene):Level5MookAc
     entity.setScene(scene)
     entity.visible = false;
     entity.scale.set(X, Y);
-    entity.addAI(Level5MookBehavior)
     entity.audioKeys = audioKeys
-    entity.addPhysics();
+    entity.addPhysics()
+    entity.disablePhysics()
     entity.setGroup(PhysicGroups.ENEMY);
+    entity.addAI(Level5MookBehavior)
     return entity;
 }
 
@@ -141,9 +146,10 @@ function initLevel6MookFunc(add: FactoryManager, scene: ActorScene):Level6MookAc
     entity.setScene(scene)
     entity.visible = false;
     entity.scale.set(X, Y);
-    entity.addAI(Level6MookBehavior)
     entity.audioKeys = audioKeys
-    entity.addPhysics();
+    entity.addPhysics()
+    entity.disablePhysics()
     entity.setGroup(PhysicGroups.ENEMY);
+    entity.addAI(Level6MookBehavior)
     return entity;
 }
