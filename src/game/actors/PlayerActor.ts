@@ -182,10 +182,12 @@ export default class PlayerActor extends HPActor{
 
     public pause():void{
         this.TimerPause()
+        this.animation.pause()
         this.booster.animation.pause()
     }
     public resume():void{
         this.TimerResume()
+        this.animation.resume()
         this.booster.animation.resume()
     }
 
