@@ -15,15 +15,15 @@ export default abstract class PlayerUIButton extends EventButton{
     protected InfoDisplay:Label
     protected InfoValue:Label
 
-    constructor(scene:ActorScene, clickId:string, button:Button, ...Labels:Label[]){
+    constructor(scene:ActorScene, clickId:string, button:Button, ...labels:Label[]){
         super()
         this.scene = scene
         this.button = button
         this.clickId = clickId
-        this.CostDisplay = Labels[0]
-        this.CostValue = Labels[1]
-        this.InfoDisplay = Labels[2]
-        this.InfoValue = Labels[3]
+        this.CostDisplay = labels[0]
+        this.CostValue = labels[1]
+        this.InfoDisplay = labels[2]
+        this.InfoValue = labels[3]
         this.initDefaults()
     }
 
