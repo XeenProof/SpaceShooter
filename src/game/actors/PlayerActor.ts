@@ -24,7 +24,10 @@ export default class PlayerActor extends HPActor{
     private _boosted: boolean = false;
     private boostTimer: Timer;
     public get booster(): AnimatedSprite {return this._booster;}
-    public set booster(value: AnimatedSprite) {this._booster = value;}
+    public set booster(value: AnimatedSprite) {
+        value.position = this.position
+        this._booster = value;
+    }
     public get boosted(): boolean {return this._boosted;}
     private set boosted(value: boolean) {this._boosted = value;}
 
@@ -47,7 +50,10 @@ export default class PlayerActor extends HPActor{
     private _shield: Sprite;
     private shieldTimer: Timer;
     public get shield(): Sprite {return this._shield;}
-    public set shield(value: Sprite) {this._shield = value;}
+    public set shield(value: Sprite) {
+        this._shield = value;
+        value.position = this.position
+    }
     public get shielded(): boolean {return (this.shield)?this.shield.visible:false}
 
     /**The shield charge and all it's related functions */
@@ -180,16 +186,14 @@ export default class PlayerActor extends HPActor{
 
     move(velocity: Vec2): void {
         super.move(velocity)
-        this.booster.position.copy(this.position)
-        if(this.shield.visible){this.shield.position.copy(this.position)}
+        //this.booster.position.copy(this.position)
+        //if(this.shield.visible){this.shield.position.copy(this.position)}
     }
 
     finishMove(): void {
-        let moved:boolean = !!this.moving
         super.finishMove()
-        if(!moved){return;}
-        this.booster.position.copy(this.position)
-        if(this.shield.visible){this.shield.position.copy(this.position)}
+        //this.booster.position.copy(this.position)
+        //if(this.shield.visible){this.shield.position.copy(this.position)}
     }
 
     public handleIframeEnds(): void {
