@@ -70,8 +70,8 @@ export default class EntityManager<T extends CanvasNode>{
         return null;
     }
 
-    public countInUse(keyFilter: (value?: any, index?: number) => boolean = ()=>{return true;}):number{
-        let found = this.findEntity((value: CanvasNode) => {return value.visible}, keyFilter)
+    public countInUse(keyFilter: (value?: any, index?: number) => boolean = ()=>{return true;}, condition:(value?: any, index?: number) => boolean = (value: CanvasNode) => {return value.visible}):number{
+        let found = this.findEntity(condition, keyFilter)
         return found.length
     }
 

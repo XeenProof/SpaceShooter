@@ -29,6 +29,7 @@ import MainMenu from "../MenuScenes/MainMenu";
 import { GameEventType } from "../../../Wolfie2D/Events/GameEventType";
 import PlayerUIButton, { HealButton, UpgradeHealthButton, UpgradeWeaponButton } from "./UIFeatures/PlayerUIButton";
 import MathUtils from "../../../Wolfie2D/Utils/MathUtils";
+import MookActor from "../../actors/EnemyActors/MookActor";
 
 /**
  * This is the base scene for our game.
@@ -276,7 +277,7 @@ export default class BaseScene extends ActorScene{
 
 	/**Abstracted */
 	public get player(): PlayerActor {return this._player;}
-	public get isScreenCleared(): boolean {return this.entities.countInUse((x)=>{return x.PHYSICS == PhysicGroups.ENEMY}) <= 0}
+	public get isScreenCleared(): boolean {return this.entities.countInUse((x)=>{return x.PHYSICS == PhysicGroups.ENEMY}, (x:MookActor) => {return !x.isDead}) <= 0}
 	public get TravelSpeed():Vec2 {return this.backgroundSpeed}
 	public get collectScrap():number {return RandUtils.randInt(50,101)}
 	public get isPaused():boolean{return this.paused}

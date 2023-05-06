@@ -138,7 +138,7 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
         return receivedDamage
     }
 
-    protected get isDead():boolean{return this.isState(enemyStates.DEAD) || !this.owner.visible}
+    public get isDead():boolean{return this.isState(enemyStates.DEAD) || !this.owner.visible}
 
     public dying(){
         this.owner.dying();

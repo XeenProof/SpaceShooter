@@ -8,6 +8,7 @@ import HealthbarHUD from "../../../utils/HUD/HealthbarHUD";
 import BasicTargetable from "../../../utils/Targeting/BasicTargetable";
 import { TargetableEntity } from "../../../utils/Targeting/TargetableEntity";
 import { TargetingEntity } from "../../../utils/Targeting/TargetingEntity";
+import BasicEnemyAI from "../../ai/abstractAI/BasicEnemyAI";
 import BaseScene from "../../scenes/GameplayScenes/BaseScene";
 import HPActor from "../abstractActors/HPActor";
 
@@ -18,8 +19,12 @@ const animations = {
 
 export default class MookActor extends HPActor{
     private _points: number;
+    public override _ai:BasicEnemyAI
+
     public get points(): number {return this._points;}
     public set points(value: number) {this._points = value;}
+    public get ai():BasicEnemyAI{return this._ai}
+    public set ai(value:BasicEnemyAI){this._ai = value}
 
     public constructor(sheet: Spritesheet){
         super(sheet)
@@ -49,6 +54,10 @@ export default class MookActor extends HPActor{
             this.emitter.fireEvent(Events.DROP_SCRAP, {src: this.position.clone()})
         }
         super.dying()
+    }
+
+    public get isDead():boolean{
+        return this.ai.isDead
     }
 
     //Targetable Interface Functions
