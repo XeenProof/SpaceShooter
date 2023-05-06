@@ -89,12 +89,6 @@ export default class BaseScene extends ActorScene{
 	protected waveLabel: Label;
 	protected scrapIronLabel: Label;
 	protected pointsLabel: Label;
-	protected healthCost: Label;
-	protected upgradeHealthCost: Label;
-	protected upgradeWeaponCost: Label;
-	protected currentHealthLabel: Label;
-	protected currentMaxHealthLabel: Label;
-	protected currentWeaponLevelLabel: Label;
 	protected keyForShield: Label;
 	protected keyForBooster: Label;
 
@@ -102,12 +96,12 @@ export default class BaseScene extends ActorScene{
 	protected wave: Label;
 	protected scrapIron: Label;
 	protected points: Label;
-	protected healthCostValue: Label;
-	protected upgradeHealthCostValue: Label;
-	protected upgradeWeaponLevelCostValue: Label;
-	protected currentHealth: Label;
-	protected currentMaxhealth: Label;
-	protected currentWeaponLevel: Label;
+	// protected healthCostValue: Label;
+	// protected upgradeHealthCostValue: Label;
+	// protected upgradeWeaponLevelCostValue: Label;
+	// protected currentHealth: Label;
+	// protected currentMaxhealth: Label;
+	// protected currentWeaponLevel: Label;
 
 	protected playerUIButtons:PlayerUIButton[]
 
@@ -194,9 +188,9 @@ export default class BaseScene extends ActorScene{
 		this.wave.setText(this.wavenum.toString());
 		this.scrapIron.setText(this.player.scrap.toString());
 		this.points.setText(this.player.points.toString());
-		this.currentHealth.setText(this.player.health.toString());
-		this.currentMaxhealth.setText(this.player.maxHealth.toString());
-		this.currentWeaponLevel.setText(this.player.attackUpgradeLevel.toString());
+		//this.currentHealth.setText(this.player.health.toString());
+		//this.currentMaxhealth.setText(this.player.maxHealth.toString());
+		//this.currentWeaponLevel.setText(this.player.attackUpgradeLevel.toString());
 
 		//this.healthCostValue.setText("10");
 		//this.upgradeHealthCostValue.setText(this.player.healthUpgradeCost.toString());
