@@ -236,7 +236,7 @@ export default class BaseScene extends ActorScene{
 
 	public handleEndType(){
 		if (this.endType === LevelEndConst.GAME_OVER){this.endText.text="GAME OVER"}
-		else if (this.endType === LevelEndConst.LEVEL_CLEARED){this.endText.text="VICTORY"}
+		else if (this.endType === LevelEndConst.LEVEL_CLEARED){this.endText.text="PACKAGE DELIVERED"}
 	}
 
 	/**
