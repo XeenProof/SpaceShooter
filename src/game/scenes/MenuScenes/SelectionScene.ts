@@ -56,7 +56,7 @@ export default class SelectionScence extends Scene {
         this.load.spritesheet("Level 3","assets/spritesheets/Level3_Boss/Level3_Boss.json");
         this.load.spritesheet("Level 4","assets/spritesheets/Level4_Boss/Level4_Boss.json");
         this.load.spritesheet("Level 5","assets/spritesheets/Level5_Boss/Level5_Boss.json");
-        this.load.spritesheet("Level 6","assets/spritesheets/Level1_Boss/Level1_Boss.json")
+        this.load.spritesheet("Level 6","assets/spritesheets/Level6_Boss/Level6_Boss.json")
         //this.load.image("Blank","assets/sprites/blank.png");
         this.loadBackground(LoadMainmenu.MAINMENU);
     }
