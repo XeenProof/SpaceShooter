@@ -44,7 +44,6 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
         this.owner.healthBar.visible = this.owner.visible
         this.owner.animation.playIfNotAlready(animations.IDLE, true)
         this.owner.canDespawn = false;
-        this.owner.enablePhysics()
         this.target = this.owner.getScene().player
         this.rushed = false
         this.wait = false
@@ -64,6 +63,8 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
         let pointsMulti = options.mods?options.mods.points_multi:1
         let points = initPoints*pointsMulti
         this.owner.points = points
+        
+        this.owner.enablePhysics()
     }
 
 

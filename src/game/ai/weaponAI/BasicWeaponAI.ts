@@ -35,9 +35,9 @@ export default class BasicWeaponAI extends ComplexPatternAI{
         this.nextSpeed = (options.speed)?options.speed:500
         this.initialize(enemyStates.IDLE)
         this.owner.rotation = this.rotation
-        this.owner.enablePhysics()
         this.receiver.ignoreEvents();
         this.receiver.activate()
+        this.owner.enablePhysics()
     }
 
     public update(deltaT: number): void {
