@@ -15,6 +15,8 @@ import { Script_Type } from "./scriptTypes";
 import { AllItemData } from "../items/itemData";
 import { LevelEndConst } from "../events";
 import { spawnRandomizer } from "../../utils/Pathing/CreatePaths";
+import { VtypeRoute } from "../formations/VtypeForm";
+import { diagonalRoute } from "../formations/DiagonalForm";
 
 const RandomizedSettings = {
     speed:{min: 600},
@@ -70,13 +72,30 @@ export const level6 = {
 
         {type: Script_Type.WAVE, options: {wavenum: 1, mods:{droprate_multi: 1}}},
         {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-300}},
-        // ...generateRoundRobinScriptPart([AllEnemyKeys.STAR], [RushRoute.NORMAL], 300, 2, 1),
-        // ...generateRoundRobinScriptPart([AllEnemyKeys.STAR], [RushRoute.REVERSE], 300, 2, 1),
-        ...generateRoundRobinScriptPart([AllEnemyKeys.MAGICIAN_MOOK], [recRoute.NORMAL], 300, 2, 1),
-        ...generateRoundRobinScriptPart([AllEnemyKeys.MAGICIAN_MOOK], [recRoute.REVERSE], 300, 2, 1),
+        ...generateRoundRobinScriptPart([AllEnemyKeys.MAGICIAN_MOOK,AllEnemyKeys.PERSON_MOOK], [recRoute.NORMAL,recRoute.REVERSE], 300, 2, 2),
         {type: Script_Type.WAIT, options: {wait_time: -1}},
 
         {type: Script_Type.WAVE, options: {wavenum: 2, mods:{droprate_multi: 1}}},
+        {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-300}},
+        ...generateRoundRobinScriptPart([AllEnemyKeys.MAGICIAN_MOOK], [recRoute.NORMAL,recRoute.REVERSE], 300, 2, 2),
+        {type: Script_Type.WAIT, options: {wait_time: -1}},
+
+        {type: Script_Type.WAVE, options: {wavenum: 3, mods:{droprate_multi: 1}}},
+        {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-300}},
+        ...generateRoundRobinScriptPart([AllEnemyKeys.STAR], [RushRoute.NORMAL], 300, 2, 1),
+        ...generateRoundRobinScriptPart([AllEnemyKeys.SHIELDED_MOOK], [VtypeRoute.NORMAL,VtypeRoute.REVERSE], 300, 2, 2),
+        ...generateRoundRobinScriptPart([AllEnemyKeys.MAGICIAN_MOOK], [recRoute.NORMAL,recRoute.REVERSE], 300, 2, 2),
+        {type: Script_Type.WAIT, options: {wait_time: -1}},
+
+        {type: Script_Type.WAVE, options: {wavenum: 4, mods:{droprate_multi: 1}}},
+        {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-300}},
+        ...generateRoundRobinScriptPart([AllEnemyKeys.STAR], [RushRoute.NORMAL,RushRoute.REVERSE], 300, 2, 2),
+        ...generateRoundRobinScriptPart([AllEnemyKeys.SHIELDED_MOOK], [VtypeRoute.NORMAL,VtypeRoute.REVERSE], 300, 2, 4),
+        ...generateRoundRobinScriptPart([AllEnemyKeys.MAGICIAN_MOOK], [diagonalRoute.NORMAL,diagonalRoute.REVERSE], 300, 2, 2),
+        ...generateRoundRobinScriptPart([AllEnemyKeys.TARGETED_MOOK], [diagonalRoute.NORMAL,diagonalRoute.REVERSE], 300, 2, 2),
+        {type: Script_Type.WAIT, options: {wait_time: -1}},
+
+        {type: Script_Type.WAVE, options: {wavenum: 5, mods:{droprate_multi: 1}}},
         {type: Script_Type.SPAWN, options: {
             enemyType: AllEnemyKeys.LEVEL6MOOK,
             rpsl: [spawnRandomizer, {

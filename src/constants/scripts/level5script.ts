@@ -46,7 +46,7 @@ export const level5 = {
             {DATA: AllProjectileData.ENEMY_BEAM_BLUE, AMMOUNT: 20},
             {DATA: AllProjectileData.ENEMY_BEAM_CYAN, AMMOUNT: 20},
 
-            {DATA: AllProjectileData.BEAM, AMMOUNT: 2},
+            {DATA: AllProjectileData.BEAM, AMMOUNT: 200},
             {DATA: AllProjectileData.TARGETED_BEAM, AMMOUNT: 20},
 
             {DATA: AllEnemyData.COMMON_MOOK, AMMOUNT: 20},
@@ -75,7 +75,7 @@ export const level5 = {
 
         {type: Script_Type.WAVE, options: {wavenum: 2, mods:{droprate_multi: 1}}},
         {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-300}},
-        ...generateRoundRobinScriptPart([AllEnemyKeys.STAR], [RushRoute.NORMAL], 300, 2, 1),
+        ...generateRoundRobinScriptPart([AllEnemyKeys.STAR], [RushRoute.REVERSE], 300, 2, 1),
         ...generateRoundRobinScriptPart([AllEnemyKeys.SHIELDED_MOOK,AllEnemyKeys.SHIELDED_MOOK,AllEnemyKeys.SHIELDED_MOOK], [recRoute.NORMAL,recRoute.REVERSE], 300, 2, 3),
         ...generateRoundRobinScriptPart([AllEnemyKeys.TARGETED_MOOK,AllEnemyKeys.TARGETED_MOOK,AllEnemyKeys.TARGETED_MOOK,AllEnemyKeys.TARGETED_MOOK], [TriangleRoute.NORMAL,TriangleRoute.REVERSE,TriangleRoute.NORMAL,TriangleRoute.REVERSE], 300, 2, 4),
         {type: Script_Type.WAIT, options: {wait_time: -1}},
