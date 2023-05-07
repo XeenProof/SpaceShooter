@@ -201,8 +201,10 @@ export default class BaseScene extends ActorScene{
 	 * @see GameEvent
 	 */
 	protected handleEvent(event: GameEvent){
+		console.log("Scene:", event)
 		switch(event.type){
 			case Events.PAUSE:{
+				console.log(event.type, event.data)
 				this.paused = event.data.get("pausing");
 				this.gameplayScreenHidden = false
 				this.pauseScreenHidden = !this.paused

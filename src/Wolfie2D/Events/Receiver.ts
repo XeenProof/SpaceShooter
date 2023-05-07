@@ -18,7 +18,7 @@ export default class Receiver {
 	constructor(){
 		this.MAX_SIZE = 2000;
         this.q = new Queue(this.MAX_SIZE);
-		
+		this.eventFilters = new Map<string, ((event:GameEvent)=>boolean)[]>()
 	}
 
 	destroy(){
@@ -60,7 +60,6 @@ export default class Receiver {
 		try{
 			if(!this.acceptEvent(event)){return}
 			this.q.enqueue(event);
-			if(event.type == "WEAPON_ENEMY_COLLISION"){console.log(this.q.getSize())}
 		} catch(e){
 			console.warn("Receiver overflow for event " + event.toString());
 			throw e;
