@@ -78,13 +78,11 @@ export default class PlayerController extends StateMachineAI {
 		this.receiver.subscribe(Events.PLAYER_ENEMY_COLLISION)
 		this.receiver.subscribe(Events.WEAPON_PLAYER_COLLISION)
 		this.receiver.subscribe(Events.PLAYER_SCRAP_COLLISION)
-
 		this.receiver.subscribe(Events.ENEMY_DIED)
-
 		this.receiver.subscribe(Events.HEALTH)
 		this.receiver.subscribe(Events.UPGRADE_HEALTH)
 		this.receiver.subscribe(Events.UPGRADE_WEAPON)
-
+		this.receiver.subscribe(Events.SCRAP_REWARD)
 		this.receiver.subscribe(Events.PAUSE)
 
 		this.activate(options);
@@ -156,6 +154,10 @@ export default class PlayerController extends StateMachineAI {
 			}
 			case Events.PLAYER_SCRAP_COLLISION:{
 				this.handleScrapPickup()
+				break;
+			}
+			case Events.SCRAP_REWARD:{
+				this.handleScrapReward(event.data.get("amount"))
 				break;
 			}
 			case Events.HEALTH:{
@@ -266,7 +268,11 @@ export default class PlayerController extends StateMachineAI {
 	protected handleScrapPickup():void{
 		let collected = this.owner.getScene().collectScrap
 		this.owner.collectedScrap(collected)
-		console.log(this.owner.scrap)
+	}
+
+	protected handleScrapReward(amount: number):void{
+		this.owner.collectedScrap(amount)
+		console.log("Collected Reward: ", amount)
 	}
 
 	public handlePause(pausing: boolean):void{

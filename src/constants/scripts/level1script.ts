@@ -59,11 +59,11 @@ export const level1 = {
         {type: Script_Type.PLAY_SOUND, options: {index: 0}},
         {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-200}},
 
-        {type: Script_Type.WAVE, options: {wavenum: 1, mods:{droprate_multi: 10}}},
+        {type: Script_Type.WAVE, options: {wavenum: 1, mods:{droprate_multi: 10}, reward:1000}},
         ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK], [recRoute.NORMAL,recRoute.REVERSE], 1500, 2, 2),
         {type: Script_Type.WAIT, options: {wait_time: -1}},
 
-        {type: Script_Type.WAVE, options: {wavenum: 2, mods:{droprate_multi: 1}}},
+        {type: Script_Type.WAVE, options: {wavenum: 2, mods:{droprate_multi: 1}}, reward:1000},
         {type: Script_Type.UPDATE_TRAVEL_SPEED, options: {X:0, Y:-200}},
         ...generateRoundRobinScriptPart([AllEnemyKeys.COMMON_MOOK], [ZRoute.NORMAL, ZRoute.REVERSE], 700, 2, 4),
         {type: Script_Type.WAIT, options: {wait_time: -1}},
