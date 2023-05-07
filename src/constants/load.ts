@@ -59,7 +59,7 @@ const Loads = {
     ENEMY_TAKINGDAMAGE: {KEY: "ENEMY_TAKINGDAMAGE", TYPE:LoadType.AUDIO, PATH: "assets/audio/Enemy_TakingDamage.mp3"},
     ENEMY_DEAD: {KEY: "ENEMY_DEAD", TYPE:LoadType.AUDIO, PATH: "assets/audio/Enemy_Dead.mp3"},
     PICK_ITEM: {KEY: "PICK_ITEM", TYPE:LoadType.AUDIO, PATH: "assets/audio/Pickup_Item.mp3"},
-    PLAYER_TAKINGDAMAGE: {KEY: "PLAYER_TAKINGDAMAGE", TYPE:LoadType.AUDIO, PATH: "assets/audio/Player_TakingDamage.mp3"}
+    PLAYER_TAKINGDAMAGE: {KEY: "PLAYER_TAKINGDAMAGE", TYPE:LoadType.AUDIO, PATH: "assets/audio/Player_TakingDamage.wav"}
 }
 
 export const LoadBackground = {

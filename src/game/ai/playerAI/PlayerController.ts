@@ -35,7 +35,8 @@ const WeaponTypes = {
 export const PlayerAudios = {
 	ATTACK: 0,
 	DAMAGED: 1,
-	DEAD: 2
+	DEAD: 2,
+	PICKUP: 3
 } as const
 
 /**
@@ -268,10 +269,12 @@ export default class PlayerController extends StateMachineAI {
 	protected handleScrapPickup():void{
 		let collected = this.owner.getScene().collectScrap
 		this.owner.collectedScrap(collected)
+		this.owner.playSoundFX(PlayerAudios.PICKUP)
 	}
 
 	protected handleScrapReward(amount: number):void{
 		this.owner.collectedScrap(amount)
+		if(amount > 0){this.owner.playSoundFX(PlayerAudios.PICKUP)}
 		console.log("Collected Reward: ", amount)
 	}
 
