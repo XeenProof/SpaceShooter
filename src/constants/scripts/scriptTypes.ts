@@ -38,6 +38,7 @@ export const Script_Type = {
     /**
      * options: {
      * wavenum: wave number
+     * reward: reward number
      * mods: {//holds the stat modifiers on enemies
      *  hp_multi: 1,
 		droprate_multi: 1,

@@ -58,6 +58,12 @@ export const Events = {
      * src: source of where the enemy died
      * }
      */
+    SCRAP_REWARD:"SCRAP_REWARD",
+    /**
+     * {
+     * amount: the amount of scrap given
+     * }
+     */
     HEALTH: "HEALTH",
 	UPGRADE_HEALTH: "UPGRADE_HEALTH",
 	UPGRADE_WEAPON: "UPGRADE_WEAPON",
