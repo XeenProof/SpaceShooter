@@ -5,7 +5,7 @@ import Scene from "../../../Wolfie2D/Scene/Scene";
 import Color from "../../../Wolfie2D/Utils/Color";
 import Label from "../../../Wolfie2D/Nodes/UIElements/Label";
 import GameEvent from "../../../Wolfie2D/Events/GameEvent";
-import { LoadData, LoadType,LoadMainmenu} from "../../../constants/load";
+import { LoadData, LoadType,LoadMainmenu, LoadMusic} from "../../../constants/load";
 import Sprite from "../../../Wolfie2D/Nodes/Sprites/Sprite";
 import MainMenu from "./MainMenu";
 import Button from "../../../Wolfie2D/Nodes/UIElements/Button";
@@ -22,6 +22,7 @@ import ProgressTracker from "../../../utils/Singletons/ProgressTracker";
 import LevelSelect from "../../../utils/SelectionUtils/Level";
 import ScriptedLevel from "./LevelSelect/ScriptedLevel";
 import AnimatedSprite from "../../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
+import { GameEventType } from "../../../Wolfie2D/Events/GameEventType";
 
 // Layers in the main menu
 const SelectionLayer = {
@@ -48,8 +49,14 @@ export default class SelectionScence extends Scene {
 	protected bg1: Sprite;
 
     private levels:LevelSelect<ScriptScene>[]
+    private musicPlaying:boolean
+
+    public override initScene(init: Record<string, any>): void {
+        this.musicPlaying = (init.musicPlaying)?init.musicPlaying:false
+    }
 
     public override loadScene(){
+        this.load.audio(LoadMusic.SCENE_MUSIC.KEY, LoadMusic.SCENE_MUSIC.PATH)
         this.load.image("Test","assets/sprites/welcome.png");
         this.load.spritesheet("Level 1","assets/spritesheets/Level1_Boss/Level1_Boss.json");
         this.load.spritesheet("Level 2","assets/spritesheets/Level2_Boss/Level2_Boss.json");
@@ -57,11 +64,15 @@ export default class SelectionScence extends Scene {
         this.load.spritesheet("Level 4","assets/spritesheets/Level4_Boss/Level4_Boss.json");
         this.load.spritesheet("Level 5","assets/spritesheets/Level5_Boss/Level5_Boss.json");
         this.load.spritesheet("Level 6","assets/spritesheets/Level6_Boss/Level6_Boss.json")
-        //this.load.image("Blank","assets/sprites/blank.png");
         this.loadBackground(LoadMainmenu.MAINMENU);
+    }
+
+    public override unloadScene(): void {
+        this.load.keepAudio(LoadMusic.SCENE_MUSIC.KEY)
     }
     
     public override startScene(){
+        if(!this.musicPlaying){this.emitter.fireEvent(GameEventType.PLAY_MUSIC, {key:LoadMusic.SCENE_MUSIC.KEY, loop:true, holdReference:true})}
         this.initLayers()
         this.initUI()
 
@@ -104,7 +115,7 @@ export default class SelectionScence extends Scene {
     protected handleEvent(event: GameEvent): void {
         switch(event.type) {
             case SelectionEvent.BACK: {
-                this.sceneManager.changeToScene(MainMenu);
+                this.sceneManager.changeToScene(MainMenu, {musicPlaying:true});
                 break;
             }
 
