@@ -15,6 +15,7 @@ import CheatCodes from "../../../utils/Singletons/CheatCodes";
 import WeaponsManager from "../../../utils/WeaponManager/WeaponsManager";
 import PlayerWeapon, { BasicBeam, DiagonalBeam, HomingBarrage, MiniBarrage, QuadHomingBeam, SideBackBeam, TargetedBeam } from "./PlayerWeapon";
 import HPActor from "../../actors/abstractActors/HPActor";
+import Timer from "../../../Wolfie2D/Timing/Timer";
 
 export const PlayerAnimations = {
     IDLE: "IDLE",
@@ -47,9 +48,11 @@ export default class PlayerController extends StateMachineAI {
 	/** The GameNode that owns this PlayerController AI */
 	protected owner: PlayerActor;
 	protected weapons: WeaponsManager<PlayerWeapon>
+	protected weaponCooldown:Timer
 
 	public get currentSpeed(): number {return this.owner.currentSpeed;}
 	public set currentSpeed(value: number) {this.owner.currentSpeed = value;}
+	public get canShoot():boolean {return !this.weaponCooldown.isActive()}
 
 	/**
 	 * This method initializes all variables inside of this AI class.
@@ -59,6 +62,7 @@ export default class PlayerController extends StateMachineAI {
 	 */
 	public initializeAI(owner: PlayerActor, options: Record<string,any>): void {
 		this.owner = owner;
+		this.weaponCooldown = new Timer(1000, ()=>{})
 
 		this.weapons = new WeaponsManager<PlayerWeapon>()
 		this.weapons.add(WeaponTypes.BASIC_BEAM, new BasicBeam(this.owner, this))
@@ -237,11 +241,13 @@ export default class PlayerController extends StateMachineAI {
 	}
 
 	protected handleShoot():void {
+		if(!this.canShoot){return}
 		this.owner.playSoundFX(PlayerAudios.ATTACK)
 		this.emitter.fireEvent(Events.PLAYER_SHOOTS, {
 			projectiles: 
 			this.weapons.getProjectiles()
 		});
+		this.weaponCooldown.start()
 	}
 
 	protected handleNuke():void {
