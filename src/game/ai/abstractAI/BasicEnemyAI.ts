@@ -1,3 +1,4 @@
+import { CollisionDetectionFilter } from "../../../Wolfie2D/Events/BasicReceiverFilters";
 import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 import { enemyStates } from "../../../constants/enemies/enemyAnimations";
 import { Events } from "../../../constants/events";
@@ -173,8 +174,8 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
     }
 
     protected initReceiver():void{
-        this.receiver.subscribe(Events.PLAYER_ENEMY_COLLISION);
-        this.receiver.subscribe(Events.WEAPON_ENEMY_COLLISION);
+        this.receiver.subscribe(Events.PLAYER_ENEMY_COLLISION, [CollisionDetectionFilter(this.owner.id)]);
+        this.receiver.subscribe(Events.WEAPON_ENEMY_COLLISION, [CollisionDetectionFilter(this.owner.id)]);
         this.receiver.subscribe(Events.NUKE)
     }
 }

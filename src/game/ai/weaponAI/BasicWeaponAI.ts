@@ -1,4 +1,5 @@
 import Vec2 from "../../../Wolfie2D/DataTypes/Vec2";
+import { CollisionDetectionFilter } from "../../../Wolfie2D/Events/BasicReceiverFilters";
 import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 import GameNode from "../../../Wolfie2D/Nodes/GameNode";
 import { enemyStates } from "../../../constants/enemies/enemyAnimations";
@@ -25,8 +26,8 @@ export default class BasicWeaponAI extends ComplexPatternAI{
         this.activate(options);
         this.ignoreStates = true;
 
-        this.receiver.subscribe(Events.WEAPON_ENEMY_COLLISION)
-        this.receiver.subscribe(Events.WEAPON_PLAYER_COLLISION)
+        this.receiver.subscribe(Events.WEAPON_ENEMY_COLLISION, [CollisionDetectionFilter(this.owner.id)])
+        this.receiver.subscribe(Events.WEAPON_PLAYER_COLLISION, [CollisionDetectionFilter(this.owner.id)])
     }
 
     public activate(options: Record<string, any>): void {
