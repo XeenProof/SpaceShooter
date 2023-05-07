@@ -237,10 +237,10 @@ export default class PlayerController extends StateMachineAI {
 	}
 
 	protected handleShoot():void {
-		this.owner.playSoundFX(PlayerAudios.ATTACK)
+		let projectiles:Record<string, any>[] = this.weapons.getProjectiles()
+		if(projectiles.length > 0){this.owner.playSoundFX(PlayerAudios.ATTACK)}
 		this.emitter.fireEvent(Events.PLAYER_SHOOTS, {
-			projectiles: 
-			this.weapons.getProjectiles()
+			projectiles: projectiles
 		});
 	}
 

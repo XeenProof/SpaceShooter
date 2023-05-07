@@ -1,4 +1,5 @@
 import Vec2 from "../../../Wolfie2D/DataTypes/Vec2";
+import Timer from "../../../Wolfie2D/Timing/Timer";
 import { GAMEPLAY_DIMENTIONS } from "../../../constants/dimenstions";
 import { cheats } from "../../../constants/gameoptions";
 import { PlayerProjectileKeys } from "../../../constants/projectiles/projectileData";
@@ -13,21 +14,32 @@ export default abstract class PlayerWeapon extends Weapon{
     protected parent: PlayerController
     protected levelRequirement: number
     protected upperRequirement: number
+    protected cooldownTimer:Timer
+
+    protected get cooldown():number{return 100}
 
     constructor(owner: PlayerActor, parent: PlayerController, level: number = 0, upperlevel: number = Infinity){
         super(owner, parent)
         this.levelRequirement = level
         this.upperRequirement = upperlevel
+        if(this.cooldown > 0){this.cooldownTimer = new Timer(this.cooldown)}
+        console.log("cooldown:", this.cooldown)
     }
 
-    public get cheatCodeActivated():boolean{
-        return CheatCodes.getCheat(cheats.UNLOCK_ALL_WEAPONS)
+    public get listToFire(): Record<string, any>[] {
+        let list = super.listToFire
+        if(list.length > 0 && this.cooldownTimer){this.cooldownTimer.start()}
+        return list
     }
+
+    public get cheatCodeActivated():boolean{return CheatCodes.getCheat(cheats.UNLOCK_ALL_WEAPONS)}
+
+    public get onCooldown():boolean{return (this.cooldownTimer)?this.cooldownTimer.isActive():false}
 
     public get activated():boolean{
-        return (this.owner.attackUpgradeLevel >= this.levelRequirement && 
+        return (!this.onCooldown) && ((this.owner.attackUpgradeLevel >= this.levelRequirement && 
             this.owner.attackUpgradeLevel <= this.upperRequirement) ||
-            this.cheatCodeActivated
+            this.cheatCodeActivated)
     }
 }
 
@@ -85,6 +97,7 @@ export class TargetedBeam extends PlayerWeapon{
 }
 
 export class QuadHomingBeam extends PlayerWeapon{
+    protected get cooldown(): number {return 500}
     private list:Vec2[] = [new Vec2(-100,200), new Vec2(-200,100), new Vec2(100,200), new Vec2(200,100)]
     private get defaultValues(): Record<string, any>{
         return {
@@ -108,6 +121,7 @@ export class QuadHomingBeam extends PlayerWeapon{
 }
 
 export class MiniBarrage extends PlayerWeapon{
+    protected get cooldown(): number {return 500}
     private screenwidthend = GAMEPLAY_DIMENTIONS.XEND
     private screenwidthstart = GAMEPLAY_DIMENTIONS.XSTART
     private get screenwidth():number {return this.screenwidthend-this.screenwidthstart}
@@ -151,6 +165,7 @@ export class MiniBarrage extends PlayerWeapon{
 }
 
 export class HomingBarrage extends PlayerWeapon{
+    protected get cooldown(): number {return 1000}
     private screenwidthend = GAMEPLAY_DIMENTIONS.XEND
     private screenwidthstart = GAMEPLAY_DIMENTIONS.XSTART
     private get screenwidth():number {return this.screenwidthend-this.screenwidthstart}
