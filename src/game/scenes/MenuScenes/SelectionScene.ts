@@ -51,7 +51,7 @@ export default class SelectionScence extends Scene {
     private levels:LevelSelect<ScriptScene>[]
     private musicPlaying:boolean
 
-    public override initScene(init: Record<string, any>): void {
+    public override initScene(init: Record<string, any> = {}): void {
         this.musicPlaying = (init.musicPlaying)?init.musicPlaying:false
     }
 
@@ -146,7 +146,7 @@ export default class SelectionScence extends Scene {
 
     private createScriptButton(text:Label, image:AnimatedSprite, button:Button, script:Record<string, any>):LevelSelect<ScriptScene>{
         if(!this.levels){this.levels = []}
-        let newLevel = new ScriptedLevel(text, image, button, script, this.sceneManager)
+        let newLevel = new ScriptedLevel(text, image, button, script, this.sceneManager, this.emitter)
         this.levels.push(newLevel)
         return newLevel
     }

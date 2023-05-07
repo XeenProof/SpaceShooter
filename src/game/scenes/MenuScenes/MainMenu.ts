@@ -61,7 +61,7 @@ export default class MainMenu extends Scene {
 
     private musicPlaying:boolean
 
-    public override initScene(init: Record<string, any>): void {
+    public override initScene(init: Record<string, any> = {}): void {
         console.log("init called")
         this.musicPlaying = (init.musicPlaying)?init.musicPlaying:false
     }
