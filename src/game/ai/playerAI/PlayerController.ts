@@ -276,6 +276,7 @@ export default class PlayerController extends StateMachineAI {
 
 	public handleDeath():void{
 		this.receiver.deactivate()
+		this.owner.dying()
 	}
 
     public pause():void{

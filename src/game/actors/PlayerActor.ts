@@ -154,6 +154,11 @@ export default class PlayerActor extends HPActor{
         return super.takeDamage(CheatCodes.getCheat(cheats.INVINSIBLE)?0:damage)
     }
 
+    dying(): void {
+        this.shield.visible = false
+        this.booster.visible = false
+    }
+
     public activateShield(){
         this.shield.visible = true;
         this.shieldTimer.reset();
