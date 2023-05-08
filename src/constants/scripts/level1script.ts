@@ -44,8 +44,6 @@ export const level1 = {
             {DATA: AllProjectileData.TARGETED_BEAM, AMMOUNT: 20},
 
             {DATA: AllEnemyData.COMMON_MOOK, AMMOUNT: 20},
-            {DATA: AllEnemyData.TARGETED_MOOK, AMMOUNT: 20},
-            {DATA: AllEnemyData.SHIELDED_MOOK, AMMOUNT: 20},
             {DATA: AllEnemyData.HOARDER, AMMOUNT: 20},
 
             {DATA: AllEnemyData.MEGAMOOK, AMMOUND: 1},
