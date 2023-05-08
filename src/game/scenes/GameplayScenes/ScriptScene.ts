@@ -160,10 +160,11 @@ export default class ScriptScene extends LevelScene{
     }
 
     protected HandleWave(options: Record<string, any>){
-        let {wavenum, mods} = options
+        let {wavenum, mods, reward} = options
         this.wavenum = wavenum;
         this.statMods = {...this.statMods, ...mods}
-        console.log(wavenum)
+        if(!reward || reward <= 0){return;}
+        this.emitter.fireEvent(Events.SCRAP_REWARD, {amount:reward})
     }
 
     protected stopWaiting(){

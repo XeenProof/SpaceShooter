@@ -1,3 +1,4 @@
+import { CollisionDetectionFilter } from "../../../Wolfie2D/Events/BasicReceiverFilters";
 import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 import { enemyStates } from "../../../constants/enemies/enemyAnimations";
 import { Events } from "../../../constants/events";
@@ -44,7 +45,6 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
         this.owner.healthBar.visible = this.owner.visible
         this.owner.animation.playIfNotAlready(animations.IDLE, true)
         this.owner.canDespawn = false;
-        this.owner.enablePhysics()
         this.target = this.owner.getScene().player
         this.rushed = false
         this.wait = false
@@ -64,6 +64,8 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
         let pointsMulti = options.mods?options.mods.points_multi:1
         let points = initPoints*pointsMulti
         this.owner.points = points
+        
+        this.owner.enablePhysics()
     }
 
 
@@ -172,8 +174,8 @@ export default abstract class BasicEnemyAI extends ComplexPatternAI{
     }
 
     protected initReceiver():void{
-        this.receiver.subscribe(Events.PLAYER_ENEMY_COLLISION);
-        this.receiver.subscribe(Events.WEAPON_ENEMY_COLLISION);
+        this.receiver.subscribe(Events.PLAYER_ENEMY_COLLISION, [CollisionDetectionFilter(this.owner.id)]);
+        this.receiver.subscribe(Events.WEAPON_ENEMY_COLLISION, [CollisionDetectionFilter(this.owner.id)]);
         this.receiver.subscribe(Events.NUKE)
     }
 }

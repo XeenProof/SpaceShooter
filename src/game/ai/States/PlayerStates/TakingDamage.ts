@@ -1,9 +1,11 @@
+import { PlayerAudios } from "../../playerAI/PlayerController";
 import PlayerState, { PlayerAnimations, playerstates } from "./PlayerState";
 
 
 export default class TakingDamage extends PlayerState{
     private countdown:number
     public onEnter(options: Record<string, any>): void {
+        this.owner.playSoundFX(PlayerAudios.DAMAGED)
         this.owner.animation.playIfNotAlready(PlayerAnimations.TAKING_DAMAGE)
         this.owner.animation.queue(PlayerAnimations.IDLE)
         this.countdown = 2

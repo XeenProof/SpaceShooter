@@ -7,7 +7,7 @@ import Homework1_Scene from "../GameplayScenes/LevelScene";
 import SelectionScene from "./SelectionScene";
 import Label from "../../../Wolfie2D/Nodes/UIElements/Label";
 import GameEvent from "../../../Wolfie2D/Events/GameEvent";
-import { LoadData, LoadType, LoadBackground, LoadPlayer, LoadEnemy, LoadProjectiles,LoadWelcome,LoadMainmenu,LoadAPPLE } from "../../../constants/load";
+import { LoadData, LoadType, LoadBackground, LoadPlayer, LoadEnemy, LoadProjectiles,LoadWelcome,LoadMainmenu,LoadAPPLE, LoadMusic } from "../../../constants/load";
 import Sprite from "../../../Wolfie2D/Nodes/Sprites/Sprite";
 import RandUtils from "../../../Wolfie2D/Utils/RandUtils";
 import { GameEventType } from "../../../Wolfie2D/Events/GameEventType";
@@ -45,6 +45,7 @@ const MainMenuEvent = {
 } as const;
 
 export default class MainMenu extends Scene {
+    private static readonly BGMUSIC:LoadData = LoadMusic.SCENE_MUSIC
     // Layers, for multiple main menu screens
     private mainMenu: Layer;
     private mainMenu_background: Layer;
@@ -58,6 +59,12 @@ export default class MainMenu extends Scene {
 	protected bg1: Sprite;
 	protected bg2: Sprite;
 
+    private musicPlaying:boolean
+
+    public override initScene(init: Record<string, any> = {}): void {
+        this.musicPlaying = (init.musicPlaying)?init.musicPlaying:false
+    }
+
     private checkboxes:Checkbox[]
     private generateCheckbox(button: Button, text:Label, cheat:string, options:Record<string, any>={}):CheatsCheckBox{
         if(!this.checkboxes){this.checkboxes = []}
@@ -69,9 +76,12 @@ export default class MainMenu extends Scene {
     public override loadScene(){
         // this.autoloader(LoadAPPLE.APPLE);
         this.loadBackground(LoadMainmenu.MAINMENU);
+        this.load.audio(LoadMusic.SCENE_MUSIC.KEY, LoadMusic.SCENE_MUSIC.PATH)
     }
     
     public override startScene(){
+        if(!this.musicPlaying){this.emitter.fireEvent(GameEventType.PLAY_MUSIC, {key:LoadMusic.SCENE_MUSIC.KEY, loop:true, holdReference:true})}
+
         const center = this.viewport.getCenter();
         const hoverBackground = new Color(255,255,255,0.25)
 
@@ -314,12 +324,13 @@ export default class MainMenu extends Scene {
 
     public unloadScene(): void {
         this.load.keepImage(LoadMainmenu.MAINMENU.KEY)
+        this.load.keepAudio(LoadMusic.SCENE_MUSIC.KEY)
     }
 
     protected handleEvent(event: GameEvent): void {
         switch(event.type) {
             case MainMenuEvent.PLAY_GAME: {
-                this.sceneManager.changeToScene(SelectionScene);
+                this.sceneManager.changeToScene(SelectionScene, {musicPlaying:true});
                 break;
             }
             case MainMenuEvent.CONTROLS: {

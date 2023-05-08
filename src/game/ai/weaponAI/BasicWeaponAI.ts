@@ -1,4 +1,5 @@
 import Vec2 from "../../../Wolfie2D/DataTypes/Vec2";
+import { CollisionDetectionFilter } from "../../../Wolfie2D/Events/BasicReceiverFilters";
 import GameEvent from "../../../Wolfie2D/Events/GameEvent";
 import GameNode from "../../../Wolfie2D/Nodes/GameNode";
 import { enemyStates } from "../../../constants/enemies/enemyAnimations";
@@ -24,23 +25,25 @@ export default class BasicWeaponAI extends ComplexPatternAI{
         this.addState(enemyStates.IDLE, new Attack(this.owner, this))
         this.activate(options);
         this.ignoreStates = true;
+        this.initialize(enemyStates.IDLE)
 
-        this.receiver.subscribe(Events.WEAPON_ENEMY_COLLISION)
-        this.receiver.subscribe(Events.WEAPON_PLAYER_COLLISION)
+        this.receiver.subscribe(Events.WEAPON_ENEMY_COLLISION, [CollisionDetectionFilter(this.owner.id)])
+        this.receiver.subscribe(Events.WEAPON_PLAYER_COLLISION, [CollisionDetectionFilter(this.owner.id)])
     }
 
     public activate(options: Record<string, any>): void {
         super.activate(options)
+        this.owner.animation.play("ATTACK")
         this.nextDir = (options.dir)?options.dir:Vec2.UP
         this.nextSpeed = (options.speed)?options.speed:500
-        this.initialize(enemyStates.IDLE)
         this.owner.rotation = this.rotation
-        this.owner.enablePhysics()
         this.receiver.ignoreEvents();
         this.receiver.activate()
+        this.owner.enablePhysics()
     }
 
     public update(deltaT: number): void {
+        // console.log("Basic Weapon Update Start")
         if(!this.owner.visible){
             return;
         }
@@ -51,7 +54,9 @@ export default class BasicWeaponAI extends ComplexPatternAI{
         while(this.receiver.hasNextEvent()){
             this.handleEvent(this.receiver.getNextEvent());
         }
+        // console.log("Basic Weapon Update: Before Super")
         super.update(deltaT)
+        // console.log("Basic Weapon Update End")
     }
 
     protected updateData(): void {

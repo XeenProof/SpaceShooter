@@ -46,7 +46,6 @@ export const level1 = {
             {DATA: AllEnemyData.COMMON_MOOK, AMMOUNT: 20},
             {DATA: AllEnemyData.HOARDER, AMMOUNT: 20},
 
-            {DATA: AllEnemyData.MEGAMOOK, AMMOUND: 1},
             {DATA: AllEnemyData.LEVEL1MOOK, AMMOUND: 1},
 
             {DATA: AllItemData.SCRAP, AMMOUNT: 20},

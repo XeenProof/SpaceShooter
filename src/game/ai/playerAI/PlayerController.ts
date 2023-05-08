@@ -35,7 +35,8 @@ const WeaponTypes = {
 export const PlayerAudios = {
 	ATTACK: 0,
 	DAMAGED: 1,
-	DEAD: 2
+	DEAD: 2,
+	PICKUP: 3
 } as const
 
 /**
@@ -78,13 +79,11 @@ export default class PlayerController extends StateMachineAI {
 		this.receiver.subscribe(Events.PLAYER_ENEMY_COLLISION)
 		this.receiver.subscribe(Events.WEAPON_PLAYER_COLLISION)
 		this.receiver.subscribe(Events.PLAYER_SCRAP_COLLISION)
-
 		this.receiver.subscribe(Events.ENEMY_DIED)
-
 		this.receiver.subscribe(Events.HEALTH)
 		this.receiver.subscribe(Events.UPGRADE_HEALTH)
 		this.receiver.subscribe(Events.UPGRADE_WEAPON)
-
+		this.receiver.subscribe(Events.SCRAP_REWARD)
 		this.receiver.subscribe(Events.PAUSE)
 
 		this.activate(options);
@@ -156,6 +155,10 @@ export default class PlayerController extends StateMachineAI {
 			}
 			case Events.PLAYER_SCRAP_COLLISION:{
 				this.handleScrapPickup()
+				break;
+			}
+			case Events.SCRAP_REWARD:{
+				this.handleScrapReward(event.data.get("amount"))
 				break;
 			}
 			case Events.HEALTH:{
@@ -266,7 +269,13 @@ export default class PlayerController extends StateMachineAI {
 	protected handleScrapPickup():void{
 		let collected = this.owner.getScene().collectScrap
 		this.owner.collectedScrap(collected)
-		console.log(this.owner.scrap)
+		this.owner.playSoundFX(PlayerAudios.PICKUP)
+	}
+
+	protected handleScrapReward(amount: number):void{
+		this.owner.collectedScrap(amount)
+		if(amount > 0){this.owner.playSoundFX(PlayerAudios.PICKUP)}
+		console.log("Collected Reward: ", amount)
 	}
 
 	public handlePause(pausing: boolean):void{
@@ -276,6 +285,7 @@ export default class PlayerController extends StateMachineAI {
 
 	public handleDeath():void{
 		this.receiver.deactivate()
+		this.owner.dying()
 	}
 
     public pause():void{

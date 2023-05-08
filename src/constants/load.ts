@@ -51,6 +51,7 @@ const Loads = {
     
     /**Loading Music down here */
     SPACE_MUSIC: {KEY: "SPACE_MUSIC", TYPE:LoadType.AUDIO, PATH: "assets/music/spaceMusic.mp3"},
+    SCENE_MUSIC: {KEY: "SCENE_MUSIC", TYPE:LoadType.AUDIO,  PATH: "assets/music/sceneMusic.mp3"},
 
     /**Loading Sound FX here */
     PLAYER_ATTACK: {KEY: "PLAYER_ATTACK", TYPE:LoadType.AUDIO, PATH: "assets/audio/Player_Attack.mp3"},
@@ -58,6 +59,8 @@ const Loads = {
     ENEMY_ATTACK: {KEY: "ENEMY_ATTACK", TYPE:LoadType.AUDIO, PATH: "assets/audio/Enemy_Attack.mp3"},
     ENEMY_TAKINGDAMAGE: {KEY: "ENEMY_TAKINGDAMAGE", TYPE:LoadType.AUDIO, PATH: "assets/audio/Enemy_TakingDamage.mp3"},
     ENEMY_DEAD: {KEY: "ENEMY_DEAD", TYPE:LoadType.AUDIO, PATH: "assets/audio/Enemy_Dead.mp3"},
+    PICK_ITEM: {KEY: "PICK_ITEM", TYPE:LoadType.AUDIO, PATH: "assets/audio/Pickup_Item.mp3"},
+    PLAYER_TAKINGDAMAGE: {KEY: "PLAYER_TAKINGDAMAGE", TYPE:LoadType.AUDIO, PATH: "assets/audio/Player_TakingDamage.mp3"}
 }
 
 export const LoadBackground = {
@@ -120,13 +123,15 @@ export const LoadEnemyProjectile = {
 }
 
 export const LoadMusic = {
-    SPACE_MUSIC: {...Loads.SPACE_MUSIC}
+    SPACE_MUSIC: {...Loads.SPACE_MUSIC},
+    SCENE_MUSIC: {...Loads.SCENE_MUSIC}
 }
 
 export const LoadAudio = {
     PLAYER_ATTACK: {...Loads.PLAYER_ATTACK},
-    PLAYER_TAKINGDAMAGE: {...Loads.ENEMY_TAKINGDAMAGE},
+    PLAYER_TAKINGDAMAGE: {...Loads.PLAYER_TAKINGDAMAGE},
     PLAYER_DEAD: {...Loads.PLAYER_DEAD},
+    PICK_ITEM: {...Loads.PICK_ITEM},
     ENEMY_ATTACK: {...Loads.ENEMY_ATTACK},
     ENEMY_TAKINGDAMAGE: {...Loads.ENEMY_TAKINGDAMAGE},
     ENEMY_DEAD: {...Loads.ENEMY_DEAD},

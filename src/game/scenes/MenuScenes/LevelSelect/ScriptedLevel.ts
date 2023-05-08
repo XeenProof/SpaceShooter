@@ -1,4 +1,6 @@
 import Vec2 from "../../../../Wolfie2D/DataTypes/Vec2";
+import Emitter from "../../../../Wolfie2D/Events/Emitter";
+import { GameEventType } from "../../../../Wolfie2D/Events/GameEventType";
 import AnimatedSprite from "../../../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import Sprite from "../../../../Wolfie2D/Nodes/Sprites/Sprite";
 import Button from "../../../../Wolfie2D/Nodes/UIElements/Button";
@@ -6,6 +8,7 @@ import Label from "../../../../Wolfie2D/Nodes/UIElements/Label";
 import SceneManager from "../../../../Wolfie2D/Scene/SceneManager";
 import Color from "../../../../Wolfie2D/Utils/Color";
 import { cheats } from "../../../../constants/gameoptions";
+import { LoadMusic } from "../../../../constants/load";
 import LevelSelect from "../../../../utils/SelectionUtils/Level";
 import CheatCodes from "../../../../utils/Singletons/CheatCodes";
 import ProgressTracker from "../../../../utils/Singletons/ProgressTracker";
@@ -25,11 +28,12 @@ export default class ScriptedLevel extends LevelSelect<ScriptScene>{
     private unlockConditions:string[]
     private scale:Vec2
     private key:string
+    private emitter:Emitter
     
     protected get cleared():boolean{return ProgressTracker.getBool(this.key)}
     protected get animation():string{return (this.cleared)?animations.CLEARED:animations.DEFAULT}
 
-    constructor(text:Label, image:AnimatedSprite, button:Button, script:Record<string, any>, manager:SceneManager){
+    constructor(text:Label, image:AnimatedSprite, button:Button, script:Record<string, any>, manager:SceneManager, emitter:Emitter){
         super(manager, ScriptScene, {levelData: script})
         this.text = text
         this.defaultText = text.text
@@ -41,6 +45,7 @@ export default class ScriptedLevel extends LevelSelect<ScriptScene>{
         this.sceneManager = manager
         this.initDefaults()
         this.scale = image.scale.clone()
+        this.emitter = emitter
     }
 
     get unlocked(): boolean {
@@ -91,7 +96,10 @@ export default class ScriptedLevel extends LevelSelect<ScriptScene>{
         this.image.animation.pause()
     }
 
-    onClick():void {this.sceneManager.changeToScene(this.scene, this.options)}
+    onClick():void {
+        this.emitter.fireEvent(GameEventType.STOP_SOUND, {key:LoadMusic.SCENE_MUSIC.KEY})
+        this.sceneManager.changeToScene(this.scene, this.options)
+    }
     onEnter():void{
         this.text.textColor = Color.fromStringHex("#66FFFF")
         this.image.scale.set(this.scale.x*1.4, this.scale.y*1.4)
