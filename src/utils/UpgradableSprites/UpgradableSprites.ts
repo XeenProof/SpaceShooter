@@ -34,6 +34,7 @@ export default class UpgradableSprites{
         if(!this.visible){this.animations.stop()}
         let key = `${clamped}`
         this.animations.playIfNotAlready(key, true)
+        console.log("update sprite", key)
     }
 
     public updatePosition():void{

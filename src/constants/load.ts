@@ -20,6 +20,7 @@ const Loads = {
     FLAME: {KEY: "FLAME", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/flame/flame.json", SCALE: {X:1, Y:1}},
     SHIELD: {KEY: "SHIELD", TYPE: LoadType.IMAGE, PATH: "assets/sprites/purple_shield.png", SCALE:{X:1, Y:1}},
     UPGRADE: {KEY: "UPGRADE", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Test/Test.json", SCALE:{X:1, Y:1}},
+    UPGRADE2: {KEY: "UPGRADE2", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Test/Test.json", SCALE:{X:1, Y:1}},
     
     
     ENEMY_1: {KEY: "ENEMY_1", TYPE: LoadType.SPRITESHEET, PATH: "assets/spritesheets/Enemy_First/Enemy_First.json", SCALE:{X:1, Y:1}},
@@ -88,7 +89,8 @@ export const LoadPlayer = {
     PLAYER: {...Loads.PLANE, SCALE:{X:1.5, Y:1.5}},
     FLAMES: {...Loads.FLAME, SCALE:{X:1.5, Y:1.5}},
     SHIELD: {...Loads.SHIELD, SCALE:{X:1.5, Y:1.5}},
-    UPGRADE: {...Loads.UPGRADE, SCALE:{X:1.5, Y:1.5}}
+    UPGRADE: {...Loads.UPGRADE, SCALE:{X:1.5, Y:1.5}},
+    UPGRADE2: {...Loads.UPGRADE2, SCALE:{X:1.25, Y:1.25}}
 } as const
 
 export const LoadEnemy = {

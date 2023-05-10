@@ -46,7 +46,11 @@ export function initPlayerFunc(add: FactoryManager, scene: ActorScene, info:Reco
     player.healthVisual = healthUpgradeHandler
 
     let attackUpgrade = new UpgradableStat()
+    let attackUpgradeSprites = add.animatedSprite(AnimatedSprite, UPGRADES[1].KEY, Layers.PRIMARY)
+    attackUpgradeSprites.scale.set(UPGRADES[1].SCALE.X, UPGRADES[1].SCALE.Y)
+    let attackUpgradeHandler = new UpgradableSprites(player, attackUpgradeSprites)
     player.attackUpgrade = attackUpgrade
+    player.damageVisual = attackUpgradeHandler
 
     player.addAI(PlayerController, {stats: info.STATS});
 
