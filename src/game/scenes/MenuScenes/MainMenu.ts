@@ -283,6 +283,7 @@ export default class MainMenu extends Scene {
         this.receiver.subscribe(MainMenuEvent.HELP);
         this.receiver.subscribe(MainMenuEvent.MENU);
         this.receiver.subscribe(MainMenuEvent.CLEAR_LOCAL_STORAGE);
+        this.receiver.subscribe(MainMenuEvent.CLEAR_CHEATS_STORAGE)
     }
 
     public override updateScene(){
