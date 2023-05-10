@@ -225,4 +225,7 @@ export default class AnimationManager {
     stop(): void {
         this.animationState = AnimationState.STOPPED;
     }
+
+    /**Get existing animations*/
+    get keys():string[]{return this.animations.keys()}
 }
