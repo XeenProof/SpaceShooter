@@ -125,6 +125,7 @@ export default class PlayerController extends StateMachineAI {
 	 */
 	public update(deltaT: number): void {
         // First, handle all events 
+		if(this.isDead){return}
 		while(this.receiver.hasNextEvent()){
 			this.handleEvent(this.receiver.getNextEvent());
 		}
@@ -230,6 +231,7 @@ export default class PlayerController extends StateMachineAI {
 	}
 
 	protected handlePauseClick(){
+
 		if(Input.isJustPressed(Controls.PAUSE)){
 			this.emitter.fireEvent(Events.PAUSE,
 			{pausing: !this.owner.getScene().isPaused})
@@ -295,6 +297,10 @@ export default class PlayerController extends StateMachineAI {
     public resume():void{
 		this.owner.unfreeze()
 		this.owner.resume()
+	}
+
+	public get isDead():boolean{
+		return this.isState(playerstates.DYING)
 	}
 } 
 

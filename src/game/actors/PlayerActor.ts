@@ -166,6 +166,8 @@ export default class PlayerActor extends HPActor{
     dying(): void {
         this.shield.visible = false
         this.booster.visible = false
+        if(this.healthVisual){this.healthVisual.visible = false}
+        if(this.damageVisual){this.damageVisual.visible = false}
     }
 
     public activateShield(){
