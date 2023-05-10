@@ -6,13 +6,14 @@ import { Layers } from "../../constants/layers";
 import { PhysicGroups } from "../../constants/physics";
 import RechargableStat from "../../utils/HUD/RechargableStat";
 import UpgradableStat from "../../utils/HUD/UpgradableStat";
+import UpgradableSprites from "../../utils/UpgradableSprites/UpgradableSprites";
 import PlayerActor from "../actors/PlayerActor";
 import PlayerController from "../ai/playerAI/PlayerController";
 import ActorScene from "../scenes/GameplayScenes/ActorScene";
 
 
 export function initPlayerFunc(add: FactoryManager, scene: ActorScene, info:Record<string, any>):PlayerActor{
-    let {SHIP, FLAMES, SHIELD, AUDIO} = info.LOAD
+    let {SHIP, FLAMES, SHIELD, AUDIO, UPGRADES} = info.LOAD
     let audiokeys = AUDIO.map((x)=>{return x.KEY})
     let player = add.animatedSprite(PlayerActor, SHIP.KEY, Layers.PRIMARY);
     player.setScene(scene)
@@ -38,7 +39,11 @@ export function initPlayerFunc(add: FactoryManager, scene: ActorScene, info:Reco
     player.shieldCharge = shieldCharge
 
     let healthUpgrade = new UpgradableStat()
+    let healthUpgradeSprites = add.animatedSprite(AnimatedSprite, UPGRADES[0].KEY, Layers.PRIMARY)
+    healthUpgradeSprites.scale.set(UPGRADES[0].SCALE.X, UPGRADES[0].SCALE.Y)
+    let healthUpgradeHandler = new UpgradableSprites(player, healthUpgradeSprites)
     player.healthUpgrade = healthUpgrade
+    player.healthVisual = healthUpgradeHandler
 
     let attackUpgrade = new UpgradableStat()
     player.attackUpgrade = attackUpgrade

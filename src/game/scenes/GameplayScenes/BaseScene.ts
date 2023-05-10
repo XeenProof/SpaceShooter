@@ -201,7 +201,6 @@ export default class BaseScene extends ActorScene{
 	 * @see GameEvent
 	 */
 	protected handleEvent(event: GameEvent){
-		console.log("Scene:", event)
 		switch(event.type){
 			case Events.PAUSE:{
 				console.log(event.type, event.data)

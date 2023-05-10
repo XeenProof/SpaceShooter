@@ -7,6 +7,7 @@ import { cheats } from "../../constants/gameoptions";
 import RechargableStat from "../../utils/HUD/RechargableStat";
 import UpgradableStat from "../../utils/HUD/UpgradableStat";
 import CheatCodes from "../../utils/Singletons/CheatCodes";
+import UpgradableSprites from "../../utils/UpgradableSprites/UpgradableSprites";
 import HPActor from "./abstractActors/HPActor";
 
 const booster_animations = {
@@ -92,10 +93,13 @@ export default class PlayerActor extends HPActor{
     /**Health Upgrade and all it's related stuff */
     private _basehealth: number;
     private _healthUpgrade: UpgradableStat;
+    private _healthVisual: UpgradableSprites;
     public get basehealth(): number {return this._basehealth;}
     public set basehealth(value: number) {this._basehealth = value;}
     public get healthUpgrade(): UpgradableStat {return this._healthUpgrade;}
     public set healthUpgrade(value: UpgradableStat) {this._healthUpgrade = value;}
+    public get healthVisual(): UpgradableSprites {return this._healthVisual;}
+    public set healthVisual(value: UpgradableSprites) {this._healthVisual = value;}
     public get healthUpgradeLevel(): number {return this.healthUpgrade.level}
     public get healthUpgradeCost():number {return this.healthUpgrade.cost}
     public get canUpgradeHealth():boolean {return this.canAfford(this.healthUpgradeCost)}
@@ -103,6 +107,7 @@ export default class PlayerActor extends HPActor{
         if(this.canUpgradeHealth || ignoreCost){
             this.useScrap((ignoreCost)?0:this.healthUpgradeCost)
             this.healthUpgrade.upgrade(value)
+            if(this.healthVisual){this.healthVisual.updateSprite(this.healthUpgradeLevel)}
             let currentMax = (this.healthUpgradeLevel*10)+this.basehealth
             let prevMax = this.maxHealth
             let difference = currentMax - prevMax
@@ -114,10 +119,13 @@ export default class PlayerActor extends HPActor{
     /**Attack Upgrade and all it's related stuff */
     private _damageMulti: number = 1;
     private _attackUpgrade: UpgradableStat;
+    private _damageVisual: UpgradableSprites;
     public get damageMulti(): number {return this._damageMulti;}
     public set damageMulti(value: number) {this._damageMulti = value;}
     public get attackUpgrade(): UpgradableStat {return this._attackUpgrade;}
     public set attackUpgrade(value: UpgradableStat) {this._attackUpgrade = value;}
+    public get damageVisual(): UpgradableSprites {return this._damageVisual;}
+    public set damageVisual(value: UpgradableSprites) {this._damageVisual = value;}
     public get attackUpgradeLevel(): number {return this.attackUpgrade.level}
     public get attackUpgradeCost():number {return this.attackUpgrade.cost}
     public get canUpgradeAttack():boolean {return this.canAfford(this.attackUpgradeCost) || CheatCodes.getCheat(cheats.INFINITE_SCRAP)}
@@ -125,6 +133,7 @@ export default class PlayerActor extends HPActor{
         if(this.canUpgradeAttack || ignoreCost){
             this.useScrap((ignoreCost)?0:this.attackUpgradeCost)
             this.attackUpgrade.upgrade(value)
+            if(this.damageVisual){this.damageVisual.updateSprite(this.attackUpgradeLevel)}
             this.damageMulti = (this.attackUpgradeLevel*0.5)+1
         }
     }
@@ -185,17 +194,23 @@ export default class PlayerActor extends HPActor{
         super.finishMove()
         this.booster.position.copy(this.position)
         if(this.shield.visible){this.shield.position.copy(this.position)}
+        if(this.healthVisual && this.healthVisual.visible){this.healthVisual.updatePosition()}
+        if(this.damageVisual && this.damageVisual.visible){this.damageVisual.updatePosition()}
     }
 
     public pause():void{
         this.TimerPause()
         this.animation.pause()
         this.booster.animation.pause()
+        if(this.healthVisual){this.healthVisual.pause()}
+        if(this.damageVisual){this.damageVisual.pause()}
     }
     public resume():void{
         this.TimerResume()
         this.animation.resume()
         this.booster.animation.resume()
+        if(this.healthVisual){this.healthVisual.resume()}
+        if(this.damageVisual){this.damageVisual.resume()}
     }
 
     public TimerPause():void{

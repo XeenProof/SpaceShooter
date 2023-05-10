@@ -15,7 +15,8 @@ export const AllPlayerData = {
             SHIP: LoadPlayer.PLAYER,
             SHIELD: LoadPlayer.SHIELD,
             FLAMES: LoadPlayer.FLAMES,
-            AUDIO: [LoadAudio.PLAYER_ATTACK, LoadAudio.PLAYER_TAKINGDAMAGE, LoadAudio.PLAYER_DEAD, LoadAudio.PICK_ITEM]
+            AUDIO: [LoadAudio.PLAYER_ATTACK, LoadAudio.PLAYER_TAKINGDAMAGE, LoadAudio.PLAYER_DEAD, LoadAudio.PICK_ITEM],
+            UPGRADES: [LoadPlayer.UPGRADE]
         },
         PHYSICS: PhysicGroups.PLAYER
     }
