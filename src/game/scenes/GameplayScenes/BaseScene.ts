@@ -357,11 +357,11 @@ export default class BaseScene extends ActorScene{
 		/**GAMEPLAY RELATED */
 		this.addLayer(Layers.BACKGROUND, 0);
 		this.addLayer(Layers.PRIMARY, 5);
-		this.addLayer(Layers.HEALTHBARS, 6);
-		this.addLayer(Layers.EXTRABARS, 7);
-		this.addLayer(Layers.INFORMATION_BACKGROUND, 8);
-		this.addLayer(Layers.STATES, 9);
-		this.addLayer(Layers.GAMEEND, 10);
+		this.addLayer(Layers.HEALTHBARS, 7);
+		this.addLayer(Layers.EXTRABARS, 8);
+		this.addLayer(Layers.INFORMATION_BACKGROUND, 9);
+		this.addLayer(Layers.STATES, 10);
+		this.addLayer(Layers.GAMEEND, 11);
 		this.addUILayer(Layers.UI);
 		/**PAUSE SCREEN RELATED*/
 		this.addLayer(Layers.PAUSE_BACKGROUND, 99);
