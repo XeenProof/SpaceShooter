@@ -15,7 +15,9 @@ export default class UpgradableSprites{
         this.sprite = sprite
         this.levels = sprite.animation.keys.map((x)=>{return +x}).sort((a,b)=> {return a-b})
         if(this.levels[0] < 0){console.error("Indexes can't be less than 0")}
-        this.sprite.position.copy(this.owner.position)
+        this.sprite.position.set(this.owner.position.x, this.owner.position.y+6)
+        console.log(this.sprite.position.x, this.sprite.position.y)
+        console.log(this.owner.position.x, this.owner.position.y)
         this.updateSprite(0)
     }
 
@@ -39,13 +41,15 @@ export default class UpgradableSprites{
 
     public updatePosition():void{
         if(!this.visible){return;}
-        this.sprite.position.copy(this.owner.position)
+        this.sprite.position.set(this.owner.position.x, this.owner.position.y+6)
     }
     public pause():void{
+        //this.visible = false
         if(!this.visible){return;}
         this.animations.pause()
     }
     public resume():void{
+        //this.visible = true
         if(!this.visible){return;}
         this.animations.resume()
     }

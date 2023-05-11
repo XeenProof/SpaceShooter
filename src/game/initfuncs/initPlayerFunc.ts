@@ -39,14 +39,14 @@ export function initPlayerFunc(add: FactoryManager, scene: ActorScene, info:Reco
     player.shieldCharge = shieldCharge
 
     let healthUpgrade = new UpgradableStat()
-    let healthUpgradeSprites = add.animatedSprite(AnimatedSprite, UPGRADES[0].KEY, Layers.PRIMARY)
+    let healthUpgradeSprites = add.animatedSprite(AnimatedSprite, UPGRADES[0].KEY, Layers.HEALTHBARS)
     healthUpgradeSprites.scale.set(UPGRADES[0].SCALE.X, UPGRADES[0].SCALE.Y)
     let healthUpgradeHandler = new UpgradableSprites(player, healthUpgradeSprites)
     player.healthUpgrade = healthUpgrade
     player.healthVisual = healthUpgradeHandler
 
     let attackUpgrade = new UpgradableStat()
-    let attackUpgradeSprites = add.animatedSprite(AnimatedSprite, UPGRADES[1].KEY, Layers.PRIMARY)
+    let attackUpgradeSprites = add.animatedSprite(AnimatedSprite, UPGRADES[1].KEY, Layers.HEALTHBARS)
     attackUpgradeSprites.scale.set(UPGRADES[1].SCALE.X, UPGRADES[1].SCALE.Y)
     let attackUpgradeHandler = new UpgradableSprites(player, attackUpgradeSprites)
     player.attackUpgrade = attackUpgrade
