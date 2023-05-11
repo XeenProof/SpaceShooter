@@ -89,8 +89,8 @@ export const LoadPlayer = {
     PLAYER: {...Loads.PLANE, SCALE:{X:1.5, Y:1.5}},
     FLAMES: {...Loads.FLAME, SCALE:{X:1.5, Y:1.5}},
     SHIELD: {...Loads.SHIELD, SCALE:{X:1.5, Y:1.5}},
-    UPGRADE: {...Loads.UPGRADE, SCALE:{X:1.5, Y:1.5}},
-    UPGRADE2: {...Loads.UPGRADE2, SCALE:{X:1.25, Y:1.25}}
+    UPGRADE_HEALTH: {...Loads.UPGRADE, SCALE:{X:1.5, Y:1.5}},
+    UPGRADE_DAMAGE: {...Loads.UPGRADE2, SCALE:{X:1.25, Y:1.25}}
 } as const
 
 export const LoadEnemy = {

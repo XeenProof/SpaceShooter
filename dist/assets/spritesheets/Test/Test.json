@@ -25,7 +25,7 @@
                 [{"index":7,"duration":12},
                 {"index":8,"duration":12},
                 {"index":9,"duration":12}]},
-        {"name":"3","repeat":true,
+        {"name":"10","repeat":true,
             "frames":
                 [{"index":9,"duration":12}]}
     ]
