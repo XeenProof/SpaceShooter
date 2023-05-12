@@ -4,18 +4,19 @@ import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import AnimationManager from "../../Wolfie2D/Rendering/Animations/AnimationManager";
 import TweenController from "../../Wolfie2D/Rendering/Animations/TweenController";
 import { EaseFunctionType } from "../../Wolfie2D/Utils/EaseFunctions";
-import { playerTweens } from "../../game/actors/PlayerActor";
+import PlayerActor, { playerTweens } from "../../game/actors/PlayerActor";
+import { playerstates } from "../../game/ai/States/PlayerStates/PlayerState";
 
 
 export default class UpgradableSprites{
-    protected owner:CanvasNode
+    protected owner:PlayerActor
     protected sprite:AnimatedSprite
     protected levels:number[]
 
     protected get animations():AnimationManager{return this.sprite.animation}
     public get tween():TweenController{return this.sprite.tweens}
 
-    constructor(owner:CanvasNode, sprite:AnimatedSprite){
+    constructor(owner:PlayerActor, sprite:AnimatedSprite){
         this.owner = owner
         this.sprite = sprite
         this.addDamageTween()
@@ -48,14 +49,18 @@ export default class UpgradableSprites{
         this.sprite.position.set(this.owner.position.x, this.owner.position.y+6)
     }
     public pause():void{
-        //this.visible = false
         if(!this.visible){return;}
         this.animations.pause()
+        if(this.owner.ai.isState(playerstates.TAKING_DAMAGE)){
+            this.tween.pause(playerTweens.DAMAGE)
+        }
     }
     public resume():void{
-        //this.visible = true
         if(!this.visible){return;}
         this.animations.resume()
+        if(this.owner.ai.isState(playerstates.TAKING_DAMAGE)){
+            this.tween.resume(playerTweens.DAMAGE)
+        }
     }
     public get visible():boolean{return this.sprite.visible}
     public set visible(value:boolean){this.sprite.visible = value}
@@ -68,7 +73,7 @@ export default class UpgradableSprites{
             effects: [{
                 property: TweenableProperties.alpha,
                 start: 1,
-                end: .33,
+                end: .25,
                 ease: EaseFunctionType.IN_OUT_QUAD,
                 resetOnComplete: true
             }],

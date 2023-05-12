@@ -8,6 +8,7 @@ import RechargableStat from "../../utils/HUD/RechargableStat";
 import UpgradableStat from "../../utils/HUD/UpgradableStat";
 import CheatCodes from "../../utils/Singletons/CheatCodes";
 import UpgradableSprites from "../../utils/UpgradableSprites/UpgradableSprites";
+import PlayerController from "../ai/playerAI/PlayerController";
 import HPActor from "./abstractActors/HPActor";
 
 const booster_animations = {
@@ -20,6 +21,9 @@ export const playerTweens = {
 }
 
 export default class PlayerActor extends HPActor{
+    public override _ai:PlayerController
+    public get ai():PlayerController{return this._ai}
+    public set ai(value:PlayerController){this._ai = value}
 
     /**The booster and all it's related functions */
     private _booster: AnimatedSprite;
