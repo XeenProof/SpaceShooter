@@ -3,6 +3,7 @@ import { TweenableProperties } from "../../Wolfie2D/Nodes/GameNode";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import AnimationManager from "../../Wolfie2D/Rendering/Animations/AnimationManager";
 import TweenController from "../../Wolfie2D/Rendering/Animations/TweenController";
+import { EaseFunctionType } from "../../Wolfie2D/Utils/EaseFunctions";
 import { playerTweens } from "../../game/actors/PlayerActor";
 
 
@@ -60,6 +61,7 @@ export default class UpgradableSprites{
     public set visible(value:boolean){this.sprite.visible = value}
 
     private addDamageTween():void{
+        console.log("damage tween added")
         this.sprite.tweens.add(playerTweens.DAMAGE, {
             startDelay: 0,
             duration: 18,
@@ -67,6 +69,7 @@ export default class UpgradableSprites{
                 property: TweenableProperties.alpha,
                 start: 1,
                 end: .33,
+                ease: EaseFunctionType.IN_OUT_QUAD,
                 resetOnComplete: true
             }],
             loop: true

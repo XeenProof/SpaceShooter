@@ -6,17 +6,10 @@ import PlayerState, { PlayerAnimations, playerstates } from "./PlayerState";
 export default class TakingDamage extends PlayerState{
     private countdown:number
     public onEnter(options: Record<string, any>): void {
-        try{
-        console.log("Did gulp even update")
         this.owner.playSoundFX(PlayerAudios.DAMAGED)
         this.owner.animation.playIfNotAlready(PlayerAnimations.TAKING_DAMAGE)
-        
-            //if(this.owner.healthVisual){this.owner.healthVisual.tween.play(playerTweens.DAMAGE)}
-            if(this.owner.damageVisual && this.owner.damageVisual.visible){this.owner.damageVisual.tween.play(playerTweens.DAMAGE)}
-        }
-        catch(e){
-            console.log(e)
-        }
+        if(this.owner.healthVisual && this.owner.healthVisual.visible){this.owner.healthVisual.tween.play(playerTweens.DAMAGE)}
+        if(this.owner.damageVisual && this.owner.damageVisual.visible){this.owner.damageVisual.tween.play(playerTweens.DAMAGE)}
         this.owner.animation.queue(PlayerAnimations.IDLE)
         this.countdown = 2
     }
@@ -33,8 +26,8 @@ export default class TakingDamage extends PlayerState{
         }
     }
     public onExit(): Record<string, any> {
-        //if(this.owner.healthVisual){this.owner.healthVisual.tween.stop(playerTweens.DAMAGE)}
-        //if(this.owner.damageVisual){this.owner.damageVisual.tween.stop(playerTweens.DAMAGE)}
+        if(this.owner.healthVisual){this.owner.healthVisual.tween.stop(playerTweens.DAMAGE)}
+        if(this.owner.damageVisual){this.owner.damageVisual.tween.stop(playerTweens.DAMAGE)}
         return {}
     }
 }
