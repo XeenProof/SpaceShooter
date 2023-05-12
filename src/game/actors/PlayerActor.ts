@@ -8,6 +8,7 @@ import RechargableStat from "../../utils/HUD/RechargableStat";
 import UpgradableStat from "../../utils/HUD/UpgradableStat";
 import CheatCodes from "../../utils/Singletons/CheatCodes";
 import UpgradableSprites from "../../utils/UpgradableSprites/UpgradableSprites";
+import { PlayerAudios } from "../ai/playerAI/PlayerController";
 import HPActor from "./abstractActors/HPActor";
 
 const booster_animations = {
@@ -83,9 +84,12 @@ export default class PlayerActor extends HPActor{
     /**Healing related */
     public get canHeal(): boolean {return this.canAfford(this.healCost) && this.health < this.maxHealth && this.health > 0}
     public heal(value: number = this.maxHealth){this.health = Math.min(this.health + value, this.maxHealth)}
-    public handlePlayerHeal(): void {if(this.canHeal){
-        this.useScrap(this.healCost)
-        this.heal(this.healAmount)}
+    public handlePlayerHeal(): void {
+        if(this.canHeal){
+            this.playSoundFX(PlayerAudios.HEAL)
+            this.useScrap(this.healCost)
+            this.heal(this.healAmount)
+        }
     }
     public get healCost():number{return 10}
     public get healAmount():number{return 10}
@@ -105,6 +109,7 @@ export default class PlayerActor extends HPActor{
     public get canUpgradeHealth():boolean {return this.canAfford(this.healthUpgradeCost)}
     public handleUpgradeHealth(value:number = 1, ignoreCost:boolean = false){
         if(this.canUpgradeHealth || ignoreCost){
+            this.playSoundFX(PlayerAudios.UPGRADE_HEALTH)
             this.useScrap((ignoreCost)?0:this.healthUpgradeCost)
             this.healthUpgrade.upgrade(value)
             if(this.healthVisual){this.healthVisual.updateSprite(this.healthUpgradeLevel)}
@@ -131,6 +136,7 @@ export default class PlayerActor extends HPActor{
     public get canUpgradeAttack():boolean {return this.canAfford(this.attackUpgradeCost) || CheatCodes.getCheat(cheats.INFINITE_SCRAP)}
     public handleUpgradeAttack(value:number = 1, ignoreCost:boolean = false){
         if(this.canUpgradeAttack || ignoreCost){
+            this.playSoundFX(PlayerAudios.UPGRADE_WEAPON)
             this.useScrap((ignoreCost)?0:this.attackUpgradeCost)
             this.attackUpgrade.upgrade(value)
             if(this.damageVisual){this.damageVisual.updateSprite(this.attackUpgradeLevel)}
