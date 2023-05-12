@@ -36,7 +36,10 @@ export const PlayerAudios = {
 	ATTACK: 0,
 	DAMAGED: 1,
 	DEAD: 2,
-	PICKUP: 3
+	PICKUP: 3,
+	HEAL: 4,
+	UPGRADE_HEALTH: 5,
+	UPGRADE_WEAPON: 6
 } as const
 
 /**
