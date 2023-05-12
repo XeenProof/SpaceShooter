@@ -15,6 +15,10 @@ const booster_animations = {
     HIGH: "HIGH"
 }
 
+export const playerTweens = {
+    DAMAGE: "DAMAGE"
+}
+
 export default class PlayerActor extends HPActor{
 
     /**The booster and all it's related functions */
